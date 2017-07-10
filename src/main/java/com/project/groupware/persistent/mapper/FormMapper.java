@@ -1,11 +1,22 @@
 package com.project.groupware.persistent.mapper;
 
 import java.util.List;
+import java.util.Map;
 
+import com.project.groupware.domain.BookmarkFormVO;
 import com.project.groupware.domain.FormVO;
 
 public interface FormMapper {
+	// 양식
+	List<FormVO> selectFormList(Map<String, Object> keyword);
+	FormVO selectForm(String id);
+	void insertForm(FormVO formVO);
+	void deleteForm(String id);
+	void updateForm(FormVO formVO);
+	void upHitcount(String id);
 	
-	List<FormVO> selectFormList();
-	
+	// 양식 즐겨찾기
+	List<BookmarkFormVO> selectBookmarkFormList(Map<String, Object> keyword);
+	void insertBookmarkForm(BookmarkFormVO bookmarkFormVO);
+	void removeBookmarkForm(String id);
 }

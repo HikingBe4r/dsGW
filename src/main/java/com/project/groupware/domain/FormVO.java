@@ -7,21 +7,11 @@ public class FormVO {
 	private String content;		//양식 내용
 	private String writeday;	//등록일
 	private int hitcount;		//조회수
-	
+	private FormFileVO formFile;
 	
 	public FormVO() {
 		
 	}
-
-
-	public FormVO(String id, String subject, String content, String writeday, int hitcount) {
-		this.id = id;
-		this.subject = subject;
-		this.content = content;
-		this.writeday = writeday;
-		this.hitcount = hitcount;
-	}
-
 
 	public String getId() {
 		return id;
@@ -72,14 +62,19 @@ public class FormVO {
 		this.hitcount = hitcount;
 	}
 
+	public FormFileVO getFormFile() {
+		return formFile;
+	}
+
+	public void setFormFile(FormFileVO formFile) {
+		this.formFile = formFile;
+	}
 
 	@Override
 	public String toString() {
 		return "FormVO [id=" + id + ", subject=" + subject + ", content=" + content + ", writeday=" + writeday
-				+ ", hitcount=" + hitcount + "]";
+				+ ", hitcount=" + hitcount + ", formFile=" + formFile + "]";
 	}
-	
-	
 	
 	
 
