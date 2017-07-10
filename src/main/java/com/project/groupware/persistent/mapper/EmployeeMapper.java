@@ -1,0 +1,5 @@
+package com.project.groupware.persistent.mapper;
+
+public interface EmployeeMapper {
+
+}
