@@ -14,15 +14,29 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- controller annotation config -->
+	<context:component-scan base-package="com.project.groupware" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="order" value="2" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.project.groupware" />
+	<!-- file download view -->
+	<beans:bean id="download" class="com.project.groupware.view.DownloadFileView" />
 	
+		
+	<!--  View Resolver -->
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="1" />
+	</beans:bean>
 	
+	<!--  Ajax Json View -->
+	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
 </beans:beans>

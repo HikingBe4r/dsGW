@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- TOMCAT(WAS) DBCP(DataBase Connection Pulling) 설정 -->
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/myoracle" />
+	</bean>
+	
+	<!-- Mybatis 설정 -->
+	<mybatis-spring:scan base-package="com.project.groupware.persistent.mapper" />
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation"	value="classpath:com/project/groupware/persistent/config/mybatis-config.xml" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+</beans>
