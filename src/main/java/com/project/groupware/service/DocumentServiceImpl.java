@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.groupware.domain.ApprovalLineVO;
-import com.project.groupware.domain.ApproverVO;
+import com.project.groupware.domain.BookMarkDocumentVO;
 import com.project.groupware.domain.DocumentVO;
 
 public class DocumentServiceImpl implements DocumentService {
@@ -40,5 +40,36 @@ public class DocumentServiceImpl implements DocumentService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<DocumentVO> retrieveDocumentList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void modifyDocument(DocumentVO documentVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DocumentVO retrieveDocument(String documentId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeBookMarkDocument(String myDocsId) {
+		// TODO Auto-generated method stub
+		
+	}	
+	
 
 }

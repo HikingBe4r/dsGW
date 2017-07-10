@@ -1,5 +1,109 @@
 package com.project.groupware.domain;
 
-public class DocumentVO {
+import java.util.List;
 
+public class DocumentVO {
+   
+   private String id;
+   private String employeeId;
+   private String subject;
+   private String content;
+   private String writeday;
+   private String endDate;   //시행일
+   private String status;
+   private FormVO formVO;
+   private List<ApproverVO> approverList;
+   private List<DocumentFileVO> documentFileList;
+   
+   public DocumentVO() {
+      
+   }
+
+   public String getId() {
+      return id;
+   }
+
+   public void setId(String id) {
+      this.id = id;
+   }
+
+   public String getEmployeeId() {
+      return employeeId;
+   }
+
+   public void setEmployeeId(String employeeId) {
+      this.employeeId = employeeId;
+   }
+
+   public String getSubject() {
+      return subject;
+   }
+
+   public void setSubject(String subject) {
+      this.subject = subject;
+   }
+
+   public String getContent() {
+      return content;
+   }
+
+   public void setContent(String content) {
+      this.content = content;
+   }  
+
+   public String getWriteday() {
+      return writeday;
+   }
+
+   public void setWriteday(String writeday) {
+      this.writeday = writeday;
+   }
+
+   public String getEndDate() {
+      return endDate;
+   }
+
+   public void setEndDate(String endDate) {
+      this.endDate = endDate;
+   }  
+
+   public String getStatus() {
+      return status;
+   }
+
+   public void setStatus(String status) {
+      this.status = status;
+   }
+
+   public FormVO getFormVO() {
+      return formVO;
+   }
+
+   public void setFormVO(FormVO formVO) {
+      this.formVO = formVO;
+   }
+
+   public List<ApproverVO> getApproverList() {
+      return approverList;
+   }
+
+   public void setApproverList(List<ApproverVO> approverList) {
+      this.approverList = approverList;
+   }
+
+   public List<DocumentFileVO> getDocumentFileList() {
+      return documentFileList;
+   }
+
+   public void setDocumentFileList(List<DocumentFileVO> documentFileList) {
+      this.documentFileList = documentFileList;
+   }
+
+	@Override
+	public String toString() {
+		return "DocumentVO [id=" + id + ", employeeId=" + employeeId + ", subject=" + subject + ", content=" + content
+				+ ", writeday=" + writeday + ", endDate=" + endDate + ", status=" + status + ", formVO=" + formVO
+				+ ", approverList=" + approverList + ", documentFileList=" + documentFileList + "]";
+	}       
+   
 }

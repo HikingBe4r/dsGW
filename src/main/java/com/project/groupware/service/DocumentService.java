@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.project.groupware.domain.ApprovalLineVO;
+import com.project.groupware.domain.BookMarkDocumentVO;
 import com.project.groupware.domain.DocumentVO;
 
 public interface DocumentService {
@@ -18,5 +19,15 @@ public interface DocumentService {
 	ApprovalLineVO retrieveApproverList(String approvalLineId);
 	
 	void ModifyApproverList(Map<String, Object> map);
+	
+	List<DocumentVO> retrieveDocumentList(Map<String, Object> map);
+	
+	void modifyDocument(DocumentVO documentVO);
+	
+	DocumentVO retrieveDocument(String documentId);
+	
+	void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
+	
+	void removeBookMarkDocument(String myDocsId);
 	
 }
