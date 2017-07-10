@@ -7,6 +7,7 @@ import com.project.groupware.domain.BookmarkFormVO;
 import com.project.groupware.domain.FormVO;
 
 public interface FormService {
+	
 	// 양식
 	List<FormVO> retrieveFormList(Map<String, Object> keyword);
 	FormVO retrieveForm(String id);
@@ -18,5 +19,4 @@ public interface FormService {
 	List<BookmarkFormVO> retrieveBookmarkFormList(Map<String, Object> keyword);
 	void registerBookmarkForm(BookmarkFormVO bookmarkFormVO);
 	void removeBookmarkForm(String id);
-
 }
