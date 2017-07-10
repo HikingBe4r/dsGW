@@ -1,5 +1,8 @@
 package com.project.groupware.persistent.mapper;
 
-public interface DocumentFileMapper {
+import java.util.Map;
 
+public interface DocumentFileMapper {
+	
+	void insertDocumentFile(Map<String, Object> map);
 }
