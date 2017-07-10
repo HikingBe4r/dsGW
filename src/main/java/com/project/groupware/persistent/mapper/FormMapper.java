@@ -1,5 +1,11 @@
 package com.project.groupware.persistent.mapper;
 
-public interface FormMapper {
+import java.util.List;
 
+import com.project.groupware.domain.FormVO;
+
+public interface FormMapper {
+	
+	List<FormVO> selectFormList();
+	
 }
