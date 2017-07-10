@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groupware.persistent.mapper.ApprovalHistoryMapper">
+
+	<insert id="insertArticle" parameterType="ArticleVO" statementType="PREPARED">
+	<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+			SELECT ARTICLE_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT into article(article_id, employee_id, board_id, subject, content, writedate, hitcount, secret)
+		values(article_id_seq.nextval, #{employee_id}, #{board_id}, #{subject}, #{content}, sysdate, 0, #{secret});
+	</insert>
+	
+</mapper>
