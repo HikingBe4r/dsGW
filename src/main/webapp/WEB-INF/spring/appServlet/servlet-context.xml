@@ -41,4 +41,19 @@
 	<!--  Ajax Json View -->
 	<beans:bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
 	
+	<!-- tiles  -->
+	<!--  Tiles -->
+ 	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+ 		<beans:property name="definitions">
+ 			<beans:list>
+ 				<beans:value>/WEB-INF/config/tiles-defs.xml</beans:value>
+ 			</beans:list>
+ 		</beans:property>
+ 	</beans:bean>
+ 	
+ 	<!--  View Resolver -->
+ 	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+ 		<beans:property name="order" value="1" />
+ 	</beans:bean>
+	
 </beans:beans>
