@@ -1,6 +1,7 @@
 package com.project.groupware.domain;
 
 public class FormVO {
+	// 프로퍼티 안올림.
 	
 	private String id;			//고유 아이디
 	private String subject;		//양식 제목
