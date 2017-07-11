@@ -55,4 +55,12 @@
  		<beans:property name="order" value="2" />
  	</beans:bean>
 	
+	<!--  Multipart Resolver -->
+   <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+      <beans:property name="maxInMemorySize" value="5242880" /> <!-- 용량이 넘어가면 C:/tempUpload 에저장 안넘으면 서버에메모리저장   현재 5메가 -->
+      <beans:property name="uploadTempDir" value="file:C:/tempUpload   " />
+      <beans:property name="maxUploadSizePerFile" value="104857600" /> <!-- 100메가 -  1개의 파일 최대 용량-->
+      <beans:property name="maxUploadSize" value="314572800" /> <!-- 300메가 - 3개의 파일 최대 용량  -->
+   </beans:bean>   
+	
 </beans:beans>
