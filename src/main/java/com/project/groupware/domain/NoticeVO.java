@@ -1,27 +1,17 @@
 package com.project.groupware.domain;
 
 public class NoticeVO {
-	private String id;			//고유 아이디
-	private String employeeId;	//사번
-	private String content;		//알림 내용
-	private boolean status;		//알림 확인 여부
-	
-	public NoticeVO() {
-	
-	}
+	private int id;
+	private String employeeId;
+	private String content;
+	private String writeDay;
+	private String isRead;
 
-	public NoticeVO(String id, String employeeId, String content, boolean status) {
-		this.id = id;
-		this.employeeId = employeeId;
-		this.content = content;
-		this.status = status;
-	}
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -41,22 +31,26 @@ public class NoticeVO {
 		this.content = content;
 	}
 
-	public boolean isStatus() {
-		return status;
+	public String getWriteDay() {
+		return writeDay;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setWriteDay(String writeDay) {
+		this.writeDay = writeDay;
+	}
+
+	public String getIsRead() {
+		return isRead;
+	}
+
+	public void setIsRead(String isRead) {
+		this.isRead = isRead;
 	}
 
 	@Override
 	public String toString() {
-		return "NoticeVO [id=" + id + ", employeeId=" + employeeId + ", content=" + content + ", status=" + status
-				+ "]";
+		return "NoticeVO [id=" + id + ", employeeId=" + employeeId + ", content=" + content + ", writeDay=" + writeDay
+				+ ", isRead=" + isRead + "]";
 	}
-	
-	
-	
-	
 
 }
