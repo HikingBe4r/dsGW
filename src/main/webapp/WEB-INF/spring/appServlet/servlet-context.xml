@@ -50,7 +50,7 @@
  		</beans:property>
  	</beans:bean>
  	
- 	<!--  View Resolver -->
+ 	<!--  Tiles View Resolver -->
  	<beans:bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
  		<beans:property name="order" value="2" />
  	</beans:bean>
