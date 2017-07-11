@@ -8,7 +8,7 @@ import com.project.groupware.domain.BookMarkDocumentVO;
 import com.project.groupware.domain.DocumentVO;
 
 public class DocumentServiceImpl implements DocumentService {
-
+	
 	@Override
 	public void registerDocument(DocumentVO document) {
 		// TODO Auto-generated method stub
