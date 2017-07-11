@@ -4,6 +4,77 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.ApprovalLineMapper">
 
+	<insert id="insertApprovalLine" parameterType="approvalLineVO" statementType="PREPARED"> 
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+			SELECT APPROVAL_LINE_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO ARTICLE ( ID, EMPLOYEE_ID, SUBJECT )
+		VALUES ( #{id}, #{employeeId}, #{subject} )	
+	</insert>
+	
+	
+	<insert id="insertApproverList" parameterMap="map" statementType="PREPARED">
+		insert all
+		<foreach item="approver" collection="approverList">
+			into approver(employee_id, step, auth_id, approval_line_id)
+			values (#{approver.employeeId}, #{approver.step}, #{approver.approvalAuth}, #{approver.approvalLineId})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	
+	<resultMap  id="selectApprovalLineListResultMap" type="approvalLineVO">
+		<id column="id"					property="id"/>
+		<result column="employee_id"	property="employeeId" />
+		<result column="subject"		property="subject" />
+		<collection property="approverList" ofType="approverVO" javaType="list">
+			<id column="approver_id"					property="id" />
+			<result column="approver_employee_id"		property="employeeId" />
+			<result column="step"						property="step" />
+			<result column="auth_id"					property="approvalAuth" />
+			<result column="approval_line_id"			property="approvalLineId" />
+		</collection>
+	
+	</resultMap>
+	
+	<select id="selectApprovalLineList" resultMap="selectApprovalLineListResultMap" statementType="PREPARED" parameterType="string">
+		SELECT
+			t1.id,
+			t1.employee_id,
+			t1.subject,
+			t2.id as approver_id,
+			t2.employee_id as approver_employee_id,
+			t2.step,
+			t2.auth_id,
+			t2.approval_line_id
+		
+		FROM approval_line t1, approver t2
+		WHERE t1.id = t2.approval_line_id
+			AND t1.employee_id = #{value}
+			AND t1.subject is not null
+			
+	</select>
+	
+	
+	<select id="selectApproverList" resultType="approverVO" statementType="PREPARED" parameterType="int" >	
+		SELECT
+			id,
+			employee_id, 
+			step,
+			auth_id,
+			approval_line_id	
+		FROM approver
+		WHERE approval_line_id = #{value}		
+		ORDER BY STEP 
+	</select>
+
+
+	<delete id="deleteApproverList" statementType="PREPARED" parameterType="int">
+		DELETE FROM approver
+		WHERE approval_line_id = #{value}
+	</delete>
+
 
 	
 </mapper>

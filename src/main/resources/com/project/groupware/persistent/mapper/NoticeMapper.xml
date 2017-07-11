@@ -4,6 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.NoticeMapper">
 
-
+	<insert id="insertNotice" parameterType="noticeVO" statementType="PREPARED">
+		insert into notice (employee_id, content, writeday, isRead)
+		values (#{employeeId}, #{content}, sysdate, '0') <!-- 안 읽은게 0 --> 
+	</insert>
+	
+	
+	<select id="selectNoticeList" parameterType="string" resultType="noticeVO" statementType="PREPARED">
+		SELECT 
+			id,
+			employee_id,
+			content,
+			to_char(writeday, 'YYYY/MM/DD'),
+			isRead
+		FROM NOTICE
+		WHERE employee_id = #{value}
+		ORDER BY writeday desc
+	
+	</select>
 	
 </mapper>

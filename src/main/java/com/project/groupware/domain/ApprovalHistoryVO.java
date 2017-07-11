@@ -6,20 +6,20 @@ public class ApprovalHistoryVO {
 	private String approverId;	//결재자 아이디
 	private String date;		//결재 날짜
 	private String status;		//결재 상태(기안, 승인, 반려)
-	private String comment;		//결재 사유
+	private String reply;		//결재 사유
 	
 	public ApprovalHistoryVO() {
 
 	}
 
 	public ApprovalHistoryVO(String id, String documentId, String approverId, String date, String status,
-			String comment) {
+			String reply) {
 		this.id = id;
 		this.documentId = documentId;
 		this.approverId = approverId;
 		this.date = date;
 		this.status = status;
-		this.comment = comment;
+		this.reply = reply;
 	}
 
 	public String getId() {
@@ -62,18 +62,18 @@ public class ApprovalHistoryVO {
 		this.status = status;
 	}
 
-	public String getComment() {
-		return comment;
+	public String getReply() {
+		return reply;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setReply(String reply) {
+		this.reply = reply;
 	}
 
 	@Override
 	public String toString() {
 		return "ApprovalHistoryVO [id=" + id + ", documentId=" + documentId + ", approverId=" + approverId + ", date="
-				+ date + ", status=" + status + ", comment=" + comment + "]";
+				+ date + ", status=" + status + ", reply=" + reply + "]";
 	}	
 	
 

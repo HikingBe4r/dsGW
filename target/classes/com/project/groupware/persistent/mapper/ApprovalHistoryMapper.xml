@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.ApprovalHistoryMapper">
 
+	<insert id="insertApprovalHistory" parameterType="approvalHistoryVO" statementType="PREPARED">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+			SELECT APPROVAL_HISTORY_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO APPROVAL_HISTORY (ID, DOCUMENT_ID, APPROVER_ID, AUTH_DATE, APPROVAL_STATUS_ID, REPLY)
+		VALUES (#{id}, #{documentId}, #{approverId}, sysdate, #{status}, #{reply})
+	
+	</insert>
 
 	
 </mapper>
