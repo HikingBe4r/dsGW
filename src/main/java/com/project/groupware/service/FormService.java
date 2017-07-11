@@ -9,14 +9,14 @@ import com.project.groupware.domain.FormVO;
 public interface FormService {
 	
 	// 양식
-	List<FormVO> retrieveFormList(Map<String, Object> keyword);
+	List<FormVO> retrieveFormList(String keyword);
 	FormVO retrieveForm(String id);
 	void registerForm(FormVO formVO);
 	void removeForm(String id);
 	void modifyForm(FormVO formVO);
 
 	// 양식 즐겨찾기
-	List<BookmarkFormVO> retrieveBookmarkFormList(Map<String, Object> keyword);
+	List<BookmarkFormVO> retrieveBookmarkFormList(String keyword);
 	void registerBookmarkForm(BookmarkFormVO bookmarkFormVO);
 	void removeBookmarkForm(String id);
 }

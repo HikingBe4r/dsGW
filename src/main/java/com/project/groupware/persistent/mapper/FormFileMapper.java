@@ -4,5 +4,5 @@ import com.project.groupware.domain.FormFileVO;
 
 public interface FormFileMapper {
 	void insertFormFile(FormFileVO formFileVO);
-	void deleteFormFile(FormFileVO formFileVO);
+	void deleteFormFile(String formId);
 }
