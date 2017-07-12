@@ -4,7 +4,7 @@ public class ApproverVO {
 	private String id;				//고유 아이디
 	private String employeeId;		//사번
 	private int step;				//결재 순서
-	private String approvalAuth;	//결재 권한
+	private String approvalAuthId;	//결재 권한
 	private String approvalLineId;	//결재선 아이디
 	
 	
@@ -16,11 +16,11 @@ public class ApproverVO {
 	
 
 
-	public ApproverVO(String id, String employeeId, int step, String approvalAuth, String approvalLineId) {
+	public ApproverVO(String id, String employeeId, int step, String approvalAuthId, String approvalLineId) {
 		this.id = id;
 		this.employeeId = employeeId;
 		this.step = step;
-		this.approvalAuth = approvalAuth;
+		this.approvalAuthId = approvalAuthId;
 		this.approvalLineId = approvalLineId;
 	}
 
@@ -66,13 +66,13 @@ public class ApproverVO {
 	}
 
 
-	public String getApprovalAuth() {
-		return approvalAuth;
+	public String getApprovalAuthId() {
+		return approvalAuthId;
 	}
 
 
-	public void setApprovalAuth(String approvalAuth) {
-		this.approvalAuth = approvalAuth;
+	public void setApprovalAuthId(String approvalAuthId) {
+		this.approvalAuthId = approvalAuthId;
 	}
 
 
@@ -91,8 +91,8 @@ public class ApproverVO {
 
 	@Override
 	public String toString() {
-		return "ApproverVO [id=" + id + ", employeeId=" + employeeId + ", step=" + step + ", approvalAuth="
-				+ approvalAuth + ", approvalLineId=" + approvalLineId + "]";
+		return "ApproverVO [id=" + id + ", employeeId=" + employeeId + ", step=" + step + ", approvalAuthId="
+				+ approvalAuthId + ", approvalLineId=" + approvalLineId + "]";
 	}
 
 	

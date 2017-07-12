@@ -24,13 +24,13 @@
 
 	<div class="panel-body">
 		<div class="row">
-			<div class="col-sm-4">
-				<table class="table table-bordered">
+			<div class="col-sm-3">
+				<table class="table table-condensed table-bordered">
 					<tr>
-						<td>기안자</td>
-						<td>홍길동</td>
+						<td style="width:100px;">기안자</td>
+						<td style="width:100px;">홍길동</td>
 					</tr>
-					<tr>
+					<tr> 
 						<td>소속</td>
 						<td>IT 1팀</td>
 					</tr>
@@ -49,9 +49,10 @@
 					</tr>
 				</table>
 			</div>
+			<div class="col-sm-6"></div>
 
-			<div class="col-sm-4 pull-right">
-				<table class="table table-bordered">
+			<div class="col-sm-3">
+				<table class="table table-bordered table-condensed">
 					<tr>
 						<td>팀장</td>
 						<td>부장</td>
@@ -61,13 +62,15 @@
 						<td>이길동</td>
 					</tr>
 					<tr>
-						<td style="height: 100px;"></td>
+						<td style="height: 80px;"></td>
 						<td></td>
 					</tr>
 				</table>
+				<div class="col-sm-1"></div>
 			</div>
+			<div class="pull-right col-sm-1"></div>
 		</div>
-		<br>
+		
 
 		<form class="row">
 			<div class="form-group">
@@ -78,11 +81,10 @@
 				</div>
 				<br> <br> <br>
 				<div class="col-sm-12">
-					<textarea class="form-control" rows="10"></textarea>
+					<textarea class="form-control" rows="15"></textarea>
 				</div>
 			</div>
 		</form>
-		<br>
 		<br>
 
 		<div class="col-sm-10">

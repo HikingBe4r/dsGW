@@ -2,6 +2,8 @@ package com.project.groupware.domain;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class DocumentVO {
    
    private String id;
@@ -13,6 +15,7 @@ public class DocumentVO {
    private String status;
    private FormVO formVO;
    private List<ApproverVO> approverList;
+   private List<MultipartFile> upload;
    private List<DocumentFileVO> documentFileList;
    
    public DocumentVO() {

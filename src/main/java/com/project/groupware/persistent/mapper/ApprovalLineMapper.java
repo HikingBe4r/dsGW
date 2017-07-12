@@ -9,7 +9,7 @@ import com.project.groupware.domain.ApproverVO;
 public interface ApprovalLineMapper {
 
 	// 결재선 등록
-	void insertApprovalLine(ApprovalLineVO approveLine);
+	void insertApprovalLine(ApprovalLineVO approvalLine);
 
 	// 결재자 목록 등록
 	void insertApproverList(Map<String, Object> map);

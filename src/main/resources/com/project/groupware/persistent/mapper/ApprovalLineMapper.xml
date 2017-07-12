@@ -14,11 +14,11 @@
 	</insert>
 	
 	
-	<insert id="insertApproverList" parameterMap="map" statementType="PREPARED">
+	<insert id="insertApproverList" parameterType="map" statementType="PREPARED">
 		insert all
 		<foreach item="approver" collection="approverList">
-			into approver(employee_id, step, auth_id, approval_line_id)
-			values (#{approver.employeeId}, #{approver.step}, #{approver.approvalAuth}, #{approver.approvalLineId})
+			into approver(employee_id, step, approval_auth_id, approval_line_id)
+			values (#{approver.employeeId}, #{approver.step}, #{approver.approvalAuthId}, #{approver.approvalLineId})
 		</foreach>
 		select * from dual
 	</insert>
@@ -32,7 +32,7 @@
 			<id column="approver_id"					property="id" />
 			<result column="approver_employee_id"		property="employeeId" />
 			<result column="step"						property="step" />
-			<result column="auth_id"					property="approvalAuth" />
+			<result column="approval_auth_id"			property="approvalAuthId" />
 			<result column="approval_line_id"			property="approvalLineId" />
 		</collection>
 	
@@ -46,13 +46,14 @@
 			t2.id as approver_id,
 			t2.employee_id as approver_employee_id,
 			t2.step,
-			t2.auth_id,
+			t2.approval_auth_id,
 			t2.approval_line_id
 		
 		FROM approval_line t1, approver t2
 		WHERE t1.id = t2.approval_line_id
 			AND t1.employee_id = #{value}
 			AND t1.subject is not null
+		ORDER BY t1.id
 			
 	</select>
 	
@@ -62,10 +63,10 @@
 			id,
 			employee_id, 
 			step,
-			auth_id,
+			approval_auth_id,
 			approval_line_id	
 		FROM approver
-		WHERE approval_line_id = #{value}		
+		WHERE approval_line_id = #{value}
 		ORDER BY STEP 
 	</select>
 
