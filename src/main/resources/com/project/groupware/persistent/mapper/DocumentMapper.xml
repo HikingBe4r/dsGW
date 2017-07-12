@@ -16,5 +16,11 @@
 		
 	</insert>
 
+
+	<update id="updateDocumentStatus" parameterType="documentVO" statementType="PREPARED">
+		UPDATE DOCUMENT
+		SET DOCUMENT_STATUS_ID = #{status}
+		WHERE ID = #{id}
+	</update>
 	
 </mapper>

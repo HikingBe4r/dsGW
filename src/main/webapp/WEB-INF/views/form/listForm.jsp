@@ -1,5 +1,6 @@
 <%-- listForm.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
@@ -29,26 +30,24 @@
 				<th width="100">조회수</th>
 			</tr>
 		</thead>
-		<tr>
-			<td>1</td>
-			<td>양식1</td>
-			<td>2017-07-07</td>
-			<td>30</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>양식2</td>
-			<td>2017-07-07</td>
-			<td>30</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>양식3</td>
-			<td>2017-07-07</td>
-			<td>30</td>
-		</tr>
-
+		<c:forEach var="form" items="${requestScope.formList }"
+			varStatus="loop">
+			<tr>
+				<td>${form.id }</td>
+				<c:url var="url" value="/detailForm.do">
+					<c:param name="id" value="${pageScope.form.id }"></c:param>
+				</c:url>
+				<td><a href="${url }">${form.subject }</a></td>
+				<td>${form.writeday }</td>
+				<td>${form.hitcount }</td>
+			</tr>
+		</c:forEach>
 	</table>
+</div>
+
+<div align="right">
+	<button type="button">등록</button>
+	<button type="button">삭제</button>
 </div>
 
 

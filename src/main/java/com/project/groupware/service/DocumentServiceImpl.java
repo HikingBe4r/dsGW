@@ -161,5 +161,15 @@ public class DocumentServiceImpl implements DocumentService {
 		
 	}	
 	
+	public void approveDocument(DocumentVO documentVO) {
+		// TODO Auto-generated method stub
+		documentMapper.updateDocumentStatus(documentVO);
+		
+	}
+	public void rejectDocument(DocumentVO documentVO) {
+		// TODO Auto-generated method stub
+		documentMapper.updateDocumentStatus(documentVO);
+	}
+	
 
 }

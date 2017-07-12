@@ -7,11 +7,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class TestController {
 	
-	@RequestMapping(value="/listForm.do", method=RequestMethod.GET)
-	public String listForm() {
-		return "approvalNav/form/listForm"; 		
-	}
-	
 	@RequestMapping(value="/writeDocument.do", method=RequestMethod.GET)
 	public String writeDocument() {
 		return "approvalNav/document/writeDocument"; 		

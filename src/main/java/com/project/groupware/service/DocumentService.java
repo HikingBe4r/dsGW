@@ -31,4 +31,7 @@ public interface DocumentService {
 	
 	void removeBookMarkDocument(String myDocsId);
 	
+	// 결재 관련
+	void approveDocument(DocumentVO documentVO);
+	void rejectDocument(DocumentVO documentVO);
 }

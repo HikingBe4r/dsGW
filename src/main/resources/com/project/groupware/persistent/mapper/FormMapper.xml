@@ -4,16 +4,16 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.FormMapper">
 	
-	<select id="selectFormList" resultType="hashmap" parameterType="String" statementType="PREPARED">
+	<select id="selectFormList" resultType="formVO" parameterType="String" statementType="PREPARED">
 		SELECT ID, SUBJECT, CONTENT, WRITEDAY, HITCOUNT
 		FROM FORM
-		<if test="subject != null">
-			WHERE SUBJECT like %#{keyword}%
+		<if test="_parameter != null">
+			WHERE SUBJECT like '%' || #{keyword} || '%'
 		</if>		
 	</select>
 	
 	<resultMap type="formVO" id="selectFormMap">
-		<result property="id" column="id" />
+		<result property="id" column="formId" />
 		<result property="subject" column="subject" />
 		<result property="content" column="content" />
 		<result property="writeday" column="writeday" />
@@ -21,21 +21,22 @@
 		
 		<association property="formFile" javaType="formFileVO">
 			<result property="id" column="formFileId" />
-			<result property="formId" column="id" />
+			<result property="formId" column="formId" />
 			<result property="originalFileName" column="original_file_name" />
 			<result property="systemFileName" column="system_file_name" />
 			<result property="fileSize" column="file_size" />
 		</association>
 	</resultMap>
 	
-	<select id="selectForm" resultMap="selectFormMap" parameterType="int" statementType="STATEMENT">
+	<select id="selectForm" resultMap="selectFormMap" parameterType="String" statementType="PREPARED">
 		SELECT
-			f.ID as id, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT,
-			ff.ID as formFileId, ff.FORM_ID, ff.ORIGINAL_FILE_NAME, ff.SYSTEM_FILE_NAME, ff.FILE_SIZE
+			f.ID as formId, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT,
+			ff.ID as formFileId, ff.ORIGINAL_FILE_NAME, ff.SYSTEM_FILE_NAME, ff.FILE_SIZE
 		FROM 
 			FORM f, FORM_FILE ff
 		WHERE
-			f.ID = ff.FORM_ID 
+			f.ID = ff.FORM_ID and
+			f.ID = #{id}
 	</select>
 	
 	<insert id="insertForm" parameterType="formVO" statementType="PREPARED">

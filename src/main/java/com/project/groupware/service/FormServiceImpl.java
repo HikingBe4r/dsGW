@@ -20,8 +20,8 @@ public class FormServiceImpl implements FormService{
 	private FormFileMapper formFileMapper;
 
 	public List<FormVO> retrieveFormList(String keyword) {
-		formMapper.selectFormList(keyword);
-		return null;
+		
+		return formMapper.selectFormList(keyword);
 	}
 
 	public FormVO retrieveForm(String id) {
