@@ -51,7 +51,7 @@
 		
 		FROM approval_line t1, approver t2
 		WHERE t1.id = t2.approval_line_id
-			AND t1.employee_id = #{value}
+			AND t1.employee_id = #{value} 
 			AND t1.subject is not null
 		ORDER BY t1.id
 			
@@ -66,7 +66,7 @@
 			approval_auth_id,
 			approval_line_id	
 		FROM approver
-		WHERE approval_line_id = #{value}
+		WHERE approval_line_id = #{value} 
 		ORDER BY STEP 
 	</select>
 
