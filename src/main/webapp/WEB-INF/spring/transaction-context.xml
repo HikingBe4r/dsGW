@@ -17,6 +17,9 @@
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="register*" isolation="DEFAULT"	propagation="REQUIRED" timeout="-1" read-only="false" />
+			<tx:method name="retrieve*" isolation="DEFAULT"	propagation="REQUIRED" timeout="-1" read-only="true" />
+			<tx:method name="remove*" isolation="DEFAULT"	propagation="REQUIRED" timeout="-1" read-only="false" />
+			<tx:method name="modify*" isolation="DEFAULT"	propagation="REQUIRED" timeout="-1" read-only="false" />
 		</tx:attributes>
 	</tx:advice>
 	
