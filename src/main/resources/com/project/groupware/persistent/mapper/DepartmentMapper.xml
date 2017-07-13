@@ -4,6 +4,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.DepartmentMapper">
 
+	<insert id="insertDepartment" parameterType="departmentVO"
+		statementType="PREPARED">
+		INSERT INTO DEPARTMENT(ID, NAME)
+		VALUES(#{id}, #{name})
+	</insert>
 
-	
+	<select id="selectDepartmentList" resultType="departmentVO"
+		statementType="STATEMENT">
+		SELECT ID, NAME
+		FROM DEPARTMENT
+	</select>
+
+	<select id="selectDepartment" parameterType="String" resultType="departmentVO"
+		statementType="PREPARED">
+		SELECT ID, NAME
+		FROM DEPARTMENT
+		WHERE ID = #{id}
+	</select>
+
+	<update id="updateDepartment" parameterType="departmentVO"
+		statementType="PREPARED">
+		UPDATE DEPARTMENT
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="id != null and id != ''">
+				ID = #{id} ,
+			</if>
+			<if test="subject != null and subject != ''">
+				NAME = #{name} ,
+			</if>
+		</trim>
+		WHERE ID = #{id}
+	</update>
+
+	<delete id="deleteDepartment" parameterType="String" statementType="PREPARED">
+		DELETE
+		FROM DEPARTMENT
+		WHERE ID = #{id}
+	</delete>
 </mapper>

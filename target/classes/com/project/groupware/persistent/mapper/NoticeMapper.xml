@@ -23,4 +23,18 @@
 	
 	</select>
 	
+		<update id="updateNotice" parameterType="noticeVO"
+		statementType="PREPARED">
+		UPDATE NOTICE
+		SET ISREAD = #{isread}
+		WHERE ID = #{id}
+	</update>
+
+	<delete id="deleteNotice" parameterType="noticeVO"
+		statementType="PREPARED">
+		DELETE
+		FORM NOTICE
+		WHERE ID = #{id}
+	</delete>
+	
 </mapper>

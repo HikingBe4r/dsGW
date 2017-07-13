@@ -4,6 +4,94 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.EmployeeMapper">
 
+	<insert id="insertEmployee" parameterType="employeeVO"
+		statementType="PREPARED">
+		insert into EMPLOYEE(NAME, EMAIL, hire_date, address,
+		address_detail,
+		password, phone, department_id, grade_id, status_id)
+		VALUES(#{name}, #{email}, sysdate, #{address}, #{addressDetail},
+		#{password}, #{phone}, #{departmentId}, #{gradeId}, #{statusId})
+	</insert>
 
-	
+	<select id="selectAdmin" parameterType="String" statementType="PREPARED"
+		resultType="adminVO">
+		SELECT ID, PASSWORD
+		FROM ADMIN
+		WHERE ID = #{id}
+	</select>
+
+	<select id="selectEmployee" parameterType="String"
+		statementType="PREPARED" resultType="employeeVO">
+		SELECT ID, NAME, EMAIL, to_char(HIRE_DATE, 'YYYY/MM/DD'), ADDRESS,
+		ADDRESS_DETAIL, PASSWORD, PHONE, DEPARTMENT_ID, GRADE_ID, STATUS_ID
+		FROM EMPLOYEE
+		WHERE ID = #{id}
+	</select>
+
+	<select id="selectEmployeeList" parameterType="map"
+		resultType="java.util.HashMap" statementType="PREPARED">
+		select emp.ID as id, emp.NAME as name, dept.NAME as department,
+		TO_CHAR(HIRE_DATE, 'YYYY/MM/DD') as hire_date, gr.GRADE as grade,
+		st.STATUS as status
+		from EMPLOYEE emp, DEPARTMENT dept, GRADE gr,
+		EMP_STATUS st
+		where emp.DEPARTMENT_ID = dept.ID and emp.GRADE_ID =
+		gr.ID and
+		emp.STATUS_ID = st.ID
+		<if test="keyword != 'all'">
+			<choose>
+				<when test="keyfield == 'id'">
+					and emp.ID like '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'name'">
+					and emp.NAME like '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'department'">
+					and department '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'hiredate'">
+					and hire_date like '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'grade'">
+					and grade like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
+		ORDER BY hire_date DESC
+	</select>
+
+	<update id="updateEmployee" parameterType="employeeVO"
+		statementType="PREPARED">
+		UPDATE ARTICLE
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="email != null and email != ''">
+				email = #{email} ,
+			</if>
+			<if test="address != null and address != ''">
+				address = #{address} ,
+			</if>
+			<if test="addressDetail != null and addressDetail != ''">
+				addressDetail = #{addressDetail} ,
+			</if>
+			<if test="password != null and password != ''">
+				password = #{password} ,
+			</if>
+			<if test="phone != null and phone != ''">
+				phone = #{phone} ,
+			</if>
+			<if test="departmentId != null and departmentId != ''">
+				departmentId = #{departmentId} ,
+			</if>
+			<if test="gradeId != null and gradeId != ''">
+				gradeId = #{gradeId} ,
+			</if>
+			<if test="statusId != null and statusId != ''">
+				statusId = #{statusId} ,
+			</if>
+		</trim>
+		WHERE ID = #{id}
+	</update>
+
+
+
 </mapper>

@@ -1,5 +1,19 @@
 package com.project.groupware.service;
 
-public interface DepartmentService {
+import java.util.List;
+import java.util.Map;
 
+import com.project.groupware.domain.DepartmentVO;
+
+public interface DepartmentService {
+	
+	public void registerDepartment(DepartmentVO dept);
+	
+	public void modifyDepartment(DepartmentVO dept);
+	
+	public void removeDepartment(DepartmentVO dept);
+	
+	public DepartmentVO retrieveDepartment(String id);
+	
+	public List<DepartmentVO> retrieveDepartmentList(Map<String, Object> keyword);
 }

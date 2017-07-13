@@ -8,5 +8,9 @@ public interface NoticeMapper {
 	
 	void insertNotice(NoticeVO notice);
 	
+	public void updateNotice(NoticeVO notice);
+	
+	public void deleteNotice(NoticeVO notice);
+	
 	List<NoticeVO> selectNoticeList(String employeeId);
 }
