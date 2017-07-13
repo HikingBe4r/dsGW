@@ -1,25 +1,87 @@
 <%-- addApprover.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
+<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
+<script>
+$(document).ready(function() {
+	var tap = 1;
+	$('#approverTap').on('click', function() {
+		tap=1;
+		$('#approverTap').attr('class', 'active');
+		$('#recieverTap').removeAttr('class');
+		$('#bookmarkTap').removeAttr('class');
+	});
+	
+	$('#recieverTap').on('click', function() {
+		tap=2;	
+		$('#approverTap').removeAttr('class');
+		$('#recieverTap').attr('class', 'active');
+		$('#bookmarkTap').removeAttr('class');
+	});
+	
+	$('#bookmarkTap').on('click', function() {
+		tap=3;	
+		$('#recieverTap').removeAttr('class');
+		$('#approverTap').removeAttr('class');
+		$('#bookmarkTap').attr('class', 'active');
+	});
+	
+	$('#addBtn').on('click', function() {
+				
+	});
+	
+	$('#removeBtn').on('click', function() {
+		/* $(':checkbox[name=approver]').each(function() {
+			   
+			   if($(this).prop('checked')) {
+				   array.push($(this).val());
+			   }	   		      
+
+		   }); */
+		   
+		$('#tr1').remove();
+	});
+	
+});
+
+</script>
+
+<div style="height: 10px;"></div>
 <div class="col-md-5">
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<form class="navbar navbar-default">
+			<form class="navbar navbar-default col-md-12">
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav">
-						<!-- <li class="active"><a href="#">결재자 <span class="sr-only">(current)</span></a></li> -->
-						<li class="active"><a href="#">결재자 </a></li>
-						<li><a href="#">수신자</a></li>
-						<li><a href="#">즐겨찾기 설정</a></li>
+						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
+						<li id="recieverTap"><a href=#>수신자</a></li>
+						<li id="bookmarkTap"><a href=#>즐겨찾기 설정</a></li>
 					</ul>
 				</div>
 			</form>
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-body" style="height: 550px;">
+					<div class="panel-body" style="overflow:scroll; height: 330px;">
 						<div class="checkbox">
+						
+						
+						<span class="glyphicon glyphicon-folder-open" aria-hidden="true">
+								IT부서 </span> <br> 
+								&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
+								&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value=""> 최길동 팀장
+							</label> <br><span class="glyphicon glyphicon-folder-open" aria-hidden="true">
+								IT부서 </span> <br> &nbsp; <span
+								class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+							1팀 <br> &nbsp;&nbsp; <label> <input type="checkbox" name="employee"
+								value=""> 최길동 팀장
+							</label> <br>
+						
+						
+											
 							<span class="glyphicon glyphicon-folder-open" aria-hidden="true">
 								IT부서 </span> <br> &nbsp; <span
 								class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
@@ -45,6 +107,7 @@
 							나의 결재선 <br>
 
 						</div>
+						
 
 					</div>
 				</div>
@@ -68,16 +131,16 @@
 </div>
 <div class="col-md-1" align="center">
 	<div style="height: 100px;"></div>
-	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><br>
-	<br> <span class="glyphicon glyphicon-chevron-left"
+	<span id="addBtn" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><br>
+	<br> <span id="removeBtn" class="glyphicon glyphicon-chevron-left"
 		aria-hidden="true"></span>
 </div>
 
 <div class="col-md-6">
-	<div class="panel panel-default" style="height: 600px;">
+	<div class="panel panel-default" style="overflow:scroll; height: 380px;"> <!-- 여기 -->
 		<div class="panel-body">
 			<div class="checkbox">
-				<table class="table table-striped" align="center">
+				<table id="approverTable" class="table table-striped" align="center">
 					<thead>
 						<tr>
 							<th></th>
@@ -87,15 +150,15 @@
 							<th>상태</th>
 						</tr>
 					</thead>
-					<tr>
-						<td><label><input type="checkbox" value=""></label></td>
+					<tr id="tr1">
+						<td><label><input type="checkbox" name="approver" value=""></label></td>
 						<td>홍길동</td>
 						<td>팀장</td>
 						<td>IT</td>
 						<td></td>
 					</tr>
-					<tr>
-						<td><label><input type="checkbox" value=""></label></td>
+					<tr id="tr2">
+						<td><label><input type="checkbox" name="approver" value=""></label></td>
 						<td>박길동</td>
 						<td>팀장</td>
 						<td>마케팅</td>

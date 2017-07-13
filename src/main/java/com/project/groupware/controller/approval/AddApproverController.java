@@ -18,7 +18,7 @@ public class AddApproverController {
 	
 	@RequestMapping(value="/addApprover.do", method=RequestMethod.GET)
 	public String form() {
-		return "approvalNav/approval/addApprover"; 		
+		return "approval/addApprover"; 		
 	}
 	
 	

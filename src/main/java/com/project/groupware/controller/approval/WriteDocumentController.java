@@ -38,7 +38,7 @@ public class WriteDocumentController {
 		
 		document.setStatus("1");
 		
-		/*
+		/* 파일 업로드
 		List<MultipartFile> fileList = document.getUpload();
 		for(MultipartFile file : fileList) {
 			if(!file.isEmpty()) {

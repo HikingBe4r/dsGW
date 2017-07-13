@@ -12,7 +12,6 @@
 		</selectKey> -->
 		INSERT INTO DOCUMENT (form_id, subject, content, writeday, enddate, document_status_id )
 		VALUES (#{formVO.id}, #{subject}, #{content}, sysdate, to_date(#{endDate}, 'YYYY/MM/DD'), #{status} )
-		<!-- formVO.id가 먹힐것인가 -->
 		
 	</insert>
 

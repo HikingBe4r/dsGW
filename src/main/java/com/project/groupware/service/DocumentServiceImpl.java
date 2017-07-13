@@ -45,18 +45,8 @@ public class DocumentServiceImpl implements DocumentService {
 		//문서등록
 		documentMapper.insertDocument(document);
 		
-		
-		/* 
-		 * documentId 가져와야함 
-		 * 가져왔더니 null임
-		 *  
-		 *  */
-		
-
-		System.out.println("documentId : " + document.getId());
-		
-		
 		//파일정보 등록
+		//System.out.println("documentId : " + document.getId());
 		String documentId = document.getId();
 		List<DocumentFileVO> documentFileList = document.getDocumentFileList();
 		if(documentFileList.size() != 0) {

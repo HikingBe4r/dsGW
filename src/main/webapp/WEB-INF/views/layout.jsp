@@ -11,13 +11,22 @@
 		margin: auto; 
 	}
 
-	header, footer {
+	header {
 		height: 80px;
 		padding: 1em;
 		color: black;
 		background-color: white;
 		clear: left;
 		text-align: center;
+	}
+	
+	footer {
+		height: 60px;
+		padding: 1em;
+		color: black;
+		background-color: white;
+		clear: left;
+		text-align: center;	
 	}
 
 	nav {
@@ -41,7 +50,7 @@
 		/* border-left: 1px solid gray; */
 		padding: 1em;
 		overflow: hidden;
-		height: 800px;
+		height: 820px;
 	}
 </style>
 </head>

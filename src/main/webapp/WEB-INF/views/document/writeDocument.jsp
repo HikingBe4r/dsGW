@@ -3,11 +3,21 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
+<script>
+	$(document).ready(function() {
+		$('#approvalLine').click(function() {
+			var popUrl = "/groupware/addApprover.do";
+			window.open(popUrl, 'test', 'width=1200, height=550');
+		});
+	});
+
+</script>
 
 <form action="${pageContext.request.contextPath }/writeDocument.do" method="post" enctype="multipart/form-data">
 	<div>
 		<div class="btn-group" role="group" aria-label="...">
-			<button type="button" class="btn btn-default">결재선</button>
+			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
 			<button type="button" class="btn btn-default">임시저장</button>
 			<button type="button" class="btn btn-danger">취소</button>
 		</div>
@@ -17,7 +27,7 @@
 		</div>
 	</div>
 	<br>
-	<div class="panel panel-info">
+	<div class="panel panel-info" style="height: 750px;">
 		<div class="panel-heading" align="center">
 			<h4>휴가신청서</h4>
 			<input type="hidden" name="formId" value="1">
@@ -84,26 +94,24 @@
 					</div>
 					<br> <br> <br>
 					<div class="col-sm-12">
-						<textarea class="form-control" rows="15" name="content"></textarea>
+						<textarea class="form-control" rows="17" name="content"></textarea>
 					</div>
 				</div>
-			</form>
-			<br>
+			</form> <br>
+			<div class="col-sm-12" style="height: 20px;">
+				
+			</div>
 
 			<div class="col-sm-10">
 				<dl class="dl-horizontal">
-					<dt>
-						<button class="btn btn-default" type="button">파일첨부</button>
-					</dt>
-					<dd>참고자료.hwp</dd>
+					<div class="col-sm-1"></div>
+					<button class="btn btn-default" type="button">파일첨부</button>
+					
+					  &nbsp;참고자료.hwp
 				</dl>
 			</div>
 
-
-
-
 		</div>
-
 
 	</div>
 </form>
