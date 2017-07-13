@@ -4,14 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.DocumentMapper">
 
-	<insert id="insertDocument" parameterType="documentVO" statementType="PREPARED" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-		<!-- <selectKey keyProperty="status" statementType="PREPARED" order="BEFORE" resultType="string">
+	<insert id="insertDocument" parameterType="documentVO" statementType="PREPARED">
+		<selectKey keyProperty="status_id" statementType="PREPARED" order="BEFORE" resultType="int">
 			SELECT id 
 			FROM DOCUMENT_STATUS
 			WHERE status = #{status}	
-		</selectKey> -->
-		INSERT INTO DOCUMENT (form_id, subject, content, writeday, enddate, document_status_id )
-		VALUES (#{formVO.id}, #{subject}, #{content}, sysdate, to_date(#{endDate}, 'YYYY/MM/DD'), #{status} )
+		</selectKey>
+		INSERT INTO DOCUMENT ( form_id, subject, content, writeday, enddate, document_status_id )
+		VALUES ( #{formVO.id}, #{subject}, #{content}, sysdate, to_date(#{endDate}, 'YYYY/MM/DD'), #{status_id} )
+		<!-- formVO.id가 먹힐것인가 -->
 		
 	</insert>
 
@@ -21,5 +22,47 @@
 		SET DOCUMENT_STATUS_ID = #{status}
 		WHERE ID = #{id}
 	</update>
+	
+	
+	<!--
+		t1: 본인의 emp_id로 approval_line을 찾는다.
+		t2: t1의 approval_line이 같은 approver 중 auth_id = 1(기안) 인 approver_id를 찾는다.
+		t3: approval_history에서 approver_id가 t2의 결과와 같은 값의 document_id를 가진 문서의 정보를 select 한다.
+		t4: t3의 결과물을 parameter인 hashmap에 맞게 검색한다. 
+	 -->
+	<select id="selectApprovalDocumentList" resultType="java.util.HashMap" parameterType="java.util.HashMap" statementType="PREPARED">  
+		SELECT 
+			doc.id, doc.subject, t2.name, doc.writeday, doc.enddate, docstat.status
+		FROM 
+			document_status docstat, document doc, approval_history apphis,
+			(SELECT app.id, emp.name
+			 FROM approver app, employee emp, 
+			 	(SELECT app.approval_line_id
+			 	FROM approver app, employee emp
+			 	WHERE emp.id = app.employee_id
+			 	  AND emp.id = #{employeeId}) t1						<!-- 본인 empId -->
+			 WHERE app.approval_line_id = t1.approval_line_id
+			   AND   app.approval_auth_id = 1
+			   AND   app.employee_id = emp.id) t2
+		WHERE apphis.approver_id = t2.id
+	 	  AND apphis.document_id = doc.id
+		  AND doc.document_status_id = docstat.id
+		  
+		  <if test="keyword != null">		  
+			  <if test="kind != null or kind.equals('전체')">
+			  	OR doc.subject like '%' || #{keyword} || '%'
+			  	OR t2.name like '%' || #{keyword} || '%'
+			  </if>
+			  
+			  <if test="kind != null or kind.equals('제목')">
+			  	AND doc.subject like '%' || #{keyword} || '%'
+			  </if>
+			  
+			  <if test="kind != null or kind.equals('작성자')">
+			  	AND t2.name like '%' || #{keyword} || '%'
+			  </if>
+		  </if>
+		ORDER BY doc.id DESC
+	</select>
 	
 </mapper>

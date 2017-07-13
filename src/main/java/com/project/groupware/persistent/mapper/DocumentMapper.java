@@ -1,5 +1,6 @@
 package com.project.groupware.persistent.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,7 @@ public interface DocumentMapper {
 	
 	List<DocumentVO> selectDocumentList(Map<String, Object> map);
 	
-	void updateDocument(DocumentVO documentVO);
+		void updateDocument(DocumentVO documentVO);
 	
 	DocumentVO selectDocument(String documentId);
 	
@@ -21,5 +22,8 @@ public interface DocumentMapper {
 	void deleteBookMarkDocument(String myDocsId);
 	
 	void updateDocumentStatus(DocumentVO documentVO);
+	
+	// 결재 문서 조회 - 성현
+	List<HashMap<String, Object>> selectApprovalDocumentList(Map<String, Object> keyword);
 
 }

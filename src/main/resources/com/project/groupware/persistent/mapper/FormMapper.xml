@@ -40,7 +40,7 @@
 	</select>
 	
 	<insert id="insertForm" parameterType="formVO" statementType="PREPARED">
-		<selectKey keyProperty="id" order="BEFORE" resultType="int" statementType="STATEMENT">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String" statementType="STATEMENT">
 			SELECT FORM_ID_SEQ.nextval
 			FROM DUAL
 		</selectKey>
@@ -73,14 +73,14 @@
 		WHERE ID = #{id}
 	</update>
 	
-	<select id="selectBookmarkFormList" resultType="hashmap" parameterType="hashmap" statementType="PREPARED">
+	<select id="selectBookmarkFormList" resultType="formVO" parameterType="hashmap" statementType="PREPARED">
 		SELECT f.ID, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT
 		FROM FORM f, FORM_BOOKMARK fb, EMPLOYEE emp
 		WHERE f.ID = fb.FORM_ID and
 			emp.ID = #{map.employeeId}
 		<if test="subject != null">
-			and SUBJECT like '%' || #{keyword} || '%'
-		</if>	
+			and SUBJECT like '%' || #{subject} || '%'
+		</if>
 	</select>
 	
 	<insert id="insertBookmarkForm" parameterType="bookmarkFormVO" statementType="PREPARED">

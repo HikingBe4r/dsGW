@@ -23,9 +23,9 @@ public class RegisterFormController {
 	
 	@RequestMapping(value="/registerForm.do", method=RequestMethod.POST)
 	public String submit(@ModelAttribute(value="formVO") FormVO formVO) {
+		System.out.println("formVO: "+formVO);
+		//formService.registerForm(formVO);
 		
-		formService.registerForm(formVO);
-		
-		return "/listForm.do";
+		return "approvalNav/form/registerFormSuccess";
 	}
 }

@@ -1,5 +1,6 @@
 package com.project.groupware.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,4 +35,7 @@ public interface DocumentService {
 	// 결재 관련
 	void approveDocument(DocumentVO documentVO);
 	void rejectDocument(DocumentVO documentVO);
+	
+	// 결재문서리스트 조회
+	List<HashMap<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword);
 }
