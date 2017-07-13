@@ -11,9 +11,21 @@
 	</insert>
 
 	<select id="selectDepartmentList" resultType="departmentVO"
-		statementType="STATEMENT">
+		parameterType="map" statementType="PREPARED">
 		SELECT ID, NAME
 		FROM DEPARTMENT
+		<if test="keyword != 'all'">
+			<trim prefix="WHERE">
+				<choose>
+					<when test="keyfield == 'id'">
+						id like '%' || #{keyword} || '%'
+					</when>
+					<when test="keyfield == 'name'">
+						name like '%' || #{keyword} || '%'
+					</when>
+				</choose>
+			</trim>
+		</if>
 	</select>
 
 	<select id="selectDepartment" parameterType="String" resultType="departmentVO"
@@ -37,7 +49,8 @@
 		WHERE ID = #{id}
 	</update>
 
-	<delete id="deleteDepartment" parameterType="String" statementType="PREPARED">
+	<delete id="deleteDepartment" parameterType="String"
+		statementType="PREPARED">
 		DELETE
 		FROM DEPARTMENT
 		WHERE ID = #{id}
