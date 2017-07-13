@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -44,6 +45,17 @@ public class DocumentServiceImpl implements DocumentService {
 		//문서등록
 		documentMapper.insertDocument(document);
 		
+		
+		/* 
+		 * documentId 가져와야함 
+		 * 가져왔더니 null임
+		 *  
+		 *  */
+		
+
+		System.out.println("documentId : " + document.getId());
+		
+		
 		//파일정보 등록
 		String documentId = document.getId();
 		List<DocumentFileVO> documentFileList = document.getDocumentFileList();
@@ -61,6 +73,21 @@ public class DocumentServiceImpl implements DocumentService {
 		//결재이력 등록
 		ApprovalHistoryVO history = new ApprovalHistoryVO();
 		history.setDocumentId(documentId);
+		
+		//테스트를 위한 결재자 삽입(나중에 삭제할 것)
+		ApproverVO approver1 = new ApproverVO();
+		approver1.setId("1");
+		approver1.setStep(1);
+		approver1.setApprovalLineId("1");
+		approver1.setApprovalAuthId("1");
+		ApproverVO approver2 = new ApproverVO();
+		approver2.setId("2");
+		approver2.setStep(2);
+		approver2.setApprovalLineId("2");
+		approver2.setApprovalAuthId("2");
+		document.getApproverList().add(approver1);
+		document.getApproverList().add(approver2);
+		
 		
 		for(ApproverVO approver : document.getApproverList()) {
 			if(approver.getStep() == 1) {

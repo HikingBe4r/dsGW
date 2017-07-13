@@ -5,7 +5,7 @@
 <mapper namespace="com.project.groupware.persistent.mapper.ApprovalHistoryMapper">
 
 	<insert id="insertApprovalHistory" parameterType="approvalHistoryVO" statementType="PREPARED">
-		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="string">
 			SELECT APPROVAL_HISTORY_ID_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		

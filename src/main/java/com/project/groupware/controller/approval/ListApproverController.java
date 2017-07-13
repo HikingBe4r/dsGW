@@ -4,12 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.project.groupware.service.DocumentService;
+
 @Controller
-public class addApproverContorller {
+public class ListApproverController {
+
+	private DocumentService documentService;
 	
-	@RequestMapping(value="/addApprover.do", method=RequestMethod.GET)
-	public String addApprover() {
-		return "approvalNav/approval/addApprover"; 		
+	@RequestMapping(value="/listApprover.do", method=RequestMethod.GET)
+	public String listApprover() {
+		return ""; 		
 	}
 	
 	
