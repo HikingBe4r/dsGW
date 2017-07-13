@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-//테스트 1111
 public class EmployeeVO {
 	private String id;
 	private String name;

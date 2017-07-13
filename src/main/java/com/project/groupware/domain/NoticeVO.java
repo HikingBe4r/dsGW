@@ -1,17 +1,17 @@
 package com.project.groupware.domain;
 
 public class NoticeVO {
-	private int id;
+	private String id;
 	private String employeeId;
 	private String content;
 	private String writeDay;
 	private String isRead;
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
