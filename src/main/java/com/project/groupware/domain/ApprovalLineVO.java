@@ -1,12 +1,13 @@
 package com.project.groupware.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ApprovalLineVO {
 	private String id;						//고유 아이디
 	private String employeeId;				//사번
 	private String subject;					//즐겨찾기 이름(null일 경우, 일반결재선)
-	private List<ApproverVO> approverList;	//결재자 목록
+	private List<ApproverVO> approverList = new ArrayList<ApproverVO>();	//결재자 목록
 	
 	public ApprovalLineVO() {
 
@@ -49,6 +50,10 @@ public class ApprovalLineVO {
 
 	public void setApproverList(List<ApproverVO> approverList) {
 		this.approverList = approverList;
+	}
+	
+	public void addApprover(ApproverVO approver) {
+		this.approverList.add(approver);
 	}
 
 	@Override

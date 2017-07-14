@@ -4,12 +4,23 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.ApprovalLineMapper">
 
+	<!-- 일반 결재선 추가-->
 	<insert id="insertApprovalLine" parameterType="approvalLineVO" statementType="PREPARED"> 
-		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="string">
 			SELECT APPROVAL_LINE_ID_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		
-		INSERT INTO ARTICLE ( ID, EMPLOYEE_ID, SUBJECT )
+		INSERT INTO APPROVAL_LINE ( ID, EMPLOYEE_ID ) 
+		VALUES ( #{id}, #{employeeId} )	
+	</insert>
+	
+	<!-- 결재선 즐겨찾기 추가 -->
+	<insert id="insertApprovalLineBookmark" parameterType="approvalLineVO" statementType="PREPARED"> 
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="string">
+			SELECT APPROVAL_LINE_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO APPROVAL_LINE ( ID, EMPLOYEE_ID, SUBJECT ) 
 		VALUES ( #{id}, #{employeeId}, #{subject} )	
 	</insert>
 	

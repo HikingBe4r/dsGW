@@ -9,51 +9,104 @@
 <script>
 $(document).ready(function() {
 	var tap = 1;
+	var approverList = [];
+	var recieverList = [];
 	$('#approverTap').on('click', function() {
 		tap=1;
-		$('#approverTap').attr('class', 'active');
-		$('#recieverTap').removeAttr('class');
-		$('#bookmarkTap').removeAttr('class');
+		tapSetting($(this));		
+		
 	});
 	
 	$('#recieverTap').on('click', function() {
 		tap=2;	
-		$('#approverTap').removeAttr('class');
-		$('#recieverTap').attr('class', 'active');
-		$('#bookmarkTap').removeAttr('class');
+		tapSetting($(this));
 	});
 	
 	$('#bookmarkTap').on('click', function() {
 		tap=3;	
-		$('#recieverTap').removeAttr('class');
-		$('#approverTap').removeAttr('class');
-		$('#bookmarkTap').attr('class', 'active');
+		tapSetting($(this));
+		
 	});
 	
 	$('#addBtn').on('click', function() {
 				
+		 $(':checkbox[name=employee]').each(function() {
+			 if($(this).prop('checked') && tap==1) {
+				 if(approverList.indexOf($(this).val()) == -1) {
+					 approverList.push($(this).val());
+				 }			 
+			   	
+			 }
+			 
+			 if($(this).prop('checked') && tap==2) {
+				 if(recieverList.indexOf($(this).val()) == -1) {
+					 recieverList.push($(this).val());
+				 }			 
+			 
+			 }
+			 
+		  });	
+		
+		
+		alert(approverList.join() + '<br>' + recieverList.join());
+		
 	});
 	
 	$('#removeBtn').on('click', function() {
-		/* $(':checkbox[name=approver]').each(function() {
+		  $(':checkbox[name=approver]').each(function() {
 			   
 			   if($(this).prop('checked')) {
-				   array.push($(this).val());
-			   }	   		      
+				   approverList.splice(approverList.indexOf($(this).parent().parent().parent()), 1);
+				   recieverList.splice(approverList.indexOf($(this).parent().parent().parent()), 1);
+				   $(this).parent().parent().parent().remove();
+			   }	  
+			   
 
-		   }); */
-		   
-		   
-		   
-		   /*
-		   		체크된 행에 로우넘버를 받아와서 해당 tr 엘리먼트 삭제시킨다?
-		   */
-		   
-		$('#tr1').remove();
-		   
+		   });	
+		  
+		  alert(approverList.join() + '<br>' + recieverList.join());
 	});
 	
+	$('#submitBtn').on('click', function() {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/addApprover.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {
+				employeeId: '20170711001', //세션 userId 들어가야함. 테스트를 위해 일단 임시로 데이터 넣음
+				subject: '' ,
+				approverEmpIdList: JSON.stringify(approverList),
+				recieverEmpIdList: JSON.stringify(recieverList)
+						
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				window.close();
+				
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});
+		
+	});
+		
 });
+
+function tapSetting(obj) {
+	$('#approverTap').removeAttr('class');
+	$('#recieverTap').removeAttr('class');
+	$('#bookmarkTap').removeAttr('class');
+	obj.attr('class', 'active');
+}
+
 
 </script>
 
@@ -66,7 +119,7 @@ $(document).ready(function() {
 					<ul class="nav navbar-nav">
 						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
 						<li id="recieverTap"><a href=#>수신자</a></li>
-						<li id="bookmarkTap"><a href=#>즐겨찾기 설정</a></li>
+						<!-- <li id="bookmarkTap"><a href=#>즐겨찾기 설정</a></li> -->
 					</ul>
 				</div>
 			</form>
@@ -76,38 +129,23 @@ $(document).ready(function() {
 						<div class="checkbox">
 						
 						
-						<span class="glyphicon glyphicon-folder-open" aria-hidden="true">
-								IT부서 </span> <br> 
-								&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
-								&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value=""> 최길동 팀장
-							</label> <br><span class="glyphicon glyphicon-folder-open" aria-hidden="true">
-								IT부서 </span> <br> &nbsp; <span
-								class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-							1팀 <br> &nbsp;&nbsp; <label> <input type="checkbox" name="employee"
-								value=""> 최길동 팀장
-							</label> <br>
-						
-						
-											
+							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"> IT부서 </span> <br> 
+							&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
+							&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value="20170712001"> 삼길동 팀장 </label> <br>
+							
+							
 							<span class="glyphicon glyphicon-folder-open" aria-hidden="true">
 								IT부서 </span> <br> &nbsp; <span
 								class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-							1팀 <br> &nbsp;&nbsp; <label> <input type="checkbox"
-								value=""> 최길동 팀장
-							</label> <br> &nbsp;&nbsp; <label> <input type="checkbox"
-								value=""> 김길동 팀장
-							</label><br> <span class="glyphicon glyphicon-triangle-bottom"
-								aria-hidden="true"></span> 2팀 <br> &nbsp;&nbsp; <label>
-								<input type="checkbox" value=""> 이길동 팀장
-							</label> <br> &nbsp;&nbsp; <label> <input type="checkbox"
-								value=""> 백길동 팀장
-							</label><br>
-							<br> <span class="glyphicon glyphicon-folder-open"
-								aria-hidden="true"> 마케팅부서 </span> <br> &nbsp; <span
-								class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-							1팀 <br> &nbsp;&nbsp; <label> <input type="checkbox"
-								value=""> 한길동 팀장
+							1팀 <br> &nbsp;&nbsp; <label> <input type="checkbox" name="employee"
+								value="20170711002"> 이길동 팀장
 							</label> <br>
+						
+							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"> IT부서 </span> <br> 
+							&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
+							&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value="20170711001"> 일길동 팀장 </label> <br>
+											
+							
 							<br> <span class="glyphicon glyphicon-folder-open"
 								aria-hidden="true"> 즐겨찾기 </span> <br> &nbsp; <span
 								class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
@@ -154,22 +192,22 @@ $(document).ready(function() {
 							<th>이름</th>
 							<th>직책</th>
 							<th>부서</th>
-							<th>상태</th>
+							<th>구분</th>
 						</tr>
 					</thead>
-					<tr id="tr1">
+					<tr id="20170711001">
 						<td><label><input type="checkbox" name="approver" value=""></label></td>
-						<td>홍길동</td>
-						<td>팀장</td>
+						<td>일길동</td>
+						<td>사원</td>
 						<td>IT</td>
-						<td></td>
+						<td>결재</td>
 					</tr>
-					<tr id="tr2">
+					<tr id="20170711002">
 						<td><label><input type="checkbox" name="approver" value=""></label></td>
-						<td>박길동</td>
-						<td>팀장</td>
-						<td>마케팅</td>
-						<td></td>
+						<td>이길동</td>
+						<td>사원</td>
+						<td>경영</td>
+						<td>수신</td>
 					</tr>
 
 				</table>
@@ -179,7 +217,7 @@ $(document).ready(function() {
 
 	</div>
 	<br><br>
-	<button type="submit" class="btn btn-primary btn-lg pull-right">결재자 추가</button>
+	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 등록</button>
 </div>
 
 
