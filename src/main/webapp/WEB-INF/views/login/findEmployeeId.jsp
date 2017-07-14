@@ -1,4 +1,4 @@
-<%-- loginForm.jsp --%>
+<%-- findEmployeeId.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,8 @@
 									placeholder="Email">
 							</div>
 							<div>
-								<button type="submit" class="form-control btn btn-primary">찾기</button>
+								<button type="submit" class="form-control btn btn-primary"
+									onClick="window.open('${pageContext.request.contextPath }/findEmpId.do','사번찾기','width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">찾기</button>
 							</div>
 						</form>
 					</div>
@@ -61,7 +62,9 @@
 									placeholder="Email">
 							</div>
 							<div>
-								<button type="submit" class="form-control btn btn-primary">비밀번호 변경</button>
+								<button type="submit" class="form-control btn btn-primary"
+									onClick="window.open('${pageContext.request.contextPath }/findEmpPwd.do','비밀번호 변경','width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">비밀번호
+									변경</button>
 							</div>
 						</form>
 					</div>

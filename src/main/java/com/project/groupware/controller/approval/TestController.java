@@ -8,17 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TestController {
 	
 	
-	@RequestMapping(value="/login.do", method=RequestMethod.GET)
-	public String loginForm() {
-		return "login/loginForm"; 	
-	}
-	
-	@RequestMapping(value="/findId.do", method=RequestMethod.GET)
-	public String findId() {
-		return "login/findEmployeeId"; 
-	}
-	
-	
 	@RequestMapping(value="/board.do", method=RequestMethod.GET)
 	public String board() {
 		return "boardNav/board/board"; 

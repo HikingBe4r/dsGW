@@ -3,7 +3,99 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.FormMapper">
+	
+	<select id="selectFormList" resultType="formVO" parameterType="String" statementType="PREPARED">
+		SELECT ID, SUBJECT, CONTENT, WRITEDAY, HITCOUNT
+		FROM FORM
+		<if test="_parameter != null">
+			WHERE SUBJECT like '%' || #{keyword} || '%'
+		</if>		
+	</select>
+	
+	<resultMap type="formVO" id="selectFormMap">
+		<result property="id" column="formId" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="writeday" column="writeday" />
+		<result property="hitcount" column="hitcount" />
+		
+		<association property="formFile" javaType="formFileVO">
+			<result property="id" column="formFileId" />
+			<result property="formId" column="formId" />
+			<result property="originalFileName" column="original_file_name" />
+			<result property="systemFileName" column="system_file_name" />
+			<result property="fileSize" column="file_size" />
+		</association>
+	</resultMap>
+	
+	<select id="selectForm" resultMap="selectFormMap" parameterType="String" statementType="PREPARED">
+		SELECT
+			f.ID as formId, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT,
+			ff.ID as formFileId, ff.ORIGINAL_FILE_NAME, ff.SYSTEM_FILE_NAME, ff.FILE_SIZE
+		FROM 
+			FORM f, FORM_FILE ff
+		WHERE
+			f.ID = ff.FORM_ID and
+			f.ID = #{id}
+	</select>
+	
+	<insert id="insertForm" parameterType="formVO" statementType="PREPARED">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String" statementType="STATEMENT">
+			SELECT FORM_ID_SEQ.nextval
+			FROM DUAL
+		</selectKey>
+		
+		INSERT INTO FORM
+		VALUES(#{id}, #{subject}, #{content}, #{writeday}, #{hitcount})
+	</insert>
 
-
+	<delete id="deleteForm" parameterType="String" statementType="PREPARED">
+		DELETE FROM FORM
+		WHERE ID = #{id}
+	</delete>
+	
+	<update id="updateForm" parameterType="formVO" statementType="PREPARED">
+		UPDATE FORM
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="subject != null and subject != ''">
+				SUBJECT = #{subject} ,  
+			</if>
+			<if test="content != null and content != ''">
+				CONTENT = #{content} , 
+			</if>
+		</trim>	
+		WHERE ID = #{id}
+	</update>
+	
+	<update id="upHitcount" parameterType="String" statementType="PREPARED">
+		UPDATE FORM
+		SET HITCOUNT = HITCOUNT + 1
+		WHERE ID = #{id}
+	</update>
+	
+	<select id="selectBookmarkFormList" resultType="formVO" parameterType="hashmap" statementType="PREPARED">
+		SELECT f.ID, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT
+		FROM FORM f, FORM_BOOKMARK fb, EMPLOYEE emp
+		WHERE f.ID = fb.FORM_ID and
+			emp.ID = #{map.employeeId}
+		<if test="subject != null">
+			and SUBJECT like '%' || #{subject} || '%'
+		</if>
+	</select>
+	
+	<insert id="insertBookmarkForm" parameterType="bookmarkFormVO" statementType="PREPARED">
+		<selectKey keyProperty="id" resultType="int" statementType="STATEMENT">
+			SELECT FORM_BOOKMARK_ID_SEQ.nextval FROM DUAL
+		</selectKey>
+		INSERT INTO FORM_BOOKMARK
+		VALUES(#{id}, #{employee_id}, #{form_id})
+	</insert>
+	
+	<delete id="removeBookmarkForm" parameterType="String" statementType="PREPARED">
+		DELETE FROM FORM_BOOKMARK
+		WHERE ID = #{id}
+	</delete>
+	
+	
 	
 </mapper>

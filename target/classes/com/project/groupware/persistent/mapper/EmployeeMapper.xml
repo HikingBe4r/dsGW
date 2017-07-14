@@ -20,10 +20,13 @@
 		WHERE ID = #{id}
 	</select>
 
-	<select id="selectEmployee" parameterType="String"
+	<select id="selectEmployee" parameterType="string"
 		statementType="PREPARED" resultType="employeeVO">
-		SELECT ID, NAME, EMAIL, to_char(HIRE_DATE, 'YYYY/MM/DD'), ADDRESS,
-		ADDRESS_DETAIL, PASSWORD, PHONE, DEPARTMENT_ID, GRADE_ID, STATUS_ID
+		SELECT ID, NAME, EMAIL,
+		to_char(HIRE_DATE, 'YYYY/MM/DD') as hireDate, ADDRESS,
+		ADDRESS_DETAIL as addressDetail,
+		PASSWORD, PHONE, DEPARTMENT_ID as departmentId, GRADE_ID as gradeId,
+		STATUS_ID as statusId
 		FROM EMPLOYEE
 		WHERE ID = #{id}
 	</select>

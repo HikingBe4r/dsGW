@@ -10,7 +10,7 @@
 
 	<!-- Logger 설정 -->
 	<Loggers>
-		<Logger name="com.digital.article" level="DEBUG" additivity="false">
+		<Logger name="com.project.groupware"  level="DEBUG" additivity="false">
 			<AppenderRef ref="console" />
 		</Logger>
 

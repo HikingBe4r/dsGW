@@ -61,6 +61,20 @@
       <beans:property name="uploadTempDir" value="file:C:/tempUpload   " />
       <beans:property name="maxUploadSizePerFile" value="104857600" /> <!-- 100메가 -  1개의 파일 최대 용량-->
       <beans:property name="maxUploadSize" value="314572800" /> <!-- 300메가 - 3개의 파일 최대 용량  -->
-   </beans:bean>   
+   </beans:bean>
+   
+   <!-- 로깅 + 로그인 interceptors -->
+   	<interceptors>
+		<interceptor>
+			<mapping path="/*" />
+			<beans:bean
+				class="com.project.groupware.interceptor.LoggingHandlerInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/*" />
+			<exclude-mapping path="/login.do" />
+			<beans:bean class="com.project.groupware.interceptor.AuthHandlerInterceptor" />
+		</interceptor>
+	</interceptors>   
 	
 </beans:beans>

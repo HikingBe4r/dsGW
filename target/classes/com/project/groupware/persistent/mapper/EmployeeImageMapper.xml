@@ -3,7 +3,32 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.EmployeeImageMapper">
+	<insert id="insertImage" parameterType="employeeImageVO"
+		statementType="PREPARED">
+		<selectKey keyProperty="no" statementType="STATEMENT" order="BEFORE"
+			resultType="int">
+			SELECT EMP_IMAGE_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO EMP_IMAGE(ID, EMPLOYEE_ID ,ORIGINAL_FILE_NAME,
+		SYSTEM_FILE_NAME,
+		FILE_SIZE, KIND)
+		VALUES(#{no}, #{employeeId},
+		#{originalFileName}, #{systemFileName}, #{fileSize}, #{kind})
+	</insert>
 
+	<select id="selectImage" parameterType="map" resultType="employeeImageVO"
+		statementType="PREPARED">
+		select
+		ID,EMPLOYEE_ID,ORIGINAL_FILE_NAME,SYSTEM_FILE_NAME,FILE_SIZE,KIND
+		from
+		EMP_IMAGE
+		WHERE EMPLOYEE_ID = #{employeeId} and KIND = #{kind}
+	</select>
 
-	
+	<delete id="deleteImage" parameterType="employeeImageVO"
+		statementType="PREPARED">
+		DELETE
+		FROM EMP_IMAGE
+		WHERE ID = #{id}
+	</delete>
 </mapper>
