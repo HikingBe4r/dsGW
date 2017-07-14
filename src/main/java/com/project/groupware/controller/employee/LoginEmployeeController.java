@@ -30,7 +30,7 @@ public class LoginEmployeeController {
 		
 		if (login != null) {
 			session.setAttribute("employee", login);
-			return "approvalNav/board/board";//메인화면
+			return "approvalNav/board/board";//메인화면 아직 없어서 보드로 가게 해놓음
 		}else{
 			return "login/loginForm";
 		}
