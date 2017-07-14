@@ -4,6 +4,10 @@ public class DepartmentVO {
 	private String id;
 	private String name;
 
+	public DepartmentVO() {
+		super();
+	}
+
 	public String getId() {
 		return id;
 	}

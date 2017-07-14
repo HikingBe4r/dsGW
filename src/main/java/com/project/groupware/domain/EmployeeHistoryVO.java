@@ -7,6 +7,11 @@ public class EmployeeHistoryVO {
 	private String endDate;
 	private String kind;
 	private String content;
+	
+
+	public EmployeeHistoryVO() {
+		super();
+	}
 
 	public String getId() {
 		return id;

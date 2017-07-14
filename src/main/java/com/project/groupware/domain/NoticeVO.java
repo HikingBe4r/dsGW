@@ -7,6 +7,10 @@ public class NoticeVO {
 	private String writeDay;
 	private String isRead;
 
+	public NoticeVO() {
+		super();
+	}
+
 	public String getId() {
 		return id;
 	}

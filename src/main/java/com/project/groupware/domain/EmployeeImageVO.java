@@ -9,7 +9,7 @@ public class EmployeeImageVO {
 	private String kind;
 	
 	public EmployeeImageVO(){
-		
+		super();
 	}
 	
 	public EmployeeImageVO(String id, String employeeId, String originalFileName, String systemFileName,

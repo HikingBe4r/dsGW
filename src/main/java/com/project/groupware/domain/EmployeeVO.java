@@ -18,7 +18,16 @@ public class EmployeeVO {
 	private String statusId;
 	private List<MultipartFile> upload;
 	private List<EmployeeImageVO> imageList;
-	
+
+	public EmployeeVO() {
+		super();
+	}
+
+	public EmployeeVO(String id, String password) {
+		super();
+		this.id = id;
+		this.password = password;
+	}
 
 	public String getId() {
 		return id;
