@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.groupware.domain.AdminVO;
 import com.project.groupware.domain.EmployeeHistoryVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.NoticeVO;
@@ -40,7 +41,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 
-	public String loginAdmin(String id) {
+	public AdminVO loginAdmin(AdminVO admin) {
+		AdminVO login = empMapper.selectAdmin(admin.getId());
+		if(login != null){
+			if(login.getPassword().equals(admin.getPassword())){
+				return login;
+			}
+		}
 		return null;
 	}
 

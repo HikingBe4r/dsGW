@@ -21,6 +21,10 @@
 							<div class="panel-title">환영합니다!</div>
 						</div>
 						<div class="panel-body">
+							<div>
+								<input name="select" type="radio" value="admin"> 관리자 
+								<input name="select" type="radio" value="employee"> 일반사원
+							</div>
 
 							<div>
 								<input type="text" class="form-control" name="employeeId"
@@ -38,7 +42,6 @@
 									onClick="window.open('${pageContext.request.contextPath }/findEmployeeId.do','사번/비밀번호 찾기','width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">
 									사번찾기 / 비밀번호 변경</button>
 							</div>
-
 						</div>
 					</div>
 				</div>

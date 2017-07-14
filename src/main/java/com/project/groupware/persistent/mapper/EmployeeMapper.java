@@ -3,6 +3,7 @@ package com.project.groupware.persistent.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.project.groupware.domain.AdminVO;
 import com.project.groupware.domain.EmployeeVO;
 
 public interface EmployeeMapper {
@@ -15,6 +16,6 @@ public interface EmployeeMapper {
 	
 	public EmployeeVO selectEmployee(String id);
 	
-	public String selectAdmin(String id);
+	public AdminVO selectAdmin(String id);
 
 }
