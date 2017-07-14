@@ -102,9 +102,9 @@ public class DocumentServiceImpl implements DocumentService {
 
 	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 	public void registerApprovalLine(ApprovalLineVO approvalLine) {
+		
 		//결재선 등록
 		approvalLineMapper.insertApprovalLine(approvalLine);
-		
 		
 		//결재자 목록 등록
 		for(ApproverVO approver : approvalLine.getApproverList()) {

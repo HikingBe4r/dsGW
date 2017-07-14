@@ -105,6 +105,9 @@ function tapSetting(obj) {
 	$('#recieverTap').removeAttr('class');
 	$('#bookmarkTap').removeAttr('class');
 	obj.attr('class', 'active');
+	$(':checkbox[name=employee]').each(function() {
+		$(this).prop('checked', false);
+	});
 }
 
 

@@ -24,7 +24,7 @@ public class WriteDocumentController {
 	
 	@RequestMapping(value="/writeDocument.do", method=RequestMethod.GET)
 	public String form() {
-		return "approvalNav/document/writeDocument"; 		
+		return "approvalNav/document/writeDocument"; 	//양식 목록으로 가게????	
 	}
 	
 	
