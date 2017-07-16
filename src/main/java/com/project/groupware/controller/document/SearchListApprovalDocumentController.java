@@ -1,9 +1,6 @@
 /**
- *  결재 대기(결재차례), 
- *  수신(수신자), 
- *  미완료 문서(내 결재가 지나고, 아직 결재완료가 아닌 문서) 
- *  
- *  목록조회 컨트롤러
+ * 문서 목록조회 검색 jsonview controller
+ * 	
  */
 
 package com.project.groupware.controller.document;
@@ -36,7 +33,7 @@ public class SearchListApprovalDocumentController {
 		
 		
 		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("employeeId", 1);	//map.put("employeeId", sessionScope.emp_id);
+		map.put("employeeId", "20170711001");	//map.put("employeeId", sessionScope.emp_id);
 		map.put("kind", kind);
 		map.put("keyword", keyword);
 		

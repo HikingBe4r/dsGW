@@ -8,7 +8,7 @@
 
 <script>
 	function listApprovalDocument(data) {
-		$("#document").empty(data);
+		$("#documents").empty(data);
 		var htmlStr = "";
 		
 		for(var i = 0; i < data.documentList.length; i++) {
@@ -40,12 +40,12 @@
 				,
 				data : {
 					kind: $("#KIND").val(),
-					keyword: $("#searchKeyword").text()
+					keyword: $("#searchKeyword").val()
 				}
 				,
 				success : function(data) {
 					listApprovalDocument(data);
-					alert("성공?");
+					alert("성공?" + data);
 				}	
 				,
 				error : function(jqXHR) {

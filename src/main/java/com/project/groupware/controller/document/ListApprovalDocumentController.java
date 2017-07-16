@@ -28,14 +28,15 @@ public class ListApprovalDocumentController {
 
 	@RequestMapping(value = "/listApprovalDocument.do", method = RequestMethod.GET)
 	public ModelAndView listApprovalDocument(
-			@RequestParam(value="keyword", required=false) String keyword
+			@RequestParam(value="keyword", required=false) String keyword,
+			@RequestParam(value="kind", required=false) String kind
 			/*@RequestAttribute(value="keyword", required=false) Map<String, Object> keyword*/) {
 		ModelAndView mv = new ModelAndView();
-		//List<HashMap<String, Object>> documentList = documentService.retrieveApprovalDocumentList(keyword);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("employeeId", 1);
-		map.put("kind", "제목");
-		map.put("keyword", "2");
+		map.put("employeeId", "20170711001");	// sessionScope의 로그인 한 사원 ID
+		map.put("kind", kind);
+		map.put("keyword", keyword);
 		
 		mv.addObject("documentList", documentService.retrieveApprovalDocumentList(map));
 		mv.setViewName("approvalNav/document/listApprovalDocument");
