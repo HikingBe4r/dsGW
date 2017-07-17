@@ -46,8 +46,6 @@
 	 	  AND apphis.document_id = doc.id
 		  AND doc.document_status_id = docstat.id
 		  
-		
-		  
 		 <if test="keyword != null and kind != null">
 			<if test="kind.equals('전체')">
 				AND (doc.subject like '%' || #{keyword} || '%'
@@ -65,4 +63,39 @@
 		ORDER BY doc.id DESC
 	</select>
 	
+	<resultMap type="documentVO" id="selectApprovalDocumentMap" autoMapping="true">
+		<id property="id" column="documentId" />
+		<result property="subject" column="docSubject" />
+		<result property="content" column="content" />
+		<result property="writeday" column="writeday" />
+		<result property="endDate" column="enddate" />	
+		<association property="formVO" javaType="formVO">
+			<id property="id" column="formId" />
+			<result property="subject" column="formSubject"/>
+		</association>
+		<collection property="documentFileList" javaType="documentFileVO">
+			<result property="originalFileName" column="original_file_name"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectApprovalDocument" resultMap="selectApprovalDocumentMap" parameterType="String" statementType="PREPARED">  
+		SELECT 
+			doc.id documentId, 
+			doc.subject docSubject, 
+			doc.content, 
+			TO_CHAR(doc.writeday, 'YYYY/MM/DD HH24:MI:SS') writeday, 
+			TO_CHAR(doc.enddate, 'YYYY/MM/DD HH24:MI:SS') enddate,
+			form.id formId, 
+			form.subject formSubject, 
+			docfile.original_file_name
+		FROM document doc, form, document_file docFile
+		WHERE doc.id = #{documentId}
+		  AND doc.form_id = form.id(+)
+		  AND doc.id = docfile.document_id(+)
+	</select>
+	
+	
+	<select id="selectDocument" resultMap="selectDocumentMap" parameterType="String">
+			
+	</select>
 </mapper>

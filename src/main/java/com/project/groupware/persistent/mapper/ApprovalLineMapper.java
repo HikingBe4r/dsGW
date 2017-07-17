@@ -25,5 +25,12 @@ public interface ApprovalLineMapper {
 
 	// 결재자 목록 삭제
 	void deleteApproverList(String approvalLineId);
+	
+	// 결재자 목록 조회 : 문서 번호로 찾기
+	List<Map<String, Object>> selectApproverMapByDocumentId(String documentId);
+	
+	// 결재자 목록 조회2 : 문서번호.(승인, 반려할때 씀)
+	List<ApproverVO> selectApproverList2(String documentId);
+	
 
 }

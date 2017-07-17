@@ -173,20 +173,50 @@ public class DocumentServiceImpl implements DocumentService {
 		
 	}	
 	
-	public void approveDocument(DocumentVO documentVO) {
-		// TODO Auto-generated method stub
-		documentMapper.updateDocumentStatus(documentVO);
+	/**
+	 * 문서 승인처리
+	 * 1. apphistory에 승인comment insert한다.
+	 * 2-1) 다음번 결재자가 있으면, 알림을 보낸다.
+	 * 2-2) 마지막 결재자이면 기안자에게 알림을 보내고, 문서 최종상태를 변경한다.
+	 * 
+	 * map: DocumentVO, ApprovalHistoryVO, NoticeVO
+	 */
+	public void approveDocument(Map<String, Object> map) {
 		
-	}
-	public void rejectDocument(DocumentVO documentVO) {
-		// TODO Auto-generated method stub
-		documentMapper.updateDocumentStatus(documentVO);
+		
 	}
 	
-	public List<HashMap<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword) {
+	/**
+	 * 문서 반려처리
+	 * 1. apphistory에 반려 comment를 insert
+	 * 2. 기안자에게 문서가 반려됐음을 알림 보내기.
+	 * 3. 문서 최종상태 변경
+	 */
+	public void rejectDocument(DocumentVO documentVO) {
 		
-		List<HashMap<String, Object>> documentList = documentMapper.selectApprovalDocumentList(keyword);
+	}
+	
+	
+	// 결재문서 목록조회
+	public List<Map<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword) {
+		
+		List<Map<String, Object>> documentList = documentMapper.selectApprovalDocumentList(keyword);
 		
 		return documentList;
+	}
+	
+	// 결재문서 상세조회
+	public Map<String, Object> retrieveApprovalDocument(String documentId) {
+		Map<String, Object> approvalDocument = new HashMap<String, Object>();
+		approvalDocument.put("document", documentMapper.selectApprovalDocument(documentId));
+		approvalDocument.put("approverList", approvalLineMapper.selectApproverMapByDocumentId(documentId));
+		return approvalDocument;
+	}
+	
+	// 결재선 조회(문서번호로)
+	public List<Map<String, Object>> retrieveApproverMapByDocumentId(String documentId) {
+		List<Map<String, Object>> approverList = approvalLineMapper.selectApproverMapByDocumentId(documentId);
+		
+		return approverList;
 	}
 }

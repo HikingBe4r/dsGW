@@ -19,8 +19,10 @@ public class DocumentVO {
 	private List<MultipartFile> upload;	//업로드된 파일
 	private List<DocumentFileVO> documentFileList = new ArrayList<DocumentFileVO>();
 
+	
+	
 	public DocumentVO() {
-
+		
 	}
 
 	public String getId() {

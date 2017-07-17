@@ -33,9 +33,12 @@ public interface DocumentService {
 	void removeBookMarkDocument(String myDocsId);
 	
 	// 결재 관련
-	void approveDocument(DocumentVO documentVO);
+	void approveDocument(Map<String, Object> map);
 	void rejectDocument(DocumentVO documentVO);
 	
 	// 결재문서리스트 조회
-	List<HashMap<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword);
+	List<Map<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword);
+	Map<String, Object> retrieveApprovalDocument(String documentId);
+	List<Map<String, Object>> retrieveApproverMapByDocumentId(String documentId);
+	
 }
