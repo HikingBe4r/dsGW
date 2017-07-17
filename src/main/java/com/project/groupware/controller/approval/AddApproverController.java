@@ -38,14 +38,22 @@ public class AddApproverController {
 		}	
 		
 		
-		/*
-		 *  결재자 추가ㅏㅏㅏ
-		 */
+		
+		// 빈 배열이 넘어오면 "[]"가 들은 배열이 생성됨.
+		// 그래서 빈 배열이 넘어와도 사이즈가 1임.
+		// 그래서 그런 배열이 생성되면 사이즈를 0으로 만들어줌 
+		if(approverEmpIdList.size() == 1 && approverEmpIdList.get(0).length() == 2) {
+			approverEmpIdList.clear();
+		}
+		if(recieverIdList.size() == 1 && recieverIdList.get(0).length() == 2) {
+			recieverIdList.clear();
+		}
 		
 		
 		for(int i=0; i<approverEmpIdList.size(); i++) {
 			String approverEmpId = approverEmpIdList.get(i);
 			if(approverEmpIdList.size() == 1){
+				System.out.println(approverEmpId);
 				approverEmpId = approverEmpId.substring(2,approverEmpId.length()-2);
 			} else if(i==0) {
 				approverEmpId = approverEmpId.substring(2,approverEmpId.length()-1);

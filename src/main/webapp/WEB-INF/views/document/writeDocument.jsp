@@ -1,9 +1,10 @@
 <%-- writeDocument.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+
 <script>
 	$(document).ready(function() {
 		$('#approvalLine').click(function() {
@@ -11,10 +12,39 @@
 			window.open(popUrl, 'test', 'width=1200, height=550');
 		});
 	});
-
 </script>
 
-<form action="${pageContext.request.contextPath }/writeDocument.do" method="post" enctype="multipart/form-data">
+<script type="text/javascript">
+  $(function(){
+      //전역변수
+      var obj = [];             
+      //스마트에디터 프레임생성
+      nhn.husky.EZCreator.createInIFrame({
+          oAppRef: obj,
+          elPlaceHolder: "content",
+          sSkinURI: "./resources/editor/SmartEditor2Skin.html",
+          htParams : {
+              // 툴바 사용 여부
+              bUseToolbar : true,           
+              // 입력창 크기 조절바 사용 여부
+              bUseVerticalResizer : false,   
+              // 모드 탭(Editor | HTML | TEXT) 사용 여부
+              bUseModeChanger : true,
+          }
+      });
+      //전송버튼
+      $("#insertDocument").click(function(){
+          //id가 smarteditor인 textarea에 에디터에서 대입
+          obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+           //폼 submit
+          $("#insertBoardFrm").submit();
+      });
+      
+  });
+</script>
+
+
+<form action="${pageContext.request.contextPath }/writeDocument.do" method="post" enctype="multipart/form-data" id="insertBoardFrm">
 	<div>
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
@@ -23,7 +53,7 @@
 		</div>
 
 		<div class="pull-right">
-			<button type="submit" class="btn btn-primary btn-lg">기안</button>
+			<button type="submit" id="insertDocument" class="btn btn-primary btn-lg">기안</button>
 		</div>
 	</div>
 	<br>
@@ -85,16 +115,16 @@
 			</div>
 
 
-			<form class="row">
+			<form class="row" >
 				<div class="form-group">
 					<label for="subject" class="col-sm-1 control-label" align="right">제목</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" id="subject" name="subject"
 							placeholder="제목을 입력하시오">
 					</div>
-					<br> <br> <br>
+					
 					<div class="col-sm-12">
-						<textarea class="form-control" rows="17" name="content"></textarea>
+						<textarea class="form-control" name="content" id="content" rows="15"></textarea>
 					</div>
 				</div>
 			</form> <br>
@@ -115,18 +145,3 @@
 
 	</div>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

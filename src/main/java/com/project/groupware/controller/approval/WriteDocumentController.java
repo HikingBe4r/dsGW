@@ -32,6 +32,10 @@ public class WriteDocumentController {
 	public String submit(@RequestParam(value="formId", required=true) String formId,
 						@ModelAttribute(value="document") DocumentVO document) {
 		
+		if(document.getContent() == null) {
+		System.out.println("content: "+document.getContent());
+		}
+		
 		FormVO form = new FormVO();
 		form.setId(formId);
 		document.setFormVO(form);
