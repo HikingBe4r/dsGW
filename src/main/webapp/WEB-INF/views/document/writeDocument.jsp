@@ -34,10 +34,15 @@
       });
       //전송버튼
       $("#insertDocument").click(function(){
-          //id가 smarteditor인 textarea에 에디터에서 대입
-          obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-           //폼 submit
-          $("#insertBoardFrm").submit();
+    	  if($('#subject') == null || $('#subject').val() == '') {
+    		  alert("제목을 입력하시오");
+    	  } else {
+    	  
+	          //id가 smarteditor인 textarea에 에디터에서 대입
+	          obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+	           //폼 submit
+	          $("#insertBoardFrm").submit();
+    	  }
       });
       
   });
@@ -53,14 +58,14 @@
 		</div>
 
 		<div class="pull-right">
-			<button type="submit" id="insertDocument" class="btn btn-primary btn-lg">기안</button>
+			<button type="button" id="insertDocument" class="btn btn-primary btn-lg" style="WIDTH: 120pt;">기안</button>
 		</div>
 	</div>
 	<br>
 	<div class="panel panel-info" style="height: 750px;">
 		<div class="panel-heading" align="center">
-			<h4>휴가신청서</h4>
-			<input type="hidden" name="formId" value="1">
+			<h4>${requestScope.form.subject }</h4>
+			<input type="hidden" name="formId" value="${requestScope.form.id}">
 		</div>
 
 		<div class="panel-body">
@@ -69,7 +74,8 @@
 					<table class="table table-condensed table-bordered">
 						<tr>
 							<td style="width: 100px;">기안자</td>
-							<td style="width: 100px;">일길동 <input type="hidden" name="employeeId" value="20170711001"></td>
+							<td style="width: 100px;">${sessionScope.employee.name } <input type="hidden" name="employeeId" value="${sessionScope.employee.id }" ></td>
+							
 							
 						</tr>
 						<tr>

@@ -11,7 +11,7 @@ import com.project.groupware.domain.EmployeeVO;
 
 public class AuthHandlerInterceptor extends HandlerInterceptorAdapter {
 	
-	/*
+	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
@@ -24,7 +24,7 @@ public class AuthHandlerInterceptor extends HandlerInterceptorAdapter {
 			dispatcher.forward(request, response);
 			return false;
 		}
-	}*/
+	}
 
 	
 }

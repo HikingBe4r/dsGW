@@ -6,7 +6,9 @@
 
 
 
-문서등록 성공!
+<form action="${pageContext.request.contextPath }/choiceForm.do" method="get">
+	<button type="submit">choiceForm.do</button>
+</form>
 
 
 

@@ -39,8 +39,6 @@ public class DocumentServiceImpl implements DocumentService {
 	private ApprovalLineMapper approvalLineMapper;
 	
 
-	
-	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 	public void registerDocument(DocumentVO document) {
 		//문서등록
 		documentMapper.insertDocument(document);
@@ -100,7 +98,6 @@ public class DocumentServiceImpl implements DocumentService {
 		
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 	public void registerApprovalLine(ApprovalLineVO approvalLine) {
 		
 		//결재선 등록
@@ -135,7 +132,6 @@ public class DocumentServiceImpl implements DocumentService {
 
 	
 	//특정 결재선의 결재자목록 수정(모두 삭제 후, 새로 추가)
-	@Transactional(propagation=Propagation.REQUIRED, isolation=Isolation.DEFAULT, readOnly=false, timeout=-1)
 	public void modifyApproverList(String approvalLineId, List<ApproverVO> approverList) {
 		//결재자목록 삭제
 		approvalLineMapper.deleteApproverList(approvalLineId);

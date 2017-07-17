@@ -1,4 +1,4 @@
-package com.project.groupware.controller.approval;
+package com.project.groupware.controller.document;
 
 import java.util.List;
 
@@ -9,22 +9,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.groupware.domain.DocumentVO;
 import com.project.groupware.domain.FormVO;
 import com.project.groupware.service.DocumentService;
+import com.project.groupware.service.FormService;
 
 @Controller
 public class WriteDocumentController {
 
 	@Autowired
 	private DocumentService documentService;
-	
+	@Autowired
+	private FormService formService;
 	
 	
 	@RequestMapping(value="/writeDocument.do", method=RequestMethod.GET)
-	public String form() {
-		return "approvalNav/document/writeDocument"; 	//양식 목록으로 가게????	
+	public ModelAndView form(@RequestParam(value="id", required=true) String formId) {
+		
+		ModelAndView mv = new ModelAndView();				
+		mv.addObject("form", formService.retrieveForm(formId));
+		mv.setViewName("approvalNav/document/writeDocument");
+		
+		return mv;		
 	}
 	
 	
@@ -32,9 +40,6 @@ public class WriteDocumentController {
 	public String submit(@RequestParam(value="formId", required=true) String formId,
 						@ModelAttribute(value="document") DocumentVO document) {
 		
-		if(document.getContent() == null) {
-		System.out.println("content: "+document.getContent());
-		}
 		
 		FormVO form = new FormVO();
 		form.setId(formId);

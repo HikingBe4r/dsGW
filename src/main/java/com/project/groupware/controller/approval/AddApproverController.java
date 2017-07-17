@@ -53,7 +53,6 @@ public class AddApproverController {
 		for(int i=0; i<approverEmpIdList.size(); i++) {
 			String approverEmpId = approverEmpIdList.get(i);
 			if(approverEmpIdList.size() == 1){
-				System.out.println(approverEmpId);
 				approverEmpId = approverEmpId.substring(2,approverEmpId.length()-2);
 			} else if(i==0) {
 				approverEmpId = approverEmpId.substring(2,approverEmpId.length()-1);
