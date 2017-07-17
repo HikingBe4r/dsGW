@@ -16,12 +16,12 @@ public class ApproveDocumentController {
 	@Autowired
 	private DocumentService documentService;
 	
-	// 결재 승인 폼 페이지 띄우기
+	/*// 결재 승인 폼 페이지 띄우기
 	@RequestMapping(value="approveDocument.do", method=RequestMethod.GET)
 	public String form() {
 		return null;
 	}
-	
+	*/
 	// 결재 승인처리 -> approveSuccess.jsp -> 결재문서 조회 페이지.do
 	@RequestMapping(value="approveDocument.do", method=RequestMethod.GET)
 	public ModelAndView submit(

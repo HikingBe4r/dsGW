@@ -95,7 +95,7 @@
 	</select>
 	
 	
-	<select id="selectDocument" resultMap="selectDocumentMap" parameterType="String">
+	<!-- <select id="selectDocument" resultMap="selectDocumentMap" parameterType="String">
 			
-	</select>
+	</select> -->
 </mapper>

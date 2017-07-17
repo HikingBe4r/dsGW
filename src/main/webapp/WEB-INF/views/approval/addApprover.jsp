@@ -28,6 +28,7 @@ $(document).ready(function() {
 		
 	});
 	
+	// 화살표 추가 버튼
 	$('#addBtn').on('click', function() {
 				
 		 $(':checkbox[name=employee]').each(function() {
@@ -67,39 +68,46 @@ $(document).ready(function() {
 		  alert(approverList.join() + '<br>' + recieverList.join());
 	});
 	
+	
+	// 서브밋 버튼
 	$('#submitBtn').on('click', function() {
-		$.ajax({
-			url: '${pageContext.request.contextPath}/addApprover.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			data: {
-				employeeId: '20170711001', //세션 userId 들어가야함. 테스트를 위해 일단 임시로 데이터 넣음
-				subject: '' ,
-				approverEmpIdList: JSON.stringify(approverList),
-				recieverEmpIdList: JSON.stringify(recieverList)
-						
-			}
-			, 
-			cache: false
-			,
-			success: function(data) {
-				window.close();
-				
-			}
-			,
-			error : function(jqXHR) {
-				alert("Error : " + jqXHR.responseText);
-			}			
+		if(approverList.length == 0 && recieverList.length == 0) {
+			alert("선택된 사원이 없습니다.");
+		} else {
 			
-		});
+			$.ajax({
+				url: '${pageContext.request.contextPath}/addApprover.do'
+				,
+				method: 'POST'
+				,
+				dataType: 'json'
+				,
+				data: {
+					employeeId: '${sessionScope.employee.id}', 
+					subject: '' ,
+					approverEmpIdList: JSON.stringify(approverList),
+					recieverEmpIdList: JSON.stringify(recieverList)
+							
+				}
+				, 
+				cache: false
+				,
+				success: function(data) {
+					window.close();				
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+				}			
+				
+			});
 		
+		}		
 	});
 		
 });
 
+// 탭 설정
 function tapSetting(obj) {
 	$('#approverTap').removeAttr('class');
 	$('#recieverTap').removeAttr('class');
@@ -153,6 +161,8 @@ function tapSetting(obj) {
 								aria-hidden="true"> 즐겨찾기 </span> <br> &nbsp; <span
 								class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 							나의 결재선 <br>
+							
+							
 
 						</div>
 						

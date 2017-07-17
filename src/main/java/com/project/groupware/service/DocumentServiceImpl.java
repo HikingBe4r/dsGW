@@ -61,19 +61,10 @@ public class DocumentServiceImpl implements DocumentService {
 		ApprovalHistoryVO history = new ApprovalHistoryVO();
 		history.setDocumentId(documentId);
 		
-		//테스트를 위한 결재자 삽입(나중에 삭제할 것)
-		ApproverVO approver1 = new ApproverVO();
-		approver1.setId("1");
-		approver1.setStep(1);
-		approver1.setApprovalLineId("1");
-		approver1.setApprovalAuthId("1");
-		ApproverVO approver2 = new ApproverVO();
-		approver2.setId("2");
-		approver2.setStep(2);
-		approver2.setApprovalLineId("2");
-		approver2.setApprovalAuthId("2");
-		document.getApproverList().add(approver1);
-		document.getApproverList().add(approver2);
+		for(int i=0; i<document.getApproverList().size(); i++) {
+			System.out.println(i + " " + document.getApproverList().get(i).toString());
+		}
+		
 		
 		for(ApproverVO approver : document.getApproverList()) {
 			if(approver.getStep() == 1) {

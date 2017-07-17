@@ -69,18 +69,19 @@
 	</select>
 	
 	
-	<select id="selectApproverList" resultType="approverVO" statementType="PREPARED" parameterType="int" >	
+	<select id="selectApproverList" resultType="approverVO" statementType="PREPARED" parameterType="string" >	
 		SELECT
 			id,
-			employee_id, 
+			employee_id as employeeId, 
 			step,
-			approval_auth_id,
-			approval_line_id	
+			approval_auth_id as approvalAuthId,
+			approval_line_id as approvalLineId	
 		FROM approver
 		WHERE approval_line_id = #{value} 
 		ORDER BY STEP 
 	</select>
-
+	
+	
 	<!--
 		결재자 목록 찾기. (문서번호) 
 		t1: 해당 문서번호의 결재이력 조회(기안자 approverId 찾기)
