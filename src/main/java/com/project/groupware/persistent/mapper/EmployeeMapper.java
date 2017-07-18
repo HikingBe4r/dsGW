@@ -22,5 +22,7 @@ public interface EmployeeMapper {
 	public List<HashMap<String, Object>> selectGrade();
 	
 	public List<HashMap<String, Object>> selectStatus();
+	
+	public EmployeeVO selectEmployeeDetail(String id);
 
 }

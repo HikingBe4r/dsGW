@@ -29,7 +29,7 @@
 
 
 <ul class="nav nav-pills nav-stacked">
-	<li role="presentation" class="active"><a href="#">새 결재</a></li>
+	<li role="presentation" class="active"><a href="${pageContext.request.contextPath }/choiceForm.do">새 결재</a></li>
 	<li role="presentation" ><a href="#" >자주쓰는 양식</a></li>
 	<li role="presentation"><a href="#">결재하기</a></li>
 </ul>

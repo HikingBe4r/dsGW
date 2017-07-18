@@ -28,31 +28,110 @@ $(document).ready(function() {
 		
 	});
 	
-	// 화살표 추가 버튼
+	// 임시목록 추가 버튼
 	$('#addBtn').on('click', function() {
 				
 		 $(':checkbox[name=employee]').each(function() {
-			 if($(this).prop('checked') && tap==1) {
-				 if(approverList.indexOf($(this).val()) == -1) {
-					 approverList.push($(this).val());
-				 }			 
-			   	
+			 if($(this).prop('checked')) {
+				 if(tap==1) {
+					 if(approverList.indexOf($(this).val()) == -1) {
+						 approverList.push($(this).val());
+						 $.ajax({
+								url: '${pageContext.request.contextPath}/getEmployee.do'
+								,
+								method: 'POST'
+								,
+								dataType: 'json'
+								,
+								data: {
+									employeeId: $(this).val()									
+								}
+								, 
+								cache: false
+								,
+								success: function(data) {
+									
+									var htmlStr = "<tr id="+ data.employee.id +">";
+									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+									htmlStr += "<td>" + data.employee.name + "</td>";
+									htmlStr += "<td>" + data.employee.gradeId + "</td>";
+									htmlStr += "<td>" + data.employee.departmentId + "</td>";
+									if(tap == 1) {
+										htmlStr += "<td>결재</td>";
+									} else {
+										htmlStr += "<td>수신</td>";
+									}
+									htmlStr += "</tr>";
+									
+									
+									$('#approverTable').append(htmlStr);
+							
+								}
+								,
+								error : function(jqXHR) {
+									alert("Error : " + jqXHR.responseText);
+								}			
+								
+							});
+						 
+					 }			 
+				   	
+				 }
+				 
+				 if(tap==2) {
+					 if(recieverList.indexOf($(this).val()) == -1) {
+						 recieverList.push($(this).val());
+						 $.ajax({
+								url: '${pageContext.request.contextPath}/getEmployee.do'
+								,
+								method: 'POST'
+								,
+								dataType: 'json'
+								,
+								data: {
+									employeeId: $(this).val()									
+								}
+								, 
+								cache: false
+								,
+								success: function(data) {
+									
+									var htmlStr = "<tr id="+ data.employee.id +">";
+									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+									htmlStr += "<td>" + data.employee.name + "</td>";
+									htmlStr += "<td>" + data.employee.gradeId + "</td>";
+									htmlStr += "<td>" + data.employee.departmentId + "</td>";
+									if(tap == 1) {
+										htmlStr += "<td>결재</td>";
+									} else {
+										htmlStr += "<td>수신</td>";
+									}
+									htmlStr += "</tr>";
+									
+									
+									$('#approverTable').append(htmlStr);
+							
+								}
+								,
+								error : function(jqXHR) {
+									alert("Error : " + jqXHR.responseText);
+								}			
+								
+							});
+					 }			 	 
+				 }
+				 
+				 	
+	 
 			 }
-			 
-			 if($(this).prop('checked') && tap==2) {
-				 if(recieverList.indexOf($(this).val()) == -1) {
-					 recieverList.push($(this).val());
-				 }			 
-			 
-			 }
-			 
+			 	 
 		  });	
-		
-		
-		alert(approverList.join() + '<br>' + recieverList.join());
+		 
+		alert(approverList.join() + '<br>' + recieverList.join());	
 		
 	});
 	
+	// 임시목록 삭제 버튼
 	$('#removeBtn').on('click', function() {
 		  $(':checkbox[name=approver]').each(function() {
 			   
@@ -116,6 +195,47 @@ function tapSetting(obj) {
 	$(':checkbox[name=employee]').each(function() {
 		$(this).prop('checked', false);
 	});
+}
+
+function addTempList(obj) {
+	$.ajax({
+		url: '${pageContext.request.contextPath}/getEmployee.do'
+		,
+		method: 'POST'
+		,
+		dataType: 'json'
+		,
+		data: {
+			employeeId: obj.val()									
+		}
+		, 
+		cache: false
+		,
+		success: function(data) {
+		
+			var htmlStr = "<tr id="+ data.employee.id +">";
+			htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+			htmlStr += "<td>" + data.employee.name + "</td>";
+			htmlStr += "<td>" + data.employee.gradeId + "</td>";
+			htmlStr += "<td>" + data.employee.departmentId + "</td>";
+			if(tap == 1) {
+				htmlStr += "<td>결재</td>";
+			} else {
+				htmlStr += "<td>수신</td>";
+			}
+			htmlStr += "</tr>";
+			
+			
+			$('#approverTable').append(htmlStr);
+	
+		}
+		,
+		error : function(jqXHR) {
+			alert("Error : " + jqXHR.responseText);
+		}			
+		
+	});	
+	
 }
 
 
@@ -208,7 +328,7 @@ function tapSetting(obj) {
 							<th>구분</th>
 						</tr>
 					</thead>
-					<tr id="20170711001">
+					<!-- <tr id="20170711001">
 						<td><label><input type="checkbox" name="approver" value=""></label></td>
 						<td>일길동</td>
 						<td>사원</td>
@@ -221,7 +341,7 @@ function tapSetting(obj) {
 						<td>사원</td>
 						<td>경영</td>
 						<td>수신</td>
-					</tr>
+					</tr> -->
 
 				</table>
 			</div>

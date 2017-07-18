@@ -30,8 +30,11 @@ public interface EmployeeService {
 	
 	public void removeNotice(NoticeVO notice);
 	
+	public EmployeeVO retrieveEmployeeDetail(String id);
+
 	public List<HashMap<String, Object>> retrieveGradeList();
 	
 	public List<HashMap<String, Object>> retrieveStatusList();
 	
+
 }

@@ -113,10 +113,8 @@ public class AddApproverController {
 		for(int i=0; i<approverList.size(); i++) {
 			String approverId = approverList.get(i).getEmployeeId();
 			for(int j=0; j<approverListAtDb.size(); j++) {
-				if(approverId.equals(approverListAtDb.get(j).getEmployeeId())) {
-					
+				if(approverId.equals(approverListAtDb.get(j).getEmployeeId())) {		
 					approverList.get(i).setId(approverListAtDb.get(j).getId());
-					System.out.println(i + " " + approvalLine.getApproverList().get(i).getId());
 					break;
 				}
 			}

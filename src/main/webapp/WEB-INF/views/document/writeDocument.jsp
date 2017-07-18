@@ -60,20 +60,25 @@
 	             bUseModeChanger : true
 	         }
 	     });
+	     
+	     //기안 버튼
 	     $("#insertDocument").click(function(){
 	   	  if($('#subject') == null || $('#subject').val() == '') {
 	   		  alert("제목을 입력하시오");
 	   	  } else if(false){
-	   		  /*    		 
-	   		  
-	   		  		날짜 유효성 체크 + 현재날짜, 시행일 비교
-	   	 		  
+	   		  /*    		 	   		  
+	   		  		날짜 유효성 체크 + 현재날짜, 시행일 비교  
 	   		  */
 	   	  } else {  
 	          obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 	          $("#insertBoardFrm").submit();
 	   	  }
 	     });
+	     
+	     //취소 버튼
+	     $("#cancel").click(function(){
+	    	 location.href = 'choiceForm.do';   	 
+		  });
 	     
 	 });
 </script>
@@ -84,7 +89,7 @@
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
 			<button type="button" class="btn btn-default">임시저장</button>
-			<button type="button" class="btn btn-danger">취소</button>
+			<button type="button" class="btn btn-danger" id="cancel">취소</button>
 		</div>
 
 		<div class="pull-right">
@@ -122,9 +127,7 @@
 						</tr>
 						<tr>
 							<td>시행일</td>
-							<td><input id="endDate" name="endDate" type="text" class="datepicker" style="width: 150px;" />
-							<!-- <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>	 -->			
-							</td>
+							<td><input id="endDate" name="endDate" type="text" class="datepicker" style="width: 150px;" /></td>
 						</tr>
 					</table>
 				</div>

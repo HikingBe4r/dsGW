@@ -69,7 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 		}
 		history.setStatus("1");
-		history.setReply("기안~~");	
+		history.setReply("기안합니당당");	
 		approvalHistoryMapper.insertApprovalHistory(history);
 		
 		
@@ -80,7 +80,7 @@ public class DocumentServiceImpl implements DocumentService {
 		/*
 		 *  알림 내용 설정 
 		 */
-		notice.setContent("알림 내용 설정해~~");
+		notice.setContent("알림 내용 설정해야합니다아");
 		noticeMapper.insertNotice(notice);
 		
 	}

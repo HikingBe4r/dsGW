@@ -78,6 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void removeNotice(NoticeVO notice) {
 		noticeMapper.deleteNotice(notice);
 	}
+	
+	public EmployeeVO retrieveEmployeeDetail(String id) {
+		return empMapper.selectEmployeeDetail(id);
+	}
+
 
 	public List<HashMap<String, Object>> retrieveGradeList() {
 		return empMapper.selectGrade();
@@ -86,6 +91,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<HashMap<String, Object>> retrieveStatusList() {
 		return empMapper.selectStatus();
 	}
-	
 	
 }
