@@ -27,7 +27,7 @@
 				//결재선 버튼 클릭시 팝업
 				$('#approvalLine').click(function() {
 					var popUrl = "/groupware/addApprover.do";
-					window.open(popUrl, 'test', 'width=1200, height=550');
+					window.open(popUrl, 'test', 'width=1200, height=750');
 				});
 			});
 

@@ -53,8 +53,8 @@ $(document).ready(function() {
 			
 			var htmlStr = "";
 			for(var i=0; i<data.employeeList.length; i++) {
-				htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span> " + ${data.employeeList[i].departmentId} + "<br>";
-				htmlStr += "&nbsp; <span class='glyphicon glyphicon-triangle-bottom' aria-hidden='true'></span>"+ ${data.employeeList[i].id} +"<br>" ;
+				htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.employeeList[i].id+"'>";
+				htmlStr +=  data.employeeList[i].name + "</label> <br>";
 			}
 			
 			$('#employeeList').append(htmlStr);
@@ -67,27 +67,14 @@ $(document).ready(function() {
 		
 	});
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	// 임시목록 추가 버튼
 	$('#addBtn').on('click', function() {
 				
 		 $(':checkbox[name=employee]').each(function() {
 			 if($(this).prop('checked')) {
 				 if(tap==1) {
-					 if(approverList.indexOf($(this).val()) == -1) {
+					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 approverList.push($(this).val());
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
@@ -104,20 +91,15 @@ $(document).ready(function() {
 								,
 								success: function(data) {
 									
-									var htmlStr = "<tr id="+ data.employee.id +">";
+									var htmlStr = "<tr id="+ data.employee.id +" draggable='true'>";
 									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
 									htmlStr += "<td>" + data.employee.name + "</td>";
 									htmlStr += "<td>" + data.employee.gradeId + "</td>";
 									htmlStr += "<td>" + data.employee.departmentId + "</td>";
-									if(tap == 1) {
-										htmlStr += "<td>결재</td>";
-									} else {
-										htmlStr += "<td>수신</td>";
-									}
+									htmlStr += "<td>결재</td>";
 									htmlStr += "</tr>";
-									
-									
 									$('#approverTable').append(htmlStr);
+					
 							
 								}
 								,
@@ -132,7 +114,7 @@ $(document).ready(function() {
 				 }
 				 
 				 if(tap==2) {
-					 if(recieverList.indexOf($(this).val()) == -1) {
+					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 recieverList.push($(this).val());
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
@@ -150,20 +132,14 @@ $(document).ready(function() {
 								success: function(data) {
 									
 									var htmlStr = "<tr id="+ data.employee.id +">";
-									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+									htmlStr += "<td><label><input type='checkbox' name='reciever'></label></td>";
 									htmlStr += "<td>" + data.employee.name + "</td>";
 									htmlStr += "<td>" + data.employee.gradeId + "</td>";
 									htmlStr += "<td>" + data.employee.departmentId + "</td>";
-									if(tap == 1) {
-										htmlStr += "<td>결재</td>";
-									} else {
-										htmlStr += "<td>수신</td>";
-									}
+									htmlStr += "<td>수신</td>";
 									htmlStr += "</tr>";
-									
-									
-									$('#approverTable').append(htmlStr);
-							
+									$('#recieverTable').append(htmlStr);
+		
 								}
 								,
 								error : function(jqXHR) {
@@ -177,11 +153,9 @@ $(document).ready(function() {
 				 	
 	 
 			 }
-			 	 
+			 
 		  });	
-		 
-		//alert(approverList.join() + '<br>' + recieverList.join());	
-		
+		 //alert(approverList.join() + '|||' + recieverList.join());	 		
 	});
 	
 	// 임시목록 삭제 버튼
@@ -189,15 +163,22 @@ $(document).ready(function() {
 		  $(':checkbox[name=approver]').each(function() {
 			   
 			   if($(this).prop('checked')) {
-				   approverList.splice(approverList.indexOf($(this).parent().parent().parent()), 1);
-				   recieverList.splice(approverList.indexOf($(this).parent().parent().parent()), 1);
+				   	approverList.splice(approverList.indexOf($(this).parent().parent().parent()), 1);				 
 				   $(this).parent().parent().parent().remove();
 			   }	  
 			   
 
 		   });	
 		  
-		  alert(approverList.join() + '<br>' + recieverList.join());
+		  $(':checkbox[name=reciever]').each(function() {
+			   
+			   if($(this).prop('checked')) {
+				   	recieverList.splice(recieverList.indexOf($(this).parent().parent().parent()), 1);	      
+				   $(this).parent().parent().parent().remove();
+			   }	  
+		   });	
+		  //alert(approverList.join() + '|||' + recieverList.join());
+		  
 	});
 	
 	
@@ -271,29 +252,6 @@ function tapSetting(obj) {
 				<div class="panel panel-default">
 					<div class="panel-body" style="overflow:scroll; height: 330px;">
 						<div id="employeeList" class="checkbox">
-						
-							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"> IT부서 </span> <br> 
-							&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
-							&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value="20170712001"> 삼길동 팀장 </label> <br>
-							
-							
-							<span class="glyphicon glyphicon-folder-open" aria-hidden="true">
-								IT부서 </span> <br> &nbsp; <span
-								class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-							1팀 <br> &nbsp;&nbsp; <label> <input type="checkbox" name="employee"
-								value="20170711002"> 이길동 팀장
-							</label> <br>
-						
-							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"> IT부서 </span> <br> 
-							&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
-							&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value="20170711001"> 일길동 팀장 </label> <br>
-															
-							
-							<br> <span class="glyphicon glyphicon-folder-open"
-								aria-hidden="true"> 즐겨찾기 </span> <br> &nbsp; <span
-								class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-							나의 결재선 <br>
-							
 							
 
 						</div>
@@ -320,14 +278,14 @@ function tapSetting(obj) {
 
 </div>
 <div class="col-md-1" align="center">
-	<div style="height: 100px;"></div>
+	<div style="height: 200px;"></div>
 	<span id="addBtn" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><br>
 	<br> <span id="removeBtn" class="glyphicon glyphicon-chevron-left"
 		aria-hidden="true"></span>
 </div>
 
 <div class="col-md-6">
-	<div class="panel panel-default" style="overflow:scroll; height: 380px;"> <!-- 여기 -->
+	<div class="panel panel-default" style="overflow:scroll; height: 260px;"> <!-- 여기 -->
 		<div class="panel-body">
 			<div class="checkbox">
 				<table id="approverTable" class="table table-striped" align="center">
@@ -343,11 +301,38 @@ function tapSetting(obj) {
 					
 
 				</table>
+				
+				
 			</div>
 
 		</div>
 
 	</div>
+	<br>
+	<div class="panel panel-default" style="overflow:scroll; height: 300px;"> <!-- 여기 -->
+		<div class="panel-body">
+			<div class="checkbox">
+				<table id="recieverTable" class="table table-striped" align="center">
+					<thead>
+						<tr>
+							<th></th>
+							<th>이름</th>
+							<th>직책</th>
+							<th>부서</th>
+							<th>구분</th>
+						</tr>
+					</thead>
+					
+
+				</table>
+				
+				
+			</div>
+
+		</div>
+
+	</div>
+	
 	<br><br>
 	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 등록</button>
 </div>

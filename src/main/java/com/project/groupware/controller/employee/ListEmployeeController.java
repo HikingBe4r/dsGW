@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,13 +29,13 @@ public class ListEmployeeController {
 	}
 	
 	@RequestMapping(value="/listEmployee.do", method=RequestMethod.POST)
-	public ModelAndView listEmployeePost() {
-		ModelAndView mv = new ModelAndView();
+	public String listEmployeePost(Model model) {
+		
 		Map<String, Object> keyword = new HashMap<String, Object>();		
-		List<EmployeeVO> list = service.retrieveEmployeeList(keyword);	
-		mv.addObject("employeeList", list);
-		mv.setViewName("jsonView");
-		return mv;
+		List<EmployeeVO> empList = service.retrieveEmployeeDetailList(keyword);	
+		
+		model.addAttribute("employeeList", empList);
+		return "jsonView";
 	}
 
 }

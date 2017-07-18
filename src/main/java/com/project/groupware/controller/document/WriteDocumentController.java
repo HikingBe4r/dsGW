@@ -36,7 +36,6 @@ public class WriteDocumentController {
 		
 		HttpSession session = request.getSession();
 		EmployeeVO employee = (EmployeeVO)session.getAttribute("employee");
-		
 		ModelAndView mv = new ModelAndView();				
 		mv.addObject("form", formService.retrieveForm(formId));
 		mv.addObject("department", departmentService.retrieveDepartment(employee.getDepartmentId()));
