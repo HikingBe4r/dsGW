@@ -3,8 +3,7 @@
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
 <script>
 $(document).ready(function() {
@@ -127,7 +126,7 @@ $(document).ready(function() {
 			 	 
 		  });	
 		 
-		alert(approverList.join() + '<br>' + recieverList.join());	
+		//alert(approverList.join() + '<br>' + recieverList.join());	
 		
 	});
 	
@@ -172,6 +171,7 @@ $(document).ready(function() {
 				cache: false
 				,
 				success: function(data) {
+					window.opener.checkHasApprovalLine(true);
 					window.close();				
 				}
 				,
@@ -195,47 +195,6 @@ function tapSetting(obj) {
 	$(':checkbox[name=employee]').each(function() {
 		$(this).prop('checked', false);
 	});
-}
-
-function addTempList(obj) {
-	$.ajax({
-		url: '${pageContext.request.contextPath}/getEmployee.do'
-		,
-		method: 'POST'
-		,
-		dataType: 'json'
-		,
-		data: {
-			employeeId: obj.val()									
-		}
-		, 
-		cache: false
-		,
-		success: function(data) {
-		
-			var htmlStr = "<tr id="+ data.employee.id +">";
-			htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
-			htmlStr += "<td>" + data.employee.name + "</td>";
-			htmlStr += "<td>" + data.employee.gradeId + "</td>";
-			htmlStr += "<td>" + data.employee.departmentId + "</td>";
-			if(tap == 1) {
-				htmlStr += "<td>결재</td>";
-			} else {
-				htmlStr += "<td>수신</td>";
-			}
-			htmlStr += "</tr>";
-			
-			
-			$('#approverTable').append(htmlStr);
-	
-		}
-		,
-		error : function(jqXHR) {
-			alert("Error : " + jqXHR.responseText);
-		}			
-		
-	});	
-	
 }
 
 
@@ -328,20 +287,7 @@ function addTempList(obj) {
 							<th>구분</th>
 						</tr>
 					</thead>
-					<!-- <tr id="20170711001">
-						<td><label><input type="checkbox" name="approver" value=""></label></td>
-						<td>일길동</td>
-						<td>사원</td>
-						<td>IT</td>
-						<td>결재</td>
-					</tr>
-					<tr id="20170711002">
-						<td><label><input type="checkbox" name="approver" value=""></label></td>
-						<td>이길동</td>
-						<td>사원</td>
-						<td>경영</td>
-						<td>수신</td>
-					</tr> -->
+					
 
 				</table>
 			</div>

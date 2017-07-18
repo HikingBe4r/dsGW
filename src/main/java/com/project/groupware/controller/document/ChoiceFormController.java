@@ -1,5 +1,8 @@
 package com.project.groupware.controller.document;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,7 @@ public class ChoiceFormController {
 	
 	
 	@RequestMapping(value="/choiceForm.do", method=RequestMethod.GET)
-	public ModelAndView choiceForm(@RequestParam(value="keyword", required=false) String keyword ) throws Exception {
+	public ModelAndView choiceForm(@RequestParam(value="keyword", required=false) String keyword) throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("formList", formService.retrieveFormList(keyword));
