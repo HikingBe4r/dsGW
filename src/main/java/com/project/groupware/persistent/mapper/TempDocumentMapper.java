@@ -13,7 +13,7 @@ public interface TempDocumentMapper {
 	
 	void deleteTempDocument(String tempDocumentId);
 	
-	TempDocumentVO selectTempDocument(String tempDocumentId);
+	TempDocumentVO selectTempDocument(int tempDocumentId);
 	
 	void insertTempDocument(TempDocumentVO tempDocumentVO);
 

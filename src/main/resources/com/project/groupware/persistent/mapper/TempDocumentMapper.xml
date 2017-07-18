@@ -4,6 +4,90 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.TempDocumentMapper">
 
-
+	<select id="selectTempDocumentList" parameterType="map" statementType="PREPARED" resultType="tempDocumentVO">
+		select id, subject, writeday
+		from temp_docs 
+		<if test="keyword != 'all'">
+			<trim prefix="WHERE" suffixOverrides="and">				
+				<if test="employeeId != null and employeeId != ''">
+					employee_id = #{employeeId} and
+				</if>
+				<if test="keyfield == 'subject'">
+					subject like '%' || #{keyword} || '%' and
+				</if>
+				<if test="keyday1 != null and keyday1 != '' and keyday2 != null and keyday2 != ''">
+					writeday between #{keyday1} and #{keyday2} and
+				</if>
+				<if test="keyday1 != null and keyday1 != '' and keyday2 == null and keyday2 == ''">
+					writeday = #{keyday1} and
+				</if>
+				<if test="keyday1 == null and keyday1 == '' and keyday2 != null and keyday2 != ''">
+					writeday = #{keyday2} and
+				</if>
+			</trim>
+		</if>
+		<if test="keyword == 'all'">
+			<trim prefix="WHERE">
+				<if test="employeeId != null and employeeId != ''">
+					employee_id = #{employeeId}
+				</if>
+			</trim>
+		</if>
+		order by writeday desc
+	</select>
+	
+	<update id="updateTempDocument" parameterType="tempDocumentVO" statementType="PREPARED">
+		update temp_docs
+		<trim prefix="SET" suffixOverrides=",">			
+			<if test="subject != null and subject != ''">
+				subject = #{subject} ,
+			</if>
+			<if test="content != null and content != ''">
+				content = #{content} ,
+			</if>
+			<if test="writeday != null and writeday != ''">
+				writeday = to_date(#{writeday}) ,
+			</if>
+			<if test="endDate != null and endDate != ''">
+				endDate = to_date(#{endDate}) ,
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteTempDocument" parameterType="int" statementType="PREPARED">
+		delete from temp_docs
+		where id = #{value}
+	</delete>
+	
+	<insert id="insertTempDocument" parameterType="tempDocumentVO" statementType="PREPARED">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+			select temp_docs_id_seq.nextval from dual
+		</selectKey>
+		
+		insert into temp_docs (id, employee_id, form_id, subject, content, writeday, enddate)
+		values (#{id}, #{employeeId}, #{formVO.id}, #{subject}, #{content}, sysdate, #{endDate})
+	</insert>
+	
+	<select id="selectTempDocument" parameterType="int" statementType="PREPARED" resultType="tempDocumentVO">
+		select td.id,
+				td.subject,
+				td.content,
+				to_char(td.writeday, 'YYYY/MM/DD') as writeday,
+				to_char(td.enddate, 'YYYY/MM/DD') as endDate,
+				emp.name as writer,
+				dept.name as departmentName
+		from temp_docs td,
+				form fo,
+		        form_file ff,
+		        employee emp,
+		        department dept
+		where td.form_id = fo.id
+		          and fo.id = ff.form_id
+		          and td.employee_id = emp.id
+		          and emp.department_id = dept.id
+		          and td.id = #{value}
+		order by writeday desc
+	</select>
 	
 </mapper>

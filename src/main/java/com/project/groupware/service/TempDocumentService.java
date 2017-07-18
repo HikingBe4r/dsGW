@@ -13,7 +13,7 @@ public interface TempDocumentService {
 	
 	void removeTempDocument(String tempDocumentId);
 	
-	TempDocumentVO retrieveTempDocument(String tempDocumentId);
+	TempDocumentVO retrieveTempDocument(int tempDocumentId);
 	
 	void registerTempDocument(TempDocumentVO tempDocumentVO);
 	

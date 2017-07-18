@@ -29,7 +29,7 @@ public interface DocumentService {
 	
 	void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 	
-	void removeBookMarkDocument(String myDocsId);
+	void removeBookMarkDocument(String bookMarkDocumentId);
 	
 	// 결재 관련
 	void approveDocument(DocumentVO documentVO);

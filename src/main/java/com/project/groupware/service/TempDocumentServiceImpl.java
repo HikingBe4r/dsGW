@@ -3,18 +3,24 @@ package com.project.groupware.service;
 import java.util.List;
 import java.util.Map;
 
-import com.project.groupware.domain.TempDocumentVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.project.groupware.domain.TempDocumentVO;
+import com.project.groupware.persistent.mapper.TempDocumentMapper;
+
+@Service
 public class TempDocumentServiceImpl implements TempDocumentService{
+	
+	@Autowired
+	private TempDocumentMapper tempDocumentMapper;
 
 	public List<TempDocumentVO> retrieveTempDocumentList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return tempDocumentMapper.selectTempDocumentList(map);
 	}
 
 	public void modifyTempDocument(TempDocumentVO tempDocumentVO) {
-		// TODO Auto-generated method stub
-		
+		tempDocumentMapper.updateTempDocument(tempDocumentVO);
 	}
 
 	public void removeTempDocument(String tempDocumentId) {
@@ -22,9 +28,8 @@ public class TempDocumentServiceImpl implements TempDocumentService{
 		
 	}
 
-	public TempDocumentVO retrieveTempDocument(String tempDocumentId) {
-		// TODO Auto-generated method stub
-		return null;
+	public TempDocumentVO retrieveTempDocument(int tempDocumentId) {
+		return tempDocumentMapper.selectTempDocument(tempDocumentId);
 	}
 
 	public void registerTempDocument(TempDocumentVO tempDocumentVO) {
