@@ -1,5 +1,6 @@
 package com.project.groupware.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,9 +24,14 @@ public interface EmployeeService {
 	
 	public EmployeeVO retrieveEmployee(String id);
 	
-	public List<EmployeeHistoryVO> retrieveMemeberHistory(Map<String, Object> keyword);
+	public List<Map<String,Object>> retrieveEmployeeHistory(Map<String, Object> keyword);
 	
 	public void isreadNotice(NoticeVO notice);
 	
 	public void removeNotice(NoticeVO notice);
+	
+	public List<HashMap<String, Object>> retrieveGradeList();
+	
+	public List<HashMap<String, Object>> retrieveStatusList();
+	
 }

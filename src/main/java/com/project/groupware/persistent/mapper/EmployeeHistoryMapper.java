@@ -7,7 +7,5 @@ import com.project.groupware.domain.EmployeeHistoryVO;
 
 public interface EmployeeHistoryMapper {
 	
-	public void insertMemeberHistory(EmployeeHistoryVO history);
-	
-	public List<EmployeeHistoryVO> selectEmployeeHistory(Map<String, Object> map);
+	public List<Map<String,Object>> selectEmployeeHistory(Map<String, Object> map);
 }

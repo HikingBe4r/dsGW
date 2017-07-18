@@ -1,5 +1,6 @@
 package com.project.groupware.persistent.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,5 +18,9 @@ public interface EmployeeMapper {
 	public EmployeeVO selectEmployee(String id);
 	
 	public AdminVO selectAdmin(String id);
+	
+	public List<HashMap<String, Object>> selectGrade();
+	
+	public List<HashMap<String, Object>> selectStatus();
 
 }

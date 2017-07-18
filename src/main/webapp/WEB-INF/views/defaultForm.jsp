@@ -9,7 +9,11 @@ article {
 		/* margin-left: 170px; */
 		/* border-left: 1px solid gray; */
 		/* padding: 1em; */
+<<<<<<< HEAD
+		overflow: visible;
+=======
 		overflow: hidden;
+>>>>>>> branch 'master' of https://github.com/HikingBe4r/dsGW
 		height: 1000px;
 	}
 </style>

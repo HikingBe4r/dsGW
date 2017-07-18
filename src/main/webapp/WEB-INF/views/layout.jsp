@@ -49,7 +49,7 @@
 		/* margin-left: 170px; */
 		/* border-left: 1px solid gray; */
 		padding: 1em;
-		overflow: hidden;
+		overflow: scroll;
 		height: 820px;
 	}
 </style>

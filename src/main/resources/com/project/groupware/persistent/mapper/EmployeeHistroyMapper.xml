@@ -4,28 +4,18 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.EmployeeHistroyMapper">
 
-	<select id="selectEmployeeHistory" parameterType="map"
-		resultType="java.util.HashMap" statementType="PREPARED">
-		select history.EMPLOYEE_ID as id, emp.NAME as name, START_DATE,
-		END_DATE, KIND, CONTENT
-		from EMP_HISTORY history, EMPLOYEE emp
+	<select id="selectEmployeeHistory"  resultType="java.util.HashMap" statementType="STATEMENT">
+		select 
+			emp.ID as ID, 
+			emp.NAME as NAME, 
+			TO_CHAR(history.START_DATE, 'YYYY/MM/DD')	as STARTDATE,
+			TO_CHAR(history.END_DATE, 'YYYY/MM/DD') as ENDDATE, 
+			history.KIND as KIND,
+			history.OLD_CONTENT as OLDCONTENT, 
+			history.NEW_CONTENT as NEWCONTENT
+		from EMP_HISTORY history,
+				EMPLOYEE emp
 		where history.EMPLOYEE_ID = emp.ID
-		<if test="keyword != 'all'">
-			<choose>
-				<when test="keyfield == 'id'">
-					and history.EMPLOYEE_ID like '%' || #{keyword} ||
-					'%'
-				</when>
-				<when test="keyfield == 'name'">
-					and emp.NAME like '%' || #{keyword} || '%'
-				</when>
-				<when test="keyfield == 'enddate'">
-					and END_DATE '%' || #{keyword} || '%'
-				</when>
-				<when test="keyfield == 'startdate'">
-					and START_DATE like '%' || #{keyword} || '%'
-				</when>
-			</choose>
-		</if>
+		ORDER BY history.END_DATE DESC
 	</select>
 </mapper>

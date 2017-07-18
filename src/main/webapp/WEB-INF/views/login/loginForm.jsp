@@ -22,8 +22,8 @@
 						</div>
 						<div class="panel-body">
 							<div>
-								<input name="select" type="radio" value="admin"> 관리자 
-								<input name="select" type="radio" value="employee"> 일반사원
+								<input name="select" type="radio" value="employee" checked> 일반사원
+								<input name="select" type="radio" value="admin"> 관리자
 							</div>
 
 							<div>

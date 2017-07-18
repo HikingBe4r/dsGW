@@ -1,5 +1,6 @@
 package com.project.groupware.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return empMapper.selectEmployee(id);
 	}
 
-	public List<EmployeeHistoryVO> retrieveMemeberHistory(Map<String, Object> map) {
+	public List<Map<String,Object>> retrieveEmployeeHistory(Map<String, Object> map) {
 		return historyMapper.selectEmployeeHistory(map);
 	}
 
@@ -78,4 +79,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public void removeNotice(NoticeVO notice) {
 		noticeMapper.deleteNotice(notice);
 	}
+
+	public List<HashMap<String, Object>> retrieveGradeList() {
+		return empMapper.selectGrade();
+	}
+
+	public List<HashMap<String, Object>> retrieveStatusList() {
+		return empMapper.selectStatus();
+	}
+	
+	
 }
