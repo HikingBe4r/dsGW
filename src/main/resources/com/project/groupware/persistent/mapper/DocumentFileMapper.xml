@@ -13,4 +13,9 @@
 		select * from dual
 	</insert>
 	
+	<delete id="deleteDocumentFile" parameterType="String" statementType="PREPARED">
+		delete from document_file
+		where id = #{value}
+	</delete>
+	
 </mapper>

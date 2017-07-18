@@ -136,8 +136,7 @@ public class DocumentServiceImpl implements DocumentService {
 	
 	
 	public List<DocumentVO> retrieveDocumentList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		return documentMapper.selectDocumentList(map);
 	}
 
 	public void modifyDocument(DocumentVO documentVO) {
@@ -155,7 +154,7 @@ public class DocumentServiceImpl implements DocumentService {
 		
 	}
 
-	public void removeBookMarkDocument(String myDocsId) {
+	public void removeBookMarkDocument(String bookMarkDocumentId) {
 		// TODO Auto-generated method stub
 		
 	}	

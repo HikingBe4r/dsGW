@@ -11,6 +11,7 @@ public class DocumentVO {
 	private String employeeId;
 	private String subject;
 	private String content;
+	private String writer;
 	private String writeday;
 	private String endDate; // 시행일
 	private String status;
@@ -55,6 +56,14 @@ public class DocumentVO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}	
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
 	public String getWriteday() {
@@ -124,11 +133,9 @@ public class DocumentVO {
 	@Override
 	public String toString() {
 		return "DocumentVO [id=" + id + ", employeeId=" + employeeId + ", subject=" + subject + ", content=" + content
-				+ ", writeday=" + writeday + ", endDate=" + endDate + ", status=" + status + ", formVO=" + formVO
-				+ ", approverList=" + approverList + ", upload=" + upload + ", documentFileList=" + documentFileList
-				+ "]";
-	}
-
-	
+				+ ", writer=" + writer + ", writeday=" + writeday + ", endDate=" + endDate + ", status=" + status
+				+ ", formVO=" + formVO + ", approverList=" + approverList + ", upload=" + upload + ", documentFileList="
+				+ documentFileList + "]";
+	}	
 
 }
