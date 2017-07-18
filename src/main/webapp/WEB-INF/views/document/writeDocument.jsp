@@ -69,7 +69,7 @@
 				/*    		 	   		  
 						날짜 유효성 체크 + 현재날짜, 시행일 비교  
 				 */
-			} else if (!flag) {
+			} else if (!hasApprovalLine) {
 				alert("결재선이 없습니다.");
 			} else {
 				obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
