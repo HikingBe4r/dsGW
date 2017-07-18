@@ -74,6 +74,7 @@
 			<result property="subject" column="formSubject"/>
 		</association>
 		<collection property="documentFileList" javaType="documentFileVO">
+			<id property="id" column="docFileId"/>
 			<result property="originalFileName" column="original_file_name"/>
 		</collection>
 	</resultMap>
@@ -87,7 +88,8 @@
 			TO_CHAR(doc.enddate, 'YYYY/MM/DD HH24:MI:SS') enddate,
 			form.id formId, 
 			form.subject formSubject, 
-			docfile.original_file_name
+			docFile.id docFileId,
+			docFile.original_file_name
 		FROM document doc, form, document_file docFile
 		WHERE doc.id = #{documentId}
 		  AND doc.form_id = form.id(+)

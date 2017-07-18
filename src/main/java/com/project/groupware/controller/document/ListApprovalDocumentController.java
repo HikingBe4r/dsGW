@@ -16,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.service.DocumentService;
 
 @Controller
@@ -28,13 +30,14 @@ public class ListApprovalDocumentController {
 
 	@RequestMapping(value = "/listApprovalDocument.do", method = RequestMethod.GET)
 	public ModelAndView listApprovalDocument(
+			@SessionAttribute(value="employee", required=true) EmployeeVO employee,
 			@RequestParam(value="keyword", required=false) String keyword,
 			@RequestParam(value="kind", required=false) String kind
 			/*@RequestAttribute(value="keyword", required=false) Map<String, Object> keyword*/) {
 		ModelAndView mv = new ModelAndView();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("employeeId", "20170711001");	// sessionScope의 로그인 한 사원 ID
+		map.put("employeeId", employee.getId());	// sessionScope의 로그인 한 사원 ID
 		map.put("kind", kind);
 		map.put("keyword", keyword);
 		

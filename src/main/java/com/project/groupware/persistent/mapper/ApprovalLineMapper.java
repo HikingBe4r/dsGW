@@ -30,7 +30,7 @@ public interface ApprovalLineMapper {
 	List<Map<String, Object>> selectApproverMapByDocumentId(String documentId);
 	
 	// 결재자 목록 조회2 : 문서번호.(승인, 반려할때 씀)
-	List<ApproverVO> selectApproverList2(String documentId);
+	List<ApproverVO> selectApproverListByDocumentId(String documentId);
 	
 
 }

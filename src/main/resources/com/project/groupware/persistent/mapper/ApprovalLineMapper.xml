@@ -88,8 +88,13 @@
 		t2: t1의 결과에서 기안자의 approval Line 찾기
 		t3: 해당 결재선(line)의 approver목록 조회
 	 -->
-	<select id="selectApproverList2" resultType="approverVO" statementType="PREPARED" parameterType="String">
-		SELECT app.id, app.approval_auth_id, app.approval_line_id, app.employee_id, app.step
+	<select id="selectApproverListByDocumentId" resultType="approverVO" statementType="PREPARED" parameterType="String">
+		SELECT 
+			app.id, 
+			app.approval_auth_id approvalAuthId, 
+			app.approval_line_id approvalLineId, 
+			app.employee_id employeeId, 
+			app.step
 		FROM approver app, (SELECT app.approval_line_id
 		                    FROM approver app, (select apphis.approver_id
 		                                        from approval_history apphis
@@ -112,22 +117,28 @@
 		조회결과: app.id 오름차순 정렬 (기안, 결재, 결재, 수신...)
 	-->
 	<select id="selectApproverMapByDocumentId" resultType="java.util.HashMap" parameterType="String" statementType="PREPARED">
-		SELECT app.id appId, emp.id employeeId, emp.name ||' '|| grade.grade employeeName, dept.name departmentName, auth.auth appAuth, empimg.original_file_name image
-		FROM approver app, employee emp, emp_image empImg, grade, department dept, approval_auth auth,
-		    (SELECT app.id, app.approval_line_id lineId
-		      FROM approver app, approval_history apphis
-		      WHERE app.id = apphis.approver_id
-		        AND app.approval_auth_id = 1 <!-- 기안자 -->
-		        AND apphis.document_id = #{documentId}) t1
-		WHERE app.employee_id = emp.id
-		  AND emp.id = empimg.employee_id
-		  AND empimg.kind = 2	<!-- 직인 -->
-		  AND t1.lineid = app.approval_line_id
-		  AND grade.id = emp.grade_id
-		  AND dept.id = emp.department_id
-		  AND app.approval_auth_id = auth.id
-		  AND app.approval_auth_id != 3  <!-- 수신자 제거 -->
-		ORDER BY app.id ASC
+		    SELECT app.id appId, emp.id employeeId, emp.name ||' '|| grade.grade employeeName, dept.name departmentName, auth.auth appAuth, empimg.original_file_name image
+			FROM 
+		      approver app, 
+		      employee emp, 
+		      emp_image empImg, 
+		      grade, 
+		      department dept, 
+		      approval_auth auth,
+				    (SELECT app.id, app.approval_line_id lineId
+				      FROM approver app, approval_history apphis
+				      WHERE app.id = apphis.approver_id
+				        AND app.approval_auth_id = 1 
+				        AND apphis.document_id = 20170718006) t1
+			WHERE app.employee_id = emp.id
+		      AND app.approval_line_id = t1.lineid
+		      AND emp.grade_id = grade.id
+		      AND emp.id = empimg.employee_id(+)
+		      AND empimg.kind(+) = 2
+			  AND dept.id = emp.department_id
+			  AND app.approval_auth_id = auth.id(+)
+			  AND app.approval_auth_id != 3 
+			ORDER BY app.id ASC
 	</select>
 	
 </mapper>

@@ -1,13 +1,15 @@
 package com.project.groupware.controller.approval;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.groupware.domain.ApprovalHistoryVO;
 import com.project.groupware.service.DocumentService;
 
 @Controller
@@ -16,22 +18,35 @@ public class ApproveDocumentController {
 	@Autowired
 	private DocumentService documentService;
 	
-	/*// 결재 승인 폼 페이지 띄우기
+	// 결재 승인 폼 페이지 띄우기
 	@RequestMapping(value="approveDocument.do", method=RequestMethod.GET)
-	public String form() {
-		return null;
+	public ModelAndView form(
+			@RequestParam(value="documentId", required=true) String documentId) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("documentId", documentId);
+		mv.setViewName("approval/approveDocument");
+		return mv;
 	}
-	*/
+	
 	// 결재 승인처리 -> approveSuccess.jsp -> 결재문서 조회 페이지.do
-	@RequestMapping(value="approveDocument.do", method=RequestMethod.GET)
+	@RequestMapping(value="approveDocument.do", method=RequestMethod.POST)
 	public ModelAndView submit(
-			@RequestAttribute(value="approvalHistoryVO", required=true) ApprovalHistoryVO appHistory) {
+			@RequestParam(value="employeeId", required=true) String employeeId,
+			@RequestParam(value="reply", required=true) String reply,
+			@RequestParam(value="documentId", required=true) String documentId) {
 		
+		ModelAndView mv = new ModelAndView();
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("employeeId", employeeId);
+		map.put("reply", reply);
+		map.put("documentId", documentId);
 		
+		documentService.approveDocument(map);
 		
+		mv.setViewName("jsonView");
 		
-		return null;
+		return mv;
 	}
 
 }

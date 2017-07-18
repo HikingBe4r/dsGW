@@ -165,9 +165,58 @@ public class DocumentServiceImpl implements DocumentService {
 	 * 2-1) 다음번 결재자가 있으면, 알림을 보낸다.
 	 * 2-2) 마지막 결재자이면 기안자에게 알림을 보내고, 문서 최종상태를 변경한다.
 	 * 
-	 * map: DocumentVO, ApprovalHistoryVO, NoticeVO
+	 * param: Map(documentId, employeeId, apphistory.reply)
 	 */
 	public void approveDocument(Map<String, Object> map) {
+		String documentId = (String)map.get("documentId");
+		String employeeId = (String)map.get("employeeId");
+		String reply = (String)map.get("reply");
+		
+		DocumentVO document = documentMapper.selectApprovalDocument(documentId);
+		document.setApproverList(approvalLineMapper.selectApproverListByDocumentId(documentId));
+		
+		// 1. AppHistory에 승인 이력을 추가한다.
+		List<ApproverVO> approverList = document.getApproverList();
+		ApprovalHistoryVO appHistoryVO = new ApprovalHistoryVO();
+		int totalApprover = 0;
+		int currentApprover = 0;
+		for(ApproverVO approver : approverList) {
+			
+			// 결재자 일때만
+			// 현재 결재자일때만 가능하게!!!!!!  
+			if(approver.getApprovalAuthId().equals("2")) {
+				totalApprover++;
+				// 해당 결재자의 사번이 param과 같으면 이력추가.
+				if(approver.getEmployeeId().equals(employeeId)) {
+					// 현재 결재자 순번 체크
+					currentApprover = totalApprover;
+					
+					appHistoryVO.setApproverId(approver.getId()); // 해당 결재자
+					appHistoryVO.setStatus("2");	//승인
+					appHistoryVO.setDocumentId(documentId); 	// 해당문서
+					appHistoryVO.setReply(reply);
+					
+					approvalHistoryMapper.insertApprovalHistory(appHistoryVO);
+				}
+				
+			}
+		}
+		
+		NoticeVO noticeVO = new NoticeVO();
+		// 뒷사람이 있으면
+		if(currentApprover < totalApprover) {
+			noticeVO.setEmployeeId(approverList.get(currentApprover+1).getEmployeeId()); // 0: 기안자 1~ : 결재자
+			noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서의 결재순서입니다.");
+			noticeMapper.insertNotice(noticeVO);
+		} else if(currentApprover == totalApprover) {
+			noticeVO.setEmployeeId(approverList.get(0).getEmployeeId());
+			noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서가 최종 승인되었습니다.");
+			document.setStatus("3");
+			noticeMapper.insertNotice(noticeVO);
+			documentMapper.updateDocumentStatus(document);
+		}
+		
+		
 		
 		
 	}

@@ -96,9 +96,13 @@
 		<tbody id="documents">
 			<c:forEach var="document" items="${requestScope.documentList }"
 				varStatus="loop">
+				<c:url value="/detailApprovalDocument.do" var="url">
+					<c:param name="documentId" value="${document.ID }"></c:param>
+				</c:url>
+				
 				<tr align="center">
 					<td width="100">${document.ID}</td>
-					<td>${document.SUBJECT }</td>
+					<td><a href="${url }">${document.SUBJECT }</a></td>
 					<td width="100">${document.NAME }</td>
 					<td width="100">${document.WRITEDAY }</td>
 					<td width="100">${document.ENDDATE }</td>
