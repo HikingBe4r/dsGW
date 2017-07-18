@@ -29,6 +29,7 @@
 			popUrl += "&kind=2";	// 반려 
 			window.open(popUrl, '반려test', 'width=400, height=200');
 		});
+		
 	});
 </script>
 
@@ -88,13 +89,40 @@
 						<c:forEach var="i" begin="0" end="1">
 							<tr>
 							<c:forEach var="j" begin="1" end="${requestScope.approvalDocument.approverList.size()-1 }">
-								<c:if test="${i == 0 }">
-									<td>${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
+							
+							<!-- 현재 결재자칸은 테두리가 빨강. -->
+							
+							
+								<c:if test="${i == 0 && 
+										requestScope.approvalDocument.approverList[j].APPID == 
+										requestScope.approvalDocument.currentApprover.id }">
+									<td id="employeeName" style="color: red;">${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
 								</c:if>
-								<c:if test="${i == 1}">
+								<c:if test="${i == 0 && 
+										requestScope.approvalDocument.approverList[j].APPID != 
+										requestScope.approvalDocument.currentApprover.id }">
+									<td id="employeeName" >${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
+								</c:if>
+							
+								<!-- 
+									completeApproverList : 해당문서를 결재한 결재자 리스트
+									approverList : 해당문서의 결재자 리스트
+								 -->
+								 
+								 <!-- completeApproverList에 있는 결재자와 approverList에 있는 결재자가 같으면 직인을 넣는다. -->
+								<c:if test="${i == 1 && 
+									j <= requestScope.approvalDocument.completeApproverList.size() &&
+									requestScope.approvalDocument.completeApproverList[j-1].APPID == 
+										requestScope.approvalDocument.approverList[j].APPID }">
 									<td style="height: 80px;">${requestScope.approvalDocument.approverList[j].IMAGE}</td>	
 								</c:if>
 								
+								<!-- completeApproverList에 있는 결재자와 approverList에 있는 결재자가 다르면 직인을 안 넣는다. -->
+								<c:if test="${i == 1 && 
+									j > requestScope.approvalDocument.completeApproverList.size() }">
+									<td style="height: 80px;"></td>	
+								</c:if>
+							
 							</c:forEach>
 							</tr>
 						</c:forEach>

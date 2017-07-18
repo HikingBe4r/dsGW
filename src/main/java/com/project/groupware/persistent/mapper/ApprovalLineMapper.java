@@ -35,5 +35,7 @@ public interface ApprovalLineMapper {
 	// 문서의 현재 결재자 조회
 	ApproverVO selectCurrentApprover(String documentId);
 	
+	List<Map<String, Object>> selectCompleteApproverList(String documentId);
+	
 
 }

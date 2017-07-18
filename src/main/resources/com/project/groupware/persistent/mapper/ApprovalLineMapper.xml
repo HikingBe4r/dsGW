@@ -117,7 +117,13 @@
 		조회결과: app.id 오름차순 정렬 (기안, 결재, 결재, 수신...)
 	-->
 	<select id="selectApproverMapByDocumentId" resultType="java.util.HashMap" parameterType="String" statementType="PREPARED">
-		    SELECT app.id appId, emp.id employeeId, emp.name ||' '|| grade.grade employeeName, dept.name departmentName, auth.auth appAuth, empimg.original_file_name image
+		    SELECT 
+		    	app.id appId, 
+		    	emp.id employeeId, 
+		    	emp.name ||' '|| grade.grade employeeName, 
+		    	dept.name departmentName, 
+		    	auth.auth appAuth, 
+		    	empimg.original_file_name image
 			FROM 
 		      approver app, 
 		      employee emp, 
@@ -171,4 +177,32 @@
           AND t2.apphisstat != 3
 	</select>
 	
+	<!--
+		해당문서를 결재완료한 결재자들의 employeeVO 조회
+		t1: 해당문서 결재완료한 결재자들의 approverId
+		t2: t1들의 employeeVO 
+	 -->
+	<select id="selectCompleteApproverList" resultType="java.util.HashMap" parameterType="String">
+		SELECT
+			app.id appId, 
+		   	emp.id employeeId, 
+		   	emp.name ||' '|| grade.grade employeeName,
+		   	empimg.original_file_name image
+		FROM 
+			approver app, 
+			employee emp, 
+			emp_image empImg, 
+			grade, 
+			department dept,
+			(SELECT apphis.approver_id
+			   FROM approval_history apphis
+			  WHERE apphis.document_id = #{documentId}) t1
+		WHERE app.employee_id = emp.id
+		  AND app.id in (t1.approver_id)
+		  AND emp.grade_id = grade.id
+		  AND emp.id = empimg.employee_id(+)
+		  AND dept.id =	emp.department_id
+		  AND empimg.kind(+) = 2
+		  AND app.approval_auth_id = 2
+	</select>
 </mapper>
