@@ -7,29 +7,33 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
 <script>
 	$(document).ready(function() {
-		//console.log("${requestScope.approvalDocument}");
+		
 		
 		// 결재선 버튼 클릭시 팝업
 		// 이거 수정 불가능버전으로 다시 만들어야함.
 		$('#approvalLine').click(function() {
-			var popUrl = "/groupware/addApprover.do";
+			var popUrl = "${pageContext.request.contextPath}/listApprover.do";
 			window.open(popUrl, 'test', 'width=1200, height=550');
 		});	
 		
 		$('#approveDocument').click(function() {
-			var popUrl = "${pageContext.request.contextPath}/approveDocument.do?documentId=${requestScope.approvalDocument.document.id }";
+			var popUrl = "${pageContext.request.contextPath}/approveDocument.do";
+			popUrl += "?documentId=${requestScope.approvalDocument.document.id }";
+			popUrl += "&kind=1";	// 승인 
 			window.open(popUrl, '승인test', 'width=400, height=200');
 		});
 		
 		$('#rejectDocument').click(function() {
-			var popUrl = "${pageContext.request.contextPath}/rejectDocument.do";
+			var popUrl = "${pageContext.request.contextPath}/approveDocument.do";
+			popUrl += "?documentId=${requestScope.approvalDocument.document.id }";
+			popUrl += "&kind=2";	// 반려 
 			window.open(popUrl, '반려test', 'width=400, height=200');
 		});
 	});
 </script>
 
 <form id="detailDocumentForm">
-	<%-- <input type="hidden" id="documentId" value="${requestScope.approvalDocument.document.id }"> --%>
+	<%-- <input type="hidden" name="documentId" id="documentId" value="${requestScope.approvalDocument.document.id }"> --%>
 	<div>
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
@@ -37,8 +41,11 @@
 		</div>
 
 		<div class="pull-right">
-			<button type="button" class="btn btn-primary btn-lg" id="approveDocument">승인</button>
+			<c:if test="${requestScope.approvalDocument.currentApprover.employeeId == sessionScope.employee.id }">
+				<button type="button" class="btn btn-primary btn-lg" id="approveDocument">승인</button>
 			<button type="button" class="btn btn-primary btn-lg btn-danger" id="rejectDocument">반려</button>
+			</c:if> 
+			
 		</div>
 	</div>
 	<br>

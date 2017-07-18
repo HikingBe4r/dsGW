@@ -31,6 +31,7 @@ public class ApproveDocumentController {
 	// 결재 승인처리 -> approveSuccess.jsp -> 결재문서 조회 페이지.do
 	@RequestMapping(value="approveDocument.do", method=RequestMethod.POST)
 	public ModelAndView submit(
+			@RequestParam(value="kind", required=true) String kind, // 승인, 반려체크
 			@RequestParam(value="employeeId", required=true) String employeeId,
 			@RequestParam(value="reply", required=true) String reply,
 			@RequestParam(value="documentId", required=true) String documentId) {
@@ -42,10 +43,18 @@ public class ApproveDocumentController {
 		map.put("reply", reply);
 		map.put("documentId", documentId);
 		
-		documentService.approveDocument(map);
+		Boolean isSuccess = false;
+		if(kind.equals("1")) {
+			isSuccess = documentService.approveDocument(map);
+		} else if (kind.equals("2")) {
+			isSuccess = documentService.rejectDocument(map);
+		} 
 		
-		mv.setViewName("jsonView");
-		
+		if(isSuccess) {
+			// 성공하면 jsonView
+			mv.setViewName("jsonView");
+			return mv;
+		} 
 		return mv;
 	}
 

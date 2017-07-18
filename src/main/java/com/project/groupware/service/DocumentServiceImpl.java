@@ -167,13 +167,69 @@ public class DocumentServiceImpl implements DocumentService {
 	 * 
 	 * param: Map(documentId, employeeId, apphistory.reply)
 	 */
-	public void approveDocument(Map<String, Object> map) {
+	public Boolean approveDocument(Map<String, Object> map) {
 		String documentId = (String)map.get("documentId");
 		String employeeId = (String)map.get("employeeId");
 		String reply = (String)map.get("reply");
 		
 		DocumentVO document = documentMapper.selectApprovalDocument(documentId);
 		document.setApproverList(approvalLineMapper.selectApproverListByDocumentId(documentId));
+		
+		// 현재 결재자일때만 진행.
+		ApproverVO currentApprover = approvalLineMapper.selectCurrentApprover(documentId); // 현재 결재자
+		List<ApproverVO> approverList = document.getApproverList();
+		if(!document.getStatus().equals("3") && !document.getStatus().equals("4")) {
+			if(currentApprover != null && currentApprover.getEmployeeId().equals(employeeId)) {
+				
+				// 1. 결재이력을 추가한다.
+				ApprovalHistoryVO appHistory = new ApprovalHistoryVO();
+				appHistory.setApproverId(currentApprover.getId());	// 결재자id
+				appHistory.setDocumentId(documentId);		// 문서id
+				appHistory.setReply(reply);					// 결재이력 내용
+				appHistory.setStatus("2");					// 결재상태: 승인
+				
+				approvalHistoryMapper.insertApprovalHistory(appHistory);
+				
+				// 2-1) 다음번 결재자 체크
+				ApproverVO nextApprover = approvalLineMapper.selectCurrentApprover(documentId);
+				NoticeVO noticeVO = new NoticeVO();
+				// 다음번 결재자가 있으면
+				if(nextApprover != null) {
+					noticeVO.setEmployeeId(nextApprover.getEmployeeId()); 
+					noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서의 결재순서입니다.");
+					document.setStatus("2");  // 문서의 최종상태를 결재중으로.
+				} else if (nextApprover == null) {
+					noticeVO.setEmployeeId(approverList.get(0).getEmployeeId()); // 0: 기안자 1~ : 결재자
+					noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서가 최종 승인되었습니다.");
+					document.setStatus("3");  // 문서 최종상태를 승인으로
+				}
+				
+				noticeMapper.insertNotice(noticeVO);
+				
+				documentMapper.updateDocumentStatus(document);
+				
+				
+				
+			} else {
+				//이거 현재 결재자가 아닌데요.
+				return false;
+			}
+		} else {
+			// 문서가 이미 승인되었거나 반려되었습니다.
+			return false;
+		}
+		return true;
+		
+		
+		
+		
+		
+		
+		
+		/*// 문서 최종상태가 1, 2일때만 가능하다.
+		if(document.getStatus().equals("3") || document.getStatus().equals("4")) {
+			
+		}
 		
 		// 1. AppHistory에 승인 이력을 추가한다.
 		List<ApproverVO> approverList = document.getApproverList();
@@ -183,7 +239,7 @@ public class DocumentServiceImpl implements DocumentService {
 		for(ApproverVO approver : approverList) {
 			
 			// 결재자 일때만
-			// 현재 결재자일때만 가능하게!!!!!!  
+			// 현재 결재자일때만 가능하게!!!!!!
 			if(approver.getApprovalAuthId().equals("2")) {
 				totalApprover++;
 				// 해당 결재자의 사번이 param과 같으면 이력추가.
@@ -207,18 +263,15 @@ public class DocumentServiceImpl implements DocumentService {
 		if(currentApprover < totalApprover) {
 			noticeVO.setEmployeeId(approverList.get(currentApprover+1).getEmployeeId()); // 0: 기안자 1~ : 결재자
 			noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서의 결재순서입니다.");
-			noticeMapper.insertNotice(noticeVO);
+			document.setStatus("2");
 		} else if(currentApprover == totalApprover) {
 			noticeVO.setEmployeeId(approverList.get(0).getEmployeeId());
 			noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서가 최종 승인되었습니다.");
 			document.setStatus("3");
-			noticeMapper.insertNotice(noticeVO);
-			documentMapper.updateDocumentStatus(document);
-		}
-		
-		
-		
-		
+		}		
+
+		documentMapper.updateDocumentStatus(document);
+		noticeMapper.insertNotice(noticeVO);*/
 	}
 	
 	/**
@@ -227,8 +280,51 @@ public class DocumentServiceImpl implements DocumentService {
 	 * 2. 기안자에게 문서가 반려됐음을 알림 보내기.
 	 * 3. 문서 최종상태 변경
 	 */
-	public void rejectDocument(DocumentVO documentVO) {
+	public Boolean rejectDocument(Map<String, Object> map) {
+		String documentId = (String)map.get("documentId");
+		String employeeId = (String)map.get("employeeId");
+		String reply = (String)map.get("reply");
 		
+		DocumentVO document = documentMapper.selectApprovalDocument(documentId);
+		document.setApproverList(approvalLineMapper.selectApproverListByDocumentId(documentId));
+		
+		// 현재 결재자일때만 진행.
+		ApproverVO currentApprover = approvalLineMapper.selectCurrentApprover(documentId); // 현재 결재자
+		List<ApproverVO> approverList = document.getApproverList();
+		if(!document.getStatus().equals("3") && !document.getStatus().equals("4")) {
+			if(currentApprover != null && currentApprover.getEmployeeId().equals(employeeId)) {
+				
+				// 1. 결재이력을 추가한다.
+				ApprovalHistoryVO appHistory = new ApprovalHistoryVO();
+				appHistory.setApproverId(currentApprover.getId());	// 결재자id
+				appHistory.setDocumentId(documentId);		// 문서id
+				appHistory.setReply(reply);					// 결재이력 내용
+				appHistory.setStatus("3");					// 결재상태: 반려
+				
+				approvalHistoryMapper.insertApprovalHistory(appHistory);
+				
+				// 2. 기안자에게 문서반려 알림보내기.
+				NoticeVO noticeVO = new NoticeVO();
+				
+				noticeVO.setEmployeeId(approverList.get(0).getEmployeeId()); // 0: 기안자 1~ : 결재자
+				noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서가 반려되었습니다.");
+				document.setStatus("4");  // 문서의 최종상태를 결재중으로.
+				
+				noticeMapper.insertNotice(noticeVO);
+				
+				documentMapper.updateDocumentStatus(document);
+				
+				
+				
+			} else {
+				//이거 현재 결재자가 아닌데요.
+				return false;
+			}
+		} else {
+			// 문서가 이미 승인되었거나 반려되었습니다.
+			return false;
+		}
+		return true;
 	}
 	
 	
@@ -245,6 +341,7 @@ public class DocumentServiceImpl implements DocumentService {
 		Map<String, Object> approvalDocument = new HashMap<String, Object>();
 		approvalDocument.put("document", documentMapper.selectApprovalDocument(documentId));
 		approvalDocument.put("approverList", approvalLineMapper.selectApproverMapByDocumentId(documentId));
+		approvalDocument.put("currentApprover", approvalLineMapper.selectCurrentApprover(documentId));
 		return approvalDocument;
 	}
 	

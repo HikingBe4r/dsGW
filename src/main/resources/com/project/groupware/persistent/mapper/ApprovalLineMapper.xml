@@ -129,7 +129,7 @@
 				      FROM approver app, approval_history apphis
 				      WHERE app.id = apphis.approver_id
 				        AND app.approval_auth_id = 1 
-				        AND apphis.document_id = 20170718006) t1
+				        AND apphis.document_id = #{documentId}) t1
 			WHERE app.employee_id = emp.id
 		      AND app.approval_line_id = t1.lineid
 		      AND emp.grade_id = grade.id
@@ -139,6 +139,36 @@
 			  AND app.approval_auth_id = auth.id(+)
 			  AND app.approval_auth_id != 3 
 			ORDER BY app.id ASC
+	</select>
+	
+	<!--
+		문서의 현재 결재자 찾기
+		param : 문서번호
+		t1: 문서 결재한 가장 최근이력 id
+		t2: t1의 결재자
+		t3: t2와 같은 결재선, auth=2인 결재자중 step이 t2+1인 결재자.
+		t4: t1의 결재자(최근결재자)가 반려이면 조회실패.
+	 -->
+	<select id="selectCurrentApprover" resultType="approverVO" parameterType="String">
+		SELECT 
+			app.id, 
+			app.approval_auth_id approvalAuthId, 
+			app.approval_line_id approvalLineId, 
+			app.employee_id employeeId, 
+			app.step
+	    FROM approver app, 
+	    	(SELECT app.id T2appId, app.step T2step, app.approval_line_id T2lineId, apphis.approval_status_id apphisStat
+	         FROM approver app, approval_history apphis, 
+	         	(SELECT max(apphis.id) id
+	             FROM approval_history apphis, approver app
+	             WHERE apphis.document_id = #{documentId}
+	               AND app.id = apphis.approver_id(+)) t1
+	         WHERE app.id = apphis.approver_id(+)
+	           AND apphis.id = t1.id) t2
+		WHERE app.approval_line_id = t2.t2lineid
+          AND app.approval_auth_id = 2
+          AND app.step = t2.t2step+1
+          AND t2.apphisstat != 3
 	</select>
 	
 </mapper>

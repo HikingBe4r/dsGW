@@ -32,9 +32,9 @@ public interface DocumentService {
 	void removeBookMarkDocument(String bookMarkDocumentId);
 
 	// 결재 관련
-	void approveDocument(Map<String, Object> map);
+	Boolean approveDocument(Map<String, Object> map);
 
-	void rejectDocument(DocumentVO documentVO);
+	Boolean rejectDocument(Map<String, Object> map);
 
 	// 결재문서리스트 조회
 	List<Map<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword);

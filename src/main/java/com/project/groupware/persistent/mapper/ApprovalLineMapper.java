@@ -32,5 +32,8 @@ public interface ApprovalLineMapper {
 	// 결재자 목록 조회2 : 문서번호.(승인, 반려할때 씀)
 	List<ApproverVO> selectApproverListByDocumentId(String documentId);
 	
+	// 문서의 현재 결재자 조회
+	ApproverVO selectCurrentApprover(String documentId);
+	
 
 }

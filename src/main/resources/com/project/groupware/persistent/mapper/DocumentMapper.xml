@@ -45,6 +45,7 @@
 		WHERE apphis.approver_id = t2.id
 	 	  AND apphis.document_id = doc.id
 		  AND doc.document_status_id = docstat.id
+		  AND doc.document_status_id not in (3,4)
 		  
 		 <if test="keyword != null and kind != null">
 			<if test="kind.equals('전체')">
@@ -68,7 +69,8 @@
 		<result property="subject" column="docSubject" />
 		<result property="content" column="content" />
 		<result property="writeday" column="writeday" />
-		<result property="endDate" column="enddate" />	
+		<result property="endDate" column="enddate" />
+		<result property="status" column="docStatus" />		
 		<association property="formVO" javaType="formVO">
 			<id property="id" column="formId" />
 			<result property="subject" column="formSubject"/>
@@ -86,6 +88,7 @@
 			doc.content, 
 			TO_CHAR(doc.writeday, 'YYYY/MM/DD HH24:MI:SS') writeday, 
 			TO_CHAR(doc.enddate, 'YYYY/MM/DD HH24:MI:SS') enddate,
+			doc.document_status_id docStatus,
 			form.id formId, 
 			form.subject formSubject, 
 			docFile.id docFileId,

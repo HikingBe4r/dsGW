@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script
@@ -8,7 +9,6 @@
 
 <script>
 	$(document).ready(function() {
-		alert(window.opener.document.location);
 		$("#approveBtn").click(function() {
 			
 			if($("#comment").val().length == 0) {
@@ -23,30 +23,27 @@
 					dataType: 'json'
 					,
 					data: {
+						kind: '${param.kind}',
 						employeeId: '${sessionScope.employee.id}',
 						reply: $('#comment').val(),
 						documentId: '${requestScope.documentId}'
 					}
 					,
 					success: function(data) {
+						alert("결재에 성공했습니다.");
 						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do';
-						window.close();
-						
+						window.close();						
 					}
 					,
 					error : function(jqXHR) {
-						alert("ERROR: "+jqXHR.responseText);
-						console.log(jqXHR.responseText);
+						alert("실패했습니다.");
+						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do';
+						window.close();
 					}					
 						
 				})
 			}
 			
-			
-			/* var form = $("#approveForm");
-			form.method = "POST";
-			form.action = "${pageContext.request.contextPath}/approveDocument.do";
-			form.submit(); */
 		});
 	});
 		
@@ -59,7 +56,13 @@
 		</div>
 	
 		<div class="btn-group pull-right">
-			<button class="btn btn-primary" type="button" id="approveBtn">승인</button>
+			<c:if test="${param.kind == 1}">
+				<button class="btn btn-primary" type="button" id="approveBtn">승인</button>
+			</c:if>
+			<c:if test="${param.kind == 2}">
+				<button class="btn btn-primary btn-danger" type="button" id="approveBtn">반려</button>
+			</c:if>
+			
 			<button class="btn btn-default" type="button" id="backBtn">취소</button>
 		</div>
 	</div>
