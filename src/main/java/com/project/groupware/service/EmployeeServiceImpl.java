@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.groupware.domain.AdminVO;
-import com.project.groupware.domain.EmployeeHistoryVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.NoticeVO;
 import com.project.groupware.persistent.mapper.EmployeeHistoryMapper;
