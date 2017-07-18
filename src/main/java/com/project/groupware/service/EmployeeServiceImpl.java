@@ -96,5 +96,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeVO> retrieveEmployeeDetailList(Map<String, Object> map) {
 		return empMapper.selectEmployeeDetailList(map);
 	}
+
+	public EmployeeVO findEmployeeId(EmployeeVO emp) {
+		return empMapper.selectEmployeeFind(emp);
+	}
+	
+	
 	
 }

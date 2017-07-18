@@ -6,76 +6,70 @@
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
-
-<div class="panel panel-default">
-	<div class="panel-body">
-		<div class="container">
-			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-				<div class="panel panel-success">
-					<div class="panel-heading">
-						<div class="panel-title">사번 찾기</div>
-					</div>
-					<div class="panel-body">
-						<form id="login-form">
+<form action="${pageContext.request.contextPath }/findEmpId.do" method="post">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="container">
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<div class="panel-title">사번 찾기</div>
+						</div>
+						<div class="panel-body">
 							<div>
-								<input type="text" class="form-control" name="name"
+								<input type="text" class="form-control" name="name1"
 									placeholder="Name" autofocus>
 							</div>
 							<div>
-								<input type="email" class="form-control" name="email"
+								<input type="email" class="form-control" name="email1"
 									placeholder="Email">
 							</div>
 							<div>
 								<button type="submit" class="form-control btn btn-primary"
-									onClick="window.open('${pageContext.request.contextPath }/findEmpId.do','사번찾기','width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">찾기</button>
+									>찾기</button>
 							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</form>
 
-
-
-<div class="panel panel-default">
-	<div class="panel-body">
-		<div class="container">
-			<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-				<div class="panel panel-success">
-					<div class="panel-heading">
-						<div class="panel-title">비밀번호 변경</div>
-					</div>
-					<div class="panel-body">
-						<form id="login-form">
+<form action="${pageContext.request.contextPath }/findEmpPwd">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="container">
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<div class="panel-title">비밀번호 변경</div>
+						</div>
+						<div class="panel-body">
 							<div>
-								<input type="text" class="form-control" name="employeeId"
+								<input type="text" class="form-control" name="employeeId2"
 									placeholder="Employee ID" autofocus>
 							</div>
 							<div>
-								<input type="text" class="form-control" name="name"
+								<input type="text" class="form-control" name="name2"
 									placeholder="Name" autofocus>
 							</div>
 							<div>
-								<input type="email" class="form-control" name="email"
+								<input type="email" class="form-control" name="email2"
 									placeholder="Email">
 							</div>
 							<div>
 								<button type="submit" class="form-control btn btn-primary"
-									onClick="window.open('${pageContext.request.contextPath }/findEmpPwd.do','비밀번호 변경','width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">비밀번호
+									>비밀번호
 									변경</button>
 							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
-
-
+</form>
 
 
 

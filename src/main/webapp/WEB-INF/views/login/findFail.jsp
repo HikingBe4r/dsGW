@@ -5,4 +5,4 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-메일 전송 완료
+	정보가 일치하지 않습니다.

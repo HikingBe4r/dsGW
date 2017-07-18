@@ -6,11 +6,14 @@
 
 	<insert id="insertEmployee" parameterType="employeeVO"
 		statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
-		insert into EMPLOYEE(NAME, EMAIL, hire_date, address,
+		insert
+		into EMPLOYEE(NAME, EMAIL, hire_date, address,
 		address_detail,
 		password, phone, department_id, grade_id, status_id)
-		VALUES(#{name}, #{email}, sysdate, #{address}, #{addressDetail},
-		#{password}, #{phone}, #{departmentId}, #{gradeId}, #{statusId})
+		VALUES(#{name},
+		#{email}, sysdate, #{address}, #{addressDetail},
+		#{password}, #{phone},
+		#{departmentId}, #{gradeId}, #{statusId})
 	</insert>
 
 	<select id="selectAdmin" parameterType="String" statementType="PREPARED"
@@ -31,6 +34,19 @@
 		STATUS_ID as statusId
 		FROM EMPLOYEE
 		WHERE ID = #{id}
+	</select>
+
+	<select id="selectEmployeeFind" parameterType="employeeVO"
+		statementType="PREPARED" resultType="employeeVO">
+		SELECT ID, NAME, EMAIL,
+		to_char(HIRE_DATE, 'YYYY/MM/DD') as hireDate, ADDRESS,
+		ADDRESS_DETAIL
+		as addressDetail,
+		PASSWORD, PHONE, DEPARTMENT_ID as departmentId,
+		GRADE_ID as gradeId,
+		STATUS_ID as statusId
+		FROM EMPLOYEE
+		WHERE email = #{email} and name = #{name}
 	</select>
 
 	<select id="selectEmployeeList" parameterType="map"
@@ -100,44 +116,45 @@
 
 	<select id="selectEmployeeDetail" parameterType="string"
 		statementType="PREPARED" resultType="employeeVO">
-		SELECT 
-			e.ID, 
-			e.NAME, 
-			e.EMAIL,
-			to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate, 
-			e.ADDRESS,
-			e.ADDRESS_DETAIL as addressDetail,
-			e.PASSWORD, 
-			e.PHONE, 
-			d.name as departmentId, 
-			g.grade as gradeId,
-			es.status as statusId
+		SELECT
+		e.ID,
+		e.NAME,
+		e.EMAIL,
+		to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate,
+		e.ADDRESS,
+		e.ADDRESS_DETAIL as addressDetail,
+		e.PASSWORD,
+		e.PHONE,
+		d.name as departmentId,
+		g.grade as gradeId,
+		es.status as statusId
 		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es
 		WHERE e.id = #{value}
 		AND e.department_id = d.id
 		AND e.grade_id = g.id
-		AND e.status_id = es.id	
-		
+		AND e.status_id = es.id
+
 	</select>
-	
+
 	<select id="selectEmployeeDetailList" parameterType="map"
 		statementType="PREPARED" resultType="employeeVO">
-		SELECT 
-			e.ID, 
-			e.NAME, 
-			e.EMAIL,
-			to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate, 
-			e.ADDRESS,
-			e.ADDRESS_DETAIL as addressDetail,
-			e.PASSWORD, 
-			e.PHONE, 
-			d.name as departmentId, 
-			g.grade as gradeId,
-			es.status as statusId
-		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es	
+		SELECT
+		e.ID,
+		e.NAME,
+		e.EMAIL,
+		to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate,
+		e.ADDRESS,
+		e.ADDRESS_DETAIL as addressDetail,
+		e.PASSWORD,
+		e.PHONE,
+		d.name as departmentId,
+		g.grade as gradeId,
+		es.status as statusId
+		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es
 		WHERE e.department_id = d.id
 		AND e.grade_id = g.id
-		AND e.status_id = es.id		
+		AND e.status_id =
+		es.id
 		<if test="keyword != 'all'">
 			<choose>
 				<when test="keyfield == 'id'">
@@ -153,7 +170,7 @@
 					and g.grade like '%' || #{keyword} || '%'
 				</when>
 			</choose>
-		</if>	
+		</if>
 		ORDER BY e.department_id, e.grade_id
 	</select>
 

@@ -37,5 +37,7 @@ public interface EmployeeService {
 	public List<HashMap<String, Object>> retrieveStatusList();
 	
 	public List<EmployeeVO> retrieveEmployeeDetailList(Map<String, Object> keyword);
+	
+	public EmployeeVO findEmployeeId(EmployeeVO emp);
 
 }

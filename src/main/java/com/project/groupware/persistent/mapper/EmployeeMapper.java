@@ -26,4 +26,6 @@ public interface EmployeeMapper {
 	public EmployeeVO selectEmployeeDetail(String id);
 
 	public List<EmployeeVO> selectEmployeeDetailList(Map<String, Object> map);
+	
+	public EmployeeVO selectEmployeeFind(EmployeeVO emp);
 }
