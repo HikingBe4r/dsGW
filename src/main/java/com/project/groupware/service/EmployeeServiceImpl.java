@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.groupware.domain.AdminVO;
+import com.project.groupware.domain.EmployeeHistoryVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.NoticeVO;
 import com.project.groupware.persistent.mapper.EmployeeHistoryMapper;
@@ -67,7 +68,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return empMapper.selectEmployee(id);
 	}
 
-	public List<Map<String,Object>> retrieveEmployeeHistory(Map<String, Object> map) {
+	public List<EmployeeHistoryVO> retrieveEmployeeHistory(Map<String, Object> map) {
 		return historyMapper.selectEmployeeHistory(map);
 	}
 

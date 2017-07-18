@@ -30,13 +30,13 @@ public class RegisterEmployeeController {
 		mv.addObject("deptList", deptService.retrieveDepartmentList(keyword));
 		mv.addObject("gradeList", empService.retrieveGradeList());
 		mv.addObject("statusList", empService.retrieveStatusList());
-		mv.setViewName("approvalNav/employee/registerEmployeeForm");
+		mv.setViewName("adminNav/employee/registerEmployeeForm");
 		return mv;
 	}
 	
 	@RequestMapping(value = "/registerEmployee.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute(value="employee") EmployeeVO emp) {
 		empService.registerEmployee(emp);
-		return "redirect:/registerEmployee.do";
+		return "redirect:/listEmployee.do";
 	}
 }

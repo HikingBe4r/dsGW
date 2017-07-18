@@ -35,7 +35,7 @@ public class LoginEmployeeController {
 			login = service.loginAdmin(login);
 			if (login != null) {
 				session.setAttribute("employee", login);
-				return "approvalNav/board/board";// 메인화면 아직 없어서 보드로 가게 해놓음
+				return "adminNav/employee/listEmployee";// 사원 관리 페이지
 			} else {
 				
 				return "login/loginForm";

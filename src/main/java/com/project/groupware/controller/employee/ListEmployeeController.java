@@ -21,7 +21,7 @@ public class ListEmployeeController {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> keyword = new HashMap<String, Object>();
 		mv.addObject("employeeList", service.retrieveEmployeeList(keyword));
-		mv.setViewName("approvalNav/employee/listEmployee");
+		mv.setViewName("adminNav/employee/listEmployee");
 		return mv;
 	}
 

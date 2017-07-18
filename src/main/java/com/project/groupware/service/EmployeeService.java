@@ -24,7 +24,7 @@ public interface EmployeeService {
 	
 	public EmployeeVO retrieveEmployee(String id);
 	
-	public List<Map<String,Object>> retrieveEmployeeHistory(Map<String, Object> keyword);
+	public List<EmployeeHistoryVO> retrieveEmployeeHistory(Map<String, Object> keyword);
 	
 	public void isreadNotice(NoticeVO notice);
 	

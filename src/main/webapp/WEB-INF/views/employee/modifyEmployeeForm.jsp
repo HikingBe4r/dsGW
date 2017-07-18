@@ -18,8 +18,8 @@
 	method="post" enctype="multipart/form-data">
 	<input type="hidden" name="id" value="${requestScope.employee.id }">
 	<div class="py-5">
-	
-		<div class="container" >
+
+		<div class="container">
 			<div>
 				<div class="col-md-6">
 					<img class="img-fluid d-block" src=""> <input type="file"
@@ -32,32 +32,37 @@
 					<div class="form-group">
 						<label>사번</label> <input type="text" class="form-control"
 							value="${requestScope.employee.id}" placeholder="사번은 입사일+순번 입니다."
-							disabled="disabled">
+							readOnly="readOnly">
 					</div>
 					<div class="form-group">
 						<label>이름</label> <input type="text" class="form-control"
-							placeholder="이름" name="name" value="${requestScope.employee.id}"
-							disabled="disabled">
+							placeholder="이름" name="name"
+							value="${requestScope.employee.name}" readOnly="readOnly">
 					</div>
 					<div class="form-group">
 						<label>비밀번호</label> <input type="password" class="form-control"
-							placeholder="Password" name="password" disabled="disabled">
+							placeholder="Password" name="password"
+							value="${requestScope.employee.password}" readOnly="readOnly">
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label> <input type="password" class="form-control"
-							placeholder="Password Check" disabled="disabled">
+							placeholder="Password Check"
+							value="${requestScope.employee.password}" readOnly="readOnly">
 					</div>
 					<div class="form-group">
 						<label>이메일</label> <input type="email" class="form-control"
-							placeholder="xxxx@xxxx.xxx" name="email">
+							placeholder="xxxx@xxxx.xxx" name="email"
+							value="${requestScope.employee.email}">
 					</div>
 					<div class="form-group">
 						<label>연락처</label> <input type="text" class="form-control"
-							placeholder="000-0000-0000" name="phone">
+							placeholder="000-0000-0000" name="phone"
+							value="${requestScope.employee.phone}">
 					</div>
 					<div class="form-group">
 						<label>주소</label> <input type="text" class="form-control"
-							id="address" placeholder="주소" name="address">
+							id="address" placeholder="주소" name="address"
+							value="${requestScope.employee.address}">
 						<button type="button" class="btn btn-primary"
 							onclick="sample4_execDaumPostcode()">주소검색</button>
 						<script>
@@ -121,26 +126,52 @@
 					</div>
 					<div class="form-group">
 						<label>상세주소</label> <input type="text" class="form-control"
-							placeholder="상세주소" name="addressDetail">
+							placeholder="상세주소" name="addressDetail"
+							value="${requestScope.employee.addressDetail}">
 					</div>
 
 					<label>부서</label><br> <select class="form-control"
 						name="departmentId">
 						<c:forEach var="deptList" items="${requestScope.deptList }"
 							varStatus="loop">
-							<option value="${pageScope.deptList.id}">${pageScope.deptList.name }</option>
+							<c:choose>
+								<c:when
+									test="${requestScope.employee.departmentId == pageScope.deptList.id}">
+									<option selected="selected" value="${pageScope.deptList.id}">${pageScope.deptList.name }</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${pageScope.deptList.id}">${pageScope.deptList.name }</option>
+								</c:otherwise>
+							</c:choose>
+
 						</c:forEach>
 					</select> <br> <br> <label>직급</label><br> <select
 						class="form-control" name="gradeId">
 						<c:forEach var="gradeList" items="${requestScope.gradeList }"
 							varStatus="loop">
-							<option value="${loop.count}">${pageScope.gradeList.GRADE }</option>
+							<c:choose>
+								<c:when test="${requestScope.employee.gradeId == loop.count}">
+									<option selected="selected" value="${loop.count}">${pageScope.gradeList.GRADE }</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${loop.count}">${pageScope.gradeList.GRADE }</option>
+								</c:otherwise>
+							</c:choose>
+
 						</c:forEach>
 					</select> <br> <br> <label>상태</label><br> <select
 						class="form-control" name="statusId">
 						<c:forEach var="statusList" items="${requestScope.statusList }"
 							varStatus="loop">
-							<option value="${loop.count}">${pageScope.statusList.STATUS }</option>
+							<c:choose>
+								<c:when test="${requestScope.employee.statusId == loop.count}">
+									<option selected="selected" value="${loop.count}">${pageScope.statusList.STATUS }</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${loop.count}">${pageScope.statusList.STATUS }</option>
+								</c:otherwise>
+							</c:choose>
+
 						</c:forEach>
 					</select> <br> <br>
 				</div>
@@ -152,7 +183,7 @@
 					<button type="button" class="btn btn-primary">취소</button>
 				</p>
 			</div>
-			
+
 		</div>
 	</div>
 </form>

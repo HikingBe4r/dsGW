@@ -31,11 +31,8 @@
 				</div>
 				<div style="float: right">
 					<select class="btn btn-primary dropdown-toggle">
-						<option value="id">사번</option>
-						<option value="name">이름</option>
-						<option value="departmentId">부서</option>
-						<option value="hireDate">입사일</option>
-						<option value="gradeId">직급</option>
+						<option value="id">부서 번호</option>
+						<option value="name">부서 이름</option>
 					</select>
 				</div>
 			</div>
@@ -45,26 +42,19 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>사번</th>
-							<th>이름</th>
-							<th>이전변경일</th>
-							<th>최종변경일</th>
-							<th>분류</th>
-							<th>이전변경점</th>
-							<th>현재변경점</th>
+							<th>부서 번호</th>
+							<th>부서 이름</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="EmpHistoryList"
-							items="${requestScope.EmpHistoryList }" varStatus="loop">
-							<tr>
-								<td>${pageScope.EmpHistoryList.employee.id }</td>
-								<td>${pageScope.EmpHistoryList.employee.name }</td>
-								<td>${pageScope.EmpHistoryList.startDate }</td>
-								<td>${pageScope.EmpHistoryList.endDate }</td>
-								<td>${pageScope.EmpHistoryList.kind }</td>
-								<td>${pageScope.EmpHistoryList.oldContent }</td>
-								<td>${pageScope.EmpHistoryList.newContent }</td>
+						<c:forEach var="departmentList"
+							items="${requestScope.departmentList }" varStatus="loop">
+							<c:url var="url" value="/detailDepartment.do">
+								<c:param name="id" value="${pageScope.departmentList.id }" />
+							</c:url>
+							<tr onclick="location='${pageScope.url}'">
+								<td>${pageScope.departmentList.id }</td>
+								<td>${pageScope.departmentList.name }</td>
 							</tr>
 						</c:forEach>
 					</tbody>

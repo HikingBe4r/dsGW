@@ -2,12 +2,12 @@ package com.project.groupware.domain;
 
 public class EmployeeHistoryVO {
 	private String id;
-	private String employeeId;
+	private EmployeeVO employee = new EmployeeVO();
 	private String startDate;
 	private String endDate;
 	private String kind;
-	private String content;
-	
+	private String oldContent;
+	private String newContent;
 
 	public EmployeeHistoryVO() {
 		super();
@@ -21,12 +21,12 @@ public class EmployeeHistoryVO {
 		this.id = id;
 	}
 
-	public String getEmployeeId() {
-		return employeeId;
+	public EmployeeVO getEmployee() {
+		return employee;
 	}
 
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
+	public void setEmployee(EmployeeVO employee) {
+		this.employee = employee;
 	}
 
 	public String getStartDate() {
@@ -53,18 +53,26 @@ public class EmployeeHistoryVO {
 		this.kind = kind;
 	}
 
-	public String getContent() {
-		return content;
+	public String getOldContent() {
+		return oldContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setOldContent(String oldContent) {
+		this.oldContent = oldContent;
+	}
+
+	public String getNewContent() {
+		return newContent;
+	}
+
+	public void setNewContent(String newContent) {
+		this.newContent = newContent;
 	}
 
 	@Override
 	public String toString() {
-		return "EmployeeHistoryVO [id=" + id + ", employeeId=" + employeeId + ", startDate=" + startDate + ", endDate="
-				+ endDate + ", kind=" + kind + ", content=" + content + "]";
+		return "EmployeeHistoryVO [id=" + id + ", employee=" + employee + ", startDate=" + startDate + ", endDate="
+				+ endDate + ", kind=" + kind + ", oldContent=" + oldContent + ", newContent=" + newContent + "]";
 	}
 
 }

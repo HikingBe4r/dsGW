@@ -2,20 +2,55 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.project.groupware.persistent.mapper.EmployeeHistroyMapper">
+<mapper namespace="com.project.groupware.persistent.mapper.EmployeeHistoryMapper">
 
-	<select id="selectEmployeeHistory"  resultType="java.util.HashMap" statementType="STATEMENT">
-		select 
-			emp.ID as ID, 
-			emp.NAME as NAME, 
-			TO_CHAR(history.START_DATE, 'YYYY/MM/DD')	as STARTDATE,
-			TO_CHAR(history.END_DATE, 'YYYY/MM/DD') as ENDDATE, 
-			history.KIND as KIND,
-			history.OLD_CONTENT as OLDCONTENT, 
-			history.NEW_CONTENT as NEWCONTENT
-		from EMP_HISTORY history,
-				EMPLOYEE emp
-		where history.EMPLOYEE_ID = emp.ID
+
+
+	<resultMap id="selectHistoryResultMap"  type="employeeHistoryVO" >
+		<id column="HISTORYID" property="id" />
+		<result column="STARTDATE" property="startDate" />
+		<result column="ENDDATE" property="endDate" />
+		<result column="KIND" property="kind" />
+		<result column="OLDCONTENT" property="oldContent" />
+		<result column="NEWCONTENT" property="newContent" />
+		<association property="employee" javaType="employeeVO" 	column="EMPID">
+			<id column="EMPID" property="id" />
+			<result column="NAME" property="name"/>
+		</association>
+	</resultMap>
+	
+	
+
+	<select id="selectEmployeeHistory" resultMap="selectHistoryResultMap" 	statementType="PREPARED" parameterType="map">
+		SELECT
+		history.id as HISTORYID,
+		emp.ID as EMPID,
+		emp.NAME 	as NAME,
+		TO_CHAR(history.START_DATE, 'YYYY/MM/DD') as STARTDATE,
+		TO_CHAR(history.END_DATE, 'YYYY/MM/DD') as ENDDATE,
+		history.KIND as	KIND,
+		history.OLD_CONTENT as OLDCONTENT,
+		history.NEW_CONTENT as 	NEWCONTENT
+		FROM EMP_HISTORY history,	EMPLOYEE  emp
+		WHERE history.EMPLOYEE_ID = emp.ID
 		ORDER BY history.END_DATE DESC
+		<if test="keyword != 'all'">
+			<choose>
+				<when test="keyfield == 'id'">
+					and emp.ID like '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'name'">
+					and emp.NAME like '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'endDate'">
+					and ENDDATE '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'kind'">
+					and KIND like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</if>
 	</select>
+
+
 </mapper>

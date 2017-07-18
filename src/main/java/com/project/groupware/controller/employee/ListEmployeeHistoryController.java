@@ -21,7 +21,10 @@ public class ListEmployeeHistoryController {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> keyword = new HashMap<String, Object>();
 		mv.addObject("EmpHistoryList", service.retrieveEmployeeHistory(keyword));
-		mv.setViewName("approvalNav/employee/listEmpHistory");
+		mv.setViewName("adminNav/employee/listEmpHistory");
 		return mv;
 	}
 }
+
+
+

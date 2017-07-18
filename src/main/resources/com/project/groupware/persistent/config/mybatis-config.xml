@@ -16,6 +16,7 @@
 		<mapper resource="com/project/groupware/persistent/mapper/DocumentFileMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/DocumentMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/EmployeeImageMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/EmployeeHistroyMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/EmployeeMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/FormFileMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/FormMapper.xml" />
