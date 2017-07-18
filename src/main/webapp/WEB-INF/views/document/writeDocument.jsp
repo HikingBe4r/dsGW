@@ -120,8 +120,7 @@
 							<td style="width: 100px;">${sessionScope.employee.name }<input
 								type="hidden" name="employeeId"
 								value="${sessionScope.employee.id }"></td>
-
-
+								
 						</tr>
 						<tr>
 							<td>소속</td>

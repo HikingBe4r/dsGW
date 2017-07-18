@@ -27,6 +27,60 @@ $(document).ready(function() {
 		
 	});
 	
+	
+	
+	/* var temp = "<span class='glyphicon glyphicon-folder-open' aria-hidden='true'> IT부서 </span> <br>"; 
+	temp += "&nbsp; <span class='glyphicon glyphicon-triangle-bottom' aria-hidden='true'></span>1팀 <br>" ;
+	temp += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='20170712001'> 삼길동 팀장 </label> <br>";
+	
+	$('#employeeList').append(temp); */
+	
+	
+	$.ajax({
+		url: '${pageContext.request.contextPath}/listEmployee.do'
+		,
+		method: 'POST'
+		,
+		dataType: 'json'
+		,
+		data: {
+												
+		}
+		, 
+		cache: false
+		,
+		success: function(data) {
+			
+			var htmlStr = "";
+			for(var i=0; i<data.employeeList.length; i++) {
+				htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true'></span> " + ${data.employeeList[i].departmentId} + "<br>";
+				htmlStr += "&nbsp; <span class='glyphicon glyphicon-triangle-bottom' aria-hidden='true'></span>"+ ${data.employeeList[i].id} +"<br>" ;
+			}
+			
+			$('#employeeList').append(htmlStr);
+	
+		}
+		,
+		error : function(jqXHR) {
+			alert("Error : " + jqXHR.responseText);
+		}			
+		
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// 임시목록 추가 버튼
 	$('#addBtn').on('click', function() {
 				
@@ -216,8 +270,7 @@ function tapSetting(obj) {
 			<div class="col-md-12">
 				<div class="panel panel-default">
 					<div class="panel-body" style="overflow:scroll; height: 330px;">
-						<div class="checkbox">
-						
+						<div id="employeeList" class="checkbox">
 						
 							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"> IT부서 </span> <br> 
 							&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
@@ -234,7 +287,7 @@ function tapSetting(obj) {
 							<span class="glyphicon glyphicon-folder-open" aria-hidden="true"> IT부서 </span> <br> 
 							&nbsp; <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>1팀 <br> 
 							&nbsp;&nbsp; <label> <input type="checkbox"	name="employee" value="20170711001"> 일길동 팀장 </label> <br>
-											
+															
 							
 							<br> <span class="glyphicon glyphicon-folder-open"
 								aria-hidden="true"> 즐겨찾기 </span> <br> &nbsp; <span
