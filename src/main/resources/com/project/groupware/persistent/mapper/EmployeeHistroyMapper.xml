@@ -33,7 +33,7 @@
 		history.NEW_CONTENT as 	NEWCONTENT
 		FROM EMP_HISTORY history,	EMPLOYEE  emp
 		WHERE history.EMPLOYEE_ID = emp.ID
-		ORDER BY history.END_DATE DESC
+		
 		<if test="keyword != 'all'">
 			<choose>
 				<when test="keyfield == 'id'">
@@ -50,6 +50,7 @@
 				</when>
 			</choose>
 		</if>
+		ORDER BY history.END_DATE DESC
 	</select>
 
 
