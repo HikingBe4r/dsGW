@@ -117,7 +117,9 @@ $(document).ready(function() {
 								
 							});
 						 
-					 }			 
+					 } else {
+						 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")
+					 }		 
 				   	
 				 }
 				 
@@ -154,7 +156,9 @@ $(document).ready(function() {
 									alert("Error : " + jqXHR.responseText);
 								}				
 							});
-					 }			 	 
+					 }	else {
+						 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")
+					 }		 	 
 				 }
 
 			 }
