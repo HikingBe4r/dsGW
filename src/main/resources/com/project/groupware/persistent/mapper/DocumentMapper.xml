@@ -103,25 +103,79 @@
 	<!-- <select id="selectDocument" resultMap="selectDocumentMap" parameterType="String">
 			
 	</select> -->
-	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">
+	
+	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">		
 		select 
-		      doc.id,
-		      doc.subject,
-		      doc.writeday,
-		      (select max(auth_date) from approval_history where ah.document_id = doc.id) as endDate,
-		      emp.name as writer,
-		      ds.status
-		from document doc,
-		        document_status ds,
-		        approval_history ah,
-		        approver ap,
-		        employee emp
-		where doc.document_status_id = ds.id
-		          and doc.id = ah.document_id
-		          and ah.approver_id = ap.id
-		          and ap.employee_id = emp.id
-		          and ap.step = 1
-		          and ds.id = #{status}
+			doc.id,
+			doc.subject,
+			doc.writeday,
+			(select max(auth_date) from approval_history ah where ah.document_id = doc.id) as endDate,
+			emp.name as writer,
+			ds.status
+		from
+		<if test="myDocs == 1">
+			mydocs md,
+		</if>
+		<if test="status == 5">
+			approval_auth aa,
+		</if>
+			document doc,
+		    document_status ds,
+		    approval_history ah,
+		    approver ap,
+		    employee emp		        
+		where
+			doc.document_status_id = ds.id
+				and doc.id = ah.document_id
+				and ah.approver_id = ap.id
+				and ap.employee_id = emp.id				
+				<if test="myDocs == 1">
+					and ap.step = 1
+					and doc.id = md.document_id
+					and md.employee_id = #{employeeId}
+				</if>
+				<if test="myDocs == 2 and status != 5">
+					and ap.step = 1
+					and ds.id = #{status}
+				</if>
+				<if test="myDocs == 2 and status == 5">
+					and ap.approval_auth_id = aa.id
+          			and ap.step = 0
+          			and ap.employee_id = #{employeeId}
+				</if>
+				<!-- <if test="keyword != 'all'"> -->
+					<if test="keyfield == 'subject'">
+						and doc.subject like '%' || #{keyword} || '%'
+					</if>
+					<if test="keyfield == 'writer'">
+						and emp.name like '%' || #{keyword} || '%'
+					</if>
+					<if test="searchDay == 'writeDay'">
+						<if test="startDay != 'all' and endDay != 'all'">
+							and doc.writeday between #{startDay} and #{endDay}
+						</if>
+						<if test="startDay != 'all' and endDay == 'all'">
+							and doc.writeday = #{startDay}
+						</if>
+						<if test="startDay == 'all' and endDay != 'all'">
+							and doc.writeday = #{endDay}
+						</if>
+					</if>
+					<if test="searchDay == 'finishDay'">
+						<if test="startDay != 'all' and endDay != 'all'">
+							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) between #{startDay} and #{endDay}
+						</if>
+						<if test="startDay != 'all' and endDay == 'all'">
+							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{startDay}
+						</if>
+						<if test="startDay == 'all' and endDay != 'all'">
+							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{endDay}
+						</if>
+					</if>
+					<!-- <if test="searchDay == 'all'">
+						
+					</if> -->
+				<!-- </if> -->
 		order by writeday desc
 	</select>
 	
