@@ -26,7 +26,7 @@ public class DetailTempDocumentController {
 		
 		model.addAttribute("tempDocumentVO", tempDocumentService.retrieveTempDocument(Integer.parseInt(tempDocumentId)));
 		
-		return "approvalNav/document/detailTempDocument";
+		return "approvalNav/tempdocument/detailTempDocument";
 	}
 	
 	@RequestMapping(value="/detailTempDocument.do", method=RequestMethod.POST)

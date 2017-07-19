@@ -7,7 +7,7 @@
 	<select id="selectTempDocumentList" parameterType="map" statementType="PREPARED" resultType="tempDocumentVO">
 		select id, subject, writeday
 		from temp_docs 
-		<if test="keyword != 'all'">
+		<!-- <if test="keyword != 'all'"> -->
 			<trim prefix="WHERE" suffixOverrides="and">				
 				<if test="employeeId != null and employeeId != ''">
 					employee_id = #{employeeId} and
@@ -15,24 +15,33 @@
 				<if test="keyfield == 'subject'">
 					subject like '%' || #{keyword} || '%' and
 				</if>
-				<if test="keyday1 != null and keyday1 != '' and keyday2 != null and keyday2 != ''">
-					writeday between #{keyday1} and #{keyday2} and
+				<if test="startDay != 'all' and endDay != 'all'">
+					writeday between #{startDay} and #{endDay} and
 				</if>
-				<if test="keyday1 != null and keyday1 != '' and keyday2 == null and keyday2 == ''">
-					writeday = #{keyday1} and
+				<if test="startDay != 'all' and endDay == 'all'">
+					writeday = #{startDay} and
 				</if>
-				<if test="keyday1 == null and keyday1 == '' and keyday2 != null and keyday2 != ''">
-					writeday = #{keyday2} and
+				<if test="startDay == 'all' and endDay != 'all'">
+					writeday = #{endDay} and
 				</if>
 			</trim>
-		</if>
-		<if test="keyword == 'all'">
-			<trim prefix="WHERE">
+		<!-- </if> -->
+		<!-- <if test="keyword == 'all'">
+			<trim prefix="WHERE" suffixOverrides="and">
 				<if test="employeeId != null and employeeId != ''">
-					employee_id = #{employeeId}
+					employee_id = #{employeeId} and
+				</if>
+				<if test="startDay != 'all' and endDay != 'all'">
+					writeday between #{startDay} and #{endDay} and
+				</if>
+				<if test="startDay != 'all' and endDay == 'all'">
+					writeday = #{startDay} and
+				</if>
+				<if test="startDay == 'all' and endDay != 'all'">
+					writeday = #{endDay} and
 				</if>
 			</trim>
-		</if>
+		</if> -->
 		order by writeday desc
 	</select>
 	
@@ -69,14 +78,40 @@
 		values (#{id}, #{employeeId}, #{formVO.id}, #{subject}, #{content}, sysdate, #{endDate})
 	</insert>
 	
-	<select id="selectTempDocument" parameterType="int" statementType="PREPARED" resultType="tempDocumentVO">
+	<resultMap type="tempDocumentVO" id="selectTempDocumentMap" autoMapping="true">
+		<id property="id" column="id" />
+		<result property="subject" column="subject" />
+		<result property="content" column="content" />
+		<result property="writeday" column="writeday" />
+		<result property="endDate" column="endDate" />
+		<result property="writer" column="writer" />
+		<result property="departmentName" column="departmentName" />	
+		<association property="formVO" javaType="formVO">
+			<id property="id" column="formId" />
+			<result property="subject" column="formSubject"/>
+			<association property="formFile" javaType="formFileVO">
+				<id property="id" column="formFileId" />
+				<result property="originalFileName" column="original_file_name"/>
+				<result property="systemFileName" column="system_file_name"/>
+				<result property="fileSize" column="file_size"/>
+			</association>
+		</association>
+	</resultMap>
+	
+	<select id="selectTempDocument" parameterType="int" statementType="PREPARED" resultMap="selectTempDocumentMap">
 		select td.id,
 				td.subject,
 				td.content,
 				to_char(td.writeday, 'YYYY/MM/DD') as writeday,
 				to_char(td.enddate, 'YYYY/MM/DD') as endDate,
 				emp.name as writer,
-				dept.name as departmentName
+				dept.name as departmentName,
+				fo.id as formId,
+				fo.subject as formSubject,
+				ff.id as formFileId,
+				ff.original_file_name,
+				ff.system_file_name,
+				ff.file_size
 		from temp_docs td,
 				form fo,
 		        form_file ff,
