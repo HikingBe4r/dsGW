@@ -5,11 +5,16 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+<script type="text/javascript" src="resources/tablednd/jquery.tablednd.js"></script>
+
 <script>
+var tap = 1;
+var approverList = [];
+var recieverList = [];
+
 $(document).ready(function() {
-	var tap = 1;
-	var approverList = [];
-	var recieverList = [];
+	
 	$('#approverTap').on('click', function() {
 		tap=1;
 		tapSetting($(this));		
@@ -26,8 +31,7 @@ $(document).ready(function() {
 		tapSetting($(this));
 		
 	});
-	
-	
+
 	
 	/* var temp = "<span class='glyphicon glyphicon-folder-open' aria-hidden='true'> IT부서 </span> <br>"; 
 	temp += "&nbsp; <span class='glyphicon glyphicon-triangle-bottom' aria-hidden='true'></span>1팀 <br>" ;
@@ -70,12 +74,12 @@ $(document).ready(function() {
 
 	// 임시목록 추가 버튼
 	$('#addBtn').on('click', function() {
-				
+		
 		 $(':checkbox[name=employee]').each(function() {
 			 if($(this).prop('checked')) {
+				 //결재자
 				 if(tap==1) {
-					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
-						 approverList.push($(this).val());
+					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {						 
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -91,7 +95,7 @@ $(document).ready(function() {
 								,
 								success: function(data) {
 									
-									var htmlStr = "<tr id="+ data.employee.id +" draggable='true'>";
+									var htmlStr = "<tr id="+ data.employee.id +">";
 									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
 									htmlStr += "<td>" + data.employee.name + "</td>";
 									htmlStr += "<td>" + data.employee.gradeId + "</td>";
@@ -99,9 +103,10 @@ $(document).ready(function() {
 									htmlStr += "<td>결재</td>";
 									htmlStr += "</tr>";
 									$('#approverTable').append(htmlStr);
-					
-							
+									
+									
 								}
+								
 								,
 								error : function(jqXHR) {
 									alert("Error : " + jqXHR.responseText);
@@ -113,6 +118,7 @@ $(document).ready(function() {
 				   	
 				 }
 				 
+				 //수신자
 				 if(tap==2) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 recieverList.push($(this).val());
@@ -149,9 +155,7 @@ $(document).ready(function() {
 							});
 					 }			 	 
 				 }
-				 
-				 	
-	 
+
 			 }
 			 
 		  });	
@@ -167,7 +171,6 @@ $(document).ready(function() {
 				   $(this).parent().parent().parent().remove();
 			   }	  
 			   
-
 		   });	
 		  
 		  $(':checkbox[name=reciever]').each(function() {
@@ -187,6 +190,7 @@ $(document).ready(function() {
 		if(approverList.length == 0 && recieverList.length == 0) {
 			alert("선택된 사원이 없습니다.");
 		} else {
+			
 			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/addApprover.do'
@@ -232,10 +236,29 @@ function tapSetting(obj) {
 	});
 }
 
+//테이블 드롭앤다운 (결재순서 변경)
+$(function() {	
+	$('#approverTable').on("mouseover", function() {
+		$("#approverTable").tableDnD({
+			onDrop: function(table, row) {
+				var rows = table.tBodies[0].rows;
+				approverList = [];
+				
+				for (var i=0; i<rows.length; i++) {
+	                approverList.push(rows[i].id);
+	            }
+			}
+		});
+	})	
+})
+
 
 </script>
 
 <div style="height: 10px;"></div>
+
+
+<!-- 왼쪽 패널 -->
 <div class="col-md-5">
 	<div class="panel panel-default">
 		<div class="panel-body">
@@ -252,11 +275,7 @@ function tapSetting(obj) {
 				<div class="panel panel-default">
 					<div class="panel-body" style="overflow:scroll; height: 330px;">
 						<div id="employeeList" class="checkbox">
-							
-
 						</div>
-						
-
 					</div>
 				</div>
 				<form class="form-inline pull-right">
@@ -275,20 +294,24 @@ function tapSetting(obj) {
 			</div>
 		</div>
 	</div>
-
 </div>
+
+
+<!-- 가운데 버튼 -->
 <div class="col-md-1" align="center">
 	<div style="height: 200px;"></div>
-	<span id="addBtn" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><br>
-	<br> <span id="removeBtn" class="glyphicon glyphicon-chevron-left"
-		aria-hidden="true"></span>
+	<span id="addBtn" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><br><br> 
+	<span id="removeBtn" class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 </div>
 
+
+<!-- 오른쪽 패널 -->
 <div class="col-md-6">
-	<div class="panel panel-default" style="overflow:scroll; height: 260px;"> <!-- 여기 -->
+	<div class="panel panel-default" style="overflow:scroll; height: 260px;"> 
+		<!-- 결재자 -->
 		<div class="panel-body">
 			<div class="checkbox">
-				<table id="approverTable" class="table table-striped" align="center">
+				<table id="approverTable" class="tablednd table table-striped" align="center">
 					<thead>
 						<tr>
 							<th></th>
@@ -298,18 +321,13 @@ function tapSetting(obj) {
 							<th>구분</th>
 						</tr>
 					</thead>
-					
-
-				</table>
-				
-				
+				</table>				
 			</div>
-
 		</div>
-
 	</div>
 	<br>
-	<div class="panel panel-default" style="overflow:scroll; height: 300px;"> <!-- 여기 -->
+	<div class="panel panel-default" style="overflow:scroll; height: 300px;"> 
+		<!-- 수신자 -->
 		<div class="panel-body">
 			<div class="checkbox">
 				<table id="recieverTable" class="table table-striped" align="center">
@@ -321,20 +339,14 @@ function tapSetting(obj) {
 							<th>부서</th>
 							<th>구분</th>
 						</tr>
-					</thead>
-					
-
-				</table>
-				
-				
+					</thead>				
+				</table>					
 			</div>
-
 		</div>
-
-	</div>
-	
+	</div>	
 	<br><br>
 	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 등록</button>
+	
 </div>
 
 

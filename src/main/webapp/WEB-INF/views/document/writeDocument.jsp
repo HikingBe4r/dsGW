@@ -57,7 +57,7 @@
 			htParams : {
 				bUseToolbar : true,
 				bUseVerticalResizer : false,
-				bUseModeChanger : true
+				bUseModeChanger : false
 			}
 		});
 
@@ -174,12 +174,12 @@
 
 					<div class="col-sm-12">
 						<textarea class="form-control" name="content" id="content"
-							rows="15"></textarea>
+							rows="16"></textarea>
 					</div>
 				</div>
 			</form>
 			<br>
-			<div class="col-sm-12" style="height: 20px;"></div>
+			<div class="col-sm-12" style="height: 10px;"></div>
 
 			<div class="col-sm-10">
 				<dl class="dl-horizontal">
