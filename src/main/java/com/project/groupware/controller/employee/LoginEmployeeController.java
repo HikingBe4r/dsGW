@@ -33,8 +33,9 @@ public class LoginEmployeeController {
 			login.setId(id);
 			login.setPassword(pwd);
 			login = service.loginAdmin(login);
+			session.setMaxInactiveInterval(20*60);
 			if (login != null) {
-				session.setAttribute("employee", login);
+				session.setAttribute("admin", login);
 				return "adminNav/employee/listEmployee";// 사원 관리 페이지
 			} else {
 				
