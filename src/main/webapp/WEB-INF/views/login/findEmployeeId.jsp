@@ -6,7 +6,8 @@
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
-<form action="${pageContext.request.contextPath }/findEmpId.do" method="post">
+<form action="${pageContext.request.contextPath }/findEmpId.do"
+	method="post">
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="container">
@@ -24,9 +25,10 @@
 								<input type="email" class="form-control" name="email1"
 									placeholder="Email">
 							</div>
-							<div>
-								<button type="submit" class="form-control btn btn-primary"
-									>찾기</button>
+							<div style="margin: auto">
+								<button type="submit" class="btn btn-primary" >찾기</button>
+								<button type="button" class="btn btn-primary" 
+									onclick="javascript:self.close()">취소</button>
 							</div>
 						</div>
 					</div>
@@ -36,7 +38,8 @@
 	</div>
 </form>
 
-<form action="${pageContext.request.contextPath }/findEmpPwd">
+<form action="${pageContext.request.contextPath }/findEmpPwd.do"
+	method="post">
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<div class="container">
@@ -48,20 +51,22 @@
 						<div class="panel-body">
 							<div>
 								<input type="text" class="form-control" name="employeeId2"
-									placeholder="Employee ID" autofocus>
+									placeholder="Employee ID"
+									autofocus>
 							</div>
 							<div>
 								<input type="text" class="form-control" name="name2"
-									placeholder="Name" autofocus>
+									 placeholder="Name" autofocus>
 							</div>
 							<div>
 								<input type="email" class="form-control" name="email2"
-									placeholder="Email">
+									 placeholder="Email">
 							</div>
 							<div>
-								<button type="submit" class="form-control btn btn-primary"
-									>비밀번호
+								<button type="submit" class="btn btn-primary">비밀번호
 									변경</button>
+								<button type="button" class="btn btn-primary"
+									onclick="javascript:self.close()">취소</button>
 							</div>
 						</div>
 					</div>

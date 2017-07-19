@@ -69,9 +69,38 @@ public class FindEmployeeIdController {
 		employee.setEmail(email);
 		employee = service.findEmployeeId(employee);
 		if (employee.getId().equals(employeeId)) {
-			// 인증번호 만들기
-			// 인증번호 메일 전송
+			
+			String from = "dsgroupware43@naver.com"; // 메일 보내는 사람
+			String to = employee.getEmail(); // 메일 보낼사람
+			String cc = ""; // 참조
+			String subject = "비밀번호 변경 인증 메일";// 제목
+			String num = "";
+			String content = "";
+			if (from.trim().equals("")) {
+				System.out.println("보내는 사람을 입력하지 않았습니다.");
+			} else if (to.trim().equals("")) {
+				System.out.println("받는 사람을 입력하지 않았습니다.");
+			} else {
+				try {
+					SendMail mt = new SendMail();
+					num = mt.RandomNum();//인증번호 생성
+					content = "인증번호 : " + num + " 입니다.";// 내용
+					// 메일보내기
+					mt.sendEmail(from, to, cc, subject, content);
+					System.out.println("메일 전송에 성공하였습니다.");
+				} catch (MessagingException me) {
+					System.out.println("메일 전송에 실패하였습니다.");
+					System.out.println("실패 이유 : " + me.getMessage());
+				} catch (Exception e) {
+					System.out.println("메일 전송에 실패하였습니다.");
+					System.out.println("실패 이유 : " + e.getMessage());
+				}
+			}
+			
 			// 인증번호 확인 화면 전환
+			mv.addObject("findEmployee", employee);
+			mv.addObject("authNum", num);
+			mv.setViewName("login/findEmpPwd");
 		} else {
 			mv.setViewName("login/findFail");
 		}

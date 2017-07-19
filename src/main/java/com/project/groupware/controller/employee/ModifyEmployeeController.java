@@ -17,28 +17,27 @@ import com.project.groupware.service.EmployeeService;
 
 @Controller
 public class ModifyEmployeeController {
-	
+
 	@Autowired
 	private EmployeeService service;
-	
+
 	@Autowired
 	private DepartmentService deptService;
-	
-	// 게시글 수정 폼 요청 처리
+
 	@RequestMapping(value = "/modifyEmployee.do", method = RequestMethod.GET)
 	public String form(@RequestParam(value = "id") String id, Model model) {
 		Map<String, Object> keyword = new HashMap<String, Object>();
-		model.addAttribute("employee", service.retrieveEmployee(id));
+		model.addAttribute("findEmployee", service.retrieveEmployee(id));
 		model.addAttribute("deptList", deptService.retrieveDepartmentList(keyword));
 		model.addAttribute("gradeList", service.retrieveGradeList());
 		model.addAttribute("statusList", service.retrieveStatusList());
 		return "adminNav/employee/modifyEmployeeForm";
 	}
 
-	// 게시글 수정 요청 처리
 	@RequestMapping(value = "/modifyEmployee.do", method = RequestMethod.POST)
-	public String submit(@ModelAttribute(value = "employee") EmployeeVO emp, Model model) {
-			service.modifyEmployee(emp);
-			return "redirect:/listEmployee.do";
+	public String submit(@ModelAttribute(value = "findEmployee") EmployeeVO emp, Model model) {
+		System.out.println(emp.toString());
+		service.modifyEmployee(emp);
+		return "redirect:/listEmployee.do";
 	}
 }

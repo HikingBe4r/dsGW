@@ -83,7 +83,7 @@
 
 	<update id="updateEmployee" parameterType="employeeVO"
 		statementType="PREPARED">
-		UPDATE ARTICLE
+		UPDATE employee
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="email != null and email != ''">
 				email = #{email} ,
@@ -92,7 +92,7 @@
 				address = #{address} ,
 			</if>
 			<if test="addressDetail != null and addressDetail != ''">
-				addressDetail = #{addressDetail} ,
+				ADDRESS_DETAIL = #{addressDetail} ,
 			</if>
 			<if test="password != null and password != ''">
 				password = #{password} ,
@@ -101,13 +101,13 @@
 				phone = #{phone} ,
 			</if>
 			<if test="departmentId != null and departmentId != ''">
-				departmentId = #{departmentId} ,
+				DEPARTMENT_ID = #{departmentId} ,
 			</if>
 			<if test="gradeId != null and gradeId != ''">
-				gradeId = #{gradeId} ,
+				GRADE_ID = #{gradeId} ,
 			</if>
 			<if test="statusId != null and statusId != ''">
-				statusId = #{statusId} ,
+				STATUS_ID = #{statusId}
 			</if>
 		</trim>
 		WHERE ID = #{id}

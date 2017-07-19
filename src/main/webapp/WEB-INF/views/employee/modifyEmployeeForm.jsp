@@ -1,4 +1,5 @@
 <%-- loginForm.jsp --%>
+<%@page import="com.project.groupware.domain.EmployeeVO"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -14,9 +15,21 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
+<%
+	EmployeeVO employee = (EmployeeVO)request.getAttribute("findEmployee");
+	request.setAttribute("id", employee.getId());
+%>
+<script>
+	function modifypwd() {
+		window
+				.open('${pageContext.request.contextPath }/modifyPwd.do',
+						'비밀번호 변경',
+						'width=600, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=yes');
+		return false;
+	}
+</script>
 <form action="${pageContext.request.contextPath }/modifyEmployee.do"
 	method="post" enctype="multipart/form-data">
-	<input type="hidden" name="id" value="${requestScope.employee.id }">
 	<div class="py-5">
 
 		<div class="container">
@@ -31,38 +44,40 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>사번</label> <input type="text" class="form-control"
-							value="${requestScope.employee.id}" placeholder="사번은 입사일+순번 입니다."
-							readOnly="readOnly">
+							value="${requestScope.findEmployee.id }"
+							placeholder="사번은 입사일+순번 입니다." name="id" readOnly="readOnly">
 					</div>
 					<div class="form-group">
 						<label>이름</label> <input type="text" class="form-control"
 							placeholder="이름" name="name"
-							value="${requestScope.employee.name}" readOnly="readOnly">
+							value="${requestScope.findEmployee.name}" readOnly="readOnly">
 					</div>
 					<div class="form-group">
 						<label>비밀번호</label> <input type="password" class="form-control"
 							placeholder="Password" name="password"
-							value="${requestScope.employee.password}" readOnly="readOnly">
+							value="${requestScope.findEmployee.password}" disabled="disabled">
+						<button type="button" class="btn btn-primary"
+							onclick="return modifypwd()">비밀번호 변경</button>
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label> <input type="password" class="form-control"
 							placeholder="Password Check"
-							value="${requestScope.employee.password}" readOnly="readOnly">
+							value="${requestScope.findEmployee.password}" disabled="disabled">
 					</div>
 					<div class="form-group">
 						<label>이메일</label> <input type="email" class="form-control"
 							placeholder="xxxx@xxxx.xxx" name="email"
-							value="${requestScope.employee.email}">
+							value="${requestScope.findEmployee.email}">
 					</div>
 					<div class="form-group">
 						<label>연락처</label> <input type="text" class="form-control"
 							placeholder="000-0000-0000" name="phone"
-							value="${requestScope.employee.phone}">
+							value="${requestScope.findEmployee.phone}">
 					</div>
 					<div class="form-group">
 						<label>주소</label> <input type="text" class="form-control"
 							id="address" placeholder="주소" name="address"
-							value="${requestScope.employee.address}">
+							value="${requestScope.findEmployee.address}">
 						<button type="button" class="btn btn-primary"
 							onclick="sample4_execDaumPostcode()">주소검색</button>
 						<script>
@@ -127,7 +142,7 @@
 					<div class="form-group">
 						<label>상세주소</label> <input type="text" class="form-control"
 							placeholder="상세주소" name="addressDetail"
-							value="${requestScope.employee.addressDetail}">
+							value="${requestScope.findEmployee.addressDetail}">
 					</div>
 
 					<label>부서</label><br> <select class="form-control"
@@ -136,7 +151,7 @@
 							varStatus="loop">
 							<c:choose>
 								<c:when
-									test="${requestScope.employee.departmentId == pageScope.deptList.id}">
+									test="${requestScope.findEmployee.departmentId == pageScope.deptList.id}">
 									<option selected="selected" value="${pageScope.deptList.id}">${pageScope.deptList.name }</option>
 								</c:when>
 								<c:otherwise>
@@ -150,7 +165,8 @@
 						<c:forEach var="gradeList" items="${requestScope.gradeList }"
 							varStatus="loop">
 							<c:choose>
-								<c:when test="${requestScope.employee.gradeId == loop.count}">
+								<c:when
+									test="${requestScope.findEmployee.gradeId == loop.count}">
 									<option selected="selected" value="${loop.count}">${pageScope.gradeList.GRADE }</option>
 								</c:when>
 								<c:otherwise>
@@ -164,7 +180,8 @@
 						<c:forEach var="statusList" items="${requestScope.statusList }"
 							varStatus="loop">
 							<c:choose>
-								<c:when test="${requestScope.employee.statusId == loop.count}">
+								<c:when
+									test="${requestScope.findEmployee.statusId == loop.count}">
 									<option selected="selected" value="${loop.count}">${pageScope.statusList.STATUS }</option>
 								</c:when>
 								<c:otherwise>
