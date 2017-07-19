@@ -4,6 +4,19 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.FormFileMapper">
 
-
+	<insert id="insertFormFile" parameterType="formFileVO" statementType="PREPARED">
+		<selectKey keyProperty="id" order="BEFORE" resultType="String" statementType="STATEMENT">
+			SELECT FORM_FILE_ID_SEQ.nextval
+			FROM DUAL
+		</selectKey>
+		
+		INSERT INTO FORM_FILE
+		VALUES(#{id}, #{formId}, #{originalFileName}, #{systemFileName}, #{fileSize})
+	</insert>
+	
+	<delete id="deleteFormFile" parameterType="String" statementType="PREPARED">
+		DELETE FROM FORM_FILE
+		WHERE form_id = #{formId}	
+	</delete>
 	
 </mapper>

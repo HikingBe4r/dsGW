@@ -34,9 +34,8 @@
 			ff.ID as formFileId, ff.ORIGINAL_FILE_NAME, ff.SYSTEM_FILE_NAME, ff.FILE_SIZE
 		FROM 
 			FORM f, FORM_FILE ff
-		WHERE
-			f.ID = ff.FORM_ID and
-			f.ID = #{id}
+		WHERE f.ID = ff.FORM_ID(+)
+		  AND f.ID = #{id}
 	</select>
 	
 	<insert id="insertForm" parameterType="formVO" statementType="PREPARED">
@@ -46,12 +45,12 @@
 		</selectKey>
 		
 		INSERT INTO FORM
-		VALUES(#{id}, #{subject}, #{content}, #{writeday}, #{hitcount})
+		VALUES(#{id}, #{subject}, #{content}, sysdate, 0)
 	</insert>
 
 	<delete id="deleteForm" parameterType="String" statementType="PREPARED">
 		DELETE FROM FORM
-		WHERE ID = #{id}
+		WHERE ID = #{formId}
 	</delete>
 	
 	<update id="updateForm" parameterType="formVO" statementType="PREPARED">

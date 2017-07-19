@@ -1,11 +1,18 @@
 package com.project.groupware.view;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLEncoder;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.AbstractView;
+
+import com.project.groupware.util.UploadFileUtils;
 
 // 파일 다운로드 뷰
 public class DownloadFileView extends AbstractView {
@@ -13,7 +20,7 @@ public class DownloadFileView extends AbstractView {
 	@Override
 	protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		/*String originalFileName = (String) model.get("originalFileName");
+		String originalFileName = (String) model.get("originalFileName");
 		String systemFileName = (String) model.get("systemFileName");
 
 		response.setContentType("application/octet-stream");
@@ -34,6 +41,6 @@ public class DownloadFileView extends AbstractView {
 		} finally {
 			if(fis != null) fis.close();
 			if(sos != null) sos.close();
-		}*/
+		}
 	}
 }

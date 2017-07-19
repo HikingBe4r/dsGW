@@ -1,10 +1,12 @@
 <%-- writeDocument.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
 		
@@ -32,6 +34,7 @@
 		
 	});
 </script>
+
 
 <form id="detailDocumentForm">
 	<%-- <input type="hidden" name="documentId" id="documentId" value="${requestScope.approvalDocument.document.id }"> --%>
@@ -91,17 +94,17 @@
 							<c:forEach var="j" begin="1" end="${requestScope.approvalDocument.approverList.size()-1 }">
 							
 							<!-- 현재 결재자칸은 테두리가 빨강. -->
-							
+							<!-- 이거는 jquery쓰는게 더 깔끔할거 같은데.. -->
 							
 								<c:if test="${i == 0 && 
 										requestScope.approvalDocument.approverList[j].APPID == 
 										requestScope.approvalDocument.currentApprover.id }">
-									<td id="employeeName" style="color: red;">${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
+									<td style="color: red;">${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
 								</c:if>
 								<c:if test="${i == 0 && 
 										requestScope.approvalDocument.approverList[j].APPID != 
 										requestScope.approvalDocument.currentApprover.id }">
-									<td id="employeeName" >${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
+									<td>${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
 								</c:if>
 							
 								<!-- 
@@ -133,20 +136,27 @@
 				<div class="pull-right col-sm-1"></div>
 			</div>
 
-
-			<form class="row">
 				<div class="form-group">
-					<label for="subject" class="col-sm-1 control-label" align="right">제목</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="subject" name="subject"
-							placeholder="문서제목" readonly="readonly" value="${requestScope.approvalDocument.document.subject }">
-					</div>
-					<br> <br> <br>
-					<div class="col-sm-12">
-						<textarea class="form-control" rows="5" name="content" readonly="readonly">${requestScope.approvalDocument.document.content }</textarea>
-					</div>
+					<table>
+						<tr class="col-sm-10">
+							<td style="width: 50px; height:50px;" align="right">
+								<label style="margin-right: 20px">제목</label> 
+							</td>
+							<td>
+								<input type="text" class="form-control" id="subject" name="subject"
+									placeholder="문서제목" readonly="readonly" value="${requestScope.approvalDocument.document.subject }">
+							</td>
+						</tr>
+						<tr class="col-sm-12">
+							<td style="width: 50px; height:50px;" align="right" valign="top">
+								<label style="margin-right: 20px">내용</label>
+							</td>
+							<td style="border">${requestScope.approvalDocument.document.content }</td>
+							
+						</tr>
+					</table>
 				</div>
-			</form> <br>
+			<br>
 			<div class="col-sm-12" style="height: 20px;">
 				
 			</div>

@@ -1,5 +1,7 @@
 package com.project.groupware.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class FormVO {
 	// 프로퍼티 안올림.
 	
@@ -9,6 +11,7 @@ public class FormVO {
 	private String writeday;	//등록일
 	private int hitcount;		//조회수
 	private FormFileVO formFile;
+	private MultipartFile upload;
 	
 	public FormVO() {
 		
@@ -63,6 +66,14 @@ public class FormVO {
 		this.hitcount = hitcount;
 	}
 
+	
+
+	@Override
+	public String toString() {
+		return "FormVO [id=" + id + ", subject=" + subject + ", content=" + content + ", writeday=" + writeday
+				+ ", hitcount=" + hitcount + ", formFile=" + formFile + "]";
+	}
+
 	public FormFileVO getFormFile() {
 		return formFile;
 	}
@@ -71,12 +82,14 @@ public class FormVO {
 		this.formFile = formFile;
 	}
 
-	@Override
-	public String toString() {
-		return "FormVO [id=" + id + ", subject=" + subject + ", content=" + content + ", writeday=" + writeday
-				+ ", hitcount=" + hitcount + ", formFile=" + formFile + "]";
+	public MultipartFile getUpload() {
+		return upload;
 	}
-	
+
+	public void setUpload(MultipartFile upload) {
+		this.upload = upload;
+	}
+
 	
 
 }

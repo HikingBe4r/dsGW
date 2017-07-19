@@ -30,22 +30,37 @@ public class FormServiceImpl implements FormService{
 		return form;
 	}
 
-	public void registerForm(FormVO formVO) {
+	public void registerForm(FormVO formVO) throws Exception{
 		formMapper.insertForm(formVO);
+		
 		FormFileVO formFile = formVO.getFormFile();
+		
 		if(formFile != null) {
+			
 			formFile.setFormId(formVO.getId());
+			formFileMapper.insertFormFile(formFile);
 		}
-		formFileMapper.insertFormFile(formFile);	
+		
+		
+			
 	}
 
-	public void removeForm(String id) {		
-		formFileMapper.deleteFormFile(id);
-		formMapper.deleteForm(id);				
+	public void removeForm(String formId) {		
+		formFileMapper.deleteFormFile(formId);
+		formMapper.deleteForm(formId);	
 	}
 	
 	public void modifyForm(FormVO formVO) {
 		formMapper.updateForm(formVO);
+		FormFileVO formFile = formVO.getFormFile();
+		
+		if(formFile != null) {
+			formFileMapper.deleteFormFile(formVO.getId());
+			formFile.setFormId(formVO.getId());
+			formFileMapper.insertFormFile(formFile);
+		}
+		
+		
 	}
 
 	public List<BookmarkFormVO> retrieveBookmarkFormList(String keyword) {

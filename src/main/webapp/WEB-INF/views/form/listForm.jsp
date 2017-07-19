@@ -5,6 +5,14 @@
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
+<script>
+	$(document).ready(function() {
+		$("#regBtn").click(function() {
+			document.location.href='${pageContext.request.contextPath}/registerForm.do';
+		});
+	});
+
+</script>
 
 
 <div>
@@ -14,7 +22,7 @@
 			<input type="text" class="form-control" id="searchKeyword"
 				placeholder="keyword">
 		</div>
-		<button type="button" class="btn btn-default">검색</button>
+		<button type="button" class="btn btn-default" id="searchBtn">검색</button>
 	</form>
 </div>
 <br>
@@ -35,7 +43,7 @@
 			<tr>
 				<td>${form.id }</td>
 				<c:url var="url" value="/detailForm.do">
-					<c:param name="id" value="${pageScope.form.id }"></c:param>
+					<c:param name="formId" value="${pageScope.form.id }"></c:param>
 				</c:url>
 				<td><a href="${url }">${form.subject }</a></td>
 				<td>${form.writeday }</td>
@@ -46,11 +54,9 @@
 </div>
 
 <div align="right">
-	<button type="button">등록</button>
-	<button type="button">삭제</button>
+	<button type="button" class="btn btn-primary" id="regBtn">등록</button>
+	<button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
 </div>
-
-
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">

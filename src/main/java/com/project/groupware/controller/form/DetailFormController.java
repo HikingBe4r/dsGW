@@ -16,7 +16,7 @@ public class DetailFormController {
 	private FormService formService;
 	
 	@RequestMapping(value="/detailForm.do", method=RequestMethod.GET)
-	public ModelAndView detailForm(@RequestParam(value="id", required=true) String formId) {
+	public ModelAndView detailForm(@RequestParam(value="formId", required=true) String formId) {
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("form", formService.retrieveForm(formId));

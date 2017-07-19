@@ -342,6 +342,7 @@ public class DocumentServiceImpl implements DocumentService {
 		approvalDocument.put("document", documentMapper.selectApprovalDocument(documentId));
 		approvalDocument.put("approverList", approvalLineMapper.selectApproverMapByDocumentId(documentId));
 		approvalDocument.put("currentApprover", approvalLineMapper.selectCurrentApprover(documentId));
+		approvalDocument.put("completeApproverList", approvalLineMapper.selectCompleteApproverList(documentId));
 		return approvalDocument;
 	}
 	

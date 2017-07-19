@@ -11,7 +11,7 @@ public interface FormService {
 	// 양식
 	List<FormVO> retrieveFormList(String keyword);
 	FormVO retrieveForm(String id);
-	void registerForm(FormVO formVO);
+	void registerForm(FormVO formVO) throws Exception;
 	void removeForm(String id);
 	void modifyForm(FormVO formVO);
 

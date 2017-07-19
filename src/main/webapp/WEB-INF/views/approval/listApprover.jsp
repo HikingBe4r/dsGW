@@ -44,21 +44,6 @@
 							<th>구분</th>
 						</tr>
 					</thead>
-					<!-- <tr id="20170711001">
-						<td><label><input type="checkbox" name="approver" value=""></label></td>
-						<td>일길동</td>
-						<td>사원</td>
-						<td>IT</td>
-						<td>결재</td>
-					</tr>
-					<tr id="20170711002">
-						<td><label><input type="checkbox" name="approver" value=""></label></td>
-						<td>이길동</td>
-						<td>사원</td>
-						<td>경영</td>
-						<td>수신</td>
-					</tr> -->
-
 				</table>
 			</div>
 
