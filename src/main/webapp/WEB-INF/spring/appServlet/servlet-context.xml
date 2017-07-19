@@ -72,7 +72,13 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/*" />
+			<exclude-mapping path="/findEmpId.do"/>
+			<exclude-mapping path="/findEmployeeId.do"/>
+			<exclude-mapping path="/findEmpPwd.do"/>
+			<exclude-mapping path="/findFail.do"/>
 			<exclude-mapping path="/login.do" />
+			<exclude-mapping path="/modifyPwd.do" />
+			<exclude-mapping path="/successPwd.do" />
 			<beans:bean class="com.project.groupware.interceptor.AuthHandlerInterceptor" />
 		</interceptor>
 	</interceptors>   

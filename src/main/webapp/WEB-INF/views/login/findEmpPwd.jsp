@@ -21,7 +21,7 @@
 		}
 		if (form.authnum.value == authNum) {
 			alert("인증 완료");
-			location.href = "employee/modifyPwd.do";
+			location.href = "modifyPwd.do?id=" + ${requestScope.id };
 		}
 	}
 </script>
@@ -31,7 +31,8 @@
 		<form method="post" name="authenform" onclick="return check();">
 		<div class="panel-title">인증 번호 입력</div>
 			<input type="text" name="authnum" class="form-control"><br>
-			<br> <input type="button" class="form-control btn btn-primary">
+			<input type="hidden" name="id" value="${requestScope.id }">
+			<br> <button type="button" class="form-control btn btn-primary">확인</button>
 		</form>
 	</div>
 	</center>

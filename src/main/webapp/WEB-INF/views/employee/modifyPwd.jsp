@@ -5,13 +5,14 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-<form action="${pageContext.request.contextPath }/modifyPwd.do"
+<form action="${pageContext.request.contextPath }/successPwd.do"
 	method="post">
 	<div class="py-5">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
 					<div class="form-group">
+					<input type="hidden" name="id" value="${requestScope.id }">
 						<label>비밀번호</label> <input type="password" class="form-control"
 							name="password" placeholder="Password">
 					</div>

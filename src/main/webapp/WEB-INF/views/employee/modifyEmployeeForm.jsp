@@ -15,18 +15,20 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
-<%
-	EmployeeVO employee = (EmployeeVO)request.getAttribute("findEmployee");
-	request.setAttribute("id", employee.getId());
-%>
 <script>
-	function modifypwd() {
-		window
-				.open('${pageContext.request.contextPath }/modifyPwd.do',
-						'비밀번호 변경',
-						'width=600, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=yes');
-		return false;
-	}
+	function popup(frm)
+	{
+	  var url    ="${pageContext.request.contextPath }/modifyPwd.do";
+	  var title  = "비밀번호 변경";
+	  var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=240, height=200, top=0,left=20"; 
+	  window.open("", title,status); //window.open(url,title,status); window.open 함수에 url을 앞에와 같이
+	                                            //인수로  넣어도 동작에는 지장이 없으나 form.action에서 적용하므로 생략
+	                                            //가능합니다.
+	  frm.target = title;                    //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
+	  frm.action = url;                    //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
+	  frm.method = "post";
+	  frm.submit();     
+	  }
 </script>
 <form action="${pageContext.request.contextPath }/modifyEmployee.do"
 	method="post" enctype="multipart/form-data">
@@ -57,7 +59,7 @@
 							placeholder="Password" name="password"
 							value="${requestScope.findEmployee.password}" disabled="disabled">
 						<button type="button" class="btn btn-primary"
-							onclick="return modifypwd()">비밀번호 변경</button>
+							onclick="popup(this.form)">비밀번호 변경</button>
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label> <input type="password" class="form-control"

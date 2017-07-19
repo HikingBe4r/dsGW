@@ -3,8 +3,6 @@ package com.project.groupware.controller.employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,18 +17,13 @@ public class ModifyPasswordController {
 	@Autowired
 	private EmployeeService service;
 	
-	@RequestMapping(value = "/modifyPwd.do", method = RequestMethod.GET)
-	public String form(@RequestAttribute("id") String id, Model model) {
-		EmployeeVO employee = service.retrieveEmployee(id);
-		model.addAttribute("findEmployee", employee);
-		return "employee/modifyPwd";
-	}
-	
-	@RequestMapping(value = "/modifyPwd.do", method = RequestMethod.POST)
-	public ModelAndView submit(@RequestParam(value = "password") String pwd, @RequestParam("findEmployee") EmployeeVO employee) {
+	@RequestMapping(value = "/successPwd.do", method = RequestMethod.POST)
+	public ModelAndView submit(@RequestParam(value = "password") String pwd, @RequestParam(value = "id") String id) {
 		ModelAndView mv = new ModelAndView();
+		EmployeeVO employee = service.retrieveEmployee(id);
 		employee.setPassword(pwd);
 		service.modifyPassword(employee);
+		mv.setViewName("employee/successPwd");
 		return mv;
 	}
 

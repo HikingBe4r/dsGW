@@ -98,7 +98,7 @@ public class FindEmployeeIdController {
 			}
 			
 			// 인증번호 확인 화면 전환
-			mv.addObject("findEmployee", employee);
+			mv.addObject("id", employee.getId());
 			mv.addObject("authNum", num);
 			mv.setViewName("login/findEmpPwd");
 		} else {
