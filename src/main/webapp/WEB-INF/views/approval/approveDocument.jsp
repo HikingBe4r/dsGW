@@ -56,10 +56,10 @@
 		</div>
 	
 		<div class="btn-group pull-right">
-			<c:if test="${param.kind == 1}">
+			<c:if test="${requestScope.kind == 1}">
 				<button class="btn btn-primary" type="button" id="approveBtn">승인</button>
 			</c:if>
-			<c:if test="${param.kind == 2}">
+			<c:if test="${requestScope.kind == 2}">
 				<button class="btn btn-primary btn-danger" type="button" id="approveBtn">반려</button>
 			</c:if>
 			

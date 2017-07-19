@@ -49,16 +49,16 @@
 		  
 		 <if test="keyword != null and kind != null">
 			<if test="kind.equals('전체')">
-				AND (doc.subject like '%' || #{keyword} || '%'
-				OR t2.name like '%' || #{keyword} || '%')
+				AND (doc.subject like '%' ||#{keyword}|| '%'
+				OR t2.name like '%' ||#{keyword}|| '%')
 			</if>
 		
 			<if test="kind.equals('제목')">
-				AND doc.subject like '%' || #{keyword} || '%'
+				AND doc.subject like '%' ||#{keyword}|| '%'
 			</if>
 		
 			<if test="kind.equals('작성자')">
-				AND t2.name like '%' || #{keyword} || '%'
+				AND t2.name like '%' ||#{keyword}|| '%'
 			</if>
 		</if>
 		ORDER BY doc.id DESC

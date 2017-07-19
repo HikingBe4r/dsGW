@@ -205,4 +205,28 @@
 		  AND empimg.kind(+) = 2
 		  AND app.approval_auth_id = 2
 	</select>
+	
+	<!-- 
+		해당문서 결재자 목록 문서번호로. (상세조회때 씀)	
+	 -->
+	<select id="selectApproverListDetailDocument" resultType="java.util.HashMap" parameterType="java.util.HashMap" statementType="PREPARED">
+		SELECT app.id appId, emp.name empName, grade.grade, dept.name deptName, auth.auth
+		FROM employee emp, approver app, department dept, approval_auth auth, grade,
+		  (SELECT distinct(app.approval_line_id)
+		   FROM approval_history apphis, approver app
+		   WHERE apphis.document_id = #{documentId}
+		     AND app.id = apphis.approver_id) t1
+		WHERE emp.id = app.employee_id
+		  AND app.approval_line_id = t1.approval_line_id
+		  AND emp.department_id = dept.id(+)
+		  AND app.approval_auth_id = auth.id(+)
+		  AND emp.grade_id = grade.id
+		  <if test="kind == 1 and kind != null">
+		  AND app.approval_auth_id != 3
+		  </if>
+		  <if test="kind == 2 and kind != null">
+		  AND app.approval_auth_id = 3 
+		  </if>
+		ORDER BY appId ASC
+	</select>
 </mapper>

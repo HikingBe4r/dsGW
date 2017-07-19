@@ -9,53 +9,62 @@
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
 	$(document).ready(function() {
-		
-		
+		var form = document.detailDocumentForm;
 		// 결재선 버튼 클릭시 팝업
-		// 이거 수정 불가능버전으로 다시 만들어야함.
 		$('#approvalLine').click(function() {
-			var popUrl = "${pageContext.request.contextPath}/listApprover.do";
-			window.open(popUrl, 'test', 'width=1200, height=550');
-		});	
+			window.open('', 'Popup_Window', 'width=600, height=600');
+			form.target = "Popup_Window";
+			form.action = "${pageContext.request.contextPath}/listApprover.do";
+			form.submit();
+		});
+		
+		$('#cancelBtn').click(function() {
+			document.location.href = "${pageContext.request.contextPath}/listApprovalDocument.do";
+		}); 
 		
 		$('#approveDocument').click(function() {
-			var popUrl = "${pageContext.request.contextPath}/approveDocument.do";
-			popUrl += "?documentId=${requestScope.approvalDocument.document.id }";
-			popUrl += "&kind=1";	// 승인 
-			window.open(popUrl, '승인test', 'width=400, height=200');
+			$("#kind").val("1");	// hidden의 kind값 변경
+			window.open('', 'Popup_Window', 'width=400, height=200');
+			form.target = "Popup_Window";
+			form.action = "${pageContext.request.contextPath}/approveDocument.do";
+			form.method = "GET";
+			form.submit();
 		});
 		
 		$('#rejectDocument').click(function() {
-			var popUrl = "${pageContext.request.contextPath}/approveDocument.do";
-			popUrl += "?documentId=${requestScope.approvalDocument.document.id }";
-			popUrl += "&kind=2";	// 반려 
-			window.open(popUrl, '반려test', 'width=400, height=200');
+			$("#kind").val("2");
+			window.open('', 'Popup_Window', 'width=400, height=200');
+			form.target = "Popup_Window";
+			form.action = "${pageContext.request.contextPath}/approveDocument.do";
+			form.method = "GET";
+			form.submit();
 		});
 		
 	});
 </script>
 
 
-<form id="detailDocumentForm">
-	<%-- <input type="hidden" name="documentId" id="documentId" value="${requestScope.approvalDocument.document.id }"> --%>
-	<div>
+<form name="detailDocumentForm" id="detailDocumentForm">
+	<input type="hidden" name="documentId" id="documentId" value="${requestScope.approvalDocument.document.id }" />
+	<input type="hidden" name="kind" id="kind" value="" />
+	<div >
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
-			<button type="button" class="btn btn-danger">취소</button>
+			<button type="button" class="btn btn-danger" id="cancelBtn">취소</button>
 		</div>
 
 		<div class="pull-right">
 			<c:if test="${requestScope.approvalDocument.currentApprover.employeeId == sessionScope.employee.id }">
 				<button type="button" class="btn btn-primary btn-lg" id="approveDocument">승인</button>
-			<button type="button" class="btn btn-primary btn-lg btn-danger" id="rejectDocument">반려</button>
+				<button type="button" class="btn btn-primary btn-lg btn-danger" id="rejectDocument">반려</button>
 			</c:if> 
 			
 		</div>
 	</div>
 	<br>
-	<div class="panel panel-info" style="height: 750px;">
+	<div  id="asdf" class="panel panel-info" style="height: 750px;">
 		<div class="panel-heading" align="center">
-			<h4> ${requestScope.approvalDocument.document.formVO.subject}</h4>	
+			<h4 id="azzz"> ${requestScope.approvalDocument.document.formVO.subject}</h4>	
 			<input type="hidden" name="formId" value="1">
 		</div>
 

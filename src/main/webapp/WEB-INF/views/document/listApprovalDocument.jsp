@@ -10,12 +10,15 @@
 	function listApprovalDocument(data) {
 		$("#documents").empty(data);
 		var htmlStr = "";
-		
+		if(data.documentList.length == 0) {
+			alert("검색결과가 없습니다.");
+		}
 		for(var i = 0; i < data.documentList.length; i++) {
-			
+			var linkUrl = '${pageContext.request.contextPath}/detailApprovalDocument.do';
+				linkUrl += '?documentId=' + data.documentList[i].ID;
 			htmlStr += '<tr align="center">';
 			htmlStr += '<td width="100">'+data.documentList[i].ID+'</td>';
-			htmlStr += '<td>'+data.documentList[i].SUBJECT+'</td>';
+			htmlStr += '<td><a href='+linkUrl+'>'+data.documentList[i].SUBJECT+'</a></td>';
 			htmlStr += '<td width="100">'+data.documentList[i].NAME +'</td>';
 			htmlStr += '<td width="100">'+data.documentList[i].WRITEDAY +'</td>';
 			htmlStr += '<td width="100">'+data.documentList[i].ENDDATE +'</td>';
@@ -39,8 +42,10 @@
 				dataType : 'json'
 				,
 				data : {
+					employeeId : '${sessionScope.employee.id}',
 					kind: $("#KIND").val(),
-					keyword: $("#searchKeyword").val()
+					keyword: $("#searchKeyword").val(),
+					boardId: "${requestScope.boardId}"
 				}
 				,
 				success : function(data) {

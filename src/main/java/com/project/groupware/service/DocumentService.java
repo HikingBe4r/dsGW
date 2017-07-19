@@ -42,5 +42,8 @@ public interface DocumentService {
 	Map<String, Object> retrieveApprovalDocument(String documentId);
 
 	List<Map<String, Object>> retrieveApproverMapByDocumentId(String documentId);
+	
+	// 결재자 리스트 조회
+	List<Map<String, Object>> retrieveApproverListDetailDocument(Map<String, Object> map);
 
 }

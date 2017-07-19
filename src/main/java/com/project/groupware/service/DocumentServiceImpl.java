@@ -220,58 +220,6 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		return true;
 		
-		
-		
-		
-		
-		
-		
-		/*// 문서 최종상태가 1, 2일때만 가능하다.
-		if(document.getStatus().equals("3") || document.getStatus().equals("4")) {
-			
-		}
-		
-		// 1. AppHistory에 승인 이력을 추가한다.
-		List<ApproverVO> approverList = document.getApproverList();
-		ApprovalHistoryVO appHistoryVO = new ApprovalHistoryVO();
-		int totalApprover = 0;
-		int currentApprover = 0;
-		for(ApproverVO approver : approverList) {
-			
-			// 결재자 일때만
-			// 현재 결재자일때만 가능하게!!!!!!
-			if(approver.getApprovalAuthId().equals("2")) {
-				totalApprover++;
-				// 해당 결재자의 사번이 param과 같으면 이력추가.
-				if(approver.getEmployeeId().equals(employeeId)) {
-					// 현재 결재자 순번 체크
-					currentApprover = totalApprover;
-					
-					appHistoryVO.setApproverId(approver.getId()); // 해당 결재자
-					appHistoryVO.setStatus("2");	//승인
-					appHistoryVO.setDocumentId(documentId); 	// 해당문서
-					appHistoryVO.setReply(reply);
-					
-					approvalHistoryMapper.insertApprovalHistory(appHistoryVO);
-				}
-				
-			}
-		}
-		
-		NoticeVO noticeVO = new NoticeVO();
-		// 뒷사람이 있으면
-		if(currentApprover < totalApprover) {
-			noticeVO.setEmployeeId(approverList.get(currentApprover+1).getEmployeeId()); // 0: 기안자 1~ : 결재자
-			noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서의 결재순서입니다.");
-			document.setStatus("2");
-		} else if(currentApprover == totalApprover) {
-			noticeVO.setEmployeeId(approverList.get(0).getEmployeeId());
-			noticeVO.setContent("[ "+ document.getSubject()+ " ] 문서가 최종 승인되었습니다.");
-			document.setStatus("3");
-		}		
-
-		documentMapper.updateDocumentStatus(document);
-		noticeMapper.insertNotice(noticeVO);*/
 	}
 	
 	/**
@@ -350,6 +298,12 @@ public class DocumentServiceImpl implements DocumentService {
 	public List<Map<String, Object>> retrieveApproverMapByDocumentId(String documentId) {
 		List<Map<String, Object>> approverList = approvalLineMapper.selectApproverMapByDocumentId(documentId);
 		
+		return approverList;
+	}
+	
+	// 상세조회에서 쓰는 결재선 조회
+	public List<Map<String, Object>> retrieveApproverListDetailDocument(Map<String, Object> map) {
+		List<Map<String, Object>> approverList = approvalLineMapper.selectApproverListDetailDocument(map);
 		return approverList;
 	}
 }

@@ -21,8 +21,10 @@ public class ApproveDocumentController {
 	// 결재 승인 폼 페이지 띄우기
 	@RequestMapping(value="approveDocument.do", method=RequestMethod.GET)
 	public ModelAndView form(
+			@RequestParam(value="kind", required=true) String kind,
 			@RequestParam(value="documentId", required=true) String documentId) {
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("kind", kind);
 		mv.addObject("documentId", documentId);
 		mv.setViewName("approval/approveDocument");
 		return mv;
