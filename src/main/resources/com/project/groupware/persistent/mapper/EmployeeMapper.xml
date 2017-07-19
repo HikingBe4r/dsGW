@@ -133,7 +133,6 @@
 		AND e.department_id = d.id
 		AND e.grade_id = g.id
 		AND e.status_id = es.id
-
 	</select>
 
 	<select id="selectEmployeeDetailList" parameterType="map"
@@ -185,6 +184,27 @@
 		FROM EMP_STATUS
 		ORDER BY ID
 
+	</select>
+	
+	<select id="selectEmployeeByDepartment" parameterType="string"
+		statementType="PREPARED" resultType="employeeVO">
+		SELECT
+			e.ID,
+			e.NAME,
+			e.EMAIL,
+			to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate,
+			e.ADDRESS,
+			e.ADDRESS_DETAIL as addressDetail,
+			e.PASSWORD,
+			e.PHONE,
+			d.name as departmentId,
+			g.grade as gradeId,
+			es.status as statusId
+		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es
+		WHERE d.id = #{value}
+		AND e.department_id = d.id
+		AND e.grade_id = g.id
+		AND e.status_id = es.id
 	</select>
 
 </mapper>

@@ -24,4 +24,14 @@ public class ListDepartmentController {
 		mv.setViewName("adminNav/department/listDepartment");
 		return mv;
 	}
+	
+	
+	@RequestMapping(value="/listDepartment.do", method=RequestMethod.POST)
+	public ModelAndView listDepartmentPost() {
+		ModelAndView mv = new ModelAndView();
+		Map<String, Object> keyword = new HashMap<String, Object>();
+		mv.addObject("departmentList", service.retrieveDepartmentList(keyword));
+		mv.setViewName("jsonView");
+		return mv;
+	}
 }

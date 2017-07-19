@@ -28,4 +28,6 @@ public interface EmployeeMapper {
 	public List<EmployeeVO> selectEmployeeDetailList(Map<String, Object> map);
 	
 	public EmployeeVO selectEmployeeFind(EmployeeVO emp);
+	
+	public List<EmployeeVO> selectEmployeeByDepartment(String departmentId);
 }

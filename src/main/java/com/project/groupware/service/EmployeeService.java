@@ -39,5 +39,7 @@ public interface EmployeeService {
 	public List<EmployeeVO> retrieveEmployeeDetailList(Map<String, Object> keyword);
 	
 	public EmployeeVO findEmployeeId(EmployeeVO emp);
+	
+	public List<EmployeeVO> retrieveEmployeeByDepartment(String departmentId);
 
 }

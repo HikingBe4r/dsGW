@@ -40,8 +40,9 @@ $(document).ready(function() {
 	$('#employeeList').append(temp); */
 	
 	
+	// 사원 조회
 	$.ajax({
-		url: '${pageContext.request.contextPath}/listEmployee.do'
+		url: '${pageContext.request.contextPath}/listDepartment.do' //'${pageContext.request.contextPath}/listDepartment.do'
 		,
 		method: 'POST'
 		,
@@ -56,9 +57,10 @@ $(document).ready(function() {
 		success: function(data) {
 			
 			var htmlStr = "";
-			for(var i=0; i<data.employeeList.length; i++) {
-				htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.employeeList[i].id+"'>";
-				htmlStr +=  data.employeeList[i].name + "</label> <br>";
+			for(var i=0; i<data.departmentList.length; i++) {
+				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+				 htmlStr += data.departmentList[i].name + "</span> <br>" ;
+				 	 
 			}
 			
 			$('#employeeList').append(htmlStr);
@@ -71,6 +73,8 @@ $(document).ready(function() {
 		
 	});
 	
+	
+	 
 
 	// 임시목록 추가 버튼
 	$('#addBtn').on('click', function() {
@@ -79,7 +83,8 @@ $(document).ready(function() {
 			 if($(this).prop('checked')) {
 				 //결재자
 				 if(tap==1) {
-					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {						 
+					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
+						 approverList.push($(this).val());
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -103,10 +108,8 @@ $(document).ready(function() {
 									htmlStr += "<td>결재</td>";
 									htmlStr += "</tr>";
 									$('#approverTable').append(htmlStr);
-									
-									
-								}
-								
+												
+								}						
 								,
 								error : function(jqXHR) {
 									alert("Error : " + jqXHR.responseText);
@@ -145,13 +148,11 @@ $(document).ready(function() {
 									htmlStr += "<td>수신</td>";
 									htmlStr += "</tr>";
 									$('#recieverTable').append(htmlStr);
-		
 								}
 								,
 								error : function(jqXHR) {
 									alert("Error : " + jqXHR.responseText);
-								}			
-								
+								}				
 							});
 					 }			 	 
 				 }
@@ -251,6 +252,49 @@ $(function() {
 		});
 	})	
 })
+
+ // 부서별 사원 조회
+$(function () {
+	$('#employeeList').on("click", "span", function() {
+		var thisSpan = $(this);
+		if($(thisSpan).find('label').length > 0) {
+			return true;
+		}
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listEmployeeByDepartment.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {
+				departmentId : thisSpan.attr("id")												
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				
+				var htmlStr = "<br>";
+				for(var i=0; i<data.empByDeptList.length; i++) {
+						
+				    htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.empByDeptList[i].id+"'>";
+					htmlStr +=  data.empByDeptList[i].name + " " + data.empByDeptList[i].gradeId + "</label> <br>"; 		
+									
+				}		
+				$(thisSpan).append(htmlStr);
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});	
+		
+	
+	})
+}) 
 
 
 </script>

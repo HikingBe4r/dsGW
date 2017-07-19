@@ -101,6 +101,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return empMapper.selectEmployeeFind(emp);
 	}
 	
+	public List<EmployeeVO> retrieveEmployeeByDepartment(String departmentId) {
+		return empMapper.selectEmployeeByDepartment(departmentId);
+	}
 	
 	
 }
