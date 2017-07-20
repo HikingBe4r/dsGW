@@ -21,7 +21,6 @@ public class ListApprovalLineBookmarkController {
 	@RequestMapping(value="/listApprovalLineBookmark.do", method=RequestMethod.POST)
 	public ModelAndView listApprovalLineBookmark(@RequestParam(value="employeeId", required=true) String employeeId) {
 		
-		System.out.println("empId : " + employeeId);
 		ModelAndView mv = new ModelAndView();
 		List<ApprovalLineVO> approvalLineList = documentService.retrieveApprovalLineList(employeeId);
 		mv.addObject("approvalLineList", approvalLineList);

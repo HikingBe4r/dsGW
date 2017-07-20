@@ -332,6 +332,7 @@ $(function () {
 $(function() {
 	$('#employeeList').on("click", "button", function() {
 		
+		// 배열 및 테이블 비움
 		approverList = [];
 		recieverList = [];
 		$('#approverTable tr:not(:first)').empty();
@@ -352,9 +353,7 @@ $(function() {
 			,
 			success: function(data) {
 				
-				//배열 비우고
-				//테이블 비우고
-				//결재자/수신자 채운다
+				//배열 및 테이블 채우기
 				var htmlStr = "";
 				for(var i=0; i<data.approverList.length; i++) {
 					approverList.push(data.approverList[i].id);
@@ -406,7 +405,6 @@ $(function() {
 					<ul class="nav navbar-nav">
 						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
 						<li id="recieverTap"><a href=#>수신자</a></li>
-						<!-- <li id="bookmarkTap"><a href=#>즐겨찾기 설정</a></li> -->
 					</ul>
 				</div>
 			</form>
