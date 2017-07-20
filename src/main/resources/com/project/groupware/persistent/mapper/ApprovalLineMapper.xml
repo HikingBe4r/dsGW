@@ -25,6 +25,7 @@
 	</insert>
 	
 	
+	<!-- 결재자 추가 -->
 	<insert id="insertApproverList" parameterType="map" statementType="PREPARED">
 		insert all
 		<foreach item="approver" collection="approverList">
@@ -49,6 +50,7 @@
 	
 	</resultMap>
 	
+	<!-- 결재선 즐겨찾기 조회 -->
 	<select id="selectApprovalLineList" resultMap="selectApprovalLineListResultMap" statementType="PREPARED" parameterType="string">
 		SELECT
 			t1.id,
@@ -61,14 +63,14 @@
 			t2.approval_line_id
 		
 		FROM approval_line t1, approver t2
-		WHERE t1.id = t2.approval_line_id
+		WHERE t1.id = t2.approval_line_id(+)
 			AND t1.employee_id = #{value} 
 			AND t1.subject is not null
 		ORDER BY t1.id
 			
 	</select>
 	
-	
+	<!-- 해당 결재선의 결재자 목록 조회 -->
 	<select id="selectApproverList" resultType="approverVO" statementType="PREPARED" parameterType="string" >	
 		SELECT
 			id,
@@ -80,7 +82,7 @@
 		WHERE approval_line_id = #{value} 
 		ORDER BY STEP 
 	</select>
-	
+
 	
 	<!--
 		결재자 목록 찾기. (문서번호) 

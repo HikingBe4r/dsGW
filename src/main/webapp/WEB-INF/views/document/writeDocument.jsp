@@ -84,6 +84,7 @@
 
 	});
 	
+	//결재선 존재 여부 확인
 	function checkHasApprovalLine(val) {
 		hasApprovalLine = val;
 	}
@@ -113,6 +114,7 @@
 
 		<div class="panel-body">
 			<div class="row">
+				<!-- 문서 정보 -->
 				<div class="col-sm-3">
 					<table class="table table-condensed table-bordered">
 						<tr>
@@ -141,26 +143,8 @@
 						</tr>
 					</table>
 				</div>
-				<div class="col-sm-6"></div>
-
-				<div class="col-sm-3">
-					<table class="table table-bordered table-condensed">
-						<tr>
-							<td>팀장</td>
-							<td>부장</td>
-						</tr>
-						<tr>
-							<td>일길동</td>
-							<td>이길동</td>
-						</tr>
-						<tr>
-							<td style="height: 80px;"></td>
-							<td></td>
-						</tr>
-					</table>
-					<div class="col-sm-1"></div>
-				</div>
-				<div class="pull-right col-sm-1"></div>
+				<div class="col-sm-9"></div>
+		
 			</div>
 
 

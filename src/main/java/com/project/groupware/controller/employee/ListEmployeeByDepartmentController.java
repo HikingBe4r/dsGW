@@ -22,7 +22,6 @@ public class ListEmployeeByDepartmentController {
 											Model model) {
 		
 		List<EmployeeVO> empByDeptList = service.retrieveEmployeeByDepartment(departmentId);
-		System.out.println("deptId : " + departmentId + ", size :  " + empByDeptList.size());
 		model.addAttribute("empByDeptList", empByDeptList);
 		return "jsonView";
 	}

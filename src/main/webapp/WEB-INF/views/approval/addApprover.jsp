@@ -32,7 +32,7 @@ $(document).ready(function() {
 		
 	});
 
-	// 사원 조회
+	// 부서 조회
 	$.ajax({
 		url: '${pageContext.request.contextPath}/listDepartment.do'
 		,
@@ -51,12 +51,10 @@ $(document).ready(function() {
 			var htmlStr = "";
 			for(var i=0; i<data.departmentList.length; i++) {
 				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-				 htmlStr += data.departmentList[i].name + "</span> <br>" ;
-				 	 
-			}
-			
+				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+			}	
+			htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
 			$('#employeeList').append(htmlStr);
-	
 		}
 		,
 		error : function(jqXHR) {
@@ -188,7 +186,6 @@ $(document).ready(function() {
 			alert("선택된 사원이 없습니다.");
 		} else {
 			
-			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/addApprover.do'
 				,
@@ -249,44 +246,83 @@ $(function() {
 	})	
 })
 
- // 부서별 사원 조회
+ //부서별 사원 및 즐겨찾기 조회 
 $(function () {
 	$('#employeeList').on("click", "span", function() {
 		var thisSpan = $(this);
-		if($(thisSpan).find('br').length > 0) {
+		//클릭 이벤트 제거
+		if(thisSpan.find('br').length > 0) {
 			return true;
 		}
 		
-		$.ajax({
-			url: '${pageContext.request.contextPath}/listEmployeeByDepartment.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			data: {
-				departmentId : thisSpan.attr("id")												
-			}
-			, 
-			cache: false
-			,
-			success: function(data) {
+		if(thisSpan.attr("id") == 'approvalBookmark') {
+			//즐겨찾기 조회			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/listApprovalLineBookmark.do'
+				,
+				method: 'POST'
+				,
+				dataType: 'json'
+				,
+				data: {
+					employeeId : '${sessionScope.employee.id}'												
+				}
+				, 
+				cache: false
+				,
+				success: function(data) {
+					
+					var htmlStr = "<br><br>";
+					for(var i=0; i<data.approvalLineList.length; i++) { //여기
+						
+					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'>+ "
+					    htmlStr += data.approvalLineList[i].subject +"</button></label><br>";
+					    									
+					}		
+					htmlStr += "<br>";
+					thisSpan.append(htmlStr);
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+				}			
 				
-				var htmlStr = "<br><br>";
-				for(var i=0; i<data.empByDeptList.length; i++) {
-				    htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.empByDeptList[i].id+"'>";
-					htmlStr +=  data.empByDeptList[i].name + " " + data.empByDeptList[i].gradeId + "</label> <br>"; 		
-									
-				}		
-				htmlStr += "<br>";
-				$(thisSpan).append(htmlStr);
-			}
-			,
-			error : function(jqXHR) {
-				alert("Error : " + jqXHR.responseText);
-			}			
+			});	
 			
-		});	
+		} else { 
+			//부서별 사원 조회
+			$.ajax({
+				url: '${pageContext.request.contextPath}/listEmployeeByDepartment.do'
+				,
+				method: 'POST'
+				,
+				dataType: 'json'
+				,
+				data: {
+					departmentId : thisSpan.attr("id")												
+				}
+				, 
+				cache: false
+				,
+				success: function(data) {
+					
+					var htmlStr = "<br><br>";
+					for(var i=0; i<data.empByDeptList.length; i++) {
+						if(data.empByDeptList[i].id != '${sessionScope.employee.id}') {
+						    htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.empByDeptList[i].id+"'>";
+							htmlStr +=  data.empByDeptList[i].name + " " + data.empByDeptList[i].gradeId + "</label> <br>"; 	
+						}
+										
+					}		
+					thisSpan.append(htmlStr);
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+				}			
+				
+			});	
+		}
 		
 	
 	})
@@ -302,6 +338,7 @@ $(function () {
 <div class="col-md-5">
 	<div class="panel panel-default">
 		<div class="panel-body">
+			<!-- 상단 탭 -->
 			<form class="navbar navbar-default col-md-12">
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav">
@@ -312,12 +349,14 @@ $(function () {
 				</div>
 			</form>
 			<div class="col-md-12">
+				<!-- 리스트 영역 -->
 				<div class="panel panel-default">
 					<div class="panel-body" style="overflow:scroll; height: 330px;">
 						<div id="employeeList" class="checkbox">
 						</div>
 					</div>
 				</div>
+				<!-- 검색 폼 -->
 				<form class="form-inline pull-right">
 					<select class="form-control">
 						<option>이름</option>
