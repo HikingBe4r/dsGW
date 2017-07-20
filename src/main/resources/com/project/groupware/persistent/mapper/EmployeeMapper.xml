@@ -205,6 +205,7 @@
 		AND e.department_id = d.id
 		AND e.grade_id = g.id
 		AND e.status_id = es.id
+		ORDER BY e.grade_id
 	</select>
 
 </mapper>

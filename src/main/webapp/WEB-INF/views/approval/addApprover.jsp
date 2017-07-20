@@ -32,17 +32,9 @@ $(document).ready(function() {
 		
 	});
 
-	
-	/* var temp = "<span class='glyphicon glyphicon-folder-open' aria-hidden='true'> IT부서 </span> <br>"; 
-	temp += "&nbsp; <span class='glyphicon glyphicon-triangle-bottom' aria-hidden='true'></span>1팀 <br>" ;
-	temp += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='20170712001'> 삼길동 팀장 </label> <br>";
-	
-	$('#employeeList').append(temp); */
-	
-	
 	// 사원 조회
 	$.ajax({
-		url: '${pageContext.request.contextPath}/listDepartment.do' //'${pageContext.request.contextPath}/listDepartment.do'
+		url: '${pageContext.request.contextPath}/listDepartment.do'
 		,
 		method: 'POST'
 		,
@@ -261,7 +253,7 @@ $(function() {
 $(function () {
 	$('#employeeList').on("click", "span", function() {
 		var thisSpan = $(this);
-		if($(thisSpan).find('label').length > 0) {
+		if($(thisSpan).find('br').length > 0) {
 			return true;
 		}
 		
@@ -280,13 +272,13 @@ $(function () {
 			,
 			success: function(data) {
 				
-				var htmlStr = "<br>";
+				var htmlStr = "<br><br>";
 				for(var i=0; i<data.empByDeptList.length; i++) {
-						
 				    htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.empByDeptList[i].id+"'>";
 					htmlStr +=  data.empByDeptList[i].name + " " + data.empByDeptList[i].gradeId + "</label> <br>"; 		
 									
 				}		
+				htmlStr += "<br>";
 				$(thisSpan).append(htmlStr);
 			}
 			,
