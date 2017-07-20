@@ -106,18 +106,18 @@
 			</tr>
 		</thead>
 		<tbody id="tempDocuments">
-		<c:forEach var="tempDocument" items="${requestScope.tempDocumentList }" varStatus="loop">
-	 		<c:url var="url" value="/detailTempDocument.do">
-	 			<c:param name="id" value="${pageScope.tempDocument.id }" />
-	 		</c:url>
-	 		<tr>
-	 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
-	 			<td>&nbsp;&nbsp;${pageScope.tempDocument.id }</td> 			
-	 			<td><a href="${pageScope.url }">${pageScope.tempDocument.subject }</a></td>
-	 			<td>${pageScope.tempDocument.writeday }</td>
-	 			<td>&nbsp;&nbsp;<input type="checkbox" name="tempDocumentId" value="${pageScope.tempDocument.id }"></td>
-	 		</tr>
-	 	</c:forEach>
+			<c:forEach var="tempDocument" items="${requestScope.tempDocumentList }" varStatus="loop">
+		 		<c:url var="url" value="/detailTempDocument.do">
+		 			<c:param name="id" value="${pageScope.tempDocument.id }" />
+		 		</c:url>
+		 		<tr>
+		 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
+		 			<td>&nbsp;&nbsp;${pageScope.tempDocument.id }</td> 			
+		 			<td><a href="${pageScope.url }">${pageScope.tempDocument.subject }</a></td>
+		 			<td>${pageScope.tempDocument.writeday }</td>
+		 			<td>&nbsp;&nbsp;<input type="checkbox" name="tempDocumentId" value="${pageScope.tempDocument.id }"></td>
+		 		</tr>
+		 	</c:forEach>
 	 	</tbody>
 	</table>
 </div>

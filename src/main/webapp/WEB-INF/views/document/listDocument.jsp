@@ -12,6 +12,63 @@
 
 <script>
 
+	$(document).ready(function() {
+		$('#searchBtn').click(function() {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/searchDocument.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					searchDay:  $(":radio[name='searchDay']:checked").val() ,
+					myDocs:  $(":hidden[name='myDocs']").val() ,
+					status:  $(":hidden[name='status']").val()
+				}
+				, 
+				cache: false
+				,
+				success: function(data) {
+					$('#documents').empty(data);
+					
+					var htmlStr = "";
+					
+					for (var i = 0 ; i < data.documentList.length ; i++) {
+						htmlStr += "<tr>";
+						if (data.myDocs == 2) {
+							htmlStr += "<td></td>";
+						}
+						htmlStr += "<td>" + data.documentList[i].id + "</td>";
+						htmlStr += "<td><a href='/groupware/detailApprovalDocument.do?documentId=" + data.documentList[i].id + "'>" + data.documentList[i].subject + "</a></td>";
+						htmlStr += "<td>" + data.documentList[i].writeday + "</td>";
+						htmlStr += "<td>" + data.documentList[i].endDate + "</td>";
+						htmlStr += "<td>" + data.documentList[i].writer + "</td>";						
+				 		if (data.myDocs == 1 || data.myDocs == 2 && data.status == 5) {
+				 			htmlStr += "<td>" + data.documentList[i].status + "</td>";
+				 		}
+				 		if (data.myDocs == 1) {
+				 			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='documentId' value='" + data.documentList[i].id + "'></td>";
+				 		}				 		
+						htmlStr += "</tr>";
+					}
+										
+					$('#documents').append(htmlStr);
+					
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+				}				
+				
+			});			
+		});		
+	});
+
 	$(function() {
 	    $( "#startDay" ).datepicker({
 	    	dateFormat : "yy/mm/dd",
@@ -49,10 +106,10 @@
 			<h3>수신문서 목록</h3>
 		</c:when>
 	</c:choose>
-	<form class="form-inline pull-right" action="${pageContext.request.contextPath }/listDocument.do" method="get">
+	<form class="form-inline pull-right">
 		<div class="form-group">
 			날짜검색 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="radio" name="searchDay" value="all" checked="checked">전체&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="radio" name="searchDay" value="all">전체&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="radio" name="searchDay" value="writeDay">작성일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input type="radio" name="searchDay" value="finishDay">완료일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="startDay" name="startDay" type="text" class="form-control" style="width: 150px;">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
@@ -63,7 +120,9 @@
 			</select>
 			<input type="text" class="form-control" id="searchKeyword" placeholder="keyword" name="keyword">
 		</div>
-		<button type="submit" class="btn btn-default">검색</button>
+		<button type="button" class="btn btn-default" id="searchBtn">검색</button>
+		<input type="hidden" name="myDocs" id="myDocs" value="${requestScope.myDocs }">
+		<input type="hidden" name="status" id="status" value="${requestScope.status }">
 	</form>
 </div>
 <br>
@@ -95,28 +154,30 @@
 				</c:if>
 			</tr>
 		</thead>
-		<c:forEach var="document" items="${requestScope.documentList }" varStatus="loop">
-	 		<c:url var="url" value="/detailDocument.do">
-	 			<c:param name="id" value="${pageScope.document.id }" />
-	 		</c:url>
-	 		<tr>
-	 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
-	 			<c:if test="${requestScope.myDocs == 2}">
-					<td></td>
-				</c:if>
-	 			<td>${pageScope.document.id }</td> 			
-	 			<td><a href="${pageScope.url }">${pageScope.document.subject }</a></td>
-	 			<td>${pageScope.document.writeday }</td>
-	 			<td>${pageScope.document.endDate }</td>
-	 			<td>${pageScope.document.writer }</td>
-	 			<c:if test="${requestScope.myDocs == 1 or requestScope.myDocs == 2 and requestScope.status == 5}">
-		 			<td>${pageScope.document.status }</td>
-		 		</c:if>
-		 		<c:if test="${requestScope.myDocs == 1}">
-		 			<td>&nbsp;&nbsp;<input type="checkbox" name="documentId" value="${pageScope.document.id }"></td>
-		 		</c:if>
-	 		</tr>
-	 	</c:forEach>
+		<tbody id="documents">
+			<c:forEach var="document" items="${requestScope.documentList }" varStatus="loop">
+		 		<c:url var="url" value="/detailApprovalDocument.do">
+		 			<c:param name="documentId" value="${pageScope.document.id }" />
+		 		</c:url>
+		 		<tr>
+		 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
+		 			<c:if test="${requestScope.myDocs == 2}">
+						<td><span id="">☆</span></td>
+					</c:if>
+		 			<td>${pageScope.document.id }</td>
+		 			<td><a href="${pageScope.url }">${pageScope.document.subject }</a></td>
+		 			<td>${pageScope.document.writeday }</td>
+		 			<td>${pageScope.document.endDate }</td>
+		 			<td>${pageScope.document.writer }</td>
+		 			<c:if test="${requestScope.myDocs == 1 or requestScope.myDocs == 2 and requestScope.status == 5}">
+			 			<td>${pageScope.document.status }</td>
+			 		</c:if>
+			 		<c:if test="${requestScope.myDocs == 1}">
+			 			<td>&nbsp;&nbsp;<input type="checkbox" name="documentId" value="${pageScope.document.id }"></td>
+			 		</c:if>
+		 		</tr>
+		 	</c:forEach>
+	 	</tbody>
 	</table>
 </div>
 

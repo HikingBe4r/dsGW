@@ -104,7 +104,7 @@
 			
 	</select> -->
 	
-	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">		
+	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">
 		select 
 			doc.id,
 			doc.subject,
@@ -173,7 +173,18 @@
 						</if>
 					</if>
 					<!-- <if test="searchDay == 'all'">
-						
+						<if test="startDay != 'all' and endDay != 'all'">
+							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) between #{startDay} and #{endDay}
+							or doc.writeday between #{startDay} and #{endDay}
+						</if>
+						<if test="startDay != 'all' and endDay == 'all'">
+							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{startDay}
+							or doc.writeday = #{startDay}
+						</if>
+						<if test="startDay == 'all' and endDay != 'all'">
+							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{endDay}
+							or doc.writeday = #{endDay}
+						</if>
 					</if> -->
 				<!-- </if> -->
 		order by writeday desc

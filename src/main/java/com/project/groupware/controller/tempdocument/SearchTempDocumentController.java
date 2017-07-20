@@ -32,8 +32,6 @@ public class SearchTempDocumentController {
 		HttpSession session = request.getSession();
 		EmployeeVO employee = (EmployeeVO)session.getAttribute("employee");
 		
-		//ModelAndView mv = new ModelAndView();
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		String employeeId = employee.getId();
@@ -45,7 +43,6 @@ public class SearchTempDocumentController {
 		map.put("endDay", endDay);
 		
 		model.addAttribute("tempDocumentList", tempDocumentService.retrieveTempDocumentList(map));
-		//mv.setViewName("approvalNav/tempdocument/listTempDocument");
 		
 		return "jsonView";
 		
