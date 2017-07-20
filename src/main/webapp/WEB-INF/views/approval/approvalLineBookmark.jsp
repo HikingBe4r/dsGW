@@ -199,6 +199,7 @@ $(document).ready(function() {
 				cache: false
 				,
 				success: function(data) {
+					alert("즐겨찾기 등록 성공!");
 					location.href = 'choiceForm.do'; //실행 후 어디로 보낼까
 				}
 				,

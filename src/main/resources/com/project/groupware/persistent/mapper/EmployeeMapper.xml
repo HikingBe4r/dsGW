@@ -170,7 +170,7 @@
 				</when>
 			</choose>
 		</if>
-		ORDER BY e.department_id, e.grade_id
+		ORDER BY e.grade_id, e.department_id
 	</select>
 
 	<select id="selectGrade" statementType="STATEMENT" resultType="java.util.HashMap">
