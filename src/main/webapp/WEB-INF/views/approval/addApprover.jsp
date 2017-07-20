@@ -273,7 +273,7 @@ $(function () {
 				success: function(data) {
 					
 					var htmlStr = "<br><br>";
-					for(var i=0; i<data.approvalLineList.length; i++) { //여기
+					for(var i=0; i<data.approvalLineList.length; i++) { 
 						
 					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'>+ "
 					    htmlStr += data.approvalLineList[i].subject +"</button></label><br>";
@@ -328,6 +328,68 @@ $(function () {
 	})
 }) 
 
+// 즐겨찾기 버튼 클릭
+$(function() {
+	$('#employeeList').on("click", "button", function() {
+		
+		approverList = [];
+		recieverList = [];
+		$('#approverTable tr:not(:first)').empty();
+		$('#recieverTable tr:not(:first)').empty();
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listApproverInBookmark.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {
+				approvalLineId : $(this).attr('id')
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				
+				//배열 비우고
+				//테이블 비우고
+				//결재자/수신자 채운다
+				var htmlStr = "";
+				for(var i=0; i<data.approverList.length; i++) {
+					approverList.push(data.approverList[i].id);
+					htmlStr += "<tr id="+ data.approverList[i].id +">";
+					htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+					htmlStr += "<td>" + data.approverList[i].name + "</td>";
+					htmlStr += "<td>" + data.approverList[i].gradeId + "</td>";
+					htmlStr += "<td>" + data.approverList[i].departmentId + "</td>";
+					htmlStr += "<td>결재</td>";
+					htmlStr += "</tr>";
+				}
+				$('#approverTable').append(htmlStr);
+				htmlStr = "";
+				for(var i=0; i<data.recieverList.length; i++) {
+					recieverList.push(data.recieverList[i].id);
+					htmlStr += "<tr id="+ data.recieverList[i].id +">";
+					htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+					htmlStr += "<td>" + data.recieverList[i].name + "</td>";
+					htmlStr += "<td>" + data.recieverList[i].gradeId + "</td>";
+					htmlStr += "<td>" + data.recieverList[i].departmentId + "</td>";
+					htmlStr += "<td>결재</td>";
+					htmlStr += "</tr>";
+				}
+				$('#recieverTable').append(htmlStr);
+				
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});	
+		 
+	})
+})
 
 </script>
 
@@ -427,22 +489,3 @@ $(function () {
 	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 등록</button>
 	
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

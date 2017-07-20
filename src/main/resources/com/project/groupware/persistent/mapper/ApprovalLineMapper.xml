@@ -80,7 +80,7 @@
 			approval_line_id as approvalLineId	
 		FROM approver
 		WHERE approval_line_id = #{value} 
-		ORDER BY STEP 
+		ORDER BY ID 
 	</select>
 
 	
