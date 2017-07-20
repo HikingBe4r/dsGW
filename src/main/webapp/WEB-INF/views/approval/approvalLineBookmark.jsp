@@ -26,11 +26,6 @@ $(document).ready(function() {
 		tapSetting($(this));
 	});
 	
-	$('#bookmarkTap').on('click', function() {
-		tap=3;	
-		tapSetting($(this));
-		
-	});
 
 	// 부서 조회
 	$.ajax({
@@ -53,7 +48,7 @@ $(document).ready(function() {
 				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
 				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
 			}	
-			htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
+			htmlStr += "<br>";
 			$('#employeeList').append(htmlStr);
 		}
 		,
@@ -184,8 +179,8 @@ $(document).ready(function() {
 	$('#submitBtn').on('click', function() {
 		if(approverList.length == 0 && recieverList.length == 0) {
 			alert("선택된 사원이 없습니다.");
-		} else {
-			
+		} else {		
+			var subject = prompt('즐겨찾기 이름');
 			$.ajax({
 				url: '${pageContext.request.contextPath}/addApprover.do'
 				,
@@ -195,7 +190,7 @@ $(document).ready(function() {
 				,
 				data: {
 					employeeId: '${sessionScope.employee.id}', 
-					subject: '' ,
+					subject: subject ,
 					approverEmpIdList: JSON.stringify(approverList),
 					recieverEmpIdList: JSON.stringify(recieverList)
 							
@@ -204,8 +199,7 @@ $(document).ready(function() {
 				cache: false
 				,
 				success: function(data) {
-					window.opener.checkHasApprovalLine(true);
-					window.close();				
+					location.href = 'choiceForm.do'; //실행 후 어디로 보낼까
 				}
 				,
 				error : function(jqXHR) {
@@ -213,7 +207,6 @@ $(document).ready(function() {
 				}			
 				
 			});
-		
 		}		
 	});
 		
@@ -255,83 +248,49 @@ $(function () {
 			return true;
 		}
 		
-		if(thisSpan.attr("id") == 'approvalBookmark') {
-			//즐겨찾기 조회			
-			$.ajax({
-				url: '${pageContext.request.contextPath}/listApprovalLineBookmark.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: {
-					employeeId : '${sessionScope.employee.id}'												
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
-					
-					var htmlStr = "<br><br>";
-					for(var i=0; i<data.approvalLineList.length; i++) { //여기
-						
-					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'>+ "
-					    htmlStr += data.approvalLineList[i].subject +"</button></label><br>";
-					    									
-					}		
-					htmlStr += "<br>";
-					thisSpan.append(htmlStr);
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
-				
-			});	
-			
-		} else { 
-			//부서별 사원 조회
-			$.ajax({
-				url: '${pageContext.request.contextPath}/listEmployeeByDepartment.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: {
-					departmentId : thisSpan.attr("id")												
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
-					
-					var htmlStr = "<br><br>";
-					for(var i=0; i<data.empByDeptList.length; i++) {
-						if(data.empByDeptList[i].id != '${sessionScope.employee.id}') {
-						    htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.empByDeptList[i].id+"'>";
-							htmlStr +=  data.empByDeptList[i].name + " " + data.empByDeptList[i].gradeId + "</label> <br>"; 	
-						}
-										
-					}		
-					thisSpan.append(htmlStr);
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
-				
-			});	
-		}
 		
-	
+		//부서별 사원 조회
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listEmployeeByDepartment.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {
+				departmentId : thisSpan.attr("id")												
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				
+				var htmlStr = "<br><br>";
+				for(var i=0; i<data.empByDeptList.length; i++) {
+					if(data.empByDeptList[i].id != '${sessionScope.employee.id}') {
+					    htmlStr += "&nbsp;&nbsp; <label> <input type='checkbox' name='employee' value='"+data.empByDeptList[i].id+"'>";
+						htmlStr +=  data.empByDeptList[i].name + " " + data.empByDeptList[i].gradeId + "</label> <br>"; 	
+					}							
+				}	
+				htmlStr += "<br>";
+				thisSpan.append(htmlStr);
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});	
+
 	})
 }) 
 
 
 </script>
-
-<div style="height: 10px;"></div>
+<div>
+	<h3>결재선 즐겨찾기 설정</h3>
+</div>
+<br>
 
 
 <!-- 왼쪽 패널 -->
@@ -344,7 +303,6 @@ $(function () {
 					<ul class="nav navbar-nav">
 						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
 						<li id="recieverTap"><a href=#>수신자</a></li>
-						<!-- <li id="bookmarkTap"><a href=#>즐겨찾기 설정</a></li> -->
 					</ul>
 				</div>
 			</form>
@@ -405,7 +363,7 @@ $(function () {
 		</div>
 	</div>
 	<br>
-	<div class="panel panel-default" style="overflow:scroll; height: 300px;"> 
+	<div class="panel panel-default" style="overflow:scroll; height: 310px;"> 
 		<!-- 수신자 -->
 		<div class="panel-body">
 			<div class="checkbox">
@@ -423,8 +381,8 @@ $(function () {
 			</div>
 		</div>
 	</div>	
-	<br>
-	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 등록</button>
+	
+	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">즐겨찾기 추가</button>
 	
 </div>
 

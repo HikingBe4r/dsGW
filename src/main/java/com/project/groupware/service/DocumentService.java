@@ -14,6 +14,8 @@ public interface DocumentService {
 	void registerDocument(DocumentVO document);
 
 	void registerApprovalLine(ApprovalLineVO approveLine);
+	
+	void registerApprovalLineBookmark(ApprovalLineVO approveLine);
 
 	List<ApprovalLineVO> retrieveApprovalLineList(String employeeId);
 

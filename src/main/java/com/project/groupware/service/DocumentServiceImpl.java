@@ -96,9 +96,22 @@ public class DocumentServiceImpl implements DocumentService {
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("approverList", approvalLine.getApproverList()); 
-		approvalLineMapper.insertApproverList(map);
+		approvalLineMapper.insertApproverList(map);		
+	}
+	
+	
+public void registerApprovalLineBookmark(ApprovalLineVO approvalLine) {
 		
+		//결재선 등록
+		approvalLineMapper.insertApprovalLineBookmark(approvalLine);
 		
+		//결재자 목록 등록
+		for(ApproverVO approver : approvalLine.getApproverList()) {
+			approver.setApprovalLineId(approvalLine.getId());
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("approverList", approvalLine.getApproverList()); 
+		approvalLineMapper.insertApproverList(map);	
 	}
 
 	

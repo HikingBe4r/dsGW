@@ -40,9 +40,6 @@ public class AddApproverController {
 		
 		ApprovalLineVO approvalLine = new ApprovalLineVO();
 		approvalLine.setEmployeeId(employeeId);
-		if(subject != null && subject.length() != 0) {
-			approvalLine.setSubject(subject);
-		}	
 				
 		
 		// 빈 배열이 넘어오면 "[]"가 들은 배열이 생성됨.
@@ -105,8 +102,17 @@ public class AddApproverController {
 			approvalLine.addApprover(approver);		
 		}			
 		
-		documentService.registerApprovalLine(approvalLine);	
+		if(subject != null && subject.length() != 0) {
+			approvalLine.setSubject(subject);
+			documentService.registerApprovalLineBookmark(approvalLine);	
+			
+		} else {
+			documentService.registerApprovalLine(approvalLine);	
+		}
 		
+		
+		
+		//객체에 담겨있는 결재자 리스트에 id 세팅
 		String approvalLineId = approvalLine.getId();
 		List<ApproverVO> approverList = approvalLine.getApproverList();	// 객체에 담겨있는 리스트
 		List<ApproverVO> approverListAtDb = documentService.retrieveApproverList(approvalLineId); //DB에 저장된 리스트
