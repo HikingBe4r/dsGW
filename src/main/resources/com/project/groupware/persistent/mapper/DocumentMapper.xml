@@ -30,19 +30,32 @@
 	 -->
 	<select id="selectApprovalDocumentList" resultType="java.util.HashMap" parameterType="java.util.HashMap" statementType="PREPARED">  
 		SELECT 
-			doc.id, doc.subject, t2.name, TO_CHAR(doc.writeday, 'YYYY/MM/DD HH24:MI:SS') WRITEDAY, TO_CHAR(doc.enddate, 'YYYY/MM/DD HH24:MI:SS') ENDDATE, docstat.status
+			doc.id, 
+			doc.subject, 
+			t2.name, 
+			TO_CHAR(doc.writeday, 'YYYY/MM/DD HH24:MI:SS') WRITEDAY, 
+			TO_CHAR(doc.enddate, 'YYYY/MM/DD HH24:MI:SS') ENDDATE, 
+			docstat.status,
+		    t2.firstappid,
+		    t2.myappid  
 		FROM 
 			document_status docstat, document doc, approval_history apphis,
-			(SELECT app.id, emp.name
+			(SELECT app.id firstAppId, emp.name, t1.myappid
 			 FROM approver app, employee emp, 
-			 	(SELECT app.approval_line_id
+			 	(SELECT app.approval_line_id, app.id myAppId
 			 	FROM approver app, employee emp
 			 	WHERE emp.id = app.employee_id
+			 	<if test="boardId != 2">
+			 		AND app.approval_auth_id = 2
+			 	</if>
+			 	<if test="boardId == 2">
+			 		AND app.approval_auth_id = 3
+			 	</if>
 			 	  AND emp.id = #{employeeId}) t1						<!-- 본인 empId -->
 			 WHERE app.approval_line_id = t1.approval_line_id
 			   AND   app.approval_auth_id = 1
 			   AND   app.employee_id = emp.id) t2
-		WHERE apphis.approver_id = t2.id
+		WHERE apphis.approver_id = t2.firstappid
 	 	  AND apphis.document_id = doc.id
 		  AND doc.document_status_id = docstat.id
 		  AND doc.document_status_id not in (3,4)
@@ -100,11 +113,7 @@
 	</select>
 	
 	
-	<!-- <select id="selectDocument" resultMap="selectDocumentMap" parameterType="String">
-			
-	</select> -->
-	
-	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">
+	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">		
 		select 
 			doc.id,
 			doc.subject,
@@ -173,18 +182,7 @@
 						</if>
 					</if>
 					<!-- <if test="searchDay == 'all'">
-						<if test="startDay != 'all' and endDay != 'all'">
-							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) between #{startDay} and #{endDay}
-							or doc.writeday between #{startDay} and #{endDay}
-						</if>
-						<if test="startDay != 'all' and endDay == 'all'">
-							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{startDay}
-							or doc.writeday = #{startDay}
-						</if>
-						<if test="startDay == 'all' and endDay != 'all'">
-							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{endDay}
-							or doc.writeday = #{endDay}
-						</if>
+						
 					</if> -->
 				<!-- </if> -->
 		order by writeday desc

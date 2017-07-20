@@ -7,13 +7,18 @@
 
 
 <script>
+
 	function listApprovalDocument(data) {
 		$("#documents").empty(data);
 		var htmlStr = "";
 		if(data.documentList.length == 0) {
 			alert("검색결과가 없습니다.");
 		}
+		//alert("startNum: "+ ${requestScope.paging.startArticleNum});
+		//alert("startNum: "+ ${requestScope.paging.endArticleNum});
+		//for(var i = ${requestScope.paging.startArticleNum}; i < ${requestScope.paging.endArticleNum}; i++) {
 		for(var i = 0; i < data.documentList.length; i++) {
+						
 			var linkUrl = '${pageContext.request.contextPath}/detailApprovalDocument.do';
 				linkUrl += '?documentId=' + data.documentList[i].ID;
 			htmlStr += '<tr align="center">';
@@ -24,16 +29,14 @@
 			htmlStr += '<td width="100">'+data.documentList[i].ENDDATE +'</td>';
 			htmlStr += '<td width="100">'+data.documentList[i].STATUS +'</td>';
 			htmlStr += '</tr>';
-			
-		}
-		
+		}		
 		$("#documents").append(htmlStr);
 	}
 
 	$(document).ready(function() {
-		$("#searchBtn").click(function() {
-			$.ajax({
-				url : '${pageContext.request.contextPath}/searchListApprovalDocument.do'
+		// 오픈되자마자.
+		$.ajax({
+				url : '${pageContext.request.contextPath}/selectListApprovalDocument.do'
 				,
 				method : 'GET'
 				,
@@ -42,10 +45,69 @@
 				dataType : 'json'
 				,
 				data : {
-					employeeId : '${sessionScope.employee.id}',
+					//employeeId : '${sessionScope.employee.id}',
 					kind: $("#KIND").val(),
 					keyword: $("#searchKeyword").val(),
-					boardId: "${requestScope.boardId}"
+					boardId: "${param.boardId}",
+					currentPage: "${param.currentPage}"
+				}
+				,
+				success : function(data) {
+					listApprovalDocument(data);
+				}
+				,
+				error : function(request,status,error) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+		});
+		
+		$("#searchBtn").click(function() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/selectListApprovalDocument.do'
+				,
+				method : 'POST'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					//employeeId : '${sessionScope.employee.id}',
+					kind: $("#KIND").val(),
+					keyword: $("#searchKeyword").val(),
+					boardId: "${param.boardId}",
+					currentPage: "${param.currentPage}"
+				}
+				,
+				success : function(data) {
+					listApprovalDocument(data);
+				}	
+				,
+				error : function(jqXHR) {
+					alert("ERROR: "+jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}
+				
+			});
+		});
+		
+		$("#pageNum").click(function() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/selectListApprovalDocument.do'
+				,
+				method : 'POST'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					//employeeId : '${sessionScope.employee.id}',
+					kind: $("#KIND").val(),
+					keyword: $("#searchKeyword").val(),
+					boardId: "${param.boardId}",
+					currentPage: $("#pageNum").val()
 				}
 				,
 				success : function(data) {
@@ -61,6 +123,7 @@
 		});
 		
 	});
+	
 </script>
 
 <div class="panel panel-default">
@@ -99,7 +162,7 @@
 			</tr>
 		</thead>
 		<tbody id="documents">
-			<c:forEach var="document" items="${requestScope.documentList }"
+			<%-- <c:forEach var="document" items="${requestScope.documentList }"
 				varStatus="loop">
 				<c:url value="/detailApprovalDocument.do" var="url">
 					<c:param name="documentId" value="${document.ID }"></c:param>
@@ -113,21 +176,20 @@
 					<td width="100">${document.ENDDATE }</td>
 					<td width="100">${document.STATUS }</td>
 				</tr>
-			</c:forEach>
+			</c:forEach> --%>
 		</tbody>
 	</table>
 </div>
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">
-		<li><a href="#" aria-label="Previous"> <span
-				aria-hidden="true">&laquo;</span>
-		</a></li>
-		<li><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-		</a></li>
+		
+		<li><a href="${requestScope.paging.prevPage }" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+		<c:forEach var="pageNum" begin="${requestScope.paging.startPage }"
+			end="${requestScope.paging.endPage }" step="1">
+			<li id="pageNum"><a>${pageNum }</a></li>			
+		</c:forEach>
+		<li><a href="${requestScope.paging.nextPage }" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
 	</ul>
 </div>
 
