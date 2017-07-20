@@ -65,10 +65,8 @@
 		$("#insertDocument").click(function() {
 			if ($('#subject') == null || $('#subject').val() == '') {
 				alert("제목을 입력하시오");
-			} else if (false) {
-				/*    		 	   		  
-						날짜 유효성 체크 + 현재날짜, 시행일 비교  
-				 */
+			} else if (!isValidDate($('#endDate').val())) {
+				alert("유효하지 않은 시행일입니다. (YYYY/MM/DD)\n시행일은 현재 날짜부터 선택가능합니다.");	 
 			} else if (!hasApprovalLine) {
 				alert("결재선이 없습니다.");
 			} else {
@@ -88,6 +86,32 @@
 	function checkHasApprovalLine(val) {
 		hasApprovalLine = val;
 	}
+	
+	
+	//날짜 유효성 체크
+	function isValidDate(iDate) {
+		if(iDate.length != 10) {
+			return false;
+		}
+		
+		oDate = new Date();
+		oDate.setFullYear(iDate.substring(0,4));
+		oDate.setMonth(parseInt(iDate.substring(5,7)) - 1);
+		oDate.setDate(iDate.substring(8));
+		if(oDate.getFullYear() != iDate.substring(0,4)
+			|| oDate.getMonth() + 1 != iDate.substring(5,7)
+			|| oDate.getDate()	!= iDate.substring(8)) {
+			return false;
+		} 
+		var today = new Date();
+		if(oDate < today ) {
+			return false;
+		}
+			
+		
+		return true;
+	}
+
 </script>
 
 
