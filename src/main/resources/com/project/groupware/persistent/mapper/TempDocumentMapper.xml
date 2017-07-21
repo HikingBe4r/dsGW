@@ -70,7 +70,7 @@
 	</delete>
 	
 	<insert id="insertTempDocument" parameterType="tempDocumentVO" statementType="PREPARED">
-		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="string">
 			select temp_docs_id_seq.nextval from dual
 		</selectKey>
 		

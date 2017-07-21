@@ -78,7 +78,8 @@
 		
 		//임시저장 버튼
 		$('#tempDocument').click(function() {
-			alert("임시저장!");
+			
+			obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 			$.ajax({
 				url: '${pageContext.request.contextPath}/writeTempDocument.do'
 				,
@@ -87,20 +88,21 @@
 				dataType: 'json'
 				,
 				data: {
-														
+					employeeId: '${sessionScope.employee.id}',
+					subject: $('#subject').val(),
+					content: $('#content').val(),
+					endDate: $('#endDate').val(),
+ 					formId: '${requestScope.form.id}'
 				}
 				, 
 				cache: false
 				,
 				success: function(data) {
 					
-					var htmlStr = "";
-					for(var i=0; i<data.departmentList.length; i++) {
-						 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-						 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
-					}	
-					htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
-					$('#employeeList').append(htmlStr);
+					
+					
+					location.href = 'choiceForm.do'; //임시문서 목록 페이지로?
+				
 				}
 				,
 				error : function(jqXHR) {

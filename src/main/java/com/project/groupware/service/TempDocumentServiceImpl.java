@@ -33,7 +33,7 @@ public class TempDocumentServiceImpl implements TempDocumentService{
 	}
 
 	public void registerTempDocument(TempDocumentVO tempDocumentVO) {
-		// TODO Auto-generated method stub
+		tempDocumentMapper.insertTempDocument(tempDocumentVO);
 		
 	}	
 

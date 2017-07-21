@@ -54,14 +54,10 @@ public class WriteDocumentController {
 	public String submit(@RequestParam(value="formId", required=true) String formId,
 						@ModelAttribute(value="document") DocumentVO document,
 						HttpServletRequest request) throws Exception {
-		
-		FormVO form = new FormVO();
-		form.setId(formId);
-		document.setFormVO(form);
-		
+	
+		document.setFormVO(formService.retrieveForm(formId));	
 		document.setStatus("1");	// 기안
-		
-		
+			
 		List<MultipartFile> fileList = document.getUpload();
 		for(MultipartFile file : fileList) {
 			if(!file.isEmpty()) {
