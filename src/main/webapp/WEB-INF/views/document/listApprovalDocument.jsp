@@ -14,10 +14,9 @@
 		if(data.documentList.length == 0) {
 			alert("검색결과가 없습니다.");
 		}
-		//alert("startNum: "+ ${requestScope.paging.startArticleNum});
-		//alert("startNum: "+ ${requestScope.paging.endArticleNum});
-		//for(var i = ${requestScope.paging.startArticleNum}; i < ${requestScope.paging.endArticleNum}; i++) {
-		for(var i = 0; i < data.documentList.length; i++) {
+		
+		for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+		//for(var i = 0; i < data.documentList.length; i++) {
 						
 			var linkUrl = '${pageContext.request.contextPath}/detailApprovalDocument.do';
 				linkUrl += '?documentId=' + data.documentList[i].ID;
@@ -46,7 +45,7 @@
 				,
 				data : {
 					//employeeId : '${sessionScope.employee.id}',
-					kind: $("#KIND").val(),
+					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
 					currentPage: "${param.currentPage}"
@@ -66,7 +65,7 @@
 			$.ajax({
 				url : '${pageContext.request.contextPath}/selectListApprovalDocument.do'
 				,
-				method : 'POST'
+				method : 'GET'
 				,
 				cache : false
 				,
@@ -74,7 +73,7 @@
 				,
 				data : {
 					//employeeId : '${sessionScope.employee.id}',
-					kind: $("#KIND").val(),
+					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
 					currentPage: "${param.currentPage}"
@@ -96,7 +95,7 @@
 			$.ajax({
 				url : '${pageContext.request.contextPath}/selectListApprovalDocument.do'
 				,
-				method : 'POST'
+				method : 'GET'
 				,
 				cache : false
 				,
@@ -104,7 +103,7 @@
 				,
 				data : {
 					//employeeId : '${sessionScope.employee.id}',
-					kind: $("#KIND").val(),
+					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
 					currentPage: $("#pageNum").val()
@@ -132,10 +131,10 @@
 <div>
 	<form class="form-inline pull-right" name="searchForm">
 
-		<select class="form-control" name="KIND" id="KIND">
-			<option id="1">전체</option>
-			<option id="2">제목</option>
-			<option id="3">작성자</option>
+		<select class="form-control" name="keytype" id="keytype">
+			<option value="전체" id="1">전체</option>
+			<option value="제목" id="2">제목</option>
+			<option value="작성자" id="3">작성자</option>
 		</select>
 
 		<div class="form-group">
@@ -162,7 +161,7 @@
 			</tr>
 		</thead>
 		<tbody id="documents">
-			<%-- <c:forEach var="document" items="${requestScope.documentList }"
+			<c:forEach var="document" items="${requestScope.documentList }"
 				varStatus="loop">
 				<c:url value="/detailApprovalDocument.do" var="url">
 					<c:param name="documentId" value="${document.ID }"></c:param>
@@ -176,7 +175,7 @@
 					<td width="100">${document.ENDDATE }</td>
 					<td width="100">${document.STATUS }</td>
 				</tr>
-			</c:forEach> --%>
+			</c:forEach>
 		</tbody>
 	</table>
 </div>

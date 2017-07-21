@@ -60,17 +60,17 @@
 		  AND doc.document_status_id = docstat.id
 		  AND doc.document_status_id not in (3,4)
 		  
-		 <if test="keyword != null and kind != null">
-			<if test="kind.equals('전체')">
+		 <if test="keyword != null and keytype != null">
+			<if test="keytype.equals('전체')">
 				AND (doc.subject like '%' ||#{keyword}|| '%'
 				OR t2.name like '%' ||#{keyword}|| '%')
 			</if>
 		
-			<if test="kind.equals('제목')">
+			<if test="keytype.equals('제목')">
 				AND doc.subject like '%' ||#{keyword}|| '%'
 			</if>
 		
-			<if test="kind.equals('작성자')">
+			<if test="keytype.equals('작성자')">
 				AND t2.name like '%' ||#{keyword}|| '%'
 			</if>
 		</if>

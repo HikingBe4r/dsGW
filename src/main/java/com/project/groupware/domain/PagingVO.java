@@ -141,6 +141,15 @@ public class PagingVO {
 		this.endArticleNum = (startArticleNum - 1 + countPerPage >= totalCount ? totalCount : startArticleNum - 1 + countPerPage) ;
 	}
 
+	@Override
+	public String toString() {
+		return "PagingVO [totalPage=" + totalPage + ", currentPage=" + currentPage + ", nextPage=" + nextPage
+				+ ", prevPage=" + prevPage + ", countPage=" + countPage + ", totalCount=" + totalCount
+				+ ", countPerPage=" + countPerPage + ", startPage=" + startPage + ", endPage=" + endPage
+				+ ", startArticleNum=" + startArticleNum + ", endArticleNum=" + endArticleNum + "]";
+	}
+
+	
 
 
 

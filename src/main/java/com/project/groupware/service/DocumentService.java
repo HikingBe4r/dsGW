@@ -39,7 +39,7 @@ public interface DocumentService {
 	Boolean rejectDocument(Map<String, Object> map);
 
 	// 결재문서리스트 조회
-	List<Map<String, Object>> retrieveApprovalDocumentList(Map<String, Object> keyword);
+	List<Map<String, Object>> retrieveApprovalDocumentList(Map<String, Object> map);
 
 	Map<String, Object> retrieveApprovalDocument(String documentId);
 
