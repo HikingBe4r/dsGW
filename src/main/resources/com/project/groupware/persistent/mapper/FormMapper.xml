@@ -12,6 +12,8 @@
 		</if>		
 	</select>
 	
+	
+	
 	<resultMap type="formVO" id="selectFormMap">
 		<result property="id" column="formId" />
 		<result property="subject" column="subject" />

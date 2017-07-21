@@ -43,7 +43,7 @@ public class WriteDocumentController {
 		EmployeeVO employee = (EmployeeVO)session.getAttribute("employee");
 		ModelAndView mv = new ModelAndView();				
 		FormVO form = formService.retrieveForm(formId);		
-		form.setFormContent(form.getFormContent().replace("\n", ""));	
+		form.setFormContent(form.getFormContent().replace("\n", ""));
 		mv.addObject("form", form);
 		mv.addObject("department", departmentService.retrieveDepartment(employee.getDepartmentId()));
 		mv.setViewName("approvalNav/document/writeDocument");
