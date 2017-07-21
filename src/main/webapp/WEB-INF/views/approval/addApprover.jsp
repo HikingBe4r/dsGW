@@ -154,7 +154,6 @@ $(document).ready(function() {
 			 }
 			 
 		  });	
-		 //alert(approverList.join() + '|||' + recieverList.join());	 		
 	});
 	
 	// 임시목록 삭제 버튼
@@ -175,7 +174,6 @@ $(document).ready(function() {
 				   $(this).parent().parent().parent().remove();
 			   }	  
 		   });	
-		  //alert(approverList.join() + '|||' + recieverList.join());
 		  
 	});
 	

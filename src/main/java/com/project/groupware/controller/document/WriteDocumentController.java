@@ -1,5 +1,7 @@
 package com.project.groupware.controller.document;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,15 +11,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.groupware.domain.ApprovalLineVO;
+import com.project.groupware.domain.DocumentFileVO;
 import com.project.groupware.domain.DocumentVO;
 import com.project.groupware.domain.EmployeeVO;
-import com.project.groupware.domain.FormVO;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+import com.project.groupware.domain.FormVO;
 import com.project.groupware.service.DepartmentService;
 import com.project.groupware.service.DocumentService;
 import com.project.groupware.service.FormService;
+import com.project.groupware.util.UploadFileUtils;
 
 @Controller
 public class WriteDocumentController {
@@ -48,7 +53,7 @@ public class WriteDocumentController {
 	@RequestMapping(value="/writeDocument.do", method=RequestMethod.POST)
 	public String submit(@RequestParam(value="formId", required=true) String formId,
 						@ModelAttribute(value="document") DocumentVO document,
-						HttpServletRequest request) {
+						HttpServletRequest request) throws Exception {
 		
 		FormVO form = new FormVO();
 		form.setId(formId);
@@ -57,15 +62,13 @@ public class WriteDocumentController {
 		document.setStatus("1");	// 기안
 		
 		
-		
-		/* 파일 업로드
 		List<MultipartFile> fileList = document.getUpload();
 		for(MultipartFile file : fileList) {
 			if(!file.isEmpty()) {
-				//DocumentFileVO documentFile = UploadFileUtils.uploadFile(file);
-				//document.addDocumentFile(documentFile);
+				DocumentFileVO documentFile = UploadFileUtils.uploadDocumentFile(file);
+				document.addDocumentFile(documentFile);
 			}
-		}*/
+		}
 		
 		HttpSession session = request.getSession();
 		ApprovalLineVO temp = (ApprovalLineVO)session.getAttribute("approvalLine");

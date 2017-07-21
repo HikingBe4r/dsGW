@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.project.groupware.domain.ArticleFileVO;
+import com.project.groupware.domain.DocumentFileVO;
 import com.project.groupware.domain.FormFileVO;
 
 public class UploadFileUtils {
@@ -72,5 +74,30 @@ public class UploadFileUtils {
 		formFile.setFileSize(fileSize);
 		
 		return formFile;		
+	}
+	
+	public static DocumentFileVO uploadDocumentFile(MultipartFile file) throws Exception {
+		String originalFileName = file.getOriginalFilename();
+		long fileSize = file.getSize();
+		String systemFileName = "";
+		
+		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
+		if(temp.exists()) {
+			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) +
+					"_" + count++ + originalFileName.substring(originalFileName.lastIndexOf("."));
+		} else {
+			systemFileName = originalFileName;
+		}
+		
+		// copy file in memory or C:/tempUpload folder at C:/upload folder
+		File dest = new File(UPLOAD_PATH + File.separator + systemFileName);
+		file.transferTo(dest);
+		
+		DocumentFileVO documentFile = new DocumentFileVO();
+		documentFile.setOriginalFileName(originalFileName);
+		documentFile.setSystemFileName(systemFileName);
+		documentFile.setFileSize(fileSize);
+		
+		return documentFile;	
 	}
 }
