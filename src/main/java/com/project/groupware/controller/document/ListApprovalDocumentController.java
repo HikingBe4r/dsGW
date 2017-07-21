@@ -36,7 +36,7 @@ public class ListApprovalDocumentController {
 	public ModelAndView listApprovalDocument(
 			@SessionAttribute(value="employee", required=true) EmployeeVO employee,
 			@RequestParam(value="boardId", required=true) String boardId,
-			@RequestParam(value="currentPage", required=true) int currentPage) {
+			@RequestParam(value="currentPage", required=false) Integer currentPage) {
 		
 		ModelAndView mv = new ModelAndView();
 				
@@ -72,7 +72,7 @@ public class ListApprovalDocumentController {
 		
 		
 		//  페이징 처리 시작
-		if((Integer)currentPage == null) {
+		if(currentPage == null) {
 			currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
 		}
 
@@ -94,7 +94,7 @@ public class ListApprovalDocumentController {
 			@RequestParam(value="keytype", required=true) String keytype,
 			@RequestParam(value="keyword", required=true) String keyword,
 			@RequestParam(value="boardId", required=true) String boardId,
-			@RequestParam(value="currentPage", required=true) int currentPage) {
+			@RequestParam(value="currentPage", required=true) Integer currentPage) {
 				
 		/*
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -172,7 +172,7 @@ public class ListApprovalDocumentController {
 		}
 				
 		//  페이징 처리 시작
-		if((Integer)currentPage == null) {
+		if(currentPage == null) {
 			currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
 		}
 

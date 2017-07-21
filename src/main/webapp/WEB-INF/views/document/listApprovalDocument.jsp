@@ -16,7 +16,6 @@
 		}
 		
 		for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
-		//for(var i = 0; i < data.documentList.length; i++) {
 						
 			var linkUrl = '${pageContext.request.contextPath}/detailApprovalDocument.do';
 				linkUrl += '?documentId=' + data.documentList[i].ID;
@@ -30,7 +29,38 @@
 			htmlStr += '</tr>';
 		}		
 		$("#documents").append(htmlStr);
+		$("#searchKeyword").val('');
+	};
+	
+	function pagination(data) {
+		$("#pagination").empty(data);
+		
+		var htmlStr = "";		
+		
+		var prevPage = 
+		
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
+		htmlStr += "<a aria-label='Previous'>";
+		htmlStr += '&laquo;';
+		htmlStr += "</a>";
+		htmlStr += "</li>";
+		for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
+			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			htmlStr += "<a>";
+			htmlStr += i;
+			htmlStr += "</a>";
+			htmlStr += "</li>";
+		}
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.nextPage+">";
+		htmlStr += "<a aria-label='Next'>";
+		htmlStr += '&raquo;';
+		htmlStr += "</a>";		
+		htmlStr += "</li>";
+		
+		$("#pagination").append(htmlStr);
 	}
+		
+
 
 	$(document).ready(function() {
 		// 오픈되자마자.
@@ -48,11 +78,12 @@
 					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
-					currentPage: "${param.currentPage}"
+					currentPage: "1"
 				}
 				,
 				success : function(data) {
 					listApprovalDocument(data);
+					pagination(data);
 				}
 				,
 				error : function(request,status,error) {
@@ -76,11 +107,12 @@
 					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
-					currentPage: "${param.currentPage}"
+					currentPage: '1'
 				}
 				,
 				success : function(data) {
 					listApprovalDocument(data);
+					pagination(data);
 				}	
 				,
 				error : function(jqXHR) {
@@ -91,7 +123,7 @@
 			});
 		});
 		
-		$("#pageNum").click(function() {
+		$("#pagination").on("click", "li", function() {
 			$.ajax({
 				url : '${pageContext.request.contextPath}/selectListApprovalDocument.do'
 				,
@@ -106,11 +138,12 @@
 					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
-					currentPage: $("#pageNum").val()
+					currentPage: $(this).val()
 				}
 				,
 				success : function(data) {
 					listApprovalDocument(data);
+					pagination(data);
 				}	
 				,
 				error : function(jqXHR) {
