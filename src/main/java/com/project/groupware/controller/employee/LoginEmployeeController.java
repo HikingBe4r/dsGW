@@ -39,7 +39,7 @@ public class LoginEmployeeController {
 				return "adminNav/employee/listEmployee";// 사원 관리 페이지
 			} else {
 				
-				return "login/loginForm";
+				return "login/loginFail";
 			}
 		} else {
 			EmployeeVO login = service.loginEmployee(new EmployeeVO(id, pwd));
@@ -48,7 +48,7 @@ public class LoginEmployeeController {
 				return "approvalNav/board/board";// 메인화면 아직 없어서 보드로 가게 해놓음
 			} else {
 				
-				return "login/loginForm";
+				return "login/loginFail";
 			}
 		}
 	}
