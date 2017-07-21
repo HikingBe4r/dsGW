@@ -217,7 +217,7 @@ $(document).ready(function() {
 	//검색 버튼
 	$('#searchBtn').on('click', function() {
 		$('#employeeList').empty();
-		if($('#keyfield').val() == '전체') {
+		if($('#keyfield').val() == 'all') {
 			$.ajax({
 				url: '${pageContext.request.contextPath}/listDepartment.do'
 				,
@@ -487,17 +487,15 @@ $(function() {
 				<!-- 검색 폼 -->
 				<form class="form-inline pull-right">
 					<select id="keyfield" class="form-control">
-						<option>전체</option>
+						<option value="all">전체</option>
 						<option value="name">이름</option>
 						<option value="departmentId">부서</option>
 					</select>
 
 					<div class="form-group">
-						<input type="text" class="form-control" id="keyword"
-							placeholder="keyword">
+						<input type="text" class="form-control" id="keyword" placeholder="keyword">
 					</div>
 					<button id="searchBtn" type="button" class="btn btn-default">검색</button>
-
 				</form>
 			</div>
 		</div>

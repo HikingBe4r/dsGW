@@ -10,6 +10,7 @@ public class FormVO {
 	private String content;		//양식 내용
 	private String writeday;	//등록일
 	private int hitcount;		//조회수
+	private String formContent;
 	private FormFileVO formFile;
 	private MultipartFile upload;
 	
@@ -66,12 +67,12 @@ public class FormVO {
 		this.hitcount = hitcount;
 	}
 
-	
+	public String getFormContent() {
+		return formContent;
+	}
 
-	@Override
-	public String toString() {
-		return "FormVO [id=" + id + ", subject=" + subject + ", content=" + content + ", writeday=" + writeday
-				+ ", hitcount=" + hitcount + ", formFile=" + formFile + "]";
+	public void setFormContent(String formContent) {
+		this.formContent = formContent;
 	}
 
 	public FormFileVO getFormFile() {
@@ -89,6 +90,15 @@ public class FormVO {
 	public void setUpload(MultipartFile upload) {
 		this.upload = upload;
 	}
+
+	@Override
+	public String toString() {
+		return "FormVO [id=" + id + ", subject=" + subject + ", content=" + content + ", writeday=" + writeday
+				+ ", hitcount=" + hitcount + ", formContent=" + formContent + ", formFile=" + formFile + ", upload="
+				+ upload + "]";
+	}
+	
+	
 
 	
 

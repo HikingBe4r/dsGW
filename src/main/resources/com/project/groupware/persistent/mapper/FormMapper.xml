@@ -18,6 +18,7 @@
 		<result property="content" column="content" />
 		<result property="writeday" column="writeday" />
 		<result property="hitcount" column="hitcount" />
+		<result property="formContent" column="form_content" />
 		
 		<association property="formFile" javaType="formFileVO">
 			<result property="id" column="formFileId" />
@@ -30,7 +31,7 @@
 	
 	<select id="selectForm" resultMap="selectFormMap" parameterType="String" statementType="PREPARED">
 		SELECT
-			f.ID as formId, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT,
+			f.ID as formId, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT, f.FORM_CONTENT,
 			ff.ID as formFileId, ff.ORIGINAL_FILE_NAME, ff.SYSTEM_FILE_NAME, ff.FILE_SIZE
 		FROM 
 			FORM f, FORM_FILE ff
@@ -45,7 +46,7 @@
 		</selectKey>
 		
 		INSERT INTO FORM
-		VALUES(#{id}, #{subject}, #{content}, sysdate, 0)
+		VALUES(#{id}, #{subject}, #{content}, sysdate, 0, #{formContent})
 	</insert>
 
 	<delete id="deleteForm" parameterType="String" statementType="PREPARED">
