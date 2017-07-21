@@ -14,7 +14,64 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
+<script>
+	$(document)
+			.ready(
+					function() {
+						$('#searchBtn')
+								.click(
+										function() {
+											$
+													.ajax({
+														url : '${pageContext.request.contextPath}/searchDepartment.do',
+														method : 'GET',
+														dataType : 'json',
+														data : {
+															keyfield : $(
+																	"select[name='keyfield'] > option:selected")
+																	.val(),
+															keyword : $(
+																	":text[name='keyword']")
+																	.val()
+														},
+														cache : false,
+														success : function(data) {
+															$('#table').find(
+																	'tr:first')
+																	.nextAll()
+																	.remove();
 
+															var htmlStr = "";
+															for (var i = 0; i < data.departmentList.length; i++) {
+																htmlStr += "<tr onclick=\"location=\'/groupware/detailDepartment.do?id="
+																		+ data.departmentList[i].id
+																		+ "\'\">";
+																htmlStr += "<td>"
+																		+ data.departmentList[i].id
+																		+ "</td>";
+																htmlStr += "<td>"
+																		+ data.departmentList[i].name
+																		+ "</td>";
+
+																htmlStr += "</tr>";
+															}
+
+															$('#table')
+																	.find(
+																			'tr:first')
+																	.after(
+																			htmlStr);
+
+														},
+														error : function(jqXHR) {
+															alert("Error : "
+																	+ jqXHR.responseText);
+														}
+
+													});
+										});
+					});
+</script>
 <div class="py-5">
 	<br>
 	<div class="container">
@@ -22,42 +79,42 @@
 
 			<div class="col-md-12">
 				<div style="float: right">
-					<button class="btn btn-primary">검색</button>
+					<button class="btn btn-primary" id="searchBtn">검색</button>
 				</div>
 				<div style="float: right">
-					<input type="text" class="form-control" name="addressDetail"
+					<input type="text" class="form-control" name="keyword"
 						placeholder="검색어">
 
 				</div>
 				<div style="float: right">
-					<select class="btn btn-primary dropdown-toggle">
+					<select class="btn btn-primary dropdown-toggle" name="keyfield">
 						<option value="id">부서 번호</option>
 						<option value="name">부서 이름</option>
 					</select>
+				</div>
+				<div style="float: left">
+					<button class="btn btn-primary" id="insertBtn"
+						onclick="window.open('${pageContext.request.contextPath }/registerDepartment.do','사번/비밀번호 찾기','width=600, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">부서등록</button>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<table class="table">
-					<thead>
-						<tr>
-							<th>부서 번호</th>
-							<th>부서 이름</th>
+				<table class="table" id="table">
+					<tr>
+						<th>부서 번호</th>
+						<th>부서 이름</th>
+					</tr>
+					<c:forEach var="departmentList"
+						items="${requestScope.departmentList }" varStatus="loop">
+						<c:url var="url" value="/detailDepartment.do">
+							<c:param name="id" value="${pageScope.departmentList.id }" />
+						</c:url>
+						<tr onclick="location='${pageScope.url}'">
+							<td>${pageScope.departmentList.id }</td>
+							<td>${pageScope.departmentList.name }</td>
 						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="departmentList"
-							items="${requestScope.departmentList }" varStatus="loop">
-							<c:url var="url" value="/detailDepartment.do">
-								<c:param name="id" value="${pageScope.departmentList.id }" />
-							</c:url>
-							<tr onclick="location='${pageScope.url}'">
-								<td>${pageScope.departmentList.id }</td>
-								<td>${pageScope.departmentList.name }</td>
-							</tr>
-						</c:forEach>
-					</tbody>
+					</c:forEach>
 				</table>
 			</div>
 		</div>

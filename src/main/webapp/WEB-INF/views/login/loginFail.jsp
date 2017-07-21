@@ -5,8 +5,8 @@
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-		<script>
-	alert("변경이 완료되었습니다.");
-	window.close();
+	<script>
+	alert("일치하는 정보가 없습니다.");
+	location.href="login.do";
 	</script>
 	

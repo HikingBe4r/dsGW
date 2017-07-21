@@ -26,7 +26,7 @@ public class FindEmployeeIdController {
 		employee.setEmail(email);
 		employee = service.findEmployeeId(employee);
 		if (employee != null) {
-			
+
 			String from = "dsgroupware43@naver.com"; // 메일 보내는 사람
 			String to = employee.getEmail(); // 메일 보낼사람
 			String cc = ""; // 참조
@@ -52,7 +52,7 @@ public class FindEmployeeIdController {
 					System.out.println("실패 이유 : " + e.getMessage());
 				}
 			}
-			
+
 			mv.setViewName("login/findEmpId");
 		} else {
 			mv.setViewName("login/findFail");
@@ -68,8 +68,8 @@ public class FindEmployeeIdController {
 		employee.setName(name);
 		employee.setEmail(email);
 		employee = service.findEmployeeId(employee);
-		if (employee.getId().equals(employeeId)) {
-			
+		if (employee != null && employee.getId().equals(employeeId)) {
+
 			String from = "dsgroupware43@naver.com"; // 메일 보내는 사람
 			String to = employee.getEmail(); // 메일 보낼사람
 			String cc = ""; // 참조
@@ -83,7 +83,7 @@ public class FindEmployeeIdController {
 			} else {
 				try {
 					SendMail mt = new SendMail();
-					num = mt.RandomNum();//인증번호 생성
+					num = mt.RandomNum();// 인증번호 생성
 					content = "인증번호 : " + num + " 입니다.";// 내용
 					// 메일보내기
 					mt.sendEmail(from, to, cc, subject, content);
@@ -96,7 +96,7 @@ public class FindEmployeeIdController {
 					System.out.println("실패 이유 : " + e.getMessage());
 				}
 			}
-			
+
 			// 인증번호 확인 화면 전환
 			mv.addObject("id", employee.getId());
 			mv.addObject("authNum", num);
