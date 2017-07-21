@@ -178,7 +178,7 @@ $(document).ready(function() {
 	});
 	
 	
-	// 서브밋 버튼
+	//서브밋 버튼
 	$('#submitBtn').on('click', function() {
 		if(approverList.length == 0 && recieverList.length == 0) {
 			alert("선택된 사원이 없습니다.");
@@ -195,8 +195,7 @@ $(document).ready(function() {
 					employeeId: '${sessionScope.employee.id}', 
 					subject: '' ,
 					approverEmpIdList: JSON.stringify(approverList),
-					recieverEmpIdList: JSON.stringify(recieverList)
-							
+					recieverEmpIdList: JSON.stringify(recieverList)		
 				}
 				, 
 				cache: false
@@ -214,6 +213,77 @@ $(document).ready(function() {
 		
 		}		
 	});
+	
+	//검색 버튼
+	$('#searchBtn').on('click', function() {
+		$('#employeeList').empty();
+		if($('#keyfield').val() == '전체') {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/listDepartment.do'
+				,
+				method: 'POST'
+				,
+				dataType: 'json'
+				,
+				data: {
+														
+				}
+				, 
+				cache: false
+				,
+				success: function(data) {
+					
+					var htmlStr = "";
+					for(var i=0; i<data.departmentList.length; i++) {
+						 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+						 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+					}	
+					htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
+					$('#employeeList').append(htmlStr);
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+				}			
+				
+			});
+		} else {
+			//부서검색은 안됨. 수정필요
+			$.ajax({
+				url: '${pageContext.request.contextPath}/searchEmployee.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					keyfield: $('#keyfield').val(),
+					keyword: $('#keyword').val()
+				}
+				, 
+				cache: false
+				,
+				success: function(data) {
+					var htmlStr = "";
+					for(var i=0; i<data.employeeList.length; i++) {
+						
+						if(data.employeeList[i].id != '${sessionScope.employee.id}') {
+						    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.employeeList[i].ID+"'>";
+							htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE + "</label> <br>"; 	
+						}
+										
+					}	
+					$('#employeeList').append(htmlStr);
+							
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+				}			
+				
+			});
+		}	
+	}); 
 		
 });
 
@@ -326,7 +396,7 @@ $(function () {
 	})
 }) 
 
-// 즐겨찾기 버튼 클릭
+// 즐겨찾기 버튼
 $(function() {
 	$('#employeeList').on("click", "button", function() {
 		
@@ -416,16 +486,17 @@ $(function() {
 				</div>
 				<!-- 검색 폼 -->
 				<form class="form-inline pull-right">
-					<select class="form-control">
-						<option>이름</option>
-						<option>부서</option>
+					<select id="keyfield" class="form-control">
+						<option>전체</option>
+						<option value="name">이름</option>
+						<option value="departmentId">부서</option>
 					</select>
 
 					<div class="form-group">
-						<input type="text" class="form-control" id="searchKeyword"
+						<input type="text" class="form-control" id="keyword"
 							placeholder="keyword">
 					</div>
-					<button type="button" class="btn btn-default">검색</button>
+					<button id="searchBtn" type="button" class="btn btn-default">검색</button>
 
 				</form>
 			</div>

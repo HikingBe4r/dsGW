@@ -40,10 +40,8 @@
 	});
 
 	
-
 	//스마트 에디터
 	$(function() {
-
 		var obj = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : obj,
@@ -78,38 +76,41 @@
 		
 		//임시저장 버튼
 		$('#tempDocument').click(function() {
-			
-			obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-			$.ajax({
-				url: '${pageContext.request.contextPath}/writeTempDocument.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: {
-					employeeId: '${sessionScope.employee.id}',
-					subject: $('#subject').val(),
-					content: $('#content').val(),
-					endDate: $('#endDate').val(),
- 					formId: '${requestScope.form.id}'
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
+			 if($('#subject').val().length == 0) {
+				alert("제목을 입력하세요.");
+			} else {
+				obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);		
+				$.ajax({
+					url: '${pageContext.request.contextPath}/writeTempDocument.do'
+					,
+					method: 'POST'
+					,
+					dataType: 'json'
+					,
+					data: {
+						employeeId: '${sessionScope.employee.id}',
+						subject: $('#subject').val(),
+						content: $('#content').val(),
+						endDate: $('#endDate').val(),
+	 					formId: '${requestScope.form.id}'
+					}
+					, 
+					cache: false
+					,
+					success: function(data) {
+						
+						
+						
+						location.href = 'choiceForm.do'; //임시문서 목록 페이지로?
 					
+					}
+					,
+					error : function(jqXHR) {
+						alert("Error : " + jqXHR.responseText);
+					}			
 					
-					
-					location.href = 'choiceForm.do'; //임시문서 목록 페이지로?
-				
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
-				
-			});
+				});
+			}
 			
 			
 		});
