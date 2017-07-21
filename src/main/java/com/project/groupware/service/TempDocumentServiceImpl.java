@@ -23,9 +23,8 @@ public class TempDocumentServiceImpl implements TempDocumentService{
 		tempDocumentMapper.updateTempDocument(tempDocumentVO);
 	}
 
-	public void removeTempDocument(String tempDocumentId) {
-		// TODO Auto-generated method stub
-		
+	public void removeTempDocument(Map<String, Object> map) {
+		tempDocumentMapper.deleteTempDocument(map);
 	}
 
 	public TempDocumentVO retrieveTempDocument(int tempDocumentId) {

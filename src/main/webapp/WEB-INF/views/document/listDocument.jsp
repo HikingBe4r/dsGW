@@ -162,7 +162,7 @@
 		 		<tr>
 		 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
 		 			<c:if test="${requestScope.myDocs == 2}">
-						<td><span id="">☆</span></td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="documentId" value="${pageScope.document.id }"></td>
 					</c:if>
 		 			<td>${pageScope.document.id }</td>
 		 			<td><a href="${pageScope.url }">${pageScope.document.subject }</a></td>

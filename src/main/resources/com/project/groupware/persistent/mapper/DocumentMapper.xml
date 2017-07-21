@@ -152,24 +152,24 @@
 					</if>
 					<if test="searchDay == 'writeDay'">
 						<if test="startDay != 'all' and endDay != 'all'">
-							and doc.writeday between #{startDay} and #{endDay}
+							and to_char(doc.writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay}
 						</if>
 						<if test="startDay != 'all' and endDay == 'all'">
-							and doc.writeday = #{startDay}
+							and to_char(doc.writeday, 'YYYY/MM/DD') = #{startDay}
 						</if>
 						<if test="startDay == 'all' and endDay != 'all'">
-							and doc.writeday = #{endDay}
+							and to_char(doc.writeday, 'YYYY/MM/DD') = #{endDay}
 						</if>
 					</if>
 					<if test="searchDay == 'finishDay'">
 						<if test="startDay != 'all' and endDay != 'all'">
-							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) between #{startDay} and #{endDay}
+							and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') between #{startDay} and #{endDay}
 						</if>
 						<if test="startDay != 'all' and endDay == 'all'">
-							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{startDay}
+							and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{startDay}
 						</if>
 						<if test="startDay == 'all' and endDay != 'all'">
-							and (select max(auth_date) from approval_history ah where ah.document_id = doc.id) = #{endDay}
+							and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
 						</if>
 					</if>
 					<!-- <if test="searchDay == 'all'">

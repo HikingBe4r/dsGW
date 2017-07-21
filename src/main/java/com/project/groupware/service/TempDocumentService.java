@@ -11,7 +11,7 @@ public interface TempDocumentService {
 	
 	void modifyTempDocument(TempDocumentVO tempDocumentVO);
 	
-	void removeTempDocument(String tempDocumentId);
+	void removeTempDocument(Map<String, Object> map);
 	
 	TempDocumentVO retrieveTempDocument(int tempDocumentId);
 	
