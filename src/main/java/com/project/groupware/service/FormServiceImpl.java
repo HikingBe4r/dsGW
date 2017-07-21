@@ -68,11 +68,20 @@ public class FormServiceImpl implements FormService{
 	}
 
 	public void registerBookmarkForm(BookmarkFormVO bookmarkFormVO) {
-		formMapper.insertBookmarkForm(bookmarkFormVO);		
+		List<BookmarkFormVO> formList = formMapper.selectBookmarkFormList(bookmarkFormVO.getEmployeeId());
+		int check = 0;
+		for(BookmarkFormVO bookmark : formList) {
+			if(bookmark.getFormId().equals(bookmarkFormVO.getFormId())) {
+				check++;
+			}
+		}	
+		if(check==0) {
+			formMapper.insertBookmarkForm(bookmarkFormVO);
+		}
 	}
 
-	public void removeBookmarkForm(String id) {
-		formMapper.removeBookmarkForm(id);
+	public void removeBookmarkForm(BookmarkFormVO bookmarkFormVO) {
+		formMapper.removeBookmarkForm(bookmarkFormVO);
 	}
 	
 }

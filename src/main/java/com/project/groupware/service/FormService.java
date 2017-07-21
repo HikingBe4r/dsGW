@@ -18,5 +18,5 @@ public interface FormService {
 	// 양식 즐겨찾기
 	List<BookmarkFormVO> retrieveBookmarkFormList(String keyword);
 	void registerBookmarkForm(BookmarkFormVO bookmarkFormVO);
-	void removeBookmarkForm(String id);
+	void removeBookmarkForm(BookmarkFormVO bookmarkFormVO);
 }

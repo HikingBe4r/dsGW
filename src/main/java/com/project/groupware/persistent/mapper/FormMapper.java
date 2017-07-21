@@ -18,5 +18,5 @@ public interface FormMapper {
 	// 양식 즐겨찾기
 	List<BookmarkFormVO> selectBookmarkFormList(String keyword);
 	void insertBookmarkForm(BookmarkFormVO bookmarkFormVO);
-	void removeBookmarkForm(String id);
+	void removeBookmarkForm(BookmarkFormVO bookmarkFormVO);
 }

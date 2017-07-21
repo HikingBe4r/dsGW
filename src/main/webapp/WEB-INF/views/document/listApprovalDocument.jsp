@@ -45,7 +45,11 @@
 		htmlStr += "</a>";
 		htmlStr += "</li>";
 		for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
-			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			if(data.paging.currentPage == i) {
+				htmlStr += "<li class='active' name='pageNum' id='pageNum' value="+ i +">";
+			} else {
+				htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			}
 			htmlStr += "<a>";
 			htmlStr += i;
 			htmlStr += "</a>";
@@ -56,6 +60,13 @@
 		htmlStr += '&raquo;';
 		htmlStr += "</a>";		
 		htmlStr += "</li>";
+		
+		/*
+		// 이게 왜 실패했는지 생각해보자.
+		if(data.paging.currentPage == $("#pageNum").val()) {
+			$("#pageNum").attr("class", "active");
+		}
+		*/
 		
 		$("#pagination").append(htmlStr);
 	}

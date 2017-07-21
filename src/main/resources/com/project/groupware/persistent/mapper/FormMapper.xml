@@ -75,7 +75,7 @@
 		WHERE ID = #{id}
 	</update>
 	
-	<select id="selectBookmarkFormList" resultType="formVO" parameterType="hashmap" statementType="PREPARED">
+	<!-- <select id="selectBookmarkFormList" resultType="formVO" parameterType="hashmap" statementType="PREPARED">
 		SELECT f.ID, f.SUBJECT, f.CONTENT, f.WRITEDAY, f.HITCOUNT
 		FROM FORM f, FORM_BOOKMARK fb, EMPLOYEE emp
 		WHERE f.ID = fb.FORM_ID and
@@ -83,6 +83,12 @@
 		<if test="subject != null">
 			and SUBJECT like '%' || #{subject} || '%'
 		</if>
+	</select> -->
+	<select id="selectBookmarkFormList" resultType="bookmarkFormVO" parameterType="String" statementType="PREPARED">
+		SELECT fb.id ID, fb.employee_id employeeId, fb.form_id formId
+		FROM FORM_BOOKMARK fb
+		WHERE 
+			fb.employee_id = #{employeeId}
 	</select>
 	
 	<insert id="insertBookmarkForm" parameterType="bookmarkFormVO" statementType="PREPARED">
