@@ -52,10 +52,85 @@
 					alert("Error : " + jqXHR.responseText);
 				}				
 				
-			});			
-		});		
+			});
+		});
+		
+		$('#allSelectBtn').click(function() {			 
+			 $(":checkbox[name='tempDocumentId']").each(function() {
+				 var subChecked = $(this).attr('checked');
+				 
+				 if (subChecked != 'checked')
+				 	$(this).click();
+				 
+			 });
+		});
+		
+		$('#allSelectCancelBtn').click(function() {			 
+			 $(":checkbox[name='tempDocumentId']").each(function() {
+				 var subChecked = $(this).attr('checked');
+				 
+				 if (subChecked == 'checked')
+				 	$(this).click();
+				 
+			 });
+		});
+		
+		$('#deleteBtn').click(function() {
+			var checkRow = '';
+			
+			$(":checkbox[name='tempDocumentId']:checked").each(function(){
+				checkRow = checkRow + $(this).val() + ', ';
+			});
+			
+			checkRow = checkRow.substring(0, checkRow.lastIndexOf(', ')); //맨끝 콤마 지우기
+			
+			if(checkRow == '') {
+				alert("삭제할 문서를 선택하세요.");
+			    return;
+			}
+			
+			if(confirm('정말로 삭제하시겠습니까?')) {				
+				$.ajax({
+					url: '${pageContext.request.contextPath}/deleteTempDocument.do'
+					,
+					method: 'GET'
+					,
+					dataType: 'json'
+					,
+					data: {
+						checkRow: checkRow
+					}
+					, 
+					cache: false
+					,
+					success: function(data) {
+						$('#tempDocuments').empty(data);
+						
+						var htmlStr = "";
+						
+						for (var i = 0 ; i < data.tempDocumentList.length ; i++) {
+							htmlStr += "<tr>";
+							htmlStr += "<td>&nbsp;&nbsp;" + data.tempDocumentList[i].id + "</td>";
+							htmlStr += "<td><a href='/groupware/detailTempDocument.do?id=" + data.tempDocumentList[i].id + "'>" + data.tempDocumentList[i].subject + "</a></td>";
+							htmlStr += "<td>" + data.tempDocumentList[i].writeday + "</td>";
+							htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='tempDocumentId' value='" + data.tempDocumentList[i].id + "'></td>";
+							htmlStr += "</tr>"; 
+						}
+											
+						$('#tempDocuments').append(htmlStr);
+						
+					}
+					,
+					error : function(jqXHR) {
+						alert("Error : " + jqXHR.responseText);
+					}				
+					
+				});
+			}
+			
+		});
 	});
-
+	
 	$(function() {
 	    $( "#startDay" ).datepicker({
 	    	dateFormat : "yy/mm/dd",
@@ -123,7 +198,9 @@
 </div>
 
 <div align="right">
-	<button type="button">삭제</button>
+	<button type="button" class="btn btn-default" id="allSelectBtn">전체선택</button>
+	<button type="button" class="btn btn-default" id="allSelectCancelBtn">전체취소</button>
+	<button type="button" class="btn btn-default" id="deleteBtn">삭제</button>
 </div>
 
 

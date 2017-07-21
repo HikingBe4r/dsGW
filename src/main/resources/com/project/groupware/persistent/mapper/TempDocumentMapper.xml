@@ -16,13 +16,13 @@
 					subject like '%' || #{keyword} || '%' and
 				</if>
 				<if test="startDay != 'all' and endDay != 'all'">
-					writeday between #{startDay} and #{endDay} and
+					TO_CHAR(writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay} and
 				</if>
 				<if test="startDay != 'all' and endDay == 'all'">
-					writeday = #{startDay} and
+					TO_CHAR(writeday, 'YYYY/MM/DD') = #{startDay} and
 				</if>
 				<if test="startDay == 'all' and endDay != 'all'">
-					writeday = #{endDay} and
+					TO_CHAR(writeday, 'YYYY/MM/DD') = #{endDay} and
 				</if>
 			</trim>
 		<!-- </if> -->
@@ -64,9 +64,15 @@
 		where id = #{id}
 	</update>
 	
-	<delete id="deleteTempDocument" parameterType="int" statementType="PREPARED">
+	<delete id="deleteTempDocument" parameterType="map" statementType="PREPARED">
 		delete from temp_docs
-		where id = #{value}
+		where id in (
+			<trim suffixOverrides=",">
+				<foreach item="id" collection="tempDocumentIdList">
+					#{id},
+				</foreach>
+			</trim>
+		)
 	</delete>
 	
 	<insert id="insertTempDocument" parameterType="tempDocumentVO" statementType="PREPARED">

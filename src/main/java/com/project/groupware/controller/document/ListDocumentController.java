@@ -36,8 +36,8 @@ public class ListDocumentController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		int status = 3;
-		int myDocs = 2;
+		int status = 0;
+		int myDocs = 1;
 		String employeeId = employee.getId();
 		
 		map.put("status", status);

@@ -11,7 +11,7 @@ public interface TempDocumentMapper {
 	
 	void updateTempDocument(TempDocumentVO tempDocumentVO);
 	
-	void deleteTempDocument(String tempDocumentId);
+	void deleteTempDocument(Map<String, Object> map);
 	
 	TempDocumentVO selectTempDocument(int tempDocumentId);
 	
