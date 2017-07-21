@@ -14,11 +14,54 @@
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
+<script type="text/javascript">
+	function checkPwd() {
+		var pw1 = document.form.password.value;
+		var pw2 = document.form.pwd_check.value;
+		if (pw1 != pw2) {
+			document.getElementById('checkPwd').style.color = "red";
+			document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요.";
+		} else {
+			document.getElementById('checkPwd').style.color = "black";
+			document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다.";
+		}
+	}
+	
+	$(document).ready(function(){
+		var checkAjaxSetTimeout;
+		    $('#email').keyup(function(){
+		        clearTimeout(checkAjaxSetTimeout);
+		        checkAjaxSetTimeout = setTimeout(function(){
+		        if ( $('#email').val().length > 6) {
+		            var email = $(this).val();
+		            // ajax 실행
+		            $.ajax({
+		                type : 'POST',
+		                url : '${pageContext.request.contextPath}/emailCheck.do',
+		                data:
+		                {
+		                    email: email
+		                },
+		                success : function(result) {
+		                    alert(result);
+		                    if (result == "ok") {
+		                        $("#checkEmail").html("사용 가능한 아이디 입니다.");
+		                    } else {
+		                        $("#checkEmail").html("사용 불가능한 아이디 입니다.");
+		                    }
+		                }
+		            }); // end ajax
+		        }
+		            },1000); //end setTimeout
+		        
+		    }); // end keyup
+		});
+</script>
 <form action="${pageContext.request.contextPath }/registerEmployee.do"
-	method="post" enctype="multipart/form-data">
+	method="post" enctype="multipart/form-data" name="form">
 	<div class="py-5">
 		<div class="container">
-		<br>
+			<br>
 			<div>
 
 				<div class="col-md-6">
@@ -43,19 +86,23 @@
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label> <input type="password" class="form-control"
+							name="pwd_check" onkeyup="return checkPwd();"
 							placeholder="Password Check">
 					</div>
+					<div id="checkPwd">동일한 암호를 입력하세요.</div>
+					<br>
 					<div class="form-group">
 						<label>이메일</label> <input type="email" class="form-control"
 							placeholder="xxxx@xxxx.xxx" name="email">
 					</div>
+					<div id="checkEmail">이메일을 입력해주세요</div>
 					<div class="form-group">
 						<label>연락처</label> <input type="text" class="form-control"
 							placeholder="000-0000-0000" name="phone">
 					</div>
 					<div class="form-group">
-						<label>주소</label> <input type="text" class="form-control" id="address"
-							placeholder="주소" name="address">
+						<label>주소</label> <input type="text" class="form-control"
+							id="address" placeholder="주소" name="address">
 						<button type="button" class="btn btn-primary"
 							onclick="sample4_execDaumPostcode()">주소검색</button>
 						<script>
@@ -122,10 +169,11 @@
 							placeholder="상세주소" name="addressDetail">
 					</div>
 
-					<label>부서</label><br> <select class="form-control" name="departmentId">
+					<label>부서</label><br> <select class="form-control"
+						name="departmentId">
 						<c:forEach var="deptList" items="${requestScope.deptList }"
 							varStatus="loop">
-							<option value="${pageScope.deptList.id}" >${pageScope.deptList.name }</option>
+							<option value="${pageScope.deptList.id}">${pageScope.deptList.name }</option>
 						</c:forEach>
 					</select> <br> <br> <label>직급</label><br> <select
 						class="form-control" name="gradeId">

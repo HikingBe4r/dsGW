@@ -16,6 +16,4 @@ public interface DepartmentMapper {
 	public void updateDepartment(DepartmentVO dept);
 	
 	public void deleteDepartment(DepartmentVO dept);
-	
-
 }

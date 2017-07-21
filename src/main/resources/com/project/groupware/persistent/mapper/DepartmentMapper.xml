@@ -26,6 +26,7 @@
 				</choose>
 			</trim>
 		</if>
+		order by id asc
 	</select>
 
 	<select id="selectDepartment" parameterType="String" resultType="departmentVO"
@@ -35,18 +36,12 @@
 		WHERE ID = #{id}
 	</select>
 
-	<update id="updateDepartment" parameterType="departmentVO"
-		statementType="PREPARED">
-		UPDATE DEPARTMENT
-		<trim prefix="SET" suffixOverrides=",">
-			<if test="id != null and id != ''">
-				ID = #{id} ,
-			</if>
-			<if test="subject != null and subject != ''">
-				NAME = #{name} ,
-			</if>
-		</trim>
-		WHERE ID = #{id}
+	<update id="updateDepartment" parameterType="map" statementType="PREPARED">
+		UPDATE employee SET department_id = #{} WHERE id IN
+		<foreach item="empList" index="index" collection="list" open="("
+			separator="," close=")">
+			#{empList.bookID}
+		</foreach>
 	</update>
 
 	<delete id="deleteDepartment" parameterType="String"

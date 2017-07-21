@@ -9,4 +9,3 @@
 	alert("일치하는 정보가 없습니다.");
 	location.href="login.do";
 	</script>
-	
