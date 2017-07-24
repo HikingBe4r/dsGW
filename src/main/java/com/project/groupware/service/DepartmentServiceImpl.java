@@ -11,15 +11,16 @@ import com.project.groupware.persistent.mapper.DepartmentMapper;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
-	
+
 	@Autowired
 	private DepartmentMapper deptMapper;
 
 	public void registerDepartment(DepartmentVO dept) {
 		deptMapper.insertDepartment(dept);
 	}
-	public void modifyDepartment(DepartmentVO dept) {
-		deptMapper.updateDepartment(dept);
+
+	public void modifyDepartment(Map<String, Object> keyword) {
+		deptMapper.updateDepartment(keyword);
 	}
 
 	public void removeDepartment(DepartmentVO dept) {
@@ -33,6 +34,5 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public List<DepartmentVO> retrieveDepartmentList(Map<String, Object> keyword) {
 		return deptMapper.selectDepartmentList(keyword);
 	}
-	
-	
+
 }

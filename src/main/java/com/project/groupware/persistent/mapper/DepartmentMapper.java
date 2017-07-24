@@ -13,7 +13,7 @@ public interface DepartmentMapper {
 	
 	public DepartmentVO selectDepartment(String id);
 	
-	public void updateDepartment(DepartmentVO dept);
+	public void updateDepartment(Map<String, Object> map);
 	
 	public void deleteDepartment(DepartmentVO dept);
 }

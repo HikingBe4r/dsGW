@@ -9,7 +9,7 @@ public interface DepartmentService {
 	
 	public void registerDepartment(DepartmentVO dept);
 	
-	public void modifyDepartment(DepartmentVO dept);
+	public void modifyDepartment(Map<String, Object> keyword);
 	
 	public void removeDepartment(DepartmentVO dept);
 	

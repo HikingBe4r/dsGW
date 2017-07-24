@@ -15,9 +15,88 @@
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
 <script>
+	function listDepartment(data) {
+		$("#tableBody").empty(data);
+		var htmlStr = "";
+		if (data.departmentList.length == 0) {
+			alert("검색결과가 없습니다.");
+		}
+
+		for (var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+
+			htmlStr += "<tr onclick=\"location=\'/groupware/detailDepartment.do?id="
+					+ data.departmentList[i].id + "\'\">";
+			htmlStr += "<td>" + data.departmentList[i].id + "</td>";
+			htmlStr += "<td>" + data.departmentList[i].name + "</td>";
+
+			htmlStr += "</tr>";
+		}
+		$("#tableBody").append(htmlStr);
+		$("#keyword").val('');
+	};
+
+	function pagination(data) {
+		$("#pagination").empty(data);
+
+		var htmlStr = "";
+
+		var prevPage =
+
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
+		htmlStr += "<a aria-label='Previous'>";
+		htmlStr += '&laquo;';
+		htmlStr += "</a>";
+		htmlStr += "</li>";
+		for (var i = data.paging.startPage; i <= data.paging.endPage; i++) {
+			if (data.paging.currentPage == i) {
+				htmlStr += "<li class='active' name='pageNum' id='pageNum' value="+ i +">";
+			} else {
+				htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			}
+			htmlStr += "<a>";
+			htmlStr += i;
+			htmlStr += "</a>";
+			htmlStr += "</li>";
+		}
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.nextPage+">";
+		htmlStr += "<a aria-label='Next'>";
+		htmlStr += '&raquo;';
+		htmlStr += "</a>";
+		htmlStr += "</li>";
+
+		$("#pagination").append(htmlStr);
+	}
 	$(document)
 			.ready(
 					function() {
+						$.ajax({
+							url : '${pageContext.request.contextPath}/searchDepartment.do',
+							method : 'GET',
+							cache : false,
+							dataType : 'json',
+							data : {
+								keyfield : $(
+										"select[name='keyfield'] > option:selected")
+										.val(),
+								keyword : $(":text[name='keyword']")
+										.val(),
+								currentPage : "1"
+							},
+							success : function(data) {
+								listDepartment(data);
+								pagination(data);
+							},
+							error : function(request, status, error) {
+								alert("code:" + request.status + "\n"
+										+ "message:"
+										+ request.responseText + "\n"
+										+ "error:" + error);
+								console.log("code:" + request.status
+										+ "\n" + "message:"
+										+ request.responseText + "\n"
+										+ "error:" + error);
+							}
+						});
 						$('#searchBtn')
 								.click(
 										function() {
@@ -32,36 +111,13 @@
 																	.val(),
 															keyword : $(
 																	":text[name='keyword']")
-																	.val()
+																	.val(),
+															currentPage : "1"
 														},
 														cache : false,
 														success : function(data) {
-															$('#table').find(
-																	'tr:first')
-																	.nextAll()
-																	.remove();
-
-															var htmlStr = "";
-															for (var i = 0; i < data.departmentList.length; i++) {
-																htmlStr += "<tr onclick=\"location=\'/groupware/detailDepartment.do?id="
-																		+ data.departmentList[i].id
-																		+ "\'\">";
-																htmlStr += "<td>"
-																		+ data.departmentList[i].id
-																		+ "</td>";
-																htmlStr += "<td>"
-																		+ data.departmentList[i].name
-																		+ "</td>";
-
-																htmlStr += "</tr>";
-															}
-
-															$('#table')
-																	.find(
-																			'tr:first')
-																	.after(
-																			htmlStr);
-
+															listDepartment(data);
+															pagination(data);
 														},
 														error : function(jqXHR) {
 															alert("Error : "
@@ -70,6 +126,37 @@
 
 													});
 										});
+						$("#pagination")
+						.on(
+								"click",
+								"li",
+								function() {
+									$
+											.ajax({
+												url : '${pageContext.request.contextPath}/searchDepartment.do',
+												method : 'GET',
+												cache : false,
+												dataType : 'json',
+												data : {
+													keyfield : $(
+													"select[name='keyfield'] > option:selected")
+													.val(),
+											keyword : $(
+													":text[name='keyword']")
+													.val(),
+													currentPage : $(this).val()
+												},
+												success : function(data) {
+													listDepartment(data);
+													pagination(data);
+												},
+												error : function(jqXHR) {
+													alert("ERROR: "
+															+ jqXHR.responseText);
+												}
+
+											});
+								});
 					});
 </script>
 <div class="py-5">
@@ -101,10 +188,13 @@
 		<div class="row">
 			<div class="col-md-12">
 				<table class="table" id="table">
+				<thead>
 					<tr>
 						<th>부서 번호</th>
 						<th>부서 이름</th>
 					</tr>
+				</thead>
+				<tbody id="tableBody">
 					<c:forEach var="departmentList"
 						items="${requestScope.departmentList }" varStatus="loop">
 						<c:url var="url" value="/detailDepartment.do">
@@ -115,6 +205,7 @@
 							<td>${pageScope.departmentList.name }</td>
 						</tr>
 					</c:forEach>
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -124,17 +215,15 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<ul class="pagination">
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Previous"> <span aria-hidden="true">«</span> <span
-							class="sr-only">Previous</span>
-					</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Next"> <span aria-hidden="true">»</span> <span
-							class="sr-only">Next</span>
-					</a></li>
+				<ul id="pagination" class="pagination">
+					<li><a href="${requestScope.paging.prevPage }"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+					<c:forEach var="pageNum" begin="${requestScope.paging.startPage }"
+						end="${requestScope.paging.endPage }" step="1">
+						<li id="pageNum"><a>${pageNum }</a></li>
+					</c:forEach>
+					<li><a href="${requestScope.paging.nextPage }"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
 				</ul>
 			</div>
 		</div>

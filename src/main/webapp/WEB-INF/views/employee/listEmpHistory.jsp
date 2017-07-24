@@ -15,7 +15,92 @@
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
 <script>
+function listEmpHistory(data) {
+	$("#tableBody").empty(data);
+	var htmlStr = "";
+	if (data.empHistoryList.length == 0) {
+		alert("검색결과가 없습니다.");
+	}
+
+	for (var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+
+		htmlStr += "<tr>";
+		htmlStr += "<td>" + data.empHistoryList[i].employee.id + "</td>";
+		htmlStr += "<td>" + data.empHistoryList[i].employee.name + "</td>";
+		htmlStr += "<td>" + data.empHistoryList[i].startDate + "</td>";
+		htmlStr += "<td>" + data.empHistoryList[i].endDate + "</td>";
+		htmlStr += "<td>" + data.empHistoryList[i].kind + "</td>";
+		htmlStr += "<td>" + data.empHistoryList[i].oldContent + "</td>";
+		htmlStr += "<td>" + data.empHistoryList[i].newContent + "</td>";
+		htmlStr += "</tr>";
+	}
+	$("#tableBody").append(htmlStr);
+	$("#keyword").val('');
+};
+
+function pagination(data) {
+	$("#pagination").empty(data);
+
+	var htmlStr = "";
+
+	var prevPage =
+
+	htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
+	htmlStr += "<a aria-label='Previous'>";
+	htmlStr += '&laquo;';
+	htmlStr += "</a>";
+	htmlStr += "</li>";
+	for (var i = data.paging.startPage; i <= data.paging.endPage; i++) {
+		if (data.paging.currentPage == i) {
+			htmlStr += "<li class='active' name='pageNum' id='pageNum' value="+ i +">";
+		} else {
+			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+		}
+		htmlStr += "<a>";
+		htmlStr += i;
+		htmlStr += "</a>";
+		htmlStr += "</li>";
+	}
+	htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.nextPage+">";
+	htmlStr += "<a aria-label='Next'>";
+	htmlStr += '&raquo;';
+	htmlStr += "</a>";
+	htmlStr += "</li>";
+
+	$("#pagination").append(htmlStr);
+}
+
 	$(document).ready(function() {
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/searchEmpHistory.do',
+			method : 'GET',
+			cache : false,
+			dataType : 'json',
+			data : {
+				keyfield : $(
+						"select[name='keyfield'] > option:selected")
+						.val(),
+				keyword : $(":text[name='keyword']")
+						.val(),
+				currentPage : "1"
+			},
+			success : function(data) {
+				listEmpHistory(data);
+				pagination(data);
+			},
+			error : function(request, status, error) {
+				alert("code:" + request.status + "\n"
+						+ "message:"
+						+ request.responseText + "\n"
+						+ "error:" + error);
+				console.log("code:" + request.status
+						+ "\n" + "message:"
+						+ request.responseText + "\n"
+						+ "error:" + error);
+			}
+		});
+		
 		$('#searchBtn').click(function() {
 			$.ajax({
 				url: '${pageContext.request.contextPath}/searchEmpHistory.do'
@@ -26,29 +111,15 @@
 				,
 				data: {
 					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
-					keyword:  $(":text[name='keyword']").val()					
+					keyword:  $(":text[name='keyword']").val(),		
+					currentPage : "1"
 				}
 				, 
 				cache: false
 				,
 				success: function(data) {
-					$('#table').find('tr:first').nextAll().remove();
-					
-					var htmlStr = "";
-					for(var i=0; i<data.empHistoryList.length; i++) {
-						htmlStr += "<tr>";
-						htmlStr += "<td>" + data.empHistoryList[i].employee.id + "</td>";
-						htmlStr += "<td>" + data.empHistoryList[i].employee.name + "</td>";
-						htmlStr += "<td>" + data.empHistoryList[i].startDate + "</td>";
-						htmlStr += "<td>" + data.empHistoryList[i].endDate + "</td>";
-						htmlStr += "<td>" + data.empHistoryList[i].kind + "</td>";
-						htmlStr += "<td>" + data.empHistoryList[i].oldContent + "</td>";
-						htmlStr += "<td>" + data.empHistoryList[i].newContent + "</td>";
-						htmlStr += "</tr>";
-					}
-					
-					$('#table').find('tr:first').after(htmlStr);
-					
+					listEmpHistory(data);
+					pagination(data);
 				}
 				,
 				error : function(jqXHR) {
@@ -57,6 +128,37 @@
 				
 			});			
 		});		
+		$("#pagination")
+		.on(
+				"click",
+				"li",
+				function() {
+					$
+							.ajax({
+								url : '${pageContext.request.contextPath}/searchEmpHistory.do',
+								method : 'GET',
+								cache : false,
+								dataType : 'json',
+								data : {
+									keyfield : $(
+									"select[name='keyfield'] > option:selected")
+									.val(),
+							keyword : $(
+									":text[name='keyword']")
+									.val(),
+									currentPage : $(this).val()
+								},
+								success : function(data) {
+									listEmpHistory(data);
+									pagination(data);
+								},
+								error : function(jqXHR) {
+									alert("ERROR: "
+											+ jqXHR.responseText);
+								}
+
+							});
+				});
 	});
 </script>
 <div class="py-5">
@@ -87,6 +189,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<table class="table" id="table">
+					<thead>
 						<tr>
 							<th>사번</th>
 							<th>이름</th>
@@ -96,18 +199,21 @@
 							<th>이전변경점</th>
 							<th>현재변경점</th>
 						</tr>
-						<c:forEach var="EmpHistoryList"
-							items="${requestScope.EmpHistoryList }" varStatus="loop">
+					</thead>
+					<tbody id="tableBody">
+						<c:forEach var="empHistoryList"
+							items="${requestScope.empHistoryList }" varStatus="loop">
 							<tr>
-								<td>${pageScope.EmpHistoryList.employee.id }</td>
-								<td>${pageScope.EmpHistoryList.employee.name }</td>
-								<td>${pageScope.EmpHistoryList.startDate }</td>
-								<td>${pageScope.EmpHistoryList.endDate }</td>
-								<td>${pageScope.EmpHistoryList.kind }</td>
-								<td>${pageScope.EmpHistoryList.oldContent }</td>
-								<td>${pageScope.EmpHistoryList.newContent }</td>
+								<td>${pageScope.empHistoryList.employee.id }</td>
+								<td>${pageScope.empHistoryList.employee.name }</td>
+								<td>${pageScope.empHistoryList.startDate }</td>
+								<td>${pageScope.empHistoryList.endDate }</td>
+								<td>${pageScope.empHistoryList.kind }</td>
+								<td>${pageScope.empHistoryList.oldContent }</td>
+								<td>${pageScope.empHistoryList.newContent }</td>
 							</tr>
 						</c:forEach>
+					</tbody>
 				</table>
 			</div>
 		</div>
@@ -117,17 +223,15 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<ul class="pagination">
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Previous"> <span aria-hidden="true">«</span> <span
-							class="sr-only">Previous</span>
-					</a></li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#"
-						aria-label="Next"> <span aria-hidden="true">»</span> <span
-							class="sr-only">Next</span>
-					</a></li>
+				<ul id="pagination" class="pagination">
+					<li><a href="${requestScope.paging.prevPage }"
+						aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+					<c:forEach var="pageNum" begin="${requestScope.paging.startPage }"
+						end="${requestScope.paging.endPage }" step="1">
+						<li id="pageNum"><a>${pageNum }</a></li>
+					</c:forEach>
+					<li><a href="${requestScope.paging.nextPage }"
+						aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
 				</ul>
 			</div>
 		</div>

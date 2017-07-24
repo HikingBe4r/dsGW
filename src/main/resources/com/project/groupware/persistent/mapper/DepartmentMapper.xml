@@ -37,10 +37,10 @@
 	</select>
 
 	<update id="updateDepartment" parameterType="map" statementType="PREPARED">
-		UPDATE employee SET department_id = #{} WHERE id IN
-		<foreach item="empList" index="index" collection="list" open="("
+		UPDATE employee SET department_id = #{deptid,jdbcType=CHAR} WHERE id IN
+		<foreach item="emplist" index="index" collection="emplist" open="("
 			separator="," close=")">
-			#{empList.bookID}
+			#{emplist,jdbcType=VARCHAR}
 		</foreach>
 	</update>
 
