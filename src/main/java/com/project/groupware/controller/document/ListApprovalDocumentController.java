@@ -36,61 +36,6 @@ public class ListApprovalDocumentController {
 	public String listApprovalDocument() {
 		return "approvalNav/document/listApprovalDocument";
 	}
-	/*@RequestMapping(value = "/listApprovalDocument.do", method = RequestMethod.GET)
-	public ModelAndView listApprovalDocument(
-			@SessionAttribute(value="employee", required=true) EmployeeVO employee,
-			@RequestParam(value="boardId", required=true) String boardId,
-			@RequestParam(value="currentPage", required=false) Integer currentPage) {
-		
-		ModelAndView mv = new ModelAndView();
-				
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("employeeId", employee.getId());
-		map.put("boardId", boardId);
-		
-		// 각 documentList에 현재 결재자 추가
-		
-		List<Map<String, Object>> tempDocumentList = documentService.retrieveApprovalDocumentList(map);
-		List<Map<String, Object>> documentList = new ArrayList<Map<String, Object>>();
-		
-		for(Map<String, Object> document: tempDocumentList) {
-			ApproverVO currentApprover = (ApproverVO) document.get("currentApprover");
-			if(boardId.equals("1")) {
-				// 현재 결재문서
-				if(document.get("MYAPPID").toString().equals(currentApprover.getId())) {
-					documentList.add(document);
-				}
-			} else if (boardId.equals("3")) {
-				// 미완료 문서
-				if(!document.get("MYAPPID").toString().equals(currentApprover.getId())){
-					documentList.add(document);
-				} 
-			}
-		}
-		
-		if (boardId.equals("2")) {
-			documentList = tempDocumentList;	// 수신 문서는 그냥 그대로.
-		}
-		
-		
-		
-		
-		//  페이징 처리 시작
-		if(currentPage == null) {
-			currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
-		}
-
-		PagingVO paging = new PagingVO(currentPage, documentList.size());
-				
-		mv.addObject("paging", paging);
-		//  페이징 처리 끝
-				
-		mv.addObject("documentList", documentList);
-		mv.setViewName("approvalNav/document/listApprovalDocument");
-		
-		
-		return mv;
-	}*/
 	
 	@RequestMapping(value = "/selectListApprovalDocument.do", method=RequestMethod.GET)
 	public ModelAndView searchListApprovalDocument(
