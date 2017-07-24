@@ -58,7 +58,7 @@
 		WHERE apphis.approver_id = t2.firstappid
 	 	  AND apphis.document_id = doc.id
 		  AND doc.document_status_id = docstat.id
-		  AND doc.document_status_id not in (3,4)
+		  AND doc.document_status_id not in (3,4,5)
 		  
 		 <if test="keyword != null and keytype != null">
 			<if test="keytype.equals('전체')">

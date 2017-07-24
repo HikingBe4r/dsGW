@@ -31,13 +31,13 @@
 					,
 					success: function(data) {
 						alert("결재에 성공했습니다.");
-						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do';
+						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do?boardId=1';
 						window.close();						
 					}
 					,
 					error : function(jqXHR) {
 						alert("실패했습니다.");
-						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do';
+						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do?boardId=1';
 						window.close();
 					}					
 						
@@ -49,10 +49,10 @@
 		
 </script>
 
-<form id="approveForm">
-	<div>
+<form class="form-inline pull-left" id="approveForm">
+	<div class="col-md-12">
 		<div class="form-group">
-			<textArea id="comment" name="comment" cols="100" rows="5"></textArea>
+			<textArea id="comment" name="comment" cols="30" rows="5"></textArea>
 		</div>
 	
 		<div class="btn-group pull-right">

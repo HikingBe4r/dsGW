@@ -9,8 +9,8 @@
 		SELECT ID, SUBJECT, CONTENT, WRITEDAY, HITCOUNT
 		FROM FORM
 		
-		<if test="keyword != null">
-			WHERE SUBJECT like '%' ||#{keyword}|| '%'
+		<if test="keyword != null and keyword != '' ">
+			WHERE SUBJECT like '%'||#{keyword}||'%'
 		</if>
 		
 	</select>
@@ -67,6 +67,9 @@
 			</if>
 			<if test="content != null and content != ''">
 				CONTENT = #{content} , 
+			</if>
+			<if test="formContent != null and formContent != ''">
+				FORM_CONTENT = #{formContent} , 
 			</if>
 		</trim>	
 		WHERE ID = #{id}

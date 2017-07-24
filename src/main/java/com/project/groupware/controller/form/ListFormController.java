@@ -33,8 +33,8 @@ public class ListFormController {
 	@RequestMapping(value="/searchForm.do", method=RequestMethod.GET)
 	public ModelAndView searchForm(
 			@SessionAttribute(value="employee") EmployeeVO employee,
-			@RequestParam(value="keytype", required=true) String keytype,
-			@RequestParam(value="keyword", required=true) String keyword,
+			@RequestParam(value="keytype", required=false) String keytype,
+			@RequestParam(value="keyword", required=false) String keyword,
 			@RequestParam(value="boardId", required=true) String boardId,	//1: 전체양식조회, 2:즐겨찾기 양식조회
 			@RequestParam(value="currentPage", required=true) Integer currentPage
 			) {
@@ -42,6 +42,8 @@ public class ListFormController {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardId", boardId);
+		map.put("keytype", keytype);
+		map.put("keyword", keyword);
 		
 		List<FormVO> tempFormList = formService.retrieveFormList(map);
 		List<FormVO> formList = new ArrayList<FormVO>();
@@ -91,6 +93,7 @@ public class ListFormController {
 		//  페이징 처리 끝
 		mv.addObject("formList", formList);
 		mv.addObject("isBookmark", isBookmark);
+		
 		mv.setViewName("jsonView");
 		
 		return mv;

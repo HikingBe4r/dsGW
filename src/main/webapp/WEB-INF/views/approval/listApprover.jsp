@@ -91,7 +91,7 @@
 </script>
 
 <div style="height: 10px;"></div>
-<div class="col-md-5">
+<div class="col-md-12">
 	<div class="panel panel-default" style="overflow: scroll; height: 380px;"> 
 		<div class="panel-body">
 			<form class="navbar navbar-default col-md-12">

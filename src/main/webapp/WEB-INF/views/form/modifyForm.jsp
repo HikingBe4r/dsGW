@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js?ver=3"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
 
 <script>
@@ -11,18 +12,35 @@
 			if ($('#subject') == null || $('#subject').val() == '') {
 				alert("제목을 입력하세요.");
 			} else if ($('#content') == null || $('#content').val() == '') {
-				alert("내용을 입력하세요.");
+				alert("설명을 입력하세요.");
 			} else if ($('#upload') == null) {
 				alert("파일을 첨부하세요.");
-			} 
-			else {
+			} else {
+				obj.getById["formContent"].exec("UPDATE_CONTENTS_FIELD", []);
 				$("#regForm").attr("action", "${pageContext.request.contextPath}/modifyForm.do");
 				$("#regForm").submit();
 			}
 		});
 		
-		$("#listBtn").click(function() {
-			document.location.href='${pageContext.request.contextPath}/listForm.do';
+		$("#backBtn").click(function() {
+			history.back();
+		});
+		
+		// 스마트에디터
+		var obj = [];
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : obj,
+			elPlaceHolder : "formContent",
+			sSkinURI : "./resources/editor/SmartEditor2Skin.html",
+			htParams : {
+				bUseToolbar : true,
+				bUseVerticalResizer : false,
+				bUseModeChanger : false
+			},
+			fOnAppLoad : function() {	//기존 양식 불러오기
+				var temp = '${requestScope.form.formContent}';
+				obj.getById["formContent"].exec("PASTE_HTML", [temp]); 	
+			}
 		});
 	});
 	
@@ -49,19 +67,23 @@
 				<td><label>첨부파일</label></td>
 				<td><input type="file" id="upload" name="upload" 
 					value=""/></td>
-					<td>${sessionScope.servletContext.realPath }/upload/${requestScope.form.formFile.systemFileName}</td>
 			</tr>
 
 			<tr>
-				<td valign="top"><label>내용</label></td>
-				<td><textarea id="content" name="content" rows="10" cols="80">${requestScope.form.content }</textarea></td>
+				<td valign="top"><label>설명</label></td>
+				<td><input type="text" id="content" name="content" width="100"/></td>
+			</tr>
+			
+			<tr>
+				<td valign="top"><label>양식</label></td>
+				<td><textarea id="formContent" name="formContent" rows="20" cols="100"></textarea></td>
 			</tr>
 		</table>
 	</div>
 	
 	<div align="right">
 		<button type="button" class="btn btn-primary" id="regBtn" name="regBtn">등록</button>
-		<button type="button" class="btn btn-default" id="listBtn" name="listBtn">목록으로</button>
+		<button type="button" class="btn btn-default" id="backBtn" name="backBtn">뒤로가기</button>
 	</div>
 
 </form>

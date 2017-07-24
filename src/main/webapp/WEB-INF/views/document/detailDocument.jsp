@@ -12,7 +12,7 @@
 		var form = document.detailDocumentForm;
 		// 결재선 버튼 클릭시 팝업
 		$('#approvalLine').click(function() {
-			window.open('', 'Popup_Window', 'width=600, height=600');
+			window.open('', 'Popup_Window', 'width=800, height=420');
 			form.target = "Popup_Window";
 			form.action = "${pageContext.request.contextPath}/listApprover.do";
 			form.submit();
@@ -24,7 +24,7 @@
 		
 		$('#approveDocument').click(function() {
 			$("#kind").val("1");	// hidden의 kind값 변경
-			window.open('', 'Popup_Window', 'width=400, height=200');
+			window.open('', 'Popup_Window', 'width=300, height=170');
 			form.target = "Popup_Window";
 			form.action = "${pageContext.request.contextPath}/approveDocument.do";
 			form.method = "GET";
@@ -33,7 +33,7 @@
 		
 		$('#rejectDocument').click(function() {
 			$("#kind").val("2");
-			window.open('', 'Popup_Window', 'width=400, height=200');
+			window.open('', 'Popup_Window', 'width=300, height=170');
 			form.target = "Popup_Window";
 			form.action = "${pageContext.request.contextPath}/approveDocument.do";
 			form.method = "GET";
