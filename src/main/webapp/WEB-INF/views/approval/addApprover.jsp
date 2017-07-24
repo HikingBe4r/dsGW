@@ -217,76 +217,88 @@ $(document).ready(function() {
 	
 	//검색 버튼
 	$('#searchBtn').on('click', function() {
-		$('#employeeList').empty();
-		if($('#keyfield').val() == 'all') {
-			$.ajax({
-				url: '${pageContext.request.contextPath}/listDepartment.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: {
-														
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
-					
-					var htmlStr = "";
-					for(var i=0; i<data.departmentList.length; i++) {
-						 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-						 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
-					}	
-					htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
-					$('#employeeList').append(htmlStr);
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
-				
-			});
-		} else {
-			//부서검색은 안됨. 수정필요
-			$.ajax({
-				url: '${pageContext.request.contextPath}/searchEmployee.do'
-				,
-				method: 'GET'
-				,
-				dataType: 'json'
-				,
-				data: {
-					keyfield: $('#keyfield').val(),
-					keyword: $('#keyword').val()
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
-					var htmlStr = "";
-					for(var i=0; i<data.employeeList.length; i++) {
-						
-						if(data.employeeList[i].id != '${sessionScope.employee.id}') {
-						    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.employeeList[i].ID+"'>";
-							htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE + "</label> <br>"; 	
-						}
-										
-					}	
-					$('#employeeList').append(htmlStr);
-							
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
-				
-			});
-		}	
+		search();
 	}); 
+	
+	//엔터 치면 검색
+	$('#keyword').on('keydown', function(event) {
+		if(event.keyCode == 13) {
+			search();
+		}
+	})
 		
 });
+
+//사원 검색
+function search() {
+	$('#employeeList').empty();
+	if($('#keyword').val() == '') {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listDepartment.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {
+													
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				
+				var htmlStr = "";
+				for(var i=0; i<data.departmentList.length; i++) {
+					 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+					 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+				}	
+				htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
+				$('#employeeList').append(htmlStr);
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});
+	} else {
+		//부서검색은 안됨. 수정필요
+		$.ajax({
+			url: '${pageContext.request.contextPath}/searchEmployee.do'
+			,
+			method: 'GET'
+			,
+			dataType: 'json'
+			,
+			data: {
+				keyfield: $('#keyfield').val(),
+				keyword: $('#keyword').val()
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				var htmlStr = "";
+				for(var i=0; i<data.employeeList.length; i++) {
+					
+					if(data.employeeList[i].id != '${sessionScope.employee.id}') {
+					    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.employeeList[i].ID+"'>";
+						htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE + "</label> <br>"; 	
+					}
+									
+				}	
+				$('#employeeList').append(htmlStr);
+						
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});
+	}
+}
 
 // 탭 설정
 function tapSetting(obj) {
@@ -443,7 +455,7 @@ $(function() {
 					htmlStr += "<td>" + data.recieverList[i].name + "</td>";
 					htmlStr += "<td>" + data.recieverList[i].gradeId + "</td>";
 					htmlStr += "<td>" + data.recieverList[i].departmentId + "</td>";
-					htmlStr += "<td>결재</td>";
+					htmlStr += "<td>수신</td>";
 					htmlStr += "</tr>";
 				}
 				$('#recieverTable').append(htmlStr);
@@ -486,9 +498,8 @@ $(function() {
 					</div>
 				</div>
 				<!-- 검색 폼 -->
-				<form class="form-inline pull-right">
+				<form class="form-inline pull-right" onsubmit="return false">
 					<select id="keyfield" class="form-control">
-						<option value="all">전체</option>
 						<option value="name">이름</option>
 						<option value="departmentId">부서</option>
 					</select>

@@ -56,10 +56,6 @@ public class DocumentServiceImpl implements DocumentService {
 		ApprovalHistoryVO history = new ApprovalHistoryVO();
 		history.setDocumentId(documentId);
 
-		for (int i = 0; i < document.getApproverList().size(); i++) {
-			System.out.println(i + " " + document.getApproverList().get(i).toString());
-		}
-
 		for (ApproverVO approver : document.getApproverList()) {
 			if (approver.getStep() == 1) {
 				history.setApproverId(approver.getId());
@@ -67,7 +63,7 @@ public class DocumentServiceImpl implements DocumentService {
 			}
 		}
 		history.setStatus("1");
-		history.setReply("기안합니당당");
+		history.setReply("기안합니다.");	// 기안 리플 설정 필요??
 		approvalHistoryMapper.insertApprovalHistory(history);
 
 		// 알림

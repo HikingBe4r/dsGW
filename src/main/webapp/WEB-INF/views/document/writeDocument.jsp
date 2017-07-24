@@ -52,7 +52,7 @@
 				bUseVerticalResizer : false,
 				bUseModeChanger : false
 			},
-			fOnAppLoad : function() { //기존 저장된 내용의 text 내용을 에디터상에 뿌려주고자 할때 사용 
+			fOnAppLoad : function() {	//기존 양식 불러오기
 				var temp = '${requestScope.form.formContent}';
 				obj.getById["content"].exec("PASTE_HTML", [temp]); 	
 			}

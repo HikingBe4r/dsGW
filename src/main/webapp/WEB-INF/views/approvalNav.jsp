@@ -4,22 +4,26 @@
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+
 <div class="row">
-	<!-- <div class="col-sm-1 col-md-1"></div> -->
-	<div class="col-sm-7 col-md-7">
+	<div class="col-md-7">
 		<div class="thumbnail">
 			<img src="resources/image/example.png" alt="..." id="profileImg">
 		</div>
 	</div>
 
-	<div class="col-sm-3 col-md-3">
-		<div class="panel panel-default">
-			홍길동 사원
+	<div class="col-md-5">
+		<div id="employeeInfo" style="height: 70px;">
+			
+			<h5>${sessionScope.employeeDetail.departmentId }</h5> 
+			<h4>${sessionScope.employeeDetail.name } ${sessionScope.employeeDetail.gradeId }</h4> 
 			
 		</div>
 
-		<button class="btn btn-default" type="submit">정보수정</button>
-		<button class="btn btn-default" type="submit">로그아웃</button>
+		<button id="modifyInfo" class="btn btn-default" type="button">정보수정</button>
+		<form action="${pageContext.request.contextPath }/logout.do" method="post">
+			<input id="logout" class="btn btn-default" type="submit" value="로그아웃">
+		</form>
 	</div>
 </div>
 <br>
@@ -32,6 +36,7 @@
 	<li role="presentation" class="active"><a href="${pageContext.request.contextPath }/choiceForm.do">새 결재</a></li>
 	<li role="presentation" ><a href="#" >자주쓰는 양식</a></li>
 	<li role="presentation"><a href="#">결재하기</a></li>
+	<li role="presentation"><a href="${pageContext.request.contextPath }/approvalLineBookmark.do">결재선 즐겨찾기 설정</a></li>
 </ul>
 
 
