@@ -29,7 +29,8 @@
 		});
 		
 		$("#listBtn").click(function() {
-			location.href = "${pageContext.request.contextPath}/listForm.do";
+			history.back();
+			//location.href = "${pageContext.request.contextPath}/listForm.do";
 		});
 	});
 </script>
@@ -66,6 +67,10 @@
 			<tr>
 				<td valign="top"><label>내용</label></td>
 				<td>${requestScope.form.content }</td>
+			</tr>
+			<tr>
+				<td valign="top"><label>양식</label></td>
+				<td>${requestScope.form.formContent }</td>
 			</tr>
 	
 		</table>

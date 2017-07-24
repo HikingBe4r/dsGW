@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js?ver=3"></script>
+<script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
 
 <script>
@@ -17,6 +18,7 @@
 				alert("파일을 첨부하세요.");
 			} 
 			else {
+				obj.getById["formContent"].exec("UPDATE_CONTENTS_FIELD", []);
 				$("#regForm").submit();
 			}
 		});
@@ -24,6 +26,23 @@
 		$("#listBtn").click(function() {
 			document.location.href='${pageContext.request.contextPath}/listForm.do';
 		});
+		
+		
+		// 스마트에디터
+		var obj = [];
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : obj,
+			elPlaceHolder : "formContent",
+			sSkinURI : "./resources/editor/SmartEditor2Skin.html",
+			htParams : {
+				bUseToolbar : true,
+				bUseVerticalResizer : false,
+				bUseModeChanger : false
+			}
+		
+		});
+		
+		
 	});
 </script>
 
@@ -36,8 +55,8 @@
 
 <form action="${pageContext.request.contextPath}/registerForm.do" 
 	method="POST" id="regForm" name="regForm" enctype="multipart/form-data">
+	
 	<div style="height: 550px;">
-
 		<table class="table table-striped">
 			<tr>
 				<td style="width: 200px;"><label>제목</label></td>
@@ -49,8 +68,13 @@
 			</tr>
 
 			<tr>
-				<td valign="top"><label>내용</label></td>
-				<td><textarea id="content" name="content" rows="10" cols="80"></textarea></td>
+				<td valign="top"><label>설명</label></td>
+				<td><input type="text" id="content" name="content" width="100"/></td>
+			</tr>
+			
+			<tr>
+				<td valign="top"><label>양식</label></td>
+				<td><textarea id="formContent" name="formContent" rows="20" cols="100"></textarea></td>
 			</tr>
 		</table>
 	</div>

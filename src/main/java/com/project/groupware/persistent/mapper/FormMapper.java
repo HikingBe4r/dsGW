@@ -8,7 +8,7 @@ import com.project.groupware.domain.FormVO;
 
 public interface FormMapper {
 	// 양식
-	List<FormVO> selectFormList(String keyword);
+	List<FormVO> selectFormList(Map<String, Object> map);
 	FormVO selectForm(String id);
 	void insertForm(FormVO formVO);
 	void deleteForm(String id);
@@ -16,7 +16,7 @@ public interface FormMapper {
 	void upHitcount(String id);
 	
 	// 양식 즐겨찾기
-	List<BookmarkFormVO> selectBookmarkFormList(String keyword);
+	List<BookmarkFormVO> selectBookmarkFormList(String employeeId);
 	void insertBookmarkForm(BookmarkFormVO bookmarkFormVO);
 	void removeBookmarkForm(BookmarkFormVO bookmarkFormVO);
 }

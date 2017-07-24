@@ -1,76 +1,153 @@
 <%-- listForm.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=2"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=4"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
 
 <script>
 	$(document).ready(function() {
+		var currentPage = 1;
+		
+		
+		function loadFormList(data) {
+			$("#formBody").empty(data);
+			var htmlStr = "";
+			if(data.formList.length == 0) {
+				alert("검색결과가 없습니다.");
+			}
+			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+				
+				var linkUrl = '${pageContext.request.contextPath}/detailForm.do';	
+					linkUrl += '?formId=' + data.formList[i].id;
+				
+				htmlStr += '<tr>';
+				htmlStr += '<td id="bookmark">';
+				htmlStr += '<button type="button" class="btn btn-default" aria-label="Center Align">';
+				if(data.isBookmark[i] == 0) {
+					htmlStr += '<span class="glyphicon glyphicon-star-empty" aria-hidden="true">';
+				} else {
+					htmlStr += '<span class="glyphicon glyphicon-star" aria-hidden="true">';
+				}
+				htmlStr += '<input type="hidden" id="isBookmark" value='+data.isBookmark[i]+' />';
+				htmlStr += '<input type="hidden" id="formId" value='+data.formList[i].id+' />';
+				htmlStr += '</span>';
+				htmlStr += '</button>';
+				htmlStr += '</td>';
+
+				htmlStr += '<td>'+data.formList[i].id+'</td>';
+				htmlStr += '<td><a href='+linkUrl+'>'+data.formList[i].subject+'</a></td>';
+				htmlStr += '<td>'+data.formList[i].writeday+'</td>';
+				htmlStr += '<td>'+data.formList[i].hitcount+'</td>';
+			}
+			
+			$("#formBody").append(htmlStr);
+			$("#searchKeyword").val('');
+		}
+		
+		function pagination(data) {
+			$("#pagination").empty(data);
+			
+			var htmlStr = "";
+			
+			htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
+			htmlStr += "<a aria-label='Previous'>";
+			htmlStr += '&laquo;';
+			htmlStr += "</a>";
+			htmlStr += "</li>";
+			for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
+				if(data.paging.currentPage == i) {
+					htmlStr += "<li class='active' name='pageNum' id='pageNum' value="+ i +">";
+				} else {
+					htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+				}
+				htmlStr += "<a>";
+				htmlStr += i;
+				htmlStr += "</a>";
+				htmlStr += "</li>";
+			}
+			htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.nextPage+">";
+			htmlStr += "<a aria-label='Next'>";
+			htmlStr += '&raquo;';
+			htmlStr += "</a>";		
+			htmlStr += "</li>";
+			
+			/*
+			// 이게 왜 실패했는지 생각해보자.
+			if(data.paging.currentPage == $("#pageNum").val()) {
+				$("#pageNum").attr("class", "active");
+			}
+			*/
+			
+			$("#pagination").append(htmlStr);
+		}
+		
+		// 페이지 로드시
+		$.ajax ({
+			url: '${pageContext.request.contextPath}/searchForm.do'
+			,
+			method : 'GET'
+			,
+			cache : false
+			,
+			dataType : 'json'
+			,
+			data : {
+				keytype: $("#keytype").val(),
+				keyword: $("#searchKeyword").val(),
+				boardId : '${param.boardId}',
+				currentPage : '1'
+			}
+			,
+			success: function(data) {
+				loadFormList(data);
+				pagination(data);
+			}
+			,
+			error : function(jqXHR) {
+				alert("ERROR!");
+				console.log(jqXHR);
+			}
+		});
+		
+		// 양식 등록하기.
 		$("#regBtn").click(function() {
 			document.location.href='${pageContext.request.contextPath}/registerForm.do';
 		});
-		
-		$("#formBody").on("click", "input", function() {
-			var index = $(this).val();	
-		
-			$.ajax ({
-				url: "${pageContext.request.contextPath}/registerBookmarkForm.do"
-				,
-				method: "POST"
-				,
-				dataType : "json"
-				,
-				cache : false
-				,
-				data : {
-					formId : index
-				}
-				,
-				success : function(data) {
-					alert("즐찾 성공")
-				}
-				,
-				error : function(jqXHR) {
-					alert("ERROR 발생. console.log를 확인하세요.");
-					console.log(jqXHR);
-				}
-			});
-		});
-		
-		
-		$("#testBtn").on("click", function() {
-			
-			$("#testDiv > span").attr("class", "glyphicon glyphicon-star");
-			
-		});		
-		
-		$("#testDiv").on("click", "span", function() {
-			//console.log($(this).children().val()); // hidden's value
-			if($(this).children().val() == 0) {
-				$(this).attr("class", "glyphicon glyphicon-star");
-				$(this).children().val("1");
-			} else if($(this).children().val() == 1) {
-				$(this).attr("class", "glyphicon glyphicon-star-empty");
-				$(this).children().val("0");
-			}
-			
-			$.ajax ({
 				
-				url: ''
+		// 즐겨찾기 추가/제거
+		$('#formBody').on("click", "tr > td > button", function() {
+			var isBookmark = $(this).children().children().first().val();
+			var formId = $(this).children().children().last().val();
+		
+			console.log("isbookmark: "+$(this).children().children().first().val()); // hidden1
+			console.log("formId: "+$(this).children().children().last().val()); // hidden2
+			
+			
+			// 0: 북마크x, 1: 북마크o
+			$.ajax ({
+				url: '${pageContext.request.contextPath}/registerBookmarkForm.do'
 				,
-				method: ''
+				method: 'POST'
 				,
 				cache: false
 				,
-				data : {
-					
-				}
-				,
 				dataType: 'json'
 				,
+				data : {
+						
+					isBookmark : isBookmark,
+					formId : formId,
+					keytype: '${requestScope.keytype}',
+					keyword: '${requestScope.keyword}',
+					boardId: '${param.boardId}',
+					currentPage: currentPage // 반드시 고칠것.
+				}
+				,
 				success: function(data) {
+					loadFormList(data);
+					pagination(data);
 					
 				}
 				,
@@ -80,6 +157,72 @@
 				}
 			});
 		});
+		
+		// 검색
+		$("#searchBtn").click(function() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/searchForm.do'
+				,
+				method : 'GET'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					//employeeId : '${sessionScope.employee.id}',
+					keytype: $("#keytype").val(),
+					keyword: $("#searchKeyword").val(),
+					boardId: "${param.boardId}",
+					currentPage: '1'
+				}
+				,
+				success : function(data) {
+					loadFormList(data);
+					pagination(data);
+				}	
+				,
+				error : function(jqXHR) {
+					alert("ERROR: "+jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}
+				
+			});
+		});
+		
+		// 페이지 클릭시
+		$("#pagination").on("click", "li", function() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/searchForm.do'
+				,
+				method : 'GET'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					//employeeId : '${sessionScope.employee.id}',
+					keytype: $("#keytype").val(),
+					keyword: $("#searchKeyword").val(),
+					boardId: "${param.boardId}",
+					currentPage: $(this).val()
+				}
+				,
+				success : function(data) {
+					loadFormList(data);
+					pagination(data);
+					currentPage = data.paging.currentPage;					
+				}	
+				,
+				error : function(jqXHR) {
+					alert("ERROR: "+jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}
+				
+			});
+		});
+		
 	});
 
 </script>
@@ -88,6 +231,10 @@
 <div>
 	<h3>양식 목록</h3>
 	<form class="form-inline pull-right">
+		<select class="form-control" name="keytype" id="keytype">
+			<option value="전체" id="1">전체</option>
+			<option value="제목" id="2">제목</option>
+		</select>
 		<div class="form-group">
 			<input type="text" class="form-control" id="searchKeyword"
 				placeholder="keyword">
@@ -95,12 +242,13 @@
 		<button type="button" class="btn btn-default" id="searchBtn">검색</button>
 	</form>
 </div>
+
 <br>
 <br>
 
 <div style="height: 550px;">
 	<form id="checkForm" name="checkForm" >
-	<table class="table table-striped" align="center">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="100">즐겨찾기</th>
@@ -112,55 +260,22 @@
 		</thead>
 		
 		<tbody id="formBody">
-			<c:forEach var="form" items="${requestScope.formList }"
-				varStatus="loop">
-				<tr align="center">
-					<td><span class="glyphicon glyphicon-star-empty" aria-hidden="true">
-						<input type="hidden" value="0"/>
-					</span></td>
-					
-					<td>${form.id }</td>
-					<c:url var="url" value="/detailForm.do">
-						<c:param name="formId" value="${pageScope.form.id }"></c:param>
-					</c:url>
-					<td><a href="${url }">${form.subject }</a></td>
-					<td>${form.writeday }</td>
-					<td>${form.hitcount }</td>
-				</tr>
-			</c:forEach>
-			
 			
 		</tbody>
 	</table>
 	</form>
 </div>
 
-<div id="testDiv">
-	
-</div>
-
-<input id="testBtn" type="button" value="3ㅡ3"  />
-
-
-
 <div align="right">
 	<button type="button" class="btn btn-primary" id="regBtn">등록</button>
-	<button type="button" class="btn btn-danger" id="removeBtn">삭제</button>
+	<!-- <button type="button" class="btn btn-danger" id="removeBtn">삭제</button> -->
 </div>
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">
-		<li><a href="#" aria-label="Previous"> <span
-				aria-hidden="true">&laquo;</span>
-		</a></li>
-		<li><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-		</a></li>
+		
 	</ul>
 </div>
-
 
 
 

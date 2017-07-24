@@ -33,6 +33,10 @@ public class ListApprovalDocumentController {
 	private DocumentService documentService;
 	
 	@RequestMapping(value = "/listApprovalDocument.do", method = RequestMethod.GET)
+	public String listApprovalDocument() {
+		return "approvalNav/document/listApprovalDocument";
+	}
+	/*@RequestMapping(value = "/listApprovalDocument.do", method = RequestMethod.GET)
 	public ModelAndView listApprovalDocument(
 			@SessionAttribute(value="employee", required=true) EmployeeVO employee,
 			@RequestParam(value="boardId", required=true) String boardId,
@@ -86,7 +90,7 @@ public class ListApprovalDocumentController {
 		
 		
 		return mv;
-	}
+	}*/
 	
 	@RequestMapping(value = "/selectListApprovalDocument.do", method=RequestMethod.GET)
 	public ModelAndView searchListApprovalDocument(
@@ -96,49 +100,6 @@ public class ListApprovalDocumentController {
 			@RequestParam(value="boardId", required=true) String boardId,
 			@RequestParam(value="currentPage", required=true) Integer currentPage) {
 				
-		/*
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("employeeId", employee.getId());	
-		map.put("keytype", keytype);
-		map.put("keyword", keyword);
-		map.put("boardId", boardId);
-		
-		// 각 documentList에 현재 결재자 추가		
-		List<Map<String, Object>> tempDocumentList = documentService.retrieveApprovalDocumentList(map);
-		List<Map<String, Object>> documentList = new ArrayList<Map<String, Object>>();
-		
-		for(Map<String, Object> document: tempDocumentList) {
-			ApproverVO currentApprover = (ApproverVO) document.get("currentApprover");
-			System.out.println(currentApprover);
-			if(boardId.equals("1")) {
-				// 현재 결재문서
-				if(document.get("MYAPPID") == currentApprover.getId()) {
-					documentList.add(document);
-				} 
-			} else if (boardId.equals("3")) {
-				// 미완료 문서
-				if(document.get("MYAPPID") != currentApprover.getId()) {
-					documentList.add(document);
-				} 
-			}
-		}
-		
-		if (boardId.equals("2")) {
-			documentList = tempDocumentList;	// 수신 문서는 그냥 그대로.
-		}
-		
-		model.addAttribute("documentList", documentList);
-		
-		//  페이징 처리 시작
-		if((Integer)currentPage == null) {
-			currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
-		}
-
-		PagingVO paging = new PagingVO(currentPage, documentList.size());
-				
-		model.addAttribute("paging", paging);
-		//  페이징 처리 끝
-*/		
 		ModelAndView mv = new ModelAndView();
 		
 		Map<String,Object> map = new HashMap<String, Object>();

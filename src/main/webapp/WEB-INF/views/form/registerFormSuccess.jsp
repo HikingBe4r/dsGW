@@ -5,6 +5,6 @@
 <script>
 	$(document).ready(function() {
 		alert("등록성공");
-		document.location.href = "${pageContext.request.contextPath}/listForm.do";
+		document.location.href = "${pageContext.request.contextPath}/listForm.do?board=1";
 	});
 </script>

@@ -17,9 +17,9 @@
 		
 		for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 						
-			var linkUrl = '${pageContext.request.contextPath}/detailApprovalDocument.do';
+			var linkUrl = '${pageContext.request.contextPath}/detailApprovalDocument.do';	
 				linkUrl += '?documentId=' + data.documentList[i].ID;
-			htmlStr += '<tr align="center">';
+			htmlStr += '<tr>';
 			htmlStr += '<td width="100">'+data.documentList[i].ID+'</td>';
 			htmlStr += '<td><a href='+linkUrl+'>'+data.documentList[i].SUBJECT+'</a></td>';
 			htmlStr += '<td width="100">'+data.documentList[i].NAME +'</td>';
@@ -35,9 +35,7 @@
 	function pagination(data) {
 		$("#pagination").empty(data);
 		
-		var htmlStr = "";		
-		
-		var prevPage = 
+		var htmlStr = "";
 		
 		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
 		htmlStr += "<a aria-label='Previous'>";

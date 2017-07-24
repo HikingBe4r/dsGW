@@ -1,6 +1,7 @@
 package com.project.groupware.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,9 @@ public class FormServiceImpl implements FormService{
 	@Autowired
 	private FormFileMapper formFileMapper;
 
-	public List<FormVO> retrieveFormList(String keyword) {
+	public List<FormVO> retrieveFormList(Map<String, Object> map) {
 		
-		return formMapper.selectFormList(keyword);
+		return formMapper.selectFormList(map);
 	}
 
 	public FormVO retrieveForm(String id) {
@@ -44,6 +45,7 @@ public class FormServiceImpl implements FormService{
 		
 			
 	}
+	
 
 	public void removeForm(String formId) {		
 		formFileMapper.deleteFormFile(formId);
@@ -63,8 +65,9 @@ public class FormServiceImpl implements FormService{
 		
 	}
 
-	public List<BookmarkFormVO> retrieveBookmarkFormList(String keyword) {
-		return formMapper.selectBookmarkFormList(keyword);
+
+	public List<BookmarkFormVO> retrieveBookmarkFormList(String employeeId) {
+		return formMapper.selectBookmarkFormList(employeeId);
 	}
 
 	public void registerBookmarkForm(BookmarkFormVO bookmarkFormVO) {

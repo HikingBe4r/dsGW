@@ -18,22 +18,41 @@ public class RegisterBookmarkFormController {
 	@Autowired
 	private FormService formService;
 	
-	@RequestMapping(value="registerBookmarkForm.do", method=RequestMethod.POST)
+	@RequestMapping(value="/registerBookmarkForm.do", method=RequestMethod.POST)
 	public ModelAndView registerBookmarkFormController(
 			@SessionAttribute(value="employee") EmployeeVO employee,
-			@RequestParam(value="formId", required=true) String formId) {
+			@RequestParam(value="isBookmark", required=true) Integer isBookmark,
+			@RequestParam(value="formId", required=true) String formId,
+			@RequestParam(value="keytype", required=true) String keytype,
+			@RequestParam(value="keyword", required=true) String keyword,
+			@RequestParam(value="boardId", required=true) String boardId,	//1: 전체양식조회, 2:즐겨찾기 양식조회
+			@RequestParam(value="currentPage", required=true) Integer currentPage
+			) {
 		
 		ModelAndView mv = new ModelAndView();
 		
-		String employeeId = employee.getId();
 		
+		// 즐겨찾기 추가/제거
 		BookmarkFormVO bookmark = new BookmarkFormVO();
-		bookmark.setEmployeeId(employeeId);
+		
+		bookmark.setEmployeeId(employee.getId());
 		bookmark.setFormId(formId);
 		
-		formService.registerBookmarkForm(bookmark);
+		if(isBookmark == 0) {
+			formService.registerBookmarkForm(bookmark);
+		} else {
+			formService.removeBookmarkForm(bookmark);
+		}
 		
-		mv.setViewName("jsonView");
+		
+		// 양식목록 조회
+		mv.setViewName("redirect:/searchForm.do");
+		
+		// 테스트
+		mv.addObject("keytype", keytype);
+		mv.addObject("keyword", keyword);
+		mv.addObject("boardId", boardId);
+		mv.addObject("currentPage", currentPage);
 		
 		return mv;
 	}

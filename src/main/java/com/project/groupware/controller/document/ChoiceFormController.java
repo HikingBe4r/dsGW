@@ -1,7 +1,7 @@
 package com.project.groupware.controller.document;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,11 @@ public class ChoiceFormController {
 	public ModelAndView choiceForm(@RequestParam(value="keyword", required=false) String keyword) throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("formList", formService.retrieveFormList(keyword));
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyword", keyword);
+		
+		mv.addObject("formList", formService.retrieveFormList(map));
 		mv.setViewName("approvalNav/document/choiceForm");
 		
 		return mv;
