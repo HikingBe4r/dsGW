@@ -6,6 +6,7 @@
 <script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
 
 <script>
+	$('#board').removeAttr('class');
 	$('#approval').attr('class', 'active');
 </script>
 

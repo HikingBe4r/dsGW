@@ -7,6 +7,7 @@
 
 
 <script>
+	$('#approval').removeAttr('class');
 	$('#board').attr('class', 'active');
 </script>
 
