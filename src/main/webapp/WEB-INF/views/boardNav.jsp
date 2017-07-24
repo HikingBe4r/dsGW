@@ -3,6 +3,12 @@
 
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
+
+
+<script>
+	$('#board').attr('class', 'active');
+</script>
 
 <div class="row">
 	<!-- <div class="col-sm-1 col-md-1"></div> -->

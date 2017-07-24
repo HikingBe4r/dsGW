@@ -45,6 +45,7 @@ public class LoginEmployeeController {
 			EmployeeVO login = service.loginEmployee(new EmployeeVO(id, pwd));
 			if (login != null) {
 				session.setAttribute("employee", login);
+				session.setAttribute("employeeDetail", service.retrieveEmployeeDetail(login.getId()));
 				return "approvalNav/board/board";// 메인화면 아직 없어서 보드로 가게 해놓음
 			} else {
 				
