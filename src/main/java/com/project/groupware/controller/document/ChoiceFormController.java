@@ -20,12 +20,12 @@ public class ChoiceFormController {
 	
 	
 	@RequestMapping(value="/choiceForm.do", method=RequestMethod.GET)
-	public ModelAndView choiceForm(@RequestParam(value="keyword", required=false) String keyword) throws Exception {
+	public ModelAndView choiceForm() throws Exception {
 		
 		ModelAndView mv = new ModelAndView();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("keyword", keyword);
+		map.put("keyword", null);
 		
 		mv.addObject("formList", formService.retrieveFormList(map));
 		mv.setViewName("approvalNav/document/choiceForm");

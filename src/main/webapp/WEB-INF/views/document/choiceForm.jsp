@@ -2,13 +2,22 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="//code.jquery.com/jquery.min.js"></script>
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 
+<script>
+$(document).ready(function() {
+	var pagePerRecord = 10;
+	var blockPerPage = 3;
+	var currentPage = 1;
+	var totalRecord = 0;
+		
+})
+</script>
+	
 
 
 <div>
-	<h3>새 기안 양식 선택</h3>
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;새 기안 양식 선택</h3>
 	<form class="form-inline pull-right">
 		<div class="form-group">
 			<input type="text" class="form-control" id="searchKeyword"
@@ -30,18 +39,20 @@
 				<th width="100">조회수</th>
 			</tr>
 		</thead>
-		<c:forEach var="form" items="${requestScope.formList }"
-			varStatus="loop">
-			<tr>
-				<td>${form.id }</td>
-				<c:url var="url" value="/writeDocument.do">
-					<c:param name="id" value="${pageScope.form.id}"></c:param>
-				</c:url>
-				<td><a href="${url }">${form.subject }</a></td>
-				<td>${form.writeday }</td>
-				<td>${form.hitcount }</td>
-			</tr>
-		</c:forEach>
+		<tbody id="formBody">
+			<c:forEach var="form" items="${requestScope.formList }"
+				varStatus="loop">
+				<tr>
+					<td>${form.id }</td>
+					<c:url var="url" value="/writeDocument.do">
+						<c:param name="id" value="${pageScope.form.id}"></c:param>
+					</c:url>
+					<td><a href="${url }">${form.subject }</a></td>
+					<td>${form.writeday }</td>
+					<td>${form.hitcount }</td>
+				</tr>
+			</c:forEach>
+		</tbody>
 	</table>
 </div>
 

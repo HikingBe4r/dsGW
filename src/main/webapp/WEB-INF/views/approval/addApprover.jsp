@@ -76,6 +76,7 @@ $(document).ready(function() {
 				 if(tap==1) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
 						 approverList.push($(this).val());
+						 $('#submitBtn').removeAttr('disabled');
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -118,6 +119,7 @@ $(document).ready(function() {
 				 if(tap==2) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 recieverList.push($(this).val());
+						 $('#submitBtn').removeAttr('disabled');
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -175,6 +177,10 @@ $(document).ready(function() {
 				   $(this).parent().parent().parent().remove();
 			   }	  
 		   });	
+		  
+		  if(approverList.length == 0 && recieverList.length == 0) {
+			  $('#submitBtn').attr('disabled', 'disabled');
+		  }
 		  
 	});
 	
@@ -563,6 +569,6 @@ $(function() {
 		</div>
 	</div>	
 	<br>
-	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 등록</button>
+	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">결재선 등록</button>
 	
 </div>
