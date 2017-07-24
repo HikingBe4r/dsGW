@@ -14,8 +14,6 @@
 
 
 <div class="col-md-1">
-	<!-- <button class="btn btn-default"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></button> -->
-	<!-- Single button -->
 	<div class="btn-group">
   		<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
     		<span class="glyphicon glyphicon-cog" aria-hidden="true"> <span class="caret"></span>

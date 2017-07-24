@@ -279,7 +279,8 @@ function search() {
 			,
 			data: {
 				keyfield: $('#keyfield').val(),
-				keyword: $('#keyword').val()
+				keyword: $('#keyword').val(),
+				currentPage : '1'
 			}
 			, 
 			cache: false

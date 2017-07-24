@@ -70,6 +70,7 @@ $(document).ready(function() {
 				 if(tap==1) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
 						 approverList.push($(this).val());
+						 $('#submitBtn').removeAttr('disabled');
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -112,6 +113,7 @@ $(document).ready(function() {
 				 if(tap==2) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 recieverList.push($(this).val());
+						 $('#submitBtn').removeAttr('disabled');
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -149,7 +151,6 @@ $(document).ready(function() {
 			 }
 			 
 		  });	
-		 //alert(approverList.join() + '|||' + recieverList.join());	 		
 	});
 	
 	// 임시목록 삭제 버튼
@@ -170,8 +171,10 @@ $(document).ready(function() {
 				   $(this).parent().parent().parent().remove();
 			   }	  
 		   });	
-		  //alert(approverList.join() + '|||' + recieverList.join());
 		  
+		  if(approverList.length == 0 && recieverList.length == 0) {
+			  $('#submitBtn').attr('disabled', 'disabled');
+		  }
 	});
 	
 	
@@ -210,8 +213,91 @@ $(document).ready(function() {
 			});
 		}		
 	});
+	
+	//검색 버튼
+	$('#searchBtn').on('click', function() {
+		search();
+	}); 
+	
+	//엔터 치면 검색
+	$('#keyword').on('keydown', function(event) {
+		if(event.keyCode == 13) {
+			search();
+		}
+	})
 		
 });
+
+//사원 검색
+function search() {
+	$('#employeeList').empty();
+	if($('#keyword').val() == '') {
+		$.ajax({
+			url: '${pageContext.request.contextPath}/listDepartment.do'
+			,
+			method: 'POST'
+			,
+			dataType: 'json'
+			,
+			data: {
+													
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				
+				var htmlStr = "";
+				for(var i=0; i<data.departmentList.length; i++) {
+					 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+					 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+				}	
+				$('#employeeList').append(htmlStr);
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});
+	} else {
+		//부서검색은 안됨. 수정필요
+		$.ajax({
+			url: '${pageContext.request.contextPath}/searchEmployee.do'
+			,
+			method: 'GET'
+			,
+			dataType: 'json'
+			,
+			data: {
+				keyfield: $('#keyfield').val(),
+				keyword: $('#keyword').val(),
+				currentPage : '1'
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				var htmlStr = "";
+				for(var i=0; i<data.employeeList.length; i++) {
+					
+					if(data.employeeList[i].id != '${sessionScope.employee.id}') {
+					    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.employeeList[i].ID+"'>";
+						htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE + "</label> <br>"; 	
+					}
+									
+				}	
+				$('#employeeList').append(htmlStr);
+						
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}			
+			
+		});
+	}
+}
 
 // 탭 설정
 function tapSetting(obj) {
@@ -240,7 +326,7 @@ $(function() {
 	})	
 })
 
- //부서별 사원 및 즐겨찾기 조회 
+ //부서별 사원 조회 
 $(function () {
 	$('#employeeList').on("click", "span", function() {
 		var thisSpan = $(this);
@@ -316,17 +402,17 @@ $(function () {
 					</div>
 				</div>
 				<!-- 검색 폼 -->
-				<form class="form-inline pull-right">
-					<select class="form-control">
-						<option>이름</option>
-						<option>부서</option>
+				<form class="form-inline pull-right" onsubmit="return false">
+					<select id="keyfield" class="form-control">
+						<option value="name">이름</option>
+						<option value="departmentId">부서</option>
 					</select>
 
 					<div class="form-group">
-						<input type="text" class="form-control" id="searchKeyword"
+						<input type="text" class="form-control" id="keyword"
 							placeholder="keyword">
 					</div>
-					<button type="button" class="btn btn-default">검색</button>
+					<button id="searchBtn" type="button" class="btn btn-default">검색</button>
 
 				</form>
 			</div>
@@ -383,7 +469,7 @@ $(function () {
 		</div>
 	</div>	
 	
-	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">즐겨찾기 추가</button>
+	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">즐겨찾기 추가</button>
 	
 </div>
 

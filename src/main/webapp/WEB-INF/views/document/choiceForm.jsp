@@ -59,7 +59,7 @@ $(document).ready(function() {
 
 
 
-<div class="col-md-12" align="center">
+<!-- <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">
 		<li><a href="#" aria-label="Previous"> <span
 				aria-hidden="true">&laquo;</span>
@@ -70,7 +70,7 @@ $(document).ready(function() {
 		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 		</a></li>
 	</ul>
-</div>
+</div> -->
 
 
 

@@ -37,13 +37,8 @@
 		</form>
 	</div>
 </div>
-<br>
-	<%-- <ul class="nav nav-pills nav-stacked">
-		<li role="presentation" class="active"><a href="${pageContext.request.contextPath }/choiceForm.do">+ 새 결재</a></li>
-	</ul> --%>
-	
-	<button id="writeDocument" type="button" class="btn btn-success btn-lg btn-block" style="height: 50px;">+ 새 기안서</button>
-	
+<br>	
+<button id="writeDocument" type="button" class="btn btn-success btn-lg btn-block" style="height: 50px;">+ 새 기안서</button>
 <br>
 
 
