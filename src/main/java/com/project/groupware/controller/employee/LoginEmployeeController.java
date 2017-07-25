@@ -27,13 +27,12 @@ public class LoginEmployeeController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	public String submit(@RequestParam(value = "employeeId") String id, @RequestParam(value = "password") String pwd,
 			HttpSession session, @RequestParam(value = "select") String select, Model model) {
-		pwd = Encryption.encryption(pwd);
+		
 
 		if (select.equals("admin")) {
 			AdminVO login = new AdminVO();
 			login.setId(id);
 			login.setPassword(pwd);
-			//관리자 비밀번호도 암호화 해야함 -> 기존 관리자 계정 삭제 후 다시 만들어야함 
 			login = service.loginAdmin(login);
 			session.setMaxInactiveInterval(20*60);
 			if (login != null) {
@@ -44,6 +43,7 @@ public class LoginEmployeeController {
 				return "login/loginFail";
 			}
 		} else {
+			pwd = Encryption.encryption(pwd);
 			EmployeeVO login = service.loginEmployee(new EmployeeVO(id, pwd));
 			if (login != null) {
 				session.setAttribute("employee", login);
