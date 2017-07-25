@@ -413,6 +413,7 @@ $(function () {
 // 즐겨찾기 버튼
 $(function() {
 	$('#employeeList').on("click", "button", function() {
+		$('#submitBtn').removeAttr('disabled');
 		
 		// 배열 및 테이블 비움
 		approverList = [];
@@ -567,6 +568,6 @@ $(function() {
 		</div>
 	</div>	
 	<br>
-	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 수정</button>
+	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">결재선 수정</button>
 	
 </div>

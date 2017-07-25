@@ -40,4 +40,7 @@ public interface ApprovalLineMapper {
 	
 	// 결재자 목록 map
 	List<Map<String, Object>> selectApproverListDetailDocument(Map<String, Object> map);
+	
+	// 결재선 삭제
+	void deleteApprovalLine(String approvalLineId);
 }

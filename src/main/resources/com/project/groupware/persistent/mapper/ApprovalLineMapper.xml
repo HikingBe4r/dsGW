@@ -86,8 +86,22 @@
 	<delete id="deleteApproverList" statementType="PREPARED" parameterType="string">
 		DELETE FROM approver
 		WHERE approval_line_id = #{value}
-		AND STEP != 1
 	</delete>
+	
+	
+	<delete id="deleteApprovalLine" statementType="PREPARED" parameterType="string">
+		DELETE FROM approval_line
+		WHERE id = #{value}
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!--
 		결재자 목록 찾기. (문서번호) 
 		t1: 해당 문서번호의 결재이력 조회(기안자 approverId 찾기)
