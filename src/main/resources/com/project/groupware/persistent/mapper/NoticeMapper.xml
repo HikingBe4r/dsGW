@@ -4,37 +4,49 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.NoticeMapper">
 
-	<insert id="insertNotice" parameterType="noticeVO" statementType="PREPARED">
+	<insert id="insertNotice" parameterType="noticeVO"
+		statementType="PREPARED">
 		insert into notice (employee_id, content, writeday, isRead)
-		values (#{employeeId}, #{content}, sysdate, '0') <!-- 안 읽은게 0 --> 
+		values
+		(#{employeeId}, #{content}, sysdate, '0') <!-- 안 읽은게 0 -->
 	</insert>
-	
-	
-	<select id="selectNoticeList" parameterType="string" resultType="noticeVO" statementType="PREPARED">
-		SELECT 
-			id,
-			employee_id,
-			content,
-			to_char(writeday, 'YYYY/MM/DD'),
-			isRead
+
+
+	<select id="selectNoticeList" parameterType="string" resultType="noticeVO"
+		statementType="PREPARED">
+		SELECT
+		id as id,
+		employee_id as employeeId,
+		content as
+		content,
+		to_char(writeday, 'YYYY/MM/DD') as writeDay,
+		isRead as isRead
 		FROM NOTICE
 		WHERE employee_id = #{value}
-		ORDER BY writeday desc
-	
+		ORDER BY writeday
+		asc
+
 	</select>
-	
-		<update id="updateNotice" parameterType="noticeVO"
+
+	<select id="countIsRead" parameterType="string" resultType="int"
+		statementType="PREPARED">
+		select count(*)
+		from NOTICE
+		where EMPLOYEE_ID = #{value} and ISREAD = '0'
+	</select>
+
+	<update id="updateNotice" parameterType="string"
 		statementType="PREPARED">
 		UPDATE NOTICE
-		SET ISREAD = #{isread}
+		SET ISREAD = 1
 		WHERE ID = #{id}
 	</update>
 
-	<delete id="deleteNotice" parameterType="noticeVO"
+	<delete id="deleteNotice" parameterType="string"
 		statementType="PREPARED">
 		DELETE
-		FORM NOTICE
+		FroM NOTICE
 		WHERE ID = #{id}
 	</delete>
-	
+
 </mapper>

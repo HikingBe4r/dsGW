@@ -17,19 +17,28 @@
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
 <script>
-	function popup(frm)
-	{
-	  var url    ="${pageContext.request.contextPath }/modifyPwd.do";
-	  var title  = "비밀번호 변경";
-	  var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=240, height=200, top=0,left=20"; 
-	  window.open("", title,status); //window.open(url,title,status); window.open 함수에 url을 앞에와 같이
-	                                            //인수로  넣어도 동작에는 지장이 없으나 form.action에서 적용하므로 생략
-	                                            //가능합니다.
-	  frm.target = title;                    //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
-	  frm.action = url;                    //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
-	  frm.method = "post";
-	  frm.submit();     
-	  }
+
+	function popup(frm) {
+		var url = "${pageContext.request.contextPath }/modifyPwd.do";
+		var title = "비밀번호 변경";
+		var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=240, height=200, top=0,left=20";
+		window.open("", title, status); //window.open(url,title,status); window.open 함수에 url을 앞에와 같이
+		//인수로  넣어도 동작에는 지장이 없으나 form.action에서 적용하므로 생략
+		//가능합니다.
+		frm.target = title; //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
+		frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
+		frm.method = "post";
+		frm.submit();
+	}
+
+	function modifysumit(frm) {
+		var url = "${pageContext.request.contextPath }/modifyEmployee.do";
+		var title = "사원 정보 변경";
+		frm.target = title; //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
+		frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
+		frm.method = "post";
+		frm.submit();
+	}
 </script>
 <form action="${pageContext.request.contextPath }/modifyEmployee.do"
 	method="post" enctype="multipart/form-data">
@@ -250,7 +259,7 @@
 
 			<div>
 				<P align=right>
-					<button type="submit" class="btn btn-primary">수정</button>
+					<button type="button" class="btn btn-primary" onclick="modifysumit(this.form)">수정</button>
 					<button type="button" class="btn btn-primary">취소</button>
 				</p>
 			</div>

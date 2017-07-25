@@ -48,7 +48,7 @@ public class LoginEmployeeController {
 			if (login != null) {
 				session.setAttribute("employee", login);
 				session.setAttribute("employeeDetail", service.retrieveEmployeeDetail(login.getId()));
-				return "approvalNav/board/board";// 메인화면 아직 없어서 보드로 가게 해놓음
+				return "approvalNav/notice/listNotice";// 로그인후 알림 화면으로 이동
 			} else {
 				
 				return "login/loginFail";

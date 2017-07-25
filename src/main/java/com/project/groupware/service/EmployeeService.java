@@ -27,9 +27,13 @@ public interface EmployeeService {
 	
 	public List<EmployeeHistoryVO> retrieveEmployeeHistory(Map<String, Object> keyword);
 	
-	public void isreadNotice(NoticeVO notice);
+	public List<NoticeVO> retrieveNoticeList(String empId);
 	
-	public void removeNotice(NoticeVO notice);
+	public int checkIsRead(String empId);
+	
+	public void isreadNotice(String id);
+	
+	public void removeNotice(String id);
 	
 	public EmployeeVO retrieveEmployeeDetail(String id);
 
