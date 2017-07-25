@@ -14,6 +14,8 @@ public class FormVO {
 	private FormFileVO formFile;
 	private MultipartFile upload;
 	
+	private int isBookmark = 0;	// 북마크 테스트
+	
 	public FormVO() {
 		
 	}
@@ -96,7 +98,17 @@ public class FormVO {
 	public String toString() {
 		return "FormVO [id=" + id + ", subject=" + subject + ", content=" + content + ", writeday=" + writeday
 				+ ", hitcount=" + hitcount + ", formContent=" + formContent + ", formFile=" + formFile + ", upload="
-				+ upload + "]";
+				+ upload + ", isBookmark=" + isBookmark + "]";
+	}
+
+
+	public int getIsBookmark() {
+		return isBookmark;
+	}
+
+
+	public void setIsBookmark(int isBookmark) {
+		this.isBookmark = isBookmark;
 	}
 	
 	

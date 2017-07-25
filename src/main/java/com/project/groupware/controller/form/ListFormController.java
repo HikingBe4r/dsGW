@@ -1,6 +1,8 @@
 package com.project.groupware.controller.form;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,14 +75,38 @@ public class ListFormController {
 			for(BookmarkFormVO bookmark: bookmarkFormList) {
 				if(form.getId().equals(bookmark.getFormId())){
 					test++;
+					//form.setIsBookmark(1);
 				}
 			}
 			if(test > 0) {
-				isBookmark.add(1);				
+				form.setIsBookmark(1);
+				//isBookmark.add(1);
 			} else {
-				isBookmark.add(0);
+				form.setIsBookmark(0);
+				//isBookmark.add(0);
 			}
 		}
+		
+		// 즐겨찾기 순으로 정렬
+		Collections.sort(formList, new Comparator<FormVO>() {
+			public int compare(FormVO o1, FormVO o2) {
+				if(o1.getIsBookmark() < o2.getIsBookmark()) {
+					return 1;
+				} else if(o1.getIsBookmark() > o2.getIsBookmark()) {
+					return -1;
+				} 
+				return 0;
+			}
+		});
+		
+		// 즐겨찾기순으로 정렬된걸 formId 오름차순으로 재정렬
+		/*if(o1.getIsBookmark() == o2.getIsBookmark()) {
+			if(Integer.parseInt(o1.getId()) > Integer.parseInt(o2.getId())) {
+				return 1;
+			} else if(Integer.parseInt(o1.getId()) < Integer.parseInt(o2.getId())) {
+				return -1;
+			}
+		}*/
 		
 		//  페이징 처리 시작
 		if(currentPage == null) {

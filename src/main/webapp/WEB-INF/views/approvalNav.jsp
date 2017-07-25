@@ -44,33 +44,39 @@
 
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<h4>결재</h4>
+		<h4>문서 양식</h4>
 	</div>
 	<div class="panel-body">
 		<ul>
-			<li><a href="#">결재하기</a></li>
-			<li><a href="#">결재하기</a></li>
-			<li><a href="#">결재하기</a></li>
-			<li><a href="#">결재하기</a></li>
-			<li><a href="#">결재하기</a></li>
+			<li><a href="${pageContext.request.contextPath }/listForm.do?boardId=1">전체 양식</a></li>
+			<li><a href="${pageContext.request.contextPath }/listForm.do?boardId=2">즐겨찾기</a></li>
 		</ul>
 	</div>
 	<div class="panel-heading">
-		<h4>문서함</h4>
+		<h4>결재문서함</h4>
 	</div>
 	<div class="panel-body">
 		<ul>
-			<li><a href="#">승인 문서함</a></li>
-			<li><a href="#">승인 문서함</a></li>
-			<li><a href="#">승인 문서함</a></li>
-			<li><a href="#">승인 문서함</a></li>
-			<li><a href="#">승인 문서함</a></li>
-			<li><a href="#">승인 문서함</a></li>
+			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=1">결재문서</a></li>
+			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=2">수신문서</a></li>
+			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=3">미완료문서</a></li>
+		</ul>
+	</div>
+	<div class="panel-heading">
+		<h4>개인문서함</h4>
+	</div>
+	<div class="panel-body">
+		<ul>
+			<li><a href="#">임시보관</a></li>
+			<li><a href="#">개인보관</a></li>
+			<li><a href="#">승인문서</a></li>
+			<li><a href="#">반려문서</a></li>
+			<li><a href="#">수신문서</a></li>
 		</ul>
 	</div>
 
 	<div class="panel-heading">
-		<h4>환경설정</h4>
+		<h4>환경설정 - 짤라버려~</h4>
 	</div>
 	<div class="panel-body">
 		<ul>

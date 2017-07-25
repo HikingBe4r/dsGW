@@ -9,6 +9,8 @@
 <script>
 	$(document).ready(function() {
 		var currentPage = 1;
+		var keytype = '전체';
+		var keyword = '';
 		
 		
 		function loadFormList(data) {
@@ -25,12 +27,12 @@
 				htmlStr += '<tr>';
 				htmlStr += '<td id="bookmark">';
 				htmlStr += '<button type="button" class="btn btn-default" aria-label="Center Align">';
-				if(data.isBookmark[i] == 0) {
+				if(data.formList[i].isBookmark == 0) {
 					htmlStr += '<span class="glyphicon glyphicon-star-empty" aria-hidden="true">';
 				} else {
 					htmlStr += '<span class="glyphicon glyphicon-star" aria-hidden="true">';
 				}
-				htmlStr += '<input type="hidden" id="isBookmark" value='+data.isBookmark[i]+' />';
+				htmlStr += '<input type="hidden" id="isBookmark" value='+data.formList[i].isBookmark+' />';
 				htmlStr += '<input type="hidden" id="formId" value='+data.formList[i].id+' />';
 				htmlStr += '</span>';
 				htmlStr += '</button>';
@@ -43,7 +45,6 @@
 			}
 			
 			$("#formBody").append(htmlStr);
-			$("#searchKeyword").val('');
 		}
 		
 		function pagination(data) {
@@ -81,6 +82,7 @@
 			*/
 			
 			$("#pagination").append(htmlStr);
+			$("#searchKeyword").val('');
 		}
 		
 		// 페이지 로드시
@@ -121,8 +123,8 @@
 			var isBookmark = $(this).children().children().first().val();
 			var formId = $(this).children().children().last().val();
 		
-			console.log("isbookmark: "+$(this).children().children().first().val()); // hidden1
-			console.log("formId: "+$(this).children().children().last().val()); // hidden2
+			//console.log("isbookmark: "+$(this).children().children().first().val()); // hidden1
+			//console.log("formId: "+$(this).children().children().last().val()); // hidden2
 			
 			
 			// 0: 북마크x, 1: 북마크o
@@ -160,6 +162,9 @@
 		
 		// 검색
 		$("#searchBtn").click(function() {
+			// 검색시 keyword를 따로 저장. -> 페이징 처리때 사용			
+			keyword = $("#searchKeyword").val();
+			
 			$.ajax({
 				url : '${pageContext.request.contextPath}/searchForm.do'
 				,
@@ -203,8 +208,8 @@
 				,
 				data : {
 					//employeeId : '${sessionScope.employee.id}',
-					keytype: $("#keytype").val(),
-					keyword: $("#searchKeyword").val(),
+					keytype: keytype,
+					keyword: keyword,
 					boardId: "${param.boardId}",
 					currentPage: $(this).val()
 				}
@@ -212,7 +217,7 @@
 				success : function(data) {
 					loadFormList(data);
 					pagination(data);
-					currentPage = data.paging.currentPage;					
+					currentPage = data.paging.currentPage;
 				}	
 				,
 				error : function(jqXHR) {
