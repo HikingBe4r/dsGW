@@ -36,7 +36,7 @@ public class WriteDocumentController {
 	
 	
 	@RequestMapping(value="/writeDocument.do", method=RequestMethod.GET)
-	public ModelAndView form(@RequestParam(value="id", required=true) String formId,
+	public ModelAndView form(@RequestParam(value="formId", required=true) String formId,
 			 				HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
