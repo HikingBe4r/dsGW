@@ -24,13 +24,13 @@ $(document).ready(function() {
 			htmlStr += '<tr>';
 			htmlStr += '<td id="bookmark">';
 			htmlStr += '<button type="button" class="btn btn-default" aria-label="Center Align">';
-			if(data.isBookmark[i] == 0) {
+			if(data.formList[i].isBookmark == 0) {
 				htmlStr += '<span class="glyphicon glyphicon-star-empty" aria-hidden="true">';
 			} else {
 				htmlStr += '<span class="glyphicon glyphicon-star" aria-hidden="true">';
 			}
-			htmlStr += '<input type="hidden" id="isBookmark" value='+data.isBookmark[i]+' />';
-			htmlStr += '<input type="hidden" name="formId" value='+data.formList[i].id+' />';
+			htmlStr += '<input type="hidden" id="isBookmark" value='+data.formList[i].isBookmark+' />';
+			htmlStr += '<input type="hidden" id="formId" value='+data.formList[i].id+' />';
 			htmlStr += '</span>';
 			htmlStr += '</button>';
 			htmlStr += '</td>';
