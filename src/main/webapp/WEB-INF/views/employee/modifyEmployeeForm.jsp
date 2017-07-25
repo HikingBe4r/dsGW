@@ -6,6 +6,7 @@
 
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="resources/bootstrap/css/jquery.fileupload.css">
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
@@ -37,12 +38,63 @@
 		<div class="container">
 			<div>
 				<div class="col-md-6">
-					<img class="img-fluid d-block" src=""> <input type="file"
-						name="upload" class="btn btn-primary">
-					<button type="button" class="btn btn-primary">등록</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">삭제</button>
+					<div id="holder" style="width: 300px; height: 400px; margin: auto;">
+					<img src="${pageContext.request.contextPath }/image/${requestScope.empImage.systemFileName}" style="width: 100%; height: 100%;">
+					</div>
+					<div class="btn btn-success fileinput-button">
+						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
+						<input type="file" name="upload" id="upload"> 
+						
+					</div>
+					<div id="holder2" style="width: 300px; height: 400px; margin: auto;">
+					<img src="${pageContext.request.contextPath }/image/${requestScope.empImage2.systemFileName}" style="width: 100%; height: 100%;">
+					</div>
+					<div class="btn btn-success fileinput-button">
+						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
+						<input type="file" name="upload" id="upload"> 
+						
+					</div>
 				</div>
+				<script>
+				var upload = document.getElementsByTagName('input')[0]
+				var upload2 = document.getElementsByTagName('input')[1]
+				var holder = document.getElementById('holder');
+				var holder2 = document.getElementById('holder2');
 
+				upload.onchange = function(e) {
+					e.preventDefault();
+
+					var file = upload.files[0], reader = new FileReader();
+					reader.onload = function(event) {
+						var img = new Image();
+						img.style.width = '100%';
+						img.style.height = '100%';
+						img.src = event.target.result;
+						holder.innerHTML = '';
+						holder.appendChild(img);
+					};
+					reader.readAsDataURL(file);
+
+					return false;
+				};
+				upload2.onchange = function(e) {
+					e.preventDefault();
+
+					var file = upload2.files[0], reader = new FileReader();
+					reader.onload = function(event) {
+						var img = new Image();
+						img.style.width = '100%';
+						img.style.height = '100%';
+						img.src = event.target.result;
+						holder2.innerHTML = '';
+						holder2.appendChild(img);
+					};
+					reader.readAsDataURL(file);
+
+					return false;
+				};
+				
+				</script>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>사번</label> <input type="text" class="form-control"

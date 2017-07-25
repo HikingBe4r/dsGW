@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.project.groupware.domain.ArticleFileVO;
 import com.project.groupware.domain.DocumentFileVO;
+import com.project.groupware.domain.EmployeeImageVO;
 import com.project.groupware.domain.FormFileVO;
 
 public class UploadFileUtils {
@@ -99,5 +100,31 @@ public class UploadFileUtils {
 		documentFile.setFileSize(fileSize);
 		
 		return documentFile;	
+	}
+	
+	public static EmployeeImageVO uploadImageFile(MultipartFile file) throws Exception {
+		String IMAGE_UPLOAD_PATH = "C:" + File.separator + "upload";
+		String originalFileName = file.getOriginalFilename();
+		long fileSize = file.getSize();
+		String systemFileName = "";
+		
+		File temp = new File(IMAGE_UPLOAD_PATH + File.separator + originalFileName);
+		if(temp.exists()) {
+			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) +
+					"_" + count++ + originalFileName.substring(originalFileName.lastIndexOf("."));
+		} else {
+			systemFileName = originalFileName;
+		}
+		
+		// copy file in memory or C:/tempUpload folder at C:/upload folder
+		File dest = new File(IMAGE_UPLOAD_PATH + File.separator + systemFileName);
+		file.transferTo(dest);
+		
+		EmployeeImageVO image = new EmployeeImageVO();
+		image.setOriginalFileName(originalFileName);
+		image.setSystemFileName(systemFileName);
+		image.setFileSize(Long.toString(fileSize));
+		
+		return image;		
 	}
 }

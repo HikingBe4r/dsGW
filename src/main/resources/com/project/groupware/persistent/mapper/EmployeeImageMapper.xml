@@ -5,30 +5,30 @@
 <mapper namespace="com.project.groupware.persistent.mapper.EmployeeImageMapper">
 	<insert id="insertImage" parameterType="employeeImageVO"
 		statementType="PREPARED">
-		<selectKey keyProperty="no" statementType="STATEMENT" order="BEFORE"
-			resultType="int">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
+			resultType="string">
 			SELECT EMP_IMAGE_ID_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO EMP_IMAGE(ID, EMPLOYEE_ID ,ORIGINAL_FILE_NAME,
 		SYSTEM_FILE_NAME,
 		FILE_SIZE, KIND)
-		VALUES(#{no}, #{employeeId},
+		VALUES(#{id}, #{employeeId},
 		#{originalFileName}, #{systemFileName}, #{fileSize}, #{kind})
 	</insert>
 
 	<select id="selectImage" parameterType="map" resultType="employeeImageVO"
 		statementType="PREPARED">
 		select
-		ID,EMPLOYEE_ID,ORIGINAL_FILE_NAME,SYSTEM_FILE_NAME,FILE_SIZE,KIND
+		ID,EMPLOYEE_ID as employeeId,ORIGINAL_FILE_NAME as originalFileName,SYSTEM_FILE_NAME as systemFileName,FILE_SIZE as fileSize,KIND
 		from
 		EMP_IMAGE
-		WHERE EMPLOYEE_ID = #{employeeId} and KIND = #{kind}
+		WHERE EMPLOYEE_ID = #{employeeVO.id} and KIND = #{kind}
 	</select>
 
-	<delete id="deleteImage" parameterType="employeeImageVO"
+	<delete id="deleteImage" parameterType="String"
 		statementType="PREPARED">
 		DELETE
 		FROM EMP_IMAGE
-		WHERE ID = #{id}
+		WHERE EMPLOYEE_ID = #{id}
 	</delete>
 </mapper>

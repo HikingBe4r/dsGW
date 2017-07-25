@@ -5,6 +5,7 @@
 
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="resources/bootstrap/css/jquery.fileupload.css">
 
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
@@ -27,35 +28,48 @@
 		}
 	}
 	
-	$(document).ready(function(){
-		var checkAjaxSetTimeout;
-		    $('#email').keyup(function(){
-		        clearTimeout(checkAjaxSetTimeout);
-		        checkAjaxSetTimeout = setTimeout(function(){
-		        if ( $('#email').val().length > 6) {
-		            var email = $(this).val();
-		            // ajax 실행
-		            $.ajax({
-		                type : 'POST',
-		                url : '${pageContext.request.contextPath}/emailCheck.do',
-		                data:
-		                {
-		                    email: email
-		                },
-		                success : function(result) {
-		                    alert(result);
-		                    if (result == "ok") {
-		                        $("#checkEmail").html("사용 가능한 아이디 입니다.");
-		                    } else {
-		                        $("#checkEmail").html("사용 불가능한 아이디 입니다.");
-		                    }
-		                }
-		            }); // end ajax
-		        }
-		            },1000); //end setTimeout
-		        
-		    }); // end keyup
-		});
+	$(document)
+			.ready(
+					function() {
+						var checkAjaxSetTimeout;
+						$('#email')
+								.keyup(
+										function() {
+											clearTimeout(checkAjaxSetTimeout);
+											checkAjaxSetTimeout = setTimeout(
+													function() {
+														if ($('#email').val().length > 6) {
+															var email = $(this)
+																	.val();
+															// ajax 실행
+															$
+																	.ajax({
+																		type : 'POST',
+																		url : '${pageContext.request.contextPath}/emailCheck.do',
+																		data : {
+																			email : email
+																		},
+																		success : function(
+																				result) {
+																			alert(result);
+																			if (result == "ok") {
+																				$(
+																						"#checkEmail")
+																						.html(
+																								"사용 가능한 아이디 입니다.");
+																			} else {
+																				$(
+																						"#checkEmail")
+																						.html(
+																								"사용 불가능한 아이디 입니다.");
+																			}
+																		}
+																	}); // end ajax
+														}
+													}, 1000); //end setTimeout
+
+										}); // end keyup
+					});
 </script>
 <form action="${pageContext.request.contextPath }/registerEmployee.do"
 	method="post" enctype="multipart/form-data" name="form">
@@ -65,12 +79,57 @@
 			<div>
 
 				<div class="col-md-6">
-					<img class="img-fluid d-block" src=""> <input type="file"
-						name="upload" class="btn btn-primary">
-					<button type="button" class="btn btn-primary">등록</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">삭제</button>
+					<div id="holder" style="width: 300px; height: 400px; margin: auto;"></div>
+					<div class="btn btn-success fileinput-button" style="margin: auto;">
+						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
+						<input type="file" name="upload" id="upload">
+					</div>
+					<div id="holder2" style="width: 300px; height: 400px; margin: auto;"></div>
+					<div class="btn btn-success fileinput-button">
+						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
+						<input type="file" name="upload" id="upload">
+					</div>
 				</div>
+				<script>
+					var upload = document.getElementsByTagName('input')[0]
+					var upload2 = document.getElementsByTagName('input')[1]
+					var holder = document.getElementById('holder');
+					var holder2 = document.getElementById('holder2');
 
+					upload.onchange = function(e) {
+						e.preventDefault();
+
+						var file = upload.files[0], reader = new FileReader();
+						reader.onload = function(event) {
+							var img = new Image();
+							img.style.width = '100%';
+							img.style.height = '100%';
+							img.src = event.target.result;
+							holder.innerHTML = '';
+							holder.appendChild(img);
+						};
+						reader.readAsDataURL(file);
+
+						return false;
+					};
+					upload2.onchange = function(e) {
+						e.preventDefault();
+
+						var file = upload2.files[0], reader = new FileReader();
+						reader.onload = function(event) {
+							var img = new Image();
+							img.style.width = '100%';
+							img.style.height = '100%';
+							img.src = event.target.result;
+							holder2.innerHTML = '';
+							holder2.appendChild(img);
+						};
+						reader.readAsDataURL(file);
+
+						return false;
+					};
+					
+				</script>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>사번</label> <input type="text" class="form-control"
@@ -112,7 +171,6 @@
 										{
 											oncomplete : function(data) {
 												// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
 												// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
 												// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
 												var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
@@ -159,6 +217,8 @@
 													document
 															.getElementById('guide').innerHTML = '';
 												}
+
+												window.close();
 											}
 										}).open();
 							}
@@ -200,3 +260,5 @@
 
 	</div>
 </form>
+
+

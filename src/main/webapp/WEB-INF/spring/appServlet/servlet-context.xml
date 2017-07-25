@@ -63,6 +63,8 @@
       <beans:property name="maxUploadSize" value="314572800" /> <!-- 300메가 - 3개의 파일 최대 용량  -->
    </beans:bean>
    
+   
+   
    <!-- 로깅 + 로그인 interceptors -->
    	<interceptors>
 		<interceptor>

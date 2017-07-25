@@ -1,6 +1,7 @@
 package com.project.groupware.controller.employee;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.project.groupware.domain.EmployeeImageVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.service.DepartmentService;
 import com.project.groupware.service.EmployeeService;
+import com.project.groupware.util.UploadFileUtils;
 
 @Controller
 public class ModifyEmployeeController {
@@ -31,12 +35,29 @@ public class ModifyEmployeeController {
 		model.addAttribute("deptList", deptService.retrieveDepartmentList(keyword));
 		model.addAttribute("gradeList", service.retrieveGradeList());
 		model.addAttribute("statusList", service.retrieveStatusList());
+		
+		keyword.put("employeeVO", service.retrieveEmployee(id));
+		keyword.put("kind", "1");
+		model.addAttribute("empImage", service.retrieveEmployeeImage(keyword));
+		keyword.clear();
+		
+		keyword.put("employeeVO", service.retrieveEmployee(id));
+		keyword.put("kind", "2");
+		model.addAttribute("empImage2", service.retrieveEmployeeImage(keyword));
+		
 		return "adminNav/employee/modifyEmployeeForm";
 	}
 
 	@RequestMapping(value = "/modifyEmployee.do", method = RequestMethod.POST)
-	public String submit(@ModelAttribute(value = "findEmployee") EmployeeVO emp, Model model) {
-		System.out.println(emp.toString());
+	public String submit(@ModelAttribute(value = "findEmployee") EmployeeVO emp, Model model) throws Exception{
+		List<MultipartFile> files = emp.getUpload();
+		System.out.println(files.size());
+		for (MultipartFile file : files) {
+			if (!file.isEmpty()) {
+				EmployeeImageVO image = UploadFileUtils.uploadImageFile(file);
+				emp.addImageFile(image);
+			}
+		}
 		service.modifyEmployee(emp);
 		return "redirect:/listEmployee.do";
 	}

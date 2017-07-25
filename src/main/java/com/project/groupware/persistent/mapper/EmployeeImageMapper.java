@@ -10,5 +10,5 @@ public interface EmployeeImageMapper {
 	
 	public EmployeeImageVO selectImage(Map<String, Object>map);
 	
-	public void deleteImage(EmployeeImageVO image);
+	public void deleteImage(String id);
 }

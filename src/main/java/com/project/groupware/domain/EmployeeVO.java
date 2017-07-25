@@ -1,5 +1,6 @@
 package com.project.groupware.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -16,8 +17,8 @@ public class EmployeeVO {
 	private String departmentId;
 	private String gradeId;
 	private String statusId;
-	private List<MultipartFile> upload;
-	private List<EmployeeImageVO> imageList;
+	private List<MultipartFile> upload = new ArrayList<MultipartFile>();
+	private List<EmployeeImageVO> imageList = new ArrayList<EmployeeImageVO>();
 
 	public EmployeeVO() {
 		super();
@@ -131,6 +132,10 @@ public class EmployeeVO {
 
 	public void setImageList(List<EmployeeImageVO> imageList) {
 		this.imageList = imageList;
+	}
+	
+	public void addImageFile(EmployeeImageVO image) {
+		this.imageList.add(image);
 	}
 
 	@Override

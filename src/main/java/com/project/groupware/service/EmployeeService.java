@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.project.groupware.domain.AdminVO;
 import com.project.groupware.domain.EmployeeHistoryVO;
+import com.project.groupware.domain.EmployeeImageVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.NoticeVO;
 
@@ -41,5 +42,7 @@ public interface EmployeeService {
 	public EmployeeVO findEmployeeId(EmployeeVO emp);
 	
 	public List<EmployeeVO> retrieveEmployeeByDepartment(String departmentId);
+	
+	public EmployeeImageVO retrieveEmployeeImage(Map<String, Object> keyword);
 
 }

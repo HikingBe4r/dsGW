@@ -5,7 +5,7 @@
 <mapper namespace="com.project.groupware.persistent.mapper.EmployeeMapper">
 
 	<insert id="insertEmployee" parameterType="employeeVO"
-		statementType="PREPARED" useGeneratedKeys="true" keyProperty="id">
+		statementType="PREPARED" useGeneratedKeys="true"  keyProperty="id"  keyColumn="id">
 		insert
 		into EMPLOYEE(NAME, EMAIL, hire_date, address,
 		address_detail,

@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import com.project.groupware.domain.AdminVO;
 import com.project.groupware.domain.EmployeeHistoryVO;
+import com.project.groupware.domain.EmployeeImageVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.NoticeVO;
 import com.project.groupware.persistent.mapper.EmployeeHistoryMapper;
+import com.project.groupware.persistent.mapper.EmployeeImageMapper;
 import com.project.groupware.persistent.mapper.EmployeeMapper;
 import com.project.groupware.persistent.mapper.NoticeMapper;
 
@@ -27,8 +29,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	private NoticeMapper noticeMapper;
 
+	@Autowired
+	private EmployeeImageMapper imageMapper;
+	
 	public void registerEmployee(EmployeeVO emp) {
 		empMapper.insertEmployee(emp);
+		String empId = emp.getId();
+		List<EmployeeImageVO> empImageList = emp.getImageList();
+		if(empImageList.size() != 0){
+			empImageList.get(0).setEmployeeId(empId);
+			empImageList.get(0).setKind("1");
+			empImageList.get(1).setEmployeeId(empId);
+			empImageList.get(1).setKind("2");
+			
+			imageMapper.insertImage(empImageList.get(0));
+			imageMapper.insertImage(empImageList.get(1));
+		}
 	}
 
 	public EmployeeVO loginEmployee(EmployeeVO emp) {
@@ -58,6 +74,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	public void modifyEmployee(EmployeeVO emp) {
 		empMapper.updateEmployee(emp);
+		String empId = emp.getId();
+		List<EmployeeImageVO> empImageList = emp.getImageList();
+		if(empImageList.size() != 0){
+			
+			imageMapper.deleteImage(empId);
+			empImageList.get(0).setEmployeeId(empId);
+			empImageList.get(0).setKind("1");
+			empImageList.get(1).setEmployeeId(empId);
+			empImageList.get(1).setKind("2");
+			
+			imageMapper.insertImage(empImageList.get(0));
+			imageMapper.insertImage(empImageList.get(1));
+		}
 	}
 
 	public List<EmployeeVO> retrieveEmployeeList(Map<String, Object> map) {
@@ -104,6 +133,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<EmployeeVO> retrieveEmployeeByDepartment(String departmentId) {
 		return empMapper.selectEmployeeByDepartment(departmentId);
 	}
+
+	public EmployeeImageVO retrieveEmployeeImage(Map<String, Object> keyword) {
+		return imageMapper.selectImage(keyword);
+	}
+	
 	
 	
 }
