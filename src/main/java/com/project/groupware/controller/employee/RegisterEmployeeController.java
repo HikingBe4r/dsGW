@@ -36,7 +36,9 @@ public class RegisterEmployeeController {
 	
 	@RequestMapping(value = "/registerEmployee.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute(value="employee") EmployeeVO emp) {
+		emp.setPassword(Encryption.encryption(emp.getPassword()));
 		empService.registerEmployee(emp);
 		return "redirect:/listEmployee.do";
 	}
+	
 }
