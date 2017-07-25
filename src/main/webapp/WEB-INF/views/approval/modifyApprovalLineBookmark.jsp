@@ -1,4 +1,4 @@
-<%-- addApprover.jsp --%>
+<%-- modifyApprovalLineBookmark.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -13,6 +13,7 @@
 var tap = 1;
 var approverList = [];
 var recieverList = [];
+var currentBookmark = "";
 
 $(document).ready(function() {
 	
@@ -76,7 +77,6 @@ $(document).ready(function() {
 				 if(tap==1) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
 						 approverList.push($(this).val());
-						 $('#submitBtn').removeAttr('disabled');
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -119,7 +119,6 @@ $(document).ready(function() {
 				 if(tap==2) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 recieverList.push($(this).val());
-						 $('#submitBtn').removeAttr('disabled');
 						 $.ajax({
 								url: '${pageContext.request.contextPath}/getEmployee.do'
 								,
@@ -162,10 +161,9 @@ $(document).ready(function() {
 	// 임시목록 삭제 버튼
 	$('#removeBtn').on('click', function() {
 		  $(':checkbox[name=approver]').each(function() {
-			   
 			   if($(this).prop('checked')) {
-				   	approverList.splice(approverList.indexOf($(this).parent().parent().parent().attr("id")), 1);				 
-				   $(this).parent().parent().parent().remove();
+				   approverList.splice(approverList.indexOf($(this).parent().parent().parent().attr("id")), 1);
+				   $(this).parent().parent().parent().remove();			   
 			   }	  
 			   
 		   });	
@@ -173,14 +171,11 @@ $(document).ready(function() {
 		  $(':checkbox[name=reciever]').each(function() {
 			   
 			   if($(this).prop('checked')) {
-				   	recieverList.splice(recieverList.indexOf($(this).parent().parent().parent().attr("id")), 1);	      
+				   recieverList.splice(recieverList.indexOf($(this).parent().parent().parent().attr("id")), 1);     
 				   $(this).parent().parent().parent().remove();
 			   }	  
 		   });	
-		  
-		  if(approverList.length == 0 && recieverList.length == 0) {
-			  $('#submitBtn').attr('disabled', 'disabled');
-		  }
+  
 	});
 	
 	
@@ -191,24 +186,23 @@ $(document).ready(function() {
 		} else {
 			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/addApprover.do'
+				url: '${pageContext.request.contextPath}/modifyApprovalLineBookmark.do'
 				,
 				method: 'POST'
 				,
 				dataType: 'json'
 				,
 				data: {
-					employeeId: '${sessionScope.employee.id}', 
-					subject: '' ,
+					approvalLineId : currentBookmark,
 					approverEmpIdList: JSON.stringify(approverList),
-					recieverEmpIdList: JSON.stringify(recieverList)		
+					recieverEmpIdList: JSON.stringify(recieverList)	
 				}
 				, 
 				cache: false
 				,
 				success: function(data) {
-					window.opener.checkHasApprovalLine(true);
-					window.close();				
+					alert("즐겨찾기 수정 성공!");
+					location.href = "modifyApprovalLineBookmark.do"	;		
 				}
 				,
 				error : function(jqXHR) {
@@ -363,7 +357,8 @@ $(function () {
 					for(var i=0; i<data.approvalLineList.length; i++) { 
 						
 					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'>+ "
-					    htmlStr += data.approvalLineList[i].subject +"</button></label><br>";
+					    htmlStr += data.approvalLineList[i].subject +"</button></label><br> ";
+					    //htmlStr += "<button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"
 					    									
 					}		
 					htmlStr += "<br>";
@@ -418,12 +413,14 @@ $(function () {
 // 즐겨찾기 버튼
 $(function() {
 	$('#employeeList').on("click", "button", function() {
-		$('#submitBtn').removeAttr('disabled');
+		
 		// 배열 및 테이블 비움
 		approverList = [];
 		recieverList = [];
 		$('#approverTable tr:not(:first)').empty();
 		$('#recieverTable tr:not(:first)').empty();
+		
+		currentBookmark = $(this).attr('id');
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/listApproverInBookmark.do'
@@ -433,7 +430,7 @@ $(function() {
 			dataType: 'json'
 			,
 			data: {
-				approvalLineId : $(this).attr('id')
+				approvalLineId : currentBookmark
 			}
 			, 
 			cache: false
@@ -464,8 +461,7 @@ $(function() {
 					htmlStr += "<td>수신</td>";
 					htmlStr += "</tr>";
 				}
-				$('#recieverTable').append(htmlStr);
-				
+				$('#recieverTable').append(htmlStr);				
 			}
 			,
 			error : function(jqXHR) {
@@ -478,8 +474,10 @@ $(function() {
 })
 
 </script>
-
-<div style="height: 10px;"></div>
+<div>
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;결재선 즐겨찾기 수정</h3>
+</div>
+<br>
 
 
 <!-- 왼쪽 패널 -->
@@ -569,6 +567,6 @@ $(function() {
 		</div>
 	</div>	
 	<br>
-	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right" disabled="disabled">결재선 등록</button>
+	<button type="button" id="submitBtn" class="btn btn-primary btn-lg pull-right">결재선 수정</button>
 	
 </div>

@@ -1,4 +1,4 @@
-<%-- addApprover.jsp --%>
+<%-- addApprovalLineBookmark.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -375,7 +375,7 @@ $(function () {
 
 </script>
 <div>
-	<h3>결재선 즐겨찾기 설정</h3>
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;결재선 즐겨찾기 추가</h3>
 </div>
 <br>
 

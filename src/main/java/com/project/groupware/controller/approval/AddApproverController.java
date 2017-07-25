@@ -28,12 +28,6 @@ public class AddApproverController {
 		return "approval/addApprover"; 		
 	}
 	
-	@RequestMapping(value="/approvalLineBookmark.do", method=RequestMethod.GET)
-	public String approvalLineBookmark() {	
-		return "approvalNav/approval/approvalLineBookmark";
-	}
-	
-	
 	
 	@RequestMapping(value="/addApprover.do", method=RequestMethod.POST)
 	public String submit(@RequestParam(value="employeeId", required=true) String employeeId, 

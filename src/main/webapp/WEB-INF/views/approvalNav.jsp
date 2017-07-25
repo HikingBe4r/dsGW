@@ -76,12 +76,4 @@
 		</ul>
 	</div>
 
-	<div class="panel-heading">
-		<h4>환경설정 - 짤라버려~</h4>
-	</div>
-	<div class="panel-body">
-		<ul>
-			<li><a href="${pageContext.request.contextPath }/approvalLineBookmark.do">결재선 즐겨찾기 설정</a></li>
-		</ul>
-	</div>
 </div>
