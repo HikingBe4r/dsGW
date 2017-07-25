@@ -11,7 +11,7 @@
 			WHERE status = #{status}	
 		</selectKey> -->
 		INSERT INTO DOCUMENT (form_id, subject, content, writeday, enddate, document_status_id )
-		VALUES (#{formVO.id}, #{subject}, #{content}, sysdate, to_date(#{endDate}, 'YYYY/MM/DD'), #{status} )		
+		VALUES (#{formVO.id}, #{subject}, #{content}, sysdate, to_date(#{endDate}, 'YYYY/MM/DD HH24:MI:SS'), #{status} )		
 	</insert>
 
 

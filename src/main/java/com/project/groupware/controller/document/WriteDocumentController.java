@@ -56,7 +56,8 @@ public class WriteDocumentController {
 	public String submit(@RequestParam(value="formId", required=true) String formId,
 						@ModelAttribute(value="document") DocumentVO document,
 						HttpServletRequest request) throws Exception {
-	
+		
+		document.setEndDate(document.getEndDate()+" 17:00:00");
 		document.setFormVO(formService.retrieveForm(formId));	
 		document.setStatus("1");	// 기안
 			
