@@ -125,7 +125,7 @@
 		    	emp.name ||' '|| grade.grade employeeName, 
 		    	dept.name departmentName, 
 		    	auth.auth appAuth, 
-		    	empimg.original_file_name image
+		    	empimg.system_file_name image
 			FROM 
 		      approver app, 
 		      employee emp, 
@@ -189,7 +189,7 @@
 			app.id appId, 
 		   	emp.id employeeId, 
 		   	emp.name ||' '|| grade.grade employeeName,
-		   	empimg.original_file_name image
+		   	empimg.system_file_name image
 		FROM 
 			approver app, 
 			employee emp, 

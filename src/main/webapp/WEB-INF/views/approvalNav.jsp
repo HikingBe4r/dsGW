@@ -60,6 +60,7 @@
 			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=1">결재문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=2">수신문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=3">미완료문서</a></li>
+			<li><a href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=4">기안문서</a></li>
 		</ul>
 	</div>
 	<div class="panel-heading">

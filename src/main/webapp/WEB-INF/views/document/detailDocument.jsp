@@ -18,10 +18,13 @@
 			form.submit();
 		});
 		
+		// 취소버튼 -> 목록으로 가기
 		$('#cancelBtn').click(function() {
-			document.location.href = "${pageContext.request.contextPath}/listApprovalDocument.do";
+			history.back();
+			//document.location.href = "${pageContext.request.contextPath}/listApprovalDocument.do";
 		}); 
 		
+		// 승인버튼
 		$('#approveDocument').click(function() {
 			$("#kind").val("1");	// hidden의 kind값 변경
 			window.open('', 'Popup_Window', 'width=300, height=170');
@@ -31,6 +34,7 @@
 			form.submit();
 		});
 		
+		// 반려버튼
 		$('#rejectDocument').click(function() {
 			$("#kind").val("2");
 			window.open('', 'Popup_Window', 'width=300, height=170');
@@ -126,13 +130,15 @@
 									j <= requestScope.approvalDocument.completeApproverList.size() &&
 									requestScope.approvalDocument.completeApproverList[j-1].APPID == 
 										requestScope.approvalDocument.approverList[j].APPID }">
-									<td style="height: 80px;">${requestScope.approvalDocument.approverList[j].IMAGE}</td>	
+									<td style="height: 100px; width: 100px">
+										<img src="${pageContext.request.contextPath }/upload/empImage/${requestScope.approvalDocument.approverList[j].IMAGE}" style="width: 90px; height:90px;" />
+									</td>	
 								</c:if>
 								
 								<!-- completeApproverList에 있는 결재자와 approverList에 있는 결재자가 다르면 직인을 안 넣는다. -->
 								<c:if test="${i == 1 && 
 									j > requestScope.approvalDocument.completeApproverList.size() }">
-									<td style="height: 80px;"></td>	
+									<td style="height: 100px; width: 100px"></td>	
 								</c:if>
 							
 							</c:forEach>

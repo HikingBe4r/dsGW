@@ -58,6 +58,7 @@ public class ListApprovalDocumentController {
 		List<Map<String, Object>> tempDocumentList = documentService.retrieveApprovalDocumentList(map);
 		List<Map<String, Object>> documentList = new ArrayList<Map<String, Object>>();
 		
+		// 결재문서, 미완료문서는 현재 결재자인지에 따라서 조회결과가 바뀌어야 한다.
 		for(Map<String, Object> document: tempDocumentList) {
 			ApproverVO currentApprover = (ApproverVO) document.get("currentApprover");
 			if(boardId.equals("1")) {
@@ -73,7 +74,8 @@ public class ListApprovalDocumentController {
 			}
 		}
 		
-		if (boardId.equals("2")) {
+		// 수신문서or 기안문서는 조회결과 그대로 보여줌
+		if (boardId.equals("2") || boardId.equals("4")) {
 			documentList = tempDocumentList;	// 수신 문서는 그냥 그대로.
 		}
 				

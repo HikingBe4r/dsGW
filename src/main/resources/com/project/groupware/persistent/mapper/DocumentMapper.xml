@@ -45,12 +45,16 @@
 			 	(SELECT app.approval_line_id, app.id myAppId
 			 	FROM approver app, employee emp
 			 	WHERE emp.id = app.employee_id
-			 	<if test="boardId != 2">
+			 	<if test="boardId == 1 or boardId == 3">	<!-- 1: 결재문서, 3: 미완료문서 -->
 			 		AND app.approval_auth_id = 2
 			 	</if>
-			 	<if test="boardId == 2">
+			 	<if test="boardId == 2">					<!-- 2: 수신문서 -->
 			 		AND app.approval_auth_id = 3
 			 	</if>
+			 	<if test="boardId == 4">					<!-- 4: 기안문서 -->	
+			 		AND app.approval_auth_id = 1
+			 	</if>
+			 	
 			 	  AND emp.id = #{employeeId}) t1						<!-- 본인 empId -->
 			 WHERE app.approval_line_id = t1.approval_line_id
 			   AND   app.approval_auth_id = 1
@@ -105,7 +109,7 @@
 			form.id formId, 
 			form.subject formSubject, 
 			docFile.id docFileId,
-			docFile.original_file_name
+			docFile.system_file_name
 		FROM document doc, form, document_file docFile
 		WHERE doc.id = #{documentId}
 		  AND doc.form_id = form.id(+)
