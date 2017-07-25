@@ -102,8 +102,8 @@ public class UploadFileUtils {
 		return documentFile;	
 	}
 	
-	public static EmployeeImageVO uploadImageFile(MultipartFile file) throws Exception {
-		String IMAGE_UPLOAD_PATH = "C:" + File.separator + "upload";
+	public static EmployeeImageVO uploadImageFile(MultipartFile file, HttpServletRequest request) throws Exception {
+		String IMAGE_UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload");
 		String originalFileName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemFileName = "";

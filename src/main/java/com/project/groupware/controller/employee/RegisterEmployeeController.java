@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,12 +41,12 @@ public class RegisterEmployeeController {
 	}
 
 	@RequestMapping(value = "/registerEmployee.do", method = RequestMethod.POST)
-	public String submit(@ModelAttribute(value = "employee") EmployeeVO emp) throws Exception {
+	public String submit(@ModelAttribute(value = "employee") EmployeeVO emp, HttpServletRequest request) throws Exception {
 		List<MultipartFile> files = emp.getUpload();
 		System.out.println(files.size());
 		for (MultipartFile file : files) {
 			if (!file.isEmpty()) {
-				EmployeeImageVO image = UploadFileUtils.uploadImageFile(file);
+				EmployeeImageVO image = UploadFileUtils.uploadImageFile(file, request);
 				emp.addImageFile(image);
 			}
 		}

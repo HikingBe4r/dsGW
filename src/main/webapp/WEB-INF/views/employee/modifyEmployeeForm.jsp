@@ -39,7 +39,7 @@
 			<div>
 				<div class="col-md-6">
 					<div id="holder" style="width: 300px; height: 400px; margin: auto;">
-					<img src="${pageContext.request.contextPath }/image/${requestScope.empImage.systemFileName}" style="width: 100%; height: 100%;">
+					<img src="${pageContext.request.contextPath }/upload/empImage/${requestScope.empImage.systemFileName}" style="width: 100%; height: 100%;">
 					</div>
 					<div class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
@@ -47,7 +47,7 @@
 						
 					</div>
 					<div id="holder2" style="width: 300px; height: 400px; margin: auto;">
-					<img src="${pageContext.request.contextPath }/image/${requestScope.empImage2.systemFileName}" style="width: 100%; height: 100%;">
+					<img src="${pageContext.request.contextPath }/upload/empImage/${requestScope.empImage2.systemFileName}" style="width: 100%; height: 100%;">
 					</div>
 					<div class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
