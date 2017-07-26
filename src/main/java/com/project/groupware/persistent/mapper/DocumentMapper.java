@@ -12,13 +12,13 @@ public interface DocumentMapper {
 	
 	List<DocumentVO> selectDocumentList(Map<String, Object> map);
 	
-		void updateDocument(DocumentVO documentVO);
+	void updateDocument(DocumentVO documentVO);
 	
 	DocumentVO selectDocument(String documentId);
 	
 	void insertBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 	
-	void deleteBookMarkDocument(String bookMarkDocumentId);
+	void deleteBookMarkDocument(Map<String, Object> map);
 	
 	void updateDocumentStatus(DocumentVO documentVO);
 	

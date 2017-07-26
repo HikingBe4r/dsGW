@@ -151,9 +151,8 @@ public class DocumentServiceImpl implements DocumentService {
 
 	}
 
-	public void removeBookMarkDocument(String bookMarkDocumentId) {
-		// TODO Auto-generated method stub
-
+	public void removeBookMarkDocument(Map<String, Object> map) {
+		documentMapper.deleteBookMarkDocument(map);
 	}
 	
 	public void removeApprovalLine(String approvalLineId) {

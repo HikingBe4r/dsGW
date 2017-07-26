@@ -141,11 +141,17 @@
 			doc.document_status_id = ds.id
 				and doc.id = ah.document_id
 				and ah.approver_id = ap.id
-				and ap.employee_id = emp.id				
+				and ap.employee_id = emp.id
 				<if test="myDocs == 1">
 					and ap.step = 1
 					and doc.id = md.document_id
 					and md.employee_id = #{employeeId}
+					<if test="searchStatus == 'accept'">
+						and ds.id = 3
+					</if>
+					<if test="searchStatus == 'reject'">
+						and ds.id = 4
+					</if>
 				</if>
 				<if test="myDocs == 2 and status != 5">
 					and ap.step = 1
@@ -155,6 +161,14 @@
 					and ap.approval_auth_id = aa.id
           			and ap.step = 0
           			and ap.employee_id = #{employeeId}
+          			and ds.id != 1
+          			and ds.id != 2
+          			<if test="searchStatus == 'accept'">
+						and ds.id = 3
+					</if>
+					<if test="searchStatus == 'reject'">
+						and ds.id = 4
+					</if>
 				</if>
 				<!-- <if test="keyword != 'all'"> -->
 					<if test="keyfield == 'subject'">
@@ -201,9 +215,15 @@
 		values (#{id}, #{employeeId}, #{documentId})
 	</insert>
 	
-	<delete id="deleteBookMarkDocument" parameterType="int" statementType="PREPARED">
+	<delete id="deleteBookMarkDocument" parameterType="map" statementType="PREPARED">
 		delete from mydocs
-		where id = #{value}
+		where document_id in (
+			<trim suffixOverrides=",">
+				<foreach item="id" collection="documentIdList">
+					#{id},
+				</foreach>
+			</trim>
+		) and employee_id = #{employeeId}
 	</delete>
 	
 </mapper>

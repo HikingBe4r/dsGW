@@ -12,7 +12,81 @@
 
 <script>
 
+	function listTempDocument(data) {
+		$('#tempDocuments').empty(data);
+		
+		var htmlStr = "";
+		
+		for (var i = data.paging.startArticleNum ; i <= data.paging.endArticleNum ; i++) {
+			htmlStr += "<tr>";
+			htmlStr += "<td>&nbsp;&nbsp;" + data.tempDocumentList[i].id + "</td>";
+			htmlStr += "<td><a href='${pageContext.request.contextPath}/detailTempDocument.do?id=" + data.tempDocumentList[i].id + "'>" + data.tempDocumentList[i].subject + "</a></td>";
+			htmlStr += "<td>" + data.tempDocumentList[i].writeday + "</td>";
+			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='tempDocumentId' value='" + data.tempDocumentList[i].id + "'></td>";
+			htmlStr += "</tr>";
+		}
+							
+		$('#tempDocuments').append(htmlStr);
+	};
+	
+	function pagination(data) {
+		$("#pagination").empty(data);
+		
+		var htmlStr = "";		
+		
+		var prevPage = 
+		
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
+		htmlStr += "<a aria-label='Previous'>";
+		htmlStr += '&laquo;';
+		htmlStr += "</a>";
+		htmlStr += "</li>";
+		for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
+			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			htmlStr += "<a>";
+			htmlStr += i;
+			htmlStr += "</a>";
+			htmlStr += "</li>";
+		}
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.nextPage+">";
+		htmlStr += "<a aria-label='Next'>";
+		htmlStr += '&raquo;';
+		htmlStr += "</a>";		
+		htmlStr += "</li>";
+		
+		$("#pagination").append(htmlStr);
+	};
+
 	$(document).ready(function() {
+		// 오픈되자마자.
+		$.ajax({
+				url : '${pageContext.request.contextPath}/searchTempDocument.do'
+				,
+				method : 'GET'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					currentPage: "1"
+				}
+				,
+				success : function(data) {
+					listTempDocument(data);
+					pagination(data);
+				}
+				,
+				error : function(request,status,error) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+		});
+		
 		$('#searchBtn').click(function() {
 			$.ajax({
 				url: '${pageContext.request.contextPath}/searchTempDocument.do'
@@ -25,31 +99,20 @@
 					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
 					keyword:  $(":text[name='keyword']").val() ,
 					startDay:  $(":text[name='startDay']").val() ,
-					endDay:  $(":text[name='endDay']").val()
+					endDay:  $(":text[name='endDay']").val() ,
+					currentPage: "1"
 				}
 				, 
 				cache: false
 				,
 				success: function(data) {
-					$('#tempDocuments').empty(data);
-					
-					var htmlStr = "";
-					
-					for (var i = 0 ; i < data.tempDocumentList.length ; i++) {
-						htmlStr += "<tr>";
-						htmlStr += "<td>&nbsp;&nbsp;" + data.tempDocumentList[i].id + "</td>";
-						htmlStr += "<td><a href='/groupware/detailTempDocument.do?id=" + data.tempDocumentList[i].id + "'>" + data.tempDocumentList[i].subject + "</a></td>";
-						htmlStr += "<td>" + data.tempDocumentList[i].writeday + "</td>";
-						htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='tempDocumentId' value='" + data.tempDocumentList[i].id + "'></td>";
-						htmlStr += "</tr>"; 
-					}
-										
-					$('#tempDocuments').append(htmlStr);
-					
+					listTempDocument(data);
+					pagination(data);
 				}
 				,
 				error : function(jqXHR) {
 					alert("Error : " + jqXHR.responseText);
+					console.log(jqXHR.responseText);
 				}				
 				
 			});
@@ -89,7 +152,7 @@
 			    return;
 			}
 			
-			if(confirm('정말로 삭제하시겠습니까?')) {				
+			if(confirm('정말로 삭제하시겠습니까?')) {
 				$.ajax({
 					url: '${pageContext.request.contextPath}/deleteTempDocument.do'
 					,
@@ -98,37 +161,61 @@
 					dataType: 'json'
 					,
 					data: {
+						keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+						keyword:  $(":text[name='keyword']").val() ,
+						startDay:  $(":text[name='startDay']").val() ,
+						endDay:  $(":text[name='endDay']").val() ,
 						checkRow: checkRow
 					}
-					, 
+					,
 					cache: false
 					,
 					success: function(data) {
-						$('#tempDocuments').empty(data);
-						
-						var htmlStr = "";
-						
-						for (var i = 0 ; i < data.tempDocumentList.length ; i++) {
-							htmlStr += "<tr>";
-							htmlStr += "<td>&nbsp;&nbsp;" + data.tempDocumentList[i].id + "</td>";
-							htmlStr += "<td><a href='/groupware/detailTempDocument.do?id=" + data.tempDocumentList[i].id + "'>" + data.tempDocumentList[i].subject + "</a></td>";
-							htmlStr += "<td>" + data.tempDocumentList[i].writeday + "</td>";
-							htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='tempDocumentId' value='" + data.tempDocumentList[i].id + "'></td>";
-							htmlStr += "</tr>"; 
-						}
-											
-						$('#tempDocuments').append(htmlStr);
-						
+						listTempDocument(data);
+						pagination(data);
 					}
 					,
 					error : function(jqXHR) {
 						alert("Error : " + jqXHR.responseText);
-					}				
+						console.log(jqXHR.responseText);
+					}
 					
 				});
 			}
 			
 		});
+		
+		$("#pagination").on("click", "li", function() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/searchTempDocument.do'
+				,
+				method : 'GET'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					currentPage: $(this).val()
+				}
+				,
+				success : function(data) {
+					listTempDocument(data);
+					pagination(data);
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}
+				
+			});
+		});
+		
 	});
 	
 	$(function() {
@@ -160,7 +247,7 @@
 			<input id="startDay" name="startDay" type="text" class="form-control" style="width: 150px;">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
 			<input id="endDay" name="endDay" type="text" class="form-control" style="width: 150px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<select class="form-control" name="keyfield">
-				<option value="subject">제목</option>
+				<option value="subject">제목&nbsp;&nbsp;&nbsp;</option>
 			</select>
 			<input type="text" class="form-control" id="searchKeyword" placeholder="keyword" name="keyword">
 		</div>
@@ -207,13 +294,12 @@
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">
-		<li><a href="#" aria-label="Previous"> <span
-				aria-hidden="true">&laquo;</span>
-		</a></li>
-		<li><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-		</a></li>
+		
+		<li><a href="${requestScope.paging.prevPage }" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+		<c:forEach var="pageNum" begin="${requestScope.paging.startPage }"
+			end="${requestScope.paging.endPage }" step="1">
+			<li id="pageNum"><a>${pageNum }</a></li>
+		</c:forEach>
+		<li><a href="${requestScope.paging.nextPage }" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
 	</ul>
 </div>
