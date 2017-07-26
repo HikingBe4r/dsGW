@@ -49,7 +49,6 @@ public class DocumentServiceImpl implements DocumentService {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("documentFileList", documentFileList);
 			documentFileMapper.insertDocumentFile(map);
-
 		}
 
 		// 결재이력 등록
@@ -67,14 +66,14 @@ public class DocumentServiceImpl implements DocumentService {
 		approvalHistoryMapper.insertApprovalHistory(history);
 
 		// 알림
+		ApproverVO nextApprover = approvalLineMapper.selectCurrentApprover(documentId);
 		NoticeVO notice = new NoticeVO();
-		notice.setEmployeeId(document.getEmployeeId());
-		/*
-		 * 알림 내용 설정
-		 */
-		notice.setContent("알림 내용 설정해야합니다아");
+		if (nextApprover != null) {
+			notice.setEmployeeId(nextApprover.getEmployeeId());
+			notice.setContent("[ " + document.getSubject() + " ] 문서의 결재순서입니다.");
+			document.setStatus("1"); // 문서의 최종상태 : 대기
+		}
 		noticeMapper.insertNotice(notice);
-
 	}
 
 	public void registerApprovalLine(ApprovalLineVO approvalLine) {
