@@ -145,7 +145,7 @@ $(function() {
 					htmlStr += "<td>" + data.recieverList[i].name + "</td>";
 					htmlStr += "<td>" + data.recieverList[i].gradeId + "</td>";
 					htmlStr += "<td>" + data.recieverList[i].departmentId + "</td>";
-					htmlStr += "<td>수신</td>";
+					htmlStr += "<td>참조</td>";
 					htmlStr += "</tr>";
 				}
 				$('#recieverTable').append(htmlStr);				
@@ -223,7 +223,7 @@ $(function() {
 	</div>
 	<br>
 	<div class="panel panel-default" style="overflow:scroll; height: 300px;"> 
-		<!-- 수신자 -->
+		<!-- 참조자 -->
 		<div class="panel-body">
 			<div class="checkbox">
 				<table id="recieverTable" class="table table-striped" align="center">
