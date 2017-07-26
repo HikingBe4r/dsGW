@@ -16,7 +16,7 @@ public interface DocumentService {
 
 	void registerApprovalLineBookmark(ApprovalLineVO approveLine);
 
-	List<ApprovalLineVO> retrieveApprovalLineList(String employeeId);
+	List<ApprovalLineVO> retrieveApprovalLineList(Map<String, Object> map);
 
 	List<ApproverVO> retrieveApproverList(String approvalLineId);
 
@@ -30,11 +30,8 @@ public interface DocumentService {
 
 	void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 
-	
 	void removeApprovalLine(String approvalLineId);
 	
-	List<ApprovalLineVO> retrieveApprovalLineBookmarkByName(Map<String, Object> map);
-
 	void removeBookMarkDocument(Map<String, Object> map);
 
 

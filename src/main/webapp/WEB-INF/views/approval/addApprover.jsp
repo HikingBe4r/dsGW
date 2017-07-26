@@ -310,14 +310,15 @@ $(function () {
 		if(thisSpan.attr("id") == 'approvalBookmark') {
 			//즐겨찾기 조회			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/listApprovalLineBookmark.do'
+				url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
 				,
-				method: 'POST'
+				method: 'GET'
 				,
 				dataType: 'json'
 				,
 				data: {
-					employeeId : '${sessionScope.employee.id}'												
+					employeeId : '${sessionScope.employee.id}'	,
+					keyword : ''
 				}
 				, 
 				cache: false
