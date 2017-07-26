@@ -30,7 +30,7 @@ public interface DocumentService {
 
 	void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 
-	void removeBookMarkDocument(String bookMarkDocumentId);
+	void removeBookMarkDocument(Map<String, Object> map);
 
 	// 결재 관련
 	Boolean approveDocument(Map<String, Object> map);

@@ -12,7 +12,95 @@
 
 <script>
 
+	function listDocument(data) {
+		$('#documents').empty(data);
+		
+		var htmlStr = "";
+		
+		for (var i = data.paging.startArticleNum ; i <= data.paging.endArticleNum ; i++) {
+			htmlStr += "<tr>";
+			if (data.myDocs == 2) {
+				htmlStr += "<td></td>";
+			}
+			htmlStr += "<td>" + data.documentList[i].id + "</td>";
+			htmlStr += "<td><a href='${pageContext.request.contextPath}/detailApprovalDocument.do?documentId=" + data.documentList[i].id + "'>" + data.documentList[i].subject + "</a></td>";
+			htmlStr += "<td>" + data.documentList[i].writeday + "</td>";
+			htmlStr += "<td>" + data.documentList[i].endDate + "</td>";
+			htmlStr += "<td>" + data.documentList[i].writer + "</td>";
+	 		if (data.myDocs == 1 || data.myDocs == 2 && data.status == 5) {
+	 			htmlStr += "<td>" + data.documentList[i].status + "</td>";
+	 		}
+	 		if (data.myDocs == 1) {
+	 			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='documentId' value='" + data.documentList[i].id + "'></td>";
+	 		}
+			htmlStr += "</tr>";
+		}
+							
+		$('#documents').append(htmlStr);
+	};
+	
+	function pagination(data) {
+		$("#pagination").empty(data);
+		
+		var htmlStr = "";		
+		
+		var prevPage = 
+		
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.prevPage+">";
+		htmlStr += "<a aria-label='Previous'>";
+		htmlStr += '&laquo;';
+		htmlStr += "</a>";
+		htmlStr += "</li>";
+		for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
+			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			htmlStr += "<a>";
+			htmlStr += i;
+			htmlStr += "</a>";
+			htmlStr += "</li>";
+		}
+		htmlStr += "<li name='pageNum' id='pageNum' value="+data.paging.nextPage+">";
+		htmlStr += "<a aria-label='Next'>";
+		htmlStr += '&raquo;';
+		htmlStr += "</a>";		
+		htmlStr += "</li>";
+		
+		$("#pagination").append(htmlStr);
+	};
+
 	$(document).ready(function() {
+		// 오픈되자마자.
+		$.ajax({
+				url : '${pageContext.request.contextPath}/searchDocument.do'
+				,
+				method : 'GET'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					searchDay:  $(":radio[name='searchDay']:checked").val() ,
+					myDocs:  $(":hidden[name='myDocs']").val() ,
+					status:  $(":hidden[name='status']").val() ,
+					searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
+					currentPage: "1"
+				}
+				,
+				success : function(data) {
+					listDocument(data);
+					pagination(data);
+				}
+				,
+				error : function(request,status,error) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				}
+		});
+		
 		$('#searchBtn').click(function() {
 			$.ajax({
 				url: '${pageContext.request.contextPath}/searchDocument.do'
@@ -28,45 +116,167 @@
 					endDay:  $(":text[name='endDay']").val() ,
 					searchDay:  $(":radio[name='searchDay']:checked").val() ,
 					myDocs:  $(":hidden[name='myDocs']").val() ,
-					status:  $(":hidden[name='status']").val()
+					status:  $(":hidden[name='status']").val() ,
+					searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
+					currentPage: "1"
 				}
 				, 
 				cache: false
 				,
 				success: function(data) {
-					$('#documents').empty(data);
-					
-					var htmlStr = "";
-					
-					for (var i = 0 ; i < data.documentList.length ; i++) {
-						htmlStr += "<tr>";
-						if (data.myDocs == 2) {
-							htmlStr += "<td></td>";
-						}
-						htmlStr += "<td>" + data.documentList[i].id + "</td>";
-						htmlStr += "<td><a href='/groupware/detailApprovalDocument.do?documentId=" + data.documentList[i].id + "'>" + data.documentList[i].subject + "</a></td>";
-						htmlStr += "<td>" + data.documentList[i].writeday + "</td>";
-						htmlStr += "<td>" + data.documentList[i].endDate + "</td>";
-						htmlStr += "<td>" + data.documentList[i].writer + "</td>";						
-				 		if (data.myDocs == 1 || data.myDocs == 2 && data.status == 5) {
-				 			htmlStr += "<td>" + data.documentList[i].status + "</td>";
-				 		}
-				 		if (data.myDocs == 1) {
-				 			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='documentId' value='" + data.documentList[i].id + "'></td>";
-				 		}				 		
-						htmlStr += "</tr>";
-					}
-										
-					$('#documents').append(htmlStr);
-					
+					listDocument(data);
+					pagination(data);
 				}
 				,
 				error : function(jqXHR) {
 					alert("Error : " + jqXHR.responseText);
+					console.log(jqXHR.responseText);
 				}				
 				
 			});			
-		});		
+		});
+		
+		$('#searchStatus').change(function() {
+			$.ajax({
+				url: '${pageContext.request.contextPath}/searchDocument.do'
+				,
+				method: 'GET'
+				,
+				dataType: 'json'
+				,
+				data: {
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					searchDay:  $(":radio[name='searchDay']:checked").val() ,
+					myDocs:  $(":hidden[name='myDocs']").val() ,
+					status:  $(":hidden[name='status']").val() ,
+					searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
+					currentPage: "1"
+				}
+				,
+				cache: false
+				,
+				success: function(data) {
+					listDocument(data);
+					pagination(data);
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}				
+				
+			});
+		});
+		
+		$('#allSelectBtn').click(function() {			 
+			 $(":checkbox[name='documentId']").each(function() {
+				 var subChecked = $(this).attr('checked');
+				 
+				 if (subChecked != 'checked')
+				 	$(this).click();
+				 
+			 });
+		});
+		
+		$('#allSelectCancelBtn').click(function() {			 
+			 $(":checkbox[name='documentId']").each(function() {
+				 var subChecked = $(this).attr('checked');
+				 
+				 if (subChecked == 'checked')
+				 	$(this).click();
+				 
+			 });
+		});
+		
+		$('#deleteBtn').click(function() {
+			var checkRow = '';
+			
+			$(":checkbox[name='documentId']:checked").each(function(){
+				checkRow = checkRow + $(this).val() + ', ';
+			});
+			
+			checkRow = checkRow.substring(0, checkRow.lastIndexOf(', ')); //맨끝 콤마 지우기
+			
+			if(checkRow == '') {
+				alert("삭제할 문서를 선택하세요.");
+			    return;
+			}
+			
+			if(confirm('정말로 삭제하시겠습니까?')) {				
+				$.ajax({
+					url: '${pageContext.request.contextPath}/deleteMyDocs.do'
+					,
+					method: 'GET'
+					,
+					dataType: 'json'
+					,
+					data: {
+						keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+						keyword:  $(":text[name='keyword']").val() ,
+						startDay:  $(":text[name='startDay']").val() ,
+						endDay:  $(":text[name='endDay']").val() ,
+						searchDay:  $(":radio[name='searchDay']:checked").val() ,
+						myDocs:  $(":hidden[name='myDocs']").val() ,
+						status:  $(":hidden[name='status']").val() ,
+						searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
+						checkRow: checkRow
+					}
+					,
+					cache: false
+					,
+					success: function(data) {
+						listDocument(data);
+						pagination(data);
+					}
+					,
+					error : function(jqXHR) {
+						alert("Error : " + jqXHR.responseText);
+						console.log(jqXHR.responseText);
+					}
+					
+				});
+			}
+			
+		});
+		
+		$("#pagination").on("click", "li", function() {
+			$.ajax({
+				url : '${pageContext.request.contextPath}/searchDocument.do'
+				,
+				method : 'GET'
+				,
+				cache : false
+				,
+				dataType : 'json'
+				,
+				data : {
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					searchDay:  $(":radio[name='searchDay']:checked").val() ,
+					myDocs:  $(":hidden[name='myDocs']").val() ,
+					status:  $(":hidden[name='status']").val() ,
+					searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
+					currentPage: $(this).val()
+				}
+				,
+				success : function(data) {
+					listDocument(data);
+					pagination(data);
+				}
+				,
+				error : function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}
+				
+			});
+		});
+		
 	});
 
 	$(function() {
@@ -75,7 +285,7 @@
 	    	changeMonth: true,
 	    	changeYear: true,
 	    	showOn: "both", 
-	        buttonImage: "resources/image/calendar6.png" 
+	        buttonImage: "resources/image/calendar6.png"
 	    });
 	});
 	
@@ -142,10 +352,10 @@
 				<th width="100">작성자</th>
 				<c:if test="${requestScope.myDocs == 1 or requestScope.myDocs == 2 and requestScope.status == 5}">
 					<th width="100">
-						<select name="status">
-							<option>전체</option>
-							<option>승인</option>
-							<option>반려</option>
+						<select id="searchStatus" name="searchStatus">
+							<option value="all">전체</option>
+							<option value="accept">승인</option>
+							<option value="reject">반려</option>
 						</select>
 					</th>
 				</c:if>
@@ -183,106 +393,21 @@
 
 <c:if test="${requestScope.myDocs == 1}">
 	<div align="right">
-		<button type="button">삭제</button>
+		<button type="button" class="btn btn-default" id="allSelectBtn">전체선택</button>
+		<button type="button" class="btn btn-default" id="allSelectCancelBtn">전체취소</button>
+		<button type="button" class="btn btn-default" id="deleteBtn">삭제</button>
 	</div>
 </c:if>
 
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">
-		<li><a href="#" aria-label="Previous"> <span
-				aria-hidden="true">&laquo;</span>
-		</a></li>
-		<li><a href="#">1</a></li>
-		<li><a href="#">2</a></li>
-		<li><a href="#">3</a></li>
-		<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-		</a></li>
+		
+		<li><a href="${requestScope.paging.prevPage }" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>
+		<c:forEach var="pageNum" begin="${requestScope.paging.startPage }"
+			end="${requestScope.paging.endPage }" step="1">
+			<li id="pageNum"><a>${pageNum }</a></li>
+		</c:forEach>
+		<li><a href="${requestScope.paging.nextPage }" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
 	</ul>
 </div>
-
-<%-- 
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8"> 
-  <title></title>
- </head>
- <body>
- 	<table border="1">
- 		<tr>
- 			<th>번호</th>
- 			<th>제목</th>
- 			<th>임시저장일</th>
- 			<th>비고</th>
- 		</tr> 
- 				
-	 	 임시문서 목록 조회 	
-	 	<c:forEach var="tempDocument" items="${requestScope.tempDocumentList }" varStatus="loop">
-	 		<c:url var="url" value="/detailTempDocument.do">
-	 			<c:param name="id" value="${pageScope.tempDocument.id }" />
-	 		</c:url>
-	 		<tr>
-	 			<td>${requestScope.paging.num - loop.index }</td>	 			
-	 			<td><a href="${pageScope.url }">${pageScope.tempDocument.subject }</a></td>
-	 			<td>${pageScope.tempDocument.writeday }</td>
-	 			<td></td>
-	 		</tr>
-	 	</c:forEach>
-	 	</table>
-	 	<br><br><br><br><br> 	 	
-	 	
-	 	 게시글 검색 
-	 	<form action="${pageContext.request.contextPath }/listArticle.do" method="get">
-	 		검색조건 
-	 		<select name="keyfield1">
-	 			<option value="subject">제목</option>
-	 			<option value="writer">이름</option>
-	 			<option value="content">내용</option>
-	 		</select> 
-	 		<input type="text" name="keyword1" size="20">
-	 		<select name="keyfield2">
-	 			<option value="subject">제목</option>
-	 			<option value="writer">이름</option>
-	 			<option value="content">내용</option>
-	 		</select>
-	 		<input type="text" name="keyword2" size="20">
-	 		<button type="submit">검색</button>
-	 	</form>
-	 	<br><br><br><br><br>	 	
-	 	 
-	 	 페이징 처리
-	 	<c:if test="${requestScope.paging.prevPage > 0 }">
-	 		<c:url var="prevUrl" value="/listArticle.do">
-	 			<c:param name="currentPage" value="${requestScope.paging.prevPage}" />
-	 			<c:param name="keyfield" value="${param.keyfield}" />	
-	 			<c:param name="keyword" value="${param.keyword}" />		 		
-	 		</c:url>
-	 		<a href="${prevUrl}"> [이전] </a> 
-	 	</c:if>
-	 	<c:forEach var="pageNum" begin="${requestScope.paging.startPage}" 
-	 		end="${requestScope.paging.endPage}"> 
-	 		<c:if test="${pageScope.pageNum != requestScope.paging.currentPage }">	 			
-	 			<c:url var="url" value="/listArticle.do">
-	 				<c:param name="currentPage" value="${pageScope.pageNum}" />	 	
-	 				<c:param name="keyfield" value="${param.keyfield}" />	
-	 				<c:param name="keyword" value="${param.keyword}" />			
-	 			</c:url>
-	 			<a href="${url}">${pageScope.pageNum }</a>
-	 		</c:if>	
-	 		<c:if test="${pageScope.pageNum == requestScope.paging.currentPage }">
-	 			${pageScope.pageNum }
-	 		</c:if>
-	 	</c:forEach>
-	 	<c:if test="${requestScope.paging.nextPage <= requestScope.paging.totalPage }">	 		
-	 		<c:url var="nextUrl" value="/listArticle.do">
-	 			<c:param name="currentPage" value="${requestScope.paging.nextPage}" />	
-	 			<c:param name="keyfield" value="${param.keyfield}" />	
-	 			<c:param name="keyword" value="${param.keyword}" />		 		
-	 		</c:url>
-	 		<a href="${nextUrl}"> [다음] </a> 	 		
-	 	</c:if>
-	 	--%>
-	 	  
- </body>
-</html>

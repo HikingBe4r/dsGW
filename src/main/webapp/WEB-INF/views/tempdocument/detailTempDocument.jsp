@@ -24,10 +24,24 @@
 		$('#approvalLine').click(function() {
 			var popUrl = "/groupware/addApprover.do";
 			window.open(popUrl, 'test', 'width=1200, height=550');
-		});	
+		});
+	    
+		$("#cancelBtn").click(function() {
+			location.href = "${pageContext.request.contextPath}/listTempDocument.do";
+		});		
+		
 	});
 	
-
+	//작성일 달력
+	$(function() {
+	    $( "#writeday" ).datepicker({
+	    	dateFormat : "yy/mm/dd",
+	    	changeMonth: true,
+	    	changeYear: true,
+	    	showOn: "both", 
+	        buttonImage: "resources/image/calendar6.png" 
+	    });
+	});
 	
 	//시행일 달력
 	$(function() {
@@ -38,13 +52,10 @@
 	    	showOn: "both", 
 	        buttonImage: "resources/image/calendar6.png" 
 	    });
-	});
-
-
+	});	
 </script>
 
 <script type="text/javascript">
-
 	 //스마트 에디터
 	 $(function(){
 	     var obj = [];             
@@ -81,11 +92,12 @@
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
 			<button type="submit" class="btn btn-default" formaction="${pageContext.request.contextPath }/modifyTempDocument.do" formmethod="post">임시저장</button>
-			<button type="button" class="btn btn-danger">취소</button>
+			<button type="button" class="btn btn-danger" id="cancelBtn">취소</button>
 		</div>
 
 		<div class="pull-right">
 			<button type="button" id="insertDocument" class="btn btn-primary btn-lg" style="WIDTH: 120pt;">기안</button>
+			<button type="submit" id="deleteBtn" class="btn btn-primary btn-lg" style="WIDTH: 120pt;" formaction="${pageContext.request.contextPath }/deleteTempDocument.do" formmethod="post">삭제</button>
 		</div>
 	</div>
 	<br>
@@ -110,11 +122,11 @@
 						</tr>
 						<tr>
 							<td>날짜</td>
-							<td><input type="text" name="writeday" value="${requestScope.tempDocumentVO.writeday }"/></td>
+							<td><input id="writeday" name="writeday" type="text" class="datepicker" style="width: 150px;" value="${requestScope.tempDocumentVO.writeday }"/></td>
 						</tr>
 						<tr>
 							<td>문서번호</td>
-							<td><input type="hidden" name="id" value="${requestScope.tempDocumentVO.id }"/>${requestScope.tempDocumentVO.id }</td>
+							<td><input type="hidden" id="tempDocumentId" name="id" value="${requestScope.tempDocumentVO.id }"/>${requestScope.tempDocumentVO.id }</td>
 						</tr>
 						<tr>
 							<td>시행일</td>
