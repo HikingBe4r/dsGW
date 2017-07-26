@@ -23,6 +23,7 @@
 						+ now.getDate();
 				var today = year + '/' + mon + '/' + day;
 				$('#endDate').val(today);
+				$('#writeday').text(today);
 				
 			});
 
@@ -199,7 +200,7 @@
 						</tr>
 						<tr>
 							<td>날짜</td>
-							<td></td>
+							<td id="writeday"></td>
 						</tr>
 						<tr>
 							<td>문서번호</td>
