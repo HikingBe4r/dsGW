@@ -74,6 +74,7 @@ public class WriteDocumentController {
 		ApprovalLineVO temp = (ApprovalLineVO)session.getAttribute("approvalLine");
 		document.setApproverList(temp.getApproverList());
 		documentService.registerDocument(document);	
+		request.setAttribute("documentId", document.getId());
 		return "approvalNav/document/writeSuccess"; 		
 	}
 	

@@ -27,135 +27,104 @@ $(document).ready(function() {
 		tap=2;	
 		tapSetting($(this));
 	});
-	
-	$('#bookmarkTap').on('click', function() {
-		tap=3;	
-		tapSetting($(this));
-		
-	});
 
 	// 부서 조회
-	$.ajax({
-		url: '${pageContext.request.contextPath}/listDepartment.do'
-		,
-		method: 'POST'
-		,
-		dataType: 'json'
-		,
-		data: {
-												
-		}
-		, 
-		cache: false
-		,
-		success: function(data) {
-			
-			var htmlStr = "";
-			for(var i=0; i<data.departmentList.length; i++) {
-				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
-			}	
-			htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
-			$('#employeeList').append(htmlStr);
-		}
-		,
-		error : function(jqXHR) {
-			alert("Error : " + jqXHR.responseText);
-		}			
-		
-	});
-	
-	
-	 
+	retrieveAll();
 
 	// 임시목록 추가 버튼
 	$('#addBtn').on('click', function() {
 		
-		 $(':checkbox[name=employee]').each(function() {
-			 if($(this).prop('checked')) {
-				 //결재자
-				 if(tap==1) {
-					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
-						 approverList.push($(this).val());
-						 $.ajax({
-								url: '${pageContext.request.contextPath}/getEmployee.do'
-								,
-								method: 'POST'
-								,
-								dataType: 'json'
-								,
-								data: {
-									employeeId: $(this).val()									
-								}
-								, 
-								cache: false
-								,
-								success: function(data) {
+		if(currentBookmark == '') {
+			alert("즐겨찾기를 먼저 선택해주세요.");
+		} else {
+			 $(':checkbox[name=employee]').each(function() {
+				 if($(this).prop('checked')) {
+					 //결재자
+					 if(tap==1) {
+						 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
+							 approverList.push($(this).val());
+							 $.ajax({
+									url: '${pageContext.request.contextPath}/getEmployee.do'
+									,
+									method: 'POST'
+									,
+									dataType: 'json'
+									,
+									data: {
+										employeeId: $(this).val()									
+									}
+									, 
+									cache: false
+									,
+									success: function(data) {
+										
+										var htmlStr = "<tr id="+ data.employee.id +">";
+										htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+										htmlStr += "<td>" + data.employee.name + "</td>";
+										htmlStr += "<td>" + data.employee.gradeId + "</td>";
+										htmlStr += "<td>" + data.employee.departmentId + "</td>";
+										htmlStr += "<td>결재</td>";
+										htmlStr += "</tr>";
+										$('#approverTable').append(htmlStr);
+													
+									}						
+									,
+									error : function(jqXHR) {
+										alert("Error : " + jqXHR.responseText);
+									}			
 									
-									var htmlStr = "<tr id="+ data.employee.id +">";
-									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
-									htmlStr += "<td>" + data.employee.name + "</td>";
-									htmlStr += "<td>" + data.employee.gradeId + "</td>";
-									htmlStr += "<td>" + data.employee.departmentId + "</td>";
-									htmlStr += "<td>결재</td>";
-									htmlStr += "</tr>";
-									$('#approverTable').append(htmlStr);
-												
-								}						
-								,
-								error : function(jqXHR) {
-									alert("Error : " + jqXHR.responseText);
-								}			
-								
-							});
-						 
-					 } else {
-						 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")
-					 }		 
-				   	
+								});
+							 
+						 } else {
+							 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")
+						 }		 
+					   	
+					 }
+					 
+					 //참조자
+					 if(tap==2) {
+						 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
+							 recieverList.push($(this).val());
+							 $.ajax({
+									url: '${pageContext.request.contextPath}/getEmployee.do'
+									,
+									method: 'POST'
+									,
+									dataType: 'json'
+									,
+									data: {
+										employeeId: $(this).val()									
+									}
+									, 
+									cache: false
+									,
+									success: function(data) {
+										
+										var htmlStr = "<tr id="+ data.employee.id +">";
+										htmlStr += "<td><label><input type='checkbox' name='reciever'></label></td>";
+										htmlStr += "<td>" + data.employee.name + "</td>";
+										htmlStr += "<td>" + data.employee.gradeId + "</td>";
+										htmlStr += "<td>" + data.employee.departmentId + "</td>";
+										htmlStr += "<td>참조</td>";
+										htmlStr += "</tr>";
+										$('#recieverTable').append(htmlStr);
+									}
+									,
+									error : function(jqXHR) {
+										alert("Error : " + jqXHR.responseText);
+									}				
+								});
+						 }	else {
+							 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")
+						 }		 	 
+					 }
+
 				 }
 				 
-				 //수신자
-				 if(tap==2) {
-					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
-						 recieverList.push($(this).val());
-						 $.ajax({
-								url: '${pageContext.request.contextPath}/getEmployee.do'
-								,
-								method: 'POST'
-								,
-								dataType: 'json'
-								,
-								data: {
-									employeeId: $(this).val()									
-								}
-								, 
-								cache: false
-								,
-								success: function(data) {
-									
-									var htmlStr = "<tr id="+ data.employee.id +">";
-									htmlStr += "<td><label><input type='checkbox' name='reciever'></label></td>";
-									htmlStr += "<td>" + data.employee.name + "</td>";
-									htmlStr += "<td>" + data.employee.gradeId + "</td>";
-									htmlStr += "<td>" + data.employee.departmentId + "</td>";
-									htmlStr += "<td>수신</td>";
-									htmlStr += "</tr>";
-									$('#recieverTable').append(htmlStr);
-								}
-								,
-								error : function(jqXHR) {
-									alert("Error : " + jqXHR.responseText);
-								}				
-							});
-					 }	else {
-						 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")
-					 }		 	 
-				 }
-
-			 }
-			 
-		  });	
+			  });
+		}
+		
+			
 	});
 	
 	// 임시목록 삭제 버튼
@@ -193,7 +162,7 @@ $(document).ready(function() {
 				dataType: 'json'
 				,
 				data: {
-					approvalLineId : currentBookmark,
+					approvalLineId : currentBookmark.attr("id"),
 					approverEmpIdList: JSON.stringify(approverList),
 					recieverEmpIdList: JSON.stringify(recieverList)	
 				}
@@ -232,35 +201,7 @@ $(document).ready(function() {
 function search() {
 	$('#employeeList').empty();
 	if($('#keyword').val() == '') {
-		$.ajax({
-			url: '${pageContext.request.contextPath}/listDepartment.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			data: {
-													
-			}
-			, 
-			cache: false
-			,
-			success: function(data) {
-				
-				var htmlStr = "";
-				for(var i=0; i<data.departmentList.length; i++) {
-					 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-					 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
-				}	
-				htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
-				$('#employeeList').append(htmlStr);
-			}
-			,
-			error : function(jqXHR) {
-				alert("Error : " + jqXHR.responseText);
-			}			
-			
-		});
+		retrieveAll();
 	} else {
 		$.ajax({
 			url: '${pageContext.request.contextPath}/searchEmployee.do'
@@ -334,7 +275,6 @@ function search() {
 function tapSetting(obj) {
 	$('#approverTap').removeAttr('class');
 	$('#recieverTap').removeAttr('class');
-	$('#bookmarkTap').removeAttr('class');
 	obj.attr('class', 'active');
 	$(':checkbox[name=employee]').each(function() {
 		$(this).prop('checked', false);
@@ -371,7 +311,7 @@ $(function () {
 			$.ajax({
 				url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
 				,
-				method: 'POST'
+				method: 'GET'
 				,
 				dataType: 'json'
 				,
@@ -451,7 +391,7 @@ $(function() {
 		$('#approverTable tr:not(:first)').empty();
 		$('#recieverTable tr:not(:first)').empty();
 		
-		currentBookmark = $(this).attr('id');
+		currentBookmark = $(this);
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/listApproverInBookmark.do'
@@ -461,7 +401,7 @@ $(function() {
 			dataType: 'json'
 			,
 			data: {
-				approvalLineId : currentBookmark
+				approvalLineId : currentBookmark.attr("id")
 			}
 			, 
 			cache: false
@@ -489,10 +429,10 @@ $(function() {
 					htmlStr += "<td>" + data.recieverList[i].name + "</td>";
 					htmlStr += "<td>" + data.recieverList[i].gradeId + "</td>";
 					htmlStr += "<td>" + data.recieverList[i].departmentId + "</td>";
-					htmlStr += "<td>수신</td>";
+					htmlStr += "<td>참조</td>";
 					htmlStr += "</tr>";
 				}
-				$('#recieverTable').append(htmlStr);				
+				$('#recieverTable').append(htmlStr);	
 			}
 			,
 			error : function(jqXHR) {
@@ -504,6 +444,37 @@ $(function() {
 	})
 })
 
+
+function retrieveAll() {
+	$.ajax({
+		url: '${pageContext.request.contextPath}/listDepartment.do'
+		,
+		method: 'POST'
+		,
+		dataType: 'json'
+		,
+		data: {
+												
+		}
+		, 
+		cache: false
+		,
+		success: function(data) {
+			
+			var htmlStr = "<span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br><br> ";
+			for(var i=0; i<data.departmentList.length; i++) {
+				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+			}	
+			//htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
+			$('#employeeList').append(htmlStr);
+		}
+		,
+		error : function(jqXHR) {
+			alert("Error : " + jqXHR.responseText);
+		}
+	});
+}
 </script>
 <div>
 	<h3>&nbsp;&nbsp;&nbsp;&nbsp;결재선 즐겨찾기 수정</h3>
@@ -520,7 +491,7 @@ $(function() {
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav">
 						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
-						<li id="recieverTap"><a href=#>수신자</a></li>
+						<li id="recieverTap"><a href=#>참조자</a></li>
 					</ul>
 				</div>
 			</form>
@@ -580,7 +551,7 @@ $(function() {
 	</div>
 	<br>
 	<div class="panel panel-default" style="overflow:scroll; height: 300px;"> 
-		<!-- 수신자 -->
+		<!-- 참조자 -->
 		<div class="panel-body">
 			<div class="checkbox">
 				<table id="recieverTable" class="table table-striped" align="center">
