@@ -39,6 +39,7 @@ public class RemoveNoticeController {
 		mv.addObject("paging", paging);
 		// 페이징 처리 끝
 
+		mv.addObject("isread", service.checkIsRead(emp.getId()));
 		mv.addObject("noticeList", list);
 		mv.setViewName("approvalNav/notice/listNotice");
 		return mv;

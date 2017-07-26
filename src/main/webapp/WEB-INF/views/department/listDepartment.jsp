@@ -22,7 +22,7 @@
 			alert("검색결과가 없습니다.");
 		}
 
-		for (var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+		for (var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
 
 			htmlStr += "<tr onclick=\"location=\'/groupware/detailDepartment.do?id="
 					+ data.departmentList[i].id + "\'\">";

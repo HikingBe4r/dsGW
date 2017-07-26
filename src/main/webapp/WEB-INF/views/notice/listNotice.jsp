@@ -17,7 +17,7 @@
 	function listNotice(data) {
 		$("#tableBody").empty(data);
 		var htmlStr = "";
-		for (var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+		for (var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
 
 			htmlStr += "<tr>";
 			htmlStr += "<td onclick=\"location=\'/groupware/isReadNotice.do?id=" + data.noticeList[i].id + "&currentPage="

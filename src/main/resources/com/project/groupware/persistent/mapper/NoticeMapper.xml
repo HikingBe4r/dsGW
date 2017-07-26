@@ -24,7 +24,7 @@
 		FROM NOTICE
 		WHERE employee_id = #{value}
 		ORDER BY writeday
-		asc
+		desc
 
 	</select>
 

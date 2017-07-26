@@ -15,6 +15,39 @@
 			location.href = 'choiceForm.do';
 		});
 	});
+	setInterval(function() {
+		$.ajax({
+			url : '${pageContext.request.contextPath}/refreshNav.do',
+			method : 'GET',
+			cache : false,
+			dataType : 'json',
+			data : {
+				
+			},
+			success : function(data) {
+				$('#notice').empty(data);
+				var htmlStr = "";
+				htmlStr += "<form action='${pageContext.request.contextPath }/listNotice.do' method='get'>"
+				if(data.isread == '0'){
+					htmlStr += "<input class='btn btn-default' type='submit' value='알림 : "+ data.isread +"'>"
+					//htmlStr += "<input class='btn btn-default' type='submit' value='알림 : ${requestScope.isread }'>"
+				}else{
+					
+					htmlStr += "<input class='btn btn-warning' type='submit' value='알림 : "+ data.isread +"'>"
+					//htmlStr += "<input class='btn btn-warning' type='submit' value='알림 : ${requestScope.isread }'>"
+					
+				}
+				htmlStr += "</form>"
+				$('#notice').append(htmlStr);
+			},
+			error : function(request, status, error) {
+				console.log("code:" + request.status
+						+ "\n" + "message:"
+						+ request.responseText + "\n"
+						+ "error:" + error);
+			}
+		});
+	}, 30000);
 </script>
 
 
@@ -26,36 +59,35 @@
 		</div>
 	</div>
 
-	<div class="col-md-5">
+	<div class="col-md-5" id="notice">
 		<c:choose>
-			<c:when test="${sessionScope.isread == '0'}">
+			<c:when test="${requestScope.isread == '0'}">
 				<form action="${pageContext.request.contextPath }/listNotice.do"
 					method="get">
 					<input class="btn btn-default" type="submit"
-						value="알림 : ${sessionScope.isread }">
+						value="알림 : ${requestScope.isread }">
 				</form>
 			</c:when>
 			<c:otherwise>
 				<form action="${pageContext.request.contextPath }/listNotice.do"
 					method="get">
 					<input class="btn btn-warning" type="submit"
-						value="알림 : ${sessionScope.isread }">
+						value="알림 : ${requestScope.isread }">
 				</form>
 			</c:otherwise>
 		</c:choose>
-
-		<div id="employeeInfo" style="height: 70px;">
-			<h5>${sessionScope.employeeDetail.departmentId }</h5>
-			<h4>${sessionScope.employeeDetail.name }
-				${sessionScope.employeeDetail.gradeId }</h4>
-		</div>
-
-		<button id="modifyInfo" class="btn btn-default" type="button">정보수정</button>
-		<form action="${pageContext.request.contextPath }/logout.do"
-			method="post">
-			<input id="logout" class="btn btn-default" type="submit" value="로그아웃">
-		</form>
+	</div><br><br>
+	<div id="employeeInfo" style="height: 70px;">
+		<h5>${sessionScope.employeeDetail.departmentId }</h5>
+		<h4>${sessionScope.employeeDetail.name }
+			${sessionScope.employeeDetail.gradeId }</h4>
 	</div>
+
+	<button id="modifyInfo" class="btn btn-default" type="button">정보수정</button>
+	<form action="${pageContext.request.contextPath }/logout.do"
+		method="post">
+		<input id="logout" class="btn btn-default" type="submit" value="로그아웃">
+	</form>
 </div>
 <br>
 <button id="writeDocument" type="button"
