@@ -21,8 +21,7 @@ public class ModifyPasswordController {
 	public ModelAndView submit(@RequestParam(value = "password") String pwd, @RequestParam(value = "id") String id) {
 		ModelAndView mv = new ModelAndView();
 		EmployeeVO employee = service.retrieveEmployee(id);
-		Encryption.encryption(pwd);
-		employee.setPassword(pwd);
+		employee.setPassword(Encryption.encryption(pwd));
 		service.modifyPassword(employee);
 		mv.setViewName("employee/successPwd");
 		return mv;

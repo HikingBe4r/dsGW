@@ -30,7 +30,7 @@
 	}
 
 	function modifysumit(frm) {
-		var url = "${pageContext.request.contextPath }/modifyAdmin.do";
+		var url = "${pageContext.request.contextPath }/successEmployee.do";
 		var title = "사원 정보 변경";
 		frm.target = title; //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
 		frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
@@ -38,7 +38,7 @@
 		frm.submit();
 	}
 </script>
-<form action="${pageContext.request.contextPath }/modifyAdmin.do"
+<form action="${pageContext.request.contextPath }/successEmployee.do"
 	method="post" enctype="multipart/form-data">
 	<div class="py-5">
 
@@ -116,14 +116,14 @@
 					<div class="form-group">
 						<label>비밀번호</label> <input type="password" class="form-control"
 							placeholder="Password" name="password"
-							value="*******" disabled="disabled">
+							value="${requestScope.findEmployee.password}" disabled="disabled">
 						<button type="button" class="btn btn-primary"
 							onclick="popup(this.form)">비밀번호 변경</button>
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label> <input type="password" class="form-control"
 							placeholder="Password Check"
-							value="*******" disabled="disabled">
+							value="${requestScope.findEmployee.password}" disabled="disabled">
 					</div>
 					<div class="form-group">
 						<label>이메일</label> <input type="email" class="form-control"

@@ -9,11 +9,47 @@
 <script>
 	$('#board').removeAttr('class');
 	$('#approval').attr('class', 'active');
-
+	
+	function refreshNoticeList(data) {
+		$('#notice').empty(data);
+		var htmlStr = "";
+		htmlStr += "<form action='${pageContext.request.contextPath }/listNotice.do' method='get'>"
+		if(data.isread == '0'){
+			htmlStr += "<input class='btn btn-default' type='submit' value='알림 : "+ data.isread +"'>"
+			//htmlStr += "<input class='btn btn-default' type='submit' value='알림 : ${requestScope.isread }'>"
+		}else{
+			
+			htmlStr += "<input class='btn btn-warning' type='submit' value='알림 : "+ data.isread +"'>"
+			//htmlStr += "<input class='btn btn-warning' type='submit' value='알림 : ${requestScope.isread }'>"
+			
+		}
+		htmlStr += "</form>"
+		$('#notice').append(htmlStr);
+	};
+	
 	$(document).ready(function() {
+		$.ajax({
+			url : '${pageContext.request.contextPath}/refreshNav.do',
+			method : 'GET',
+			cache : false,
+			dataType : 'json',
+			data : {
+				
+			},
+			success : function(data) {
+				refreshNoticeList(data);
+			},
+			error : function(request, status, error) {
+				console.log("code:" + request.status
+						+ "\n" + "message:"
+						+ request.responseText + "\n"
+						+ "error:" + error);
+			}
+		});
 		$('#writeDocument').on('click', function() {
 			location.href = 'choiceForm.do';
 		});
+		
 	});
 	setInterval(function() {
 		$.ajax({
@@ -25,20 +61,7 @@
 				
 			},
 			success : function(data) {
-				$('#notice').empty(data);
-				var htmlStr = "";
-				htmlStr += "<form action='${pageContext.request.contextPath }/listNotice.do' method='get'>"
-				if(data.isread == '0'){
-					htmlStr += "<input class='btn btn-default' type='submit' value='알림 : "+ data.isread +"'>"
-					//htmlStr += "<input class='btn btn-default' type='submit' value='알림 : ${requestScope.isread }'>"
-				}else{
-					
-					htmlStr += "<input class='btn btn-warning' type='submit' value='알림 : "+ data.isread +"'>"
-					//htmlStr += "<input class='btn btn-warning' type='submit' value='알림 : ${requestScope.isread }'>"
-					
-				}
-				htmlStr += "</form>"
-				$('#notice').append(htmlStr);
+				refreshNoticeList(data);
 			},
 			error : function(request, status, error) {
 				console.log("code:" + request.status
@@ -83,7 +106,8 @@
 			${sessionScope.employeeDetail.gradeId }</h4>
 	</div>
 
-	<button id="modifyInfo" class="btn btn-default" type="button">정보수정</button>
+	<button id="modifyInfo" class="btn btn-default" type="button" onclick="window.open('${pageContext.request.contextPath }/modifyEmployee.do?id=${sessionScope.employee.id }', '개인정보수정','width=1250, height=900, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">정보수정</button>
+	
 	<form action="${pageContext.request.contextPath }/logout.do"
 		method="post">
 		<input id="logout" class="btn btn-default" type="submit" value="로그아웃">
