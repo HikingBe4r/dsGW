@@ -234,7 +234,7 @@ $(document).ready(function() {
 		
 });
 
-//사원 검색
+//사원 및 즐겨찾기 검색
 function search() {
 	$('#employeeList').empty();
 	if($('#keyword').val() == '') {
@@ -268,7 +268,7 @@ function search() {
 			
 		});
 	} else {
-		//부서검색은 안됨. 수정필요
+		//사원 검색
 		$.ajax({
 			url: '${pageContext.request.contextPath}/searchEmployee.do'
 			,
@@ -287,13 +287,13 @@ function search() {
 			success: function(data) {
 				var htmlStr = "";
 				for(var i=0; i<data.employeeList.length; i++) {
-					
 					if(data.employeeList[i].id != '${sessionScope.employee.id}') {
 					    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.employeeList[i].ID+"'>";
-						htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE + "</label> <br>"; 	
-					}
-									
+						htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE;
+						htmlStr += " ("+ data.employeeList[i].DEPARTMENT +")</label> <br>"; 	
+					}			
 				}	
+				htmlStr += "<br>";
 				$('#employeeList').append(htmlStr);
 						
 			}
@@ -303,6 +303,36 @@ function search() {
 			}			
 			
 		});
+		//즐겨찾기 검색
+		$.ajax({
+			url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
+			,
+			method: 'GET'
+			,
+			dataType: 'json'
+			,
+			data: {
+				employeeId : '${sessionScope.employee.id}',
+				keyword: $('#keyword').val()
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				var htmlStr = "";
+				for(var i=0; i<data.approvalLineList.length; i++) {
+					htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
+				    htmlStr += "<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>   ";
+				    htmlStr += data.approvalLineList[i].subject + "</button></label><br> ";		  
+				}		
+				htmlStr += "<br>";
+				$('#employeeList').append(htmlStr);
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}				
+		}); 
 	}
 }
 
@@ -361,10 +391,8 @@ $(function () {
 					
 					var htmlStr = "<br><br>";
 					for(var i=0; i<data.approvalLineList.length; i++) { 
-						
 					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'>+ "
-					    htmlStr += data.approvalLineList[i].subject +"</button></label><br>";
-					    									
+					    htmlStr += data.approvalLineList[i].subject +"</button></label><br>";		    									
 					}		
 					htmlStr += "<br>";
 					thisSpan.append(htmlStr);
@@ -507,7 +535,7 @@ $(function() {
 				<form class="form-inline pull-right" onsubmit="return false">
 					<select id="keyfield" class="form-control">
 						<option value="name">이름</option>
-						<option value="departmentId">부서</option>
+						<!-- <option value="departmentId">부서</option> -->
 					</select>
 
 					<div class="form-group">

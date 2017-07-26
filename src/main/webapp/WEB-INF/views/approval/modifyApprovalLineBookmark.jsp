@@ -262,7 +262,6 @@ function search() {
 			
 		});
 	} else {
-		//부서검색은 안됨. 수정필요
 		$.ajax({
 			url: '${pageContext.request.contextPath}/searchEmployee.do'
 			,
@@ -281,13 +280,13 @@ function search() {
 			success: function(data) {
 				var htmlStr = "";
 				for(var i=0; i<data.employeeList.length; i++) {
-					
 					if(data.employeeList[i].id != '${sessionScope.employee.id}') {
 					    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.employeeList[i].ID+"'>";
-						htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE + "</label> <br>"; 	
-					}
-									
-				}	
+						htmlStr +=  data.employeeList[i].NAME + " " + data.employeeList[i].GRADE;
+						htmlStr += " ("+ data.employeeList[i].DEPARTMENT +")</label> <br>"; 	
+					}			
+				}
+				htmlStr += "<br>";
 				$('#employeeList').append(htmlStr);
 						
 			}
@@ -297,6 +296,37 @@ function search() {
 			}			
 			
 		});
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
+			,
+			method: 'GET'
+			,
+			dataType: 'json'
+			,
+			data: {
+				employeeId : '${sessionScope.employee.id}',
+				keyword: $('#keyword').val()
+			}
+			, 
+			cache: false
+			,
+			success: function(data) {
+				var htmlStr = "";
+				for(var i=0; i<data.approvalLineList.length; i++) { 
+				    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
+				    htmlStr += "<span class='glyphicon glyphicon-scissors' aria-hidden='true'></span>  ";
+				    htmlStr += data.approvalLineList[i].subject + "</button></label><br> ";		    									
+				}		
+				htmlStr += "<br>";
+				$('#employeeList').append(htmlStr);
+			}
+			,
+			error : function(jqXHR) {
+				alert("Error : " + jqXHR.responseText);
+			}				
+		}); 
+
 	}
 }
 
@@ -339,14 +369,15 @@ $(function () {
 		if(thisSpan.attr("id") == 'approvalBookmark') {
 			//즐겨찾기 조회			
 			$.ajax({
-				url: '${pageContext.request.contextPath}/listApprovalLineBookmark.do'
+				url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
 				,
 				method: 'POST'
 				,
 				dataType: 'json'
 				,
 				data: {
-					employeeId : '${sessionScope.employee.id}'												
+					employeeId : '${sessionScope.employee.id}',		
+					keyword: ''
 				}
 				, 
 				cache: false
@@ -355,11 +386,8 @@ $(function () {
 					
 					var htmlStr = "<br><br>";
 					for(var i=0; i<data.approvalLineList.length; i++) { 
-						
-					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'>+ "
-					    htmlStr += data.approvalLineList[i].subject +"</button></label><br> ";
-					    //htmlStr += "<button type='button' class='btn btn-default btn-sm'><span class='glyphicon glyphicon-trash' aria-hidden='true'></span></button>"
-					    									
+					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
+					    htmlStr += "<span class='glyphicon glyphicon-scissors' aria-hidden='true'></span> " + data.approvalLineList[i].subject +"</button></label><br> ";		    									
 					}		
 					htmlStr += "<br>";
 					thisSpan.append(htmlStr);
@@ -413,6 +441,8 @@ $(function () {
 // 즐겨찾기 버튼
 $(function() {
 	$('#employeeList').on("click", "button", function() {
+		$('#employeeList button').attr("class", "btn btn-default btn-sm");
+		$(this).attr("class", "btn btn-success btn-sm");
 		$('#submitBtn').removeAttr('disabled');
 		
 		// 배열 및 테이블 비움
@@ -506,7 +536,7 @@ $(function() {
 				<form class="form-inline pull-right" onsubmit="return false">
 					<select id="keyfield" class="form-control">
 						<option value="name">이름</option>
-						<option value="departmentId">부서</option>
+						<!-- <option value="departmentId">부서</option> -->
 					</select>
 
 					<div class="form-group">

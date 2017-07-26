@@ -13,7 +13,7 @@ import com.project.groupware.domain.ApproverVO;
 import com.project.groupware.service.DocumentService;
 
 @Controller
-public class RemoveApprovalLineBookmark {
+public class RemoveApprovalLineBookmarkController {
 	
 	@Autowired
 	private DocumentService documentService;

@@ -17,7 +17,7 @@ import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.service.DocumentService;
 
 @Controller
-public class ModifyApprovalLineBookmark {
+public class ModifyApprovalLineBookmarkController {
 	
 	@Autowired
 	private DocumentService documentService;

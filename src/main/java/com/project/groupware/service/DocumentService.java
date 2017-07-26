@@ -33,6 +33,8 @@ public interface DocumentService {
 	void removeBookMarkDocument(String bookMarkDocumentId);
 	
 	void removeApprovalLine(String approvalLineId);
+	
+	List<ApprovalLineVO> retrieveApprovalLineBookmarkByName(Map<String, Object> map);
 
 	// 결재 관련
 	Boolean approveDocument(Map<String, Object> map);
