@@ -35,7 +35,7 @@
 					조회</a></li>
 			<li role="presentation"><a href="${pageContext.request.contextPath }/listDepartment.do">부서
 					관리</a></li>
-			<li role="presentation"><a href="${pageContext.request.contextPath }/listForm.do?boardId=1">양식 관리</a></li>
+			<li role="presentation"><a href="${pageContext.request.contextPath }/listFormForAdmin.do?boardId=1">양식 관리</a></li>
 		</ul>
 	</div>
 

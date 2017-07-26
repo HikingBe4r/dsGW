@@ -105,9 +105,9 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	// 특정 사원의 결재선 즐겨찾기 조회
-	public List<ApprovalLineVO> retrieveApprovalLineList(String employeeId) {
+	public List<ApprovalLineVO> retrieveApprovalLineList(Map<String, Object> map) {
 
-		return approvalLineMapper.selectApprovalLineList(employeeId);
+		return approvalLineMapper.selectApprovalLineList(map);
 
 	}
 
@@ -160,10 +160,6 @@ public class DocumentServiceImpl implements DocumentService {
 		approvalLineMapper.deleteApprovalLine(approvalLineId);
 	}
 	
-	public List<ApprovalLineVO> retrieveApprovalLineBookmarkByName(Map<String, Object> map) {
-		return approvalLineMapper.selectApprovalLineBookmarkByName(map);
-	}
-
 	/**
 	 * 문서 승인처리 1. apphistory에 승인comment insert한다. 2-1) 다음번 결재자가 있으면, 알림을 보낸다.
 	 * 2-2) 마지막 결재자이면 기안자에게 알림을 보내고, 문서 최종상태를 변경한다.

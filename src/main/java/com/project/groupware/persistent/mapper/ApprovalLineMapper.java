@@ -18,7 +18,7 @@ public interface ApprovalLineMapper {
 	void insertApproverList(Map<String, Object> map);
 
 	// 결재선 즐겨찾기 가져오기
-	List<ApprovalLineVO> selectApprovalLineList(String employeeId);
+	List<ApprovalLineVO> selectApprovalLineList(Map<String, Object> map);
 
 	// 결재선에 등록된 사원들 가져오기
 	List<ApproverVO> selectApproverList(String approvalLineId);
@@ -44,7 +44,5 @@ public interface ApprovalLineMapper {
 	// 결재선 삭제
 	void deleteApprovalLine(String approvalLineId);
 	
-	// 결재선 즐겨찾기 검색
-	List<ApprovalLineVO> selectApprovalLineBookmarkByName(Map<String, Object> map);
 	
 }

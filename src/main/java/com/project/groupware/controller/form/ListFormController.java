@@ -32,9 +32,14 @@ public class ListFormController {
 		return "approvalNav/form/listForm";
 	}
 	
+	@RequestMapping(value="/listFormForAdmin.do", method=RequestMethod.GET)
+	public String listFormForAdmin() {
+		return "adminNav/form/listForm";
+	}
+	
 	@RequestMapping(value="/searchForm.do", method=RequestMethod.GET)
 	public ModelAndView searchForm(
-			@SessionAttribute(value="employee") EmployeeVO employee,
+			@SessionAttribute(value="employee", required=false) EmployeeVO employee,
 			@RequestParam(value="keytype", required=false) String keytype,
 			@RequestParam(value="keyword", required=false) String keyword,
 			@RequestParam(value="boardId", required=true) String boardId,	//1: 전체양식조회, 2:즐겨찾기 양식조회
@@ -49,65 +54,60 @@ public class ListFormController {
 		
 		List<FormVO> tempFormList = formService.retrieveFormList(map);
 		List<FormVO> formList = new ArrayList<FormVO>();
-		
-		List<BookmarkFormVO> bookmarkFormList = formService.retrieveBookmarkFormList(employee.getId());
-		List<Integer> isBookmark = new ArrayList<Integer>(); // 각 양식이 북마크된건지.
-		
+
 		// 전체 양식조회이면 formList = tempformList
 		if(boardId.equals("1")) {
 			formList = tempFormList;
 		}
-		// boardId = 2이면 (즐겨찾기 양식 조회) formList에 즐겨찾기만 추가.
-		else if(boardId.equals("2")) {
-			for(FormVO form: tempFormList) {
-				for(BookmarkFormVO bookmark: bookmarkFormList) {
-					if(form.getId().equals(bookmark.getFormId())){
-						// 즐겨찾기 양식조회이면 즐겨찾기 인 것만 추가. 
-						formList.add(form);
+		
+		if(employee != null) {
+			List<BookmarkFormVO> bookmarkFormList = formService.retrieveBookmarkFormList(employee.getId());
+			List<Integer> isBookmark = new ArrayList<Integer>(); // 각 양식이 북마크된건지.
+			
+			
+			// boardId = 2이면 (즐겨찾기 양식 조회) formList에 즐겨찾기만 추가.
+			if(boardId.equals("2")) {
+				for(FormVO form: tempFormList) {
+					for(BookmarkFormVO bookmark: bookmarkFormList) {
+						if(form.getId().equals(bookmark.getFormId())){
+							// 즐겨찾기 양식조회이면 즐겨찾기 인 것만 추가. 
+							formList.add(form);
+						}
 					}
 				}
 			}
-		}
-		
-		// 조회한 리스트의 즐겨찾기 상태 입력
-		for(FormVO form: formList) {
-			int test = 0;
-			for(BookmarkFormVO bookmark: bookmarkFormList) {
-				if(form.getId().equals(bookmark.getFormId())){
-					test++;
-					//form.setIsBookmark(1);
+			
+			// 조회한 리스트의 즐겨찾기 상태 입력
+			for(FormVO form: formList) {
+				int test = 0;
+				for(BookmarkFormVO bookmark: bookmarkFormList) {
+					if(form.getId().equals(bookmark.getFormId())){
+						test++;
+						//form.setIsBookmark(1);
+					}
+				}
+				if(test > 0) {
+					form.setIsBookmark(1);
+					//isBookmark.add(1);
+				} else {
+					form.setIsBookmark(0);
+					//isBookmark.add(0);
 				}
 			}
-			if(test > 0) {
-				form.setIsBookmark(1);
-				//isBookmark.add(1);
-			} else {
-				form.setIsBookmark(0);
-				//isBookmark.add(0);
-			}
+			
+			// 즐겨찾기 순으로 정렬
+			Collections.sort(formList, new Comparator<FormVO>() {
+				public int compare(FormVO o1, FormVO o2) {
+					if(o1.getIsBookmark() < o2.getIsBookmark()) {
+						return 1;
+					} else if(o1.getIsBookmark() > o2.getIsBookmark()) {
+						return -1;
+					} 
+					return 0;
+				}
+			});
+			mv.addObject("isBookmark", isBookmark);
 		}
-		
-		// 즐겨찾기 순으로 정렬
-		Collections.sort(formList, new Comparator<FormVO>() {
-			public int compare(FormVO o1, FormVO o2) {
-				if(o1.getIsBookmark() < o2.getIsBookmark()) {
-					return 1;
-				} else if(o1.getIsBookmark() > o2.getIsBookmark()) {
-					return -1;
-				} 
-				return 0;
-			}
-		});
-		
-		// 즐겨찾기순으로 정렬된걸 formId 오름차순으로 재정렬
-		/*if(o1.getIsBookmark() == o2.getIsBookmark()) {
-			if(Integer.parseInt(o1.getId()) > Integer.parseInt(o2.getId())) {
-				return 1;
-			} else if(Integer.parseInt(o1.getId()) < Integer.parseInt(o2.getId())) {
-				return -1;
-			}
-		}*/
-		
 		//  페이징 처리 시작
 		if(currentPage == null) {
 			currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
@@ -117,8 +117,9 @@ public class ListFormController {
 				
 		mv.addObject("paging", paging);
 		//  페이징 처리 끝
+		
 		mv.addObject("formList", formList);
-		mv.addObject("isBookmark", isBookmark);
+		
 		
 		mv.setViewName("jsonView");
 		

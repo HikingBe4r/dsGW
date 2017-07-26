@@ -23,7 +23,7 @@ public class RegisterFormController {
 	
 	@RequestMapping(value="/registerForm.do", method=RequestMethod.GET)
 	public String form() {
-		return "approvalNav/form/registerForm";
+		return "adminNav/form/registerForm";
 	}
 	
 	@RequestMapping(value="/registerForm.do", method=RequestMethod.POST)
@@ -40,6 +40,6 @@ public class RegisterFormController {
 		
 		formService.registerForm(form);
 		
-		return "approvalNav/form/registerFormSuccess";
+		return "adminNav/form/registerFormSuccess";
 	}
 }

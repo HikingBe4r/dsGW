@@ -51,7 +51,7 @@
 	</resultMap>
 	
 	<!-- 결재선 즐겨찾기 조회 -->
-	<select id="selectApprovalLineList" resultMap="selectApprovalLineListResultMap" statementType="PREPARED" parameterType="string">
+	<select id="selectApprovalLineList" statementType="PREPARED" parameterType="map" resultMap="selectApprovalLineListResultMap">
 		SELECT
 			t1.id,
 			t1.employee_id,
@@ -64,11 +64,11 @@
 		
 		FROM approval_line t1, approver t2
 		WHERE t1.id = t2.approval_line_id(+)
-			AND t1.employee_id = #{value} 
-			AND t1.subject is not null
+			AND t1.employee_id = #{employeeId} 
+			AND t1.subject like '%' || #{keyword} || '%'
 		ORDER BY t1.id
-			
 	</select>
+		
 	
 	<!-- 해당 결재선의 결재자 목록 조회 -->
 	<select id="selectApproverList" resultType="approverVO" statementType="PREPARED" parameterType="string" >	
@@ -94,24 +94,6 @@
 		WHERE id = #{value}
 	</delete>
 	
-	<select id="selectApprovalLineBookmarkByName" statementType="PREPARED" parameterType="map" resultMap="selectApprovalLineListResultMap">
-		SELECT
-			t1.id,
-			t1.employee_id,
-			t1.subject,
-			t2.id as approver_id,
-			t2.employee_id as approver_employee_id,
-			t2.step,
-			t2.approval_auth_id,
-			t2.approval_line_id
-		
-		FROM approval_line t1, approver t2
-		WHERE t1.id = t2.approval_line_id(+)
-			AND t1.employee_id = #{employeeId} 
-			AND t1.subject like '%' || #{keyword} || '%'
-		ORDER BY t1.id
-	</select>
-		
 	
 	<!--
 		결재자 목록 찾기. (문서번호) 

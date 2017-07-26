@@ -28,7 +28,7 @@ public class SearchApprovalLineBookmarkController {
 		map.put("keyword", keyword);
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("approvalLineList", documentService.retrieveApprovalLineBookmarkByName(map));
+		mv.addObject("approvalLineList", documentService.retrieveApprovalLineList(map));
 		mv.setViewName("jsonView");
 		
 		return mv;
