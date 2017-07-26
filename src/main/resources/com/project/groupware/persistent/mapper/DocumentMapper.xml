@@ -78,7 +78,7 @@
 				AND t2.name like '%' ||#{keyword}|| '%'
 			</if>
 		</if>
-		ORDER BY doc.id DESC
+		ORDER BY doc.enddate-sysdate asc
 	</select>
 	
 	<resultMap type="documentVO" id="selectApprovalDocumentMap" autoMapping="true">
