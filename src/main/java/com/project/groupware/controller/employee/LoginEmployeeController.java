@@ -37,7 +37,7 @@ public class LoginEmployeeController {
 			session.setMaxInactiveInterval(20*60);
 			if (login != null) {
 				session.setAttribute("admin", login);
-				return "adminNav/employee/listEmployee";// 사원 관리 페이지
+				return "admin/employee/listEmployee";// 사원 관리 페이지
 			} else {
 				
 				return "login/loginFail";
@@ -48,6 +48,7 @@ public class LoginEmployeeController {
 			if (login != null) {
 				session.setAttribute("employee", login);
 				session.setAttribute("employeeDetail", service.retrieveEmployeeDetail(login.getId()));
+				session.setAttribute("isread", service.checkIsRead(login.getId()));
 				return "approvalNav/notice/listNotice";// 로그인후 알림 화면으로 이동
 			} else {
 				

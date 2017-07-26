@@ -25,7 +25,6 @@ public class RemoveNoticeController {
 	public ModelAndView removeNotice(@RequestParam(value = "id") String id,
 			@RequestParam(value = "currentPage") Integer currentPage, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
-		System.out.println("asd : " + currentPage);
 		service.removeNotice(id);
 		EmployeeVO emp = new EmployeeVO();
 		emp = (EmployeeVO) session.getAttribute("employee");
@@ -41,7 +40,7 @@ public class RemoveNoticeController {
 		// 페이징 처리 끝
 
 		mv.addObject("noticeList", list);
-		mv.setViewName("adminNav/notice/listNotice");
+		mv.setViewName("approvalNav/notice/listNotice");
 		return mv;
 	}
 

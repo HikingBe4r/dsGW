@@ -31,7 +31,8 @@
 
 	nav {
 		float: left;
-		max-width: 300px;
+		min-width: 330px;
+		man-width: 350px;
 		margin: 0;
 		padding: 1em;
 	}

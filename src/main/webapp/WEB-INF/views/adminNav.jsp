@@ -5,9 +5,8 @@
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 <form action="${pageContext.request.contextPath }/logout.do"
-		method="post">
+	method="post">
 	<div class="row">
-		<!-- <div class="col-sm-1 col-md-1"></div> -->
 		<div class="col-sm-7 col-md-7">
 			<div class="thumbnail">
 				<img src="resources/image/example.png" alt="..." id="profileImg">
@@ -23,18 +22,24 @@
 
 
 
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h4>관리자 모드</h4>
+		</div>
+		<ul class="nav nav-pills nav-stacked">
+			<li role="presentation"><a href="/groupware/registerEmployee.do">사원
+					등록</a></li>
+			<li role="presentation"><a href="/groupware/listEmployee.do">사원
+					관리</a></li>
+			<li role="presentation"><a href="/groupware/listEmpHistory.do">이력
+					조회</a></li>
+			<li role="presentation"><a href="/groupware/listDepartment.do">부서
+					관리</a></li>
+			<li role="presentation"><a href="">양식 관리</a></li>
+		</ul>
+	</div>
 
-	<ul class="nav nav-pills nav-stacked">
-		<li role="presentation"><a href="/groupware/registerEmployee.do">사원
-				등록</a></li>
-		<li role="presentation"><a href="/groupware/listEmployee.do">사원
-				관리</a></li>
-		<li role="presentation"><a href="/groupware/listEmpHistory.do">이력
-				조회</a></li>
-		<li role="presentation"><a href="/groupware/listDepartment.do">부서
-				관리</a></li>
-		<li role="presentation"><a href="">양식 관리</a></li>
-	</ul>
+
 
 
 </form>

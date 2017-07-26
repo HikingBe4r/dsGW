@@ -25,7 +25,7 @@ public class ListNoticeController {
 	@RequestMapping(value = "/listNotice.do", method = RequestMethod.GET)
 	public ModelAndView listNotice(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("adminNav/notice/listNotice");
+		mv.setViewName("approvalNav/notice/listNotice");
 		return mv;
 	}
 	
