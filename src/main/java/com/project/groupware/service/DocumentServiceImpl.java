@@ -162,6 +162,9 @@ public class DocumentServiceImpl implements DocumentService {
 		approvalLineMapper.deleteApprovalLine(approvalLineId);
 	}
 	
+	public List<ApprovalLineVO> retrieveApprovalLineBookmarkByName(Map<String, Object> map) {
+		return approvalLineMapper.selectApprovalLineBookmarkByName(map);
+	}
 
 	/**
 	 * 문서 승인처리 1. apphistory에 승인comment insert한다. 2-1) 다음번 결재자가 있으면, 알림을 보낸다.

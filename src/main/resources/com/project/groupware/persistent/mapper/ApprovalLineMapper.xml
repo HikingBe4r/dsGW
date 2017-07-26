@@ -94,6 +94,25 @@
 		WHERE id = #{value}
 	</delete>
 	
+	<select id="selectApprovalLineBookmarkByName" statementType="PREPARED" parameterType="map" resultMap="selectApprovalLineListResultMap">
+		SELECT
+			t1.id,
+			t1.employee_id,
+			t1.subject,
+			t2.id as approver_id,
+			t2.employee_id as approver_employee_id,
+			t2.step,
+			t2.approval_auth_id,
+			t2.approval_line_id
+		
+		FROM approval_line t1, approver t2
+		WHERE t1.id = t2.approval_line_id(+)
+			AND t1.employee_id = #{employeeId} 
+			AND t1.subject like '%' || #{keyword} || '%'
+		ORDER BY t1.id
+	</select>
+		
+	
 	<!--
 		결재자 목록 찾기. (문서번호) 
 		t1: 해당 문서번호의 결재이력 조회(기안자 approverId 찾기)

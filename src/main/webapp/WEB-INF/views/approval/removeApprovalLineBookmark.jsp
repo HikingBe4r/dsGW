@@ -26,7 +26,7 @@ $(document).ready(function() {
 			dataType: 'json'
 			,
 			data: {
-				approvalLineId : currentBookmark
+				approvalLineId : currentBookmark.attr("id")
 			}
 			, 
 			cache: false
@@ -59,88 +59,57 @@ $(document).ready(function() {
 //즐겨찾기 검색
 function search() {
 	$('#bookmarkList').empty();
-	if($('#keyword').val() == '') {
-		$.ajax({
-			url: '${pageContext.request.contextPath}/listApprovalLineBookmark.do'
-			,
-			method: 'POST'
-			,
-			dataType: 'json'
-			,
-			data: {
-				employeeId : '${sessionScope.employee.id}'												
-			}
-			, 
-			cache: false
-			,
-			success: function(data) {
+	$('#approverTable tr:not(:first)').empty();
+	$('#recieverTable tr:not(:first)').empty();
+	$('#submitBtn').attr('disabled', 'disabled');	
+	$.ajax({
+		url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
+		,
+		method: 'GET'
+		,
+		dataType: 'json'
+		,
+		data: {
+			employeeId : '${sessionScope.employee.id}',
+			keyword: $('#keyword').val()
+		}
+		, 
+		cache: false
+		,
+		success: function(data) {
+			var htmlStr = "";
+			for(var i=0; i<data.approvalLineList.length; i++) { 
 				
-				var htmlStr = "";
-				for(var i=0; i<data.approvalLineList.length; i++) { 
-					
-				    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
-				    htmlStr += "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span> "
-				    htmlStr += data.approvalLineList[i].subject + "</button></label><br> ";
-				    									
-				}		
-				htmlStr += "<br>";
-				$('#bookmarkList').append(htmlStr);
-			}
-			,
-			error : function(jqXHR) {
-				alert("Error : " + jqXHR.responseText);
-			}			
-			
-		});
-	} /* else {
-		$.ajax({
-			url: '${pageContext.request.contextPath}/searchApprovalLineBookmark.do'
-			,
-			method: 'GET'
-			,
-			dataType: 'json'
-			,
-			data: {
-				keyfield: $('#keyfield').val(),
-				keyword: $('#keyword').val(),
-				currentPage : '1'
-			}
-			, 
-			cache: false
-			,
-			success: function(data) {
-				var htmlStr = "";
-				for(var i=0; i<data.bookmarkList.length; i++) {
-					
-					if(data.bookmarkList[i].id != '${sessionScope.employee.id}') {
-					    htmlStr += "&nbsp;<label> <input type='checkbox' name='employee' value='"+data.bookmarkList[i].ID+"'>";
-						htmlStr +=  data.bookmarkList[i].NAME + " " + data.bookmarkList[i].GRADE + "</label> <br>"; 	
-					}
-									
-				}	
-				$('#bookmarkList').append(htmlStr);
-						
-			}
-			,
-			error : function(jqXHR) {
-				alert("Error : " + jqXHR.responseText);
-			}			
-			
-		}); 
-	} */
+			    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
+			    htmlStr += "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span> "
+			    htmlStr += data.approvalLineList[i].subject + "</button></label><br> ";
+			    									
+			}		
+			htmlStr += "<br>";
+			$('#bookmarkList').append(htmlStr);
+		}
+		,
+		error : function(jqXHR) {
+			alert("Error : " + jqXHR.responseText);
+		}				
+	}); 
+
 }
 
 
 // 즐겨찾기 버튼
 $(function() {
-	$('#bookmarkList').on("click", "button", function() {	
+	$('#bookmarkList').on("click", "button", function() {
+		$('#bookmarkList button').attr("class", "btn btn-default btn-sm");
+		$(this).attr("class", "btn btn-danger btn-sm");
 		$('#submitBtn').removeAttr('disabled');
+		
 		
 		//테이블 비움
 		$('#approverTable tr:not(:first)').empty();
 		$('#recieverTable tr:not(:first)').empty();
 		
-		currentBookmark = $(this).attr('id');
+		currentBookmark = $(this);
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/listApproverInBookmark.do'
@@ -150,7 +119,7 @@ $(function() {
 			dataType: 'json'
 			,
 			data: {
-				approvalLineId : currentBookmark
+				approvalLineId : currentBookmark.attr("id")
 			}
 			, 
 			cache: false
@@ -214,7 +183,6 @@ $(function() {
 				<form class="form-inline pull-right" onsubmit="return false">
 					<select id="keyfield" class="form-control">
 						<option value="name">이름</option>
-						<option value="departmentId">부서</option>
 					</select>
 
 					<div class="form-group">

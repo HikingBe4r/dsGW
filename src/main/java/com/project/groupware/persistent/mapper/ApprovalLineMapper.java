@@ -43,4 +43,8 @@ public interface ApprovalLineMapper {
 	
 	// 결재선 삭제
 	void deleteApprovalLine(String approvalLineId);
+	
+	// 결재선 즐겨찾기 검색
+	List<ApprovalLineVO> selectApprovalLineBookmarkByName(Map<String, Object> map);
+	
 }
