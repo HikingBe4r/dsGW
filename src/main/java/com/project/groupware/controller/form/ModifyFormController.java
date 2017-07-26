@@ -29,7 +29,7 @@ public class ModifyFormController {
 		ModelAndView mv = new ModelAndView();
 		
 		FormVO form = formService.retrieveForm(formId);
-		
+		form.setFormContent(form.getFormContent().replace("\n", ""));
 		mv.addObject("form", form);
 		
 		mv.setViewName("approvalNav/form/modifyForm");
@@ -50,6 +50,6 @@ public class ModifyFormController {
 		
 		formService.modifyForm(form);
 		
-		return "redirect:/listForm.do";
+		return "redirect:/listForm.do?boardId=1";
 	}
 }

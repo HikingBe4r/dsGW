@@ -15,7 +15,7 @@ $(document).ready(function() {
 		if(data.formList.length == 0) {
 			alert("검색결과가 없습니다.");
 		}
-		for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+		for(var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
 			
 			var linkUrl = '${pageContext.request.contextPath}/writeDocument.do';	
 				linkUrl += '?formId=' + data.formList[i].id;

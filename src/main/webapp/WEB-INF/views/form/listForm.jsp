@@ -18,7 +18,7 @@
 			if(data.formList.length == 0) {
 				alert("검색결과가 없습니다.");
 			}
-			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+			for(var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailForm.do';	
 					linkUrl += '?formId=' + data.formList[i].id;
@@ -270,10 +270,12 @@
 	</form>
 </div>
 
-<div align="right">
-	<button type="button" class="btn btn-primary" id="regBtn">등록</button>
-	<!-- <button type="button" class="btn btn-danger" id="removeBtn">삭제</button> -->
-</div>
+<c:if test="${sessionScope.admin != null }">
+	<div align="right">
+		<button type="button" class="btn btn-primary" id="regBtn">등록</button>
+		<!-- <button type="button" class="btn btn-danger" id="removeBtn">삭제</button> -->
+	</div>
+</c:if>
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">

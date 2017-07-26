@@ -6,9 +6,15 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
 
 <script>
+	if(${sessionScope.admin == null}) {
+		alert("관리자만 사용할수 있습니다.");
+		document.location.href="${pageContext.request.contextPath}/listForm.do?boardId=1";
+	}
+	
 	$(document).ready(function() {
 		
-		$("#regBtn").click(function() {
+		
+		$("#modBtn").click(function() {
 			if ($('#subject') == null || $('#subject').val() == '') {
 				alert("제목을 입력하세요.");
 			} else if ($('#content') == null || $('#content').val() == '') {
@@ -26,7 +32,7 @@
 			history.back();
 		});
 		
-		// 스마트에디터
+		// 스마트 에디터
 		var obj = [];
 		nhn.husky.EZCreator.createInIFrame({
 			oAppRef : obj,
@@ -41,20 +47,38 @@
 				var temp = '${requestScope.form.formContent}';
 				obj.getById["formContent"].exec("PASTE_HTML", [temp]); 	
 			}
+
 		});
+		
+		/* // 스마트에디터
+		var obj = [];
+		nhn.husky.EZCreator.createInIFrame({
+			oAppRef : obj,
+			elPlaceHolder : "formContent",
+			sSkinURI : "./resources/editor/SmartEditor2Skin.html",
+			htParams : {
+				bUseToolbar : true,
+				bUseVerticalResizer : false,
+				bUseModeChanger : false
+			},
+			fOnAppLoad : function() {	//기존 양식 불러오기
+				var temp = '${requestScope.form.formContent}';
+				obj.getById["formContent"].exec("PASTE_HTML", [temp]); 	
+			}
+		}); */
 	});
 	
 </script>
 
 
 <div>
-	<h3>양식 등록</h3>
+	<h3>양식 수정</h3>
 </div>
 <br>
 <br>
 
 <form action="" 
-	method="POST" id="regForm" name="regForm" enctype="multipart/form-data">
+	method="POST" id="modForm" name="modForm" enctype="multipart/form-data">
 	<input type="hidden" id="formId" name="id" value="${requestScope.form.id }"/>
 	<div style="height: 550px;">
 
@@ -71,18 +95,18 @@
 
 			<tr>
 				<td valign="top"><label>설명</label></td>
-				<td><input type="text" id="content" name="content" width="100"/></td>
+				<td><input type="text" id="content" name="content" width="100" value="${requestScope.form.content }"/></td>
 			</tr>
 			
 			<tr>
 				<td valign="top"><label>양식</label></td>
-				<td><textarea id="formContent" name="formContent" rows="20" cols="100"></textarea></td>
+				<td><textarea id="formContent" name="formContent" rows="16"></textarea></td>
 			</tr>
 		</table>
 	</div>
 	
 	<div align="right">
-		<button type="button" class="btn btn-primary" id="regBtn" name="regBtn">등록</button>
+		<button type="button" class="btn btn-primary" id="modBtn" name="modBtn">수정</button>
 		<button type="button" class="btn btn-default" id="backBtn" name="backBtn">뒤로가기</button>
 	</div>
 

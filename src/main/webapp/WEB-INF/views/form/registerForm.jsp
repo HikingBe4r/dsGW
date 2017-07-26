@@ -6,8 +6,13 @@
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
 
 <script>
-
+	if(${sessionScope.admin == null}) {
+		alert("관리자만 사용할수 있습니다.");
+		document.location.href="${pageContext.request.contextPath}/listForm.do?boardId=1";
+	}
+	
 	$(document).ready(function() {
+		
 		
 		$("#regBtn").click(function() {
 			if ($('#subject') == null || $('#subject').val() == '') {
@@ -74,7 +79,7 @@
 			
 			<tr>
 				<td valign="top"><label>양식</label></td>
-				<td><textarea id="formContent" name="formContent" rows="20" cols="100"></textarea></td>
+				<td><textarea id="formContent" name="formContent" rows="16"></textarea></td>
 			</tr>
 		</table>
 	</div>

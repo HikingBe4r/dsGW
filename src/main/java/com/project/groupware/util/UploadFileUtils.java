@@ -56,9 +56,9 @@ public class UploadFileUtils {
 			destFolder.mkdirs();
 		}
 		
-		UPLOAD_PATH = destFolder.getAbsolutePath();//request.getSession().getServletContext().getRealPath("/upload");
-		System.out.println("destFolder: "+destFolder.getPath());
-		System.out.println("uploadPath: "+UPLOAD_PATH);
+		//request.getSession().getServletContext().getRealPath("/upload");
+		UPLOAD_PATH = destFolder.getAbsolutePath();
+		
 		
 		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
 		if(temp.exists()) {
@@ -92,6 +92,8 @@ public class UploadFileUtils {
 		String originalFileName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemFileName = "";
+		
+		
 		
 		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
 		if(temp.exists()) {

@@ -1,6 +1,5 @@
 <%-- detailForm.jsp --%>
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html; charset=utf-8"%><%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script
 	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
@@ -59,9 +58,13 @@
 				<td><label id="hitcount" name="hitcount" draggable="false">${requestScope.form.hitcount }</label>
 				</td>
 			</tr>
+			<c:url var="downloadURL" value="/downloadFile.do">
+ 				<c:param name="originalFileName" value="${requestScope.form.formFile.originalFileName }"/>
+ 				<c:param name="systemFileName" value="${requestScope.form.formFile.systemFileName }"/>
+ 			</c:url> 
 			<tr>
 				<td><label>첨부파일</label></td>
-				<td>${requestScope.form.formFile.originalFileName }</td>
+				<td><a href="${downloadURL}">${requestScope.form.formFile.systemFileName }</a></td>
 			</tr>
 	
 			<tr>
@@ -76,8 +79,10 @@
 		</table>
 	</div>
 	<div align="right">
-		<button type="button" class="btn btn-primary" id="modBtn" name="modBtn">수정</button>
-		<button type="button" class="btn btn-danger" id="removeBtn" name="removeBtn">삭제</button>
+		<c:if test="${sessionScope.admin != null }">
+			<button type="button" class="btn btn-primary" id="modBtn" name="modBtn">수정</button>
+			<button type="button" class="btn btn-danger" id="removeBtn" name="removeBtn">삭제</button>
+		</c:if>
 		<button type="button" class="btn btn-default" id="listBtn" name="listBtn">목록으로</button>
 	</div>
 </form>

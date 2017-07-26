@@ -33,7 +33,7 @@ public class PagingVO {
 		this.startPage = ((currentPage - 1) / countPage) * countPage + 1;
 		this.endPage = (startPage - 1 + countPage >= totalPage ? totalPage : startPage - 1 + countPage);
 		this.startArticleNum = (currentPage-1) * countPerPage;
-		this.endArticleNum = (startArticleNum - 1 + countPerPage >= totalCount ? totalCount : startArticleNum - 1 + countPerPage) ;
+		this.endArticleNum = (startArticleNum - 1 + countPerPage >= totalCount ? totalCount-1 : startArticleNum - 1 + countPerPage) ;
 	}
 	
 	
