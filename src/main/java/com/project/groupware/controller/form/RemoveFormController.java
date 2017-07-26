@@ -19,6 +19,6 @@ public class RemoveFormController {
 		// 관리자인지 체크
 		formService.removeForm(formId);
 		
-		return "/listForm.do";
+		return "adminNav/form/listFormForAdmin.do?boardId=1";
 	}
 }

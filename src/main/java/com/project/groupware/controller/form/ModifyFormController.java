@@ -32,7 +32,7 @@ public class ModifyFormController {
 		form.setFormContent(form.getFormContent().replace("\n", ""));
 		mv.addObject("form", form);
 		
-		mv.setViewName("approvalNav/form/modifyForm");
+		mv.setViewName("adminNav/form/modifyForm");
 		
 		return mv;
 	}
@@ -50,6 +50,6 @@ public class ModifyFormController {
 		
 		formService.modifyForm(form);
 		
-		return "redirect:/listForm.do?boardId=1";
+		return "redirect:/listFormForAdmin.do?boardId=1";
 	}
 }

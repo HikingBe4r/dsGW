@@ -108,7 +108,7 @@
 			,
 			error : function(jqXHR) {
 				alert("ERROR!");
-				console.log(jqXHR);
+				console.log(jqXHR.responseText);
 			}
 		});
 		
