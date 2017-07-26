@@ -30,7 +30,7 @@ public class ModifyEmployeeController {
 	@Autowired
 	private DepartmentService deptService;
 
-	@RequestMapping(value = "/modifyEmployee.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/modifyAdmin.do", method = RequestMethod.GET)
 	public String form(@RequestParam(value = "id") String id, Model model) {
 		Map<String, Object> keyword = new HashMap<String, Object>();
 		model.addAttribute("findEmployee", service.retrieveEmployee(id));
@@ -47,10 +47,10 @@ public class ModifyEmployeeController {
 		keyword.put("kind", "2");
 		model.addAttribute("empImage2", service.retrieveEmployeeImage(keyword));
 		
-		return "adminNav/employee/modifyEmployeeForm";
+		return "adminNav/employee/modifyAdminForm";
 	}
 
-	@RequestMapping(value = "/modifyEmployee.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/modifyAdmin.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute(value = "findEmployee") EmployeeVO emp, Model model, HttpServletRequest request) throws Exception{
 		List<MultipartFile> files = emp.getUpload();
 		System.out.println(files.size());

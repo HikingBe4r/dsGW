@@ -27,15 +27,15 @@
 			<h4>관리자 모드</h4>
 		</div>
 		<ul class="nav nav-pills nav-stacked">
-			<li role="presentation"><a href="/groupware/registerEmployee.do">사원
+			<li role="presentation"><a href="${pageContext.request.contextPath }/registerEmployee.do">사원
 					등록</a></li>
-			<li role="presentation"><a href="/groupware/listEmployee.do">사원
+			<li role="presentation"><a href="${pageContext.request.contextPath }/listEmployee.do">사원
 					관리</a></li>
-			<li role="presentation"><a href="/groupware/listEmpHistory.do">이력
+			<li role="presentation"><a href="${pageContext.request.contextPath }/listEmpHistory.do">이력
 					조회</a></li>
-			<li role="presentation"><a href="/groupware/listDepartment.do">부서
+			<li role="presentation"><a href="${pageContext.request.contextPath }/listDepartment.do">부서
 					관리</a></li>
-			<li role="presentation"><a href="">양식 관리</a></li>
+			<li role="presentation"><a href="${pageContext.request.contextPath }/listForm.do?boardId=1">양식 관리</a></li>
 		</ul>
 	</div>
 

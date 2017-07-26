@@ -20,8 +20,15 @@ public class LoginEmployeeController {
 	private EmployeeService service;
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
-	public String loginForm() {
-		return "login/loginForm";
+	public String loginForm(HttpSession session) {
+		if(session.getAttribute("admin") != null){
+			session.removeAttribute("employee");
+			return "adminNav/employee/listEmployee";
+		}else if(session.getAttribute("employee") != null){
+			return "approvalNav/notice/listNotice";
+		}else{
+			return "login/loginForm";
+		}
 	}
 
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)

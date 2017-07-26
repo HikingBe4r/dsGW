@@ -22,7 +22,6 @@ public class RefreshNoticeController {
 		EmployeeVO emp = new EmployeeVO();
 		emp = (EmployeeVO) session.getAttribute("employee");
 		int nowCount = service.checkIsRead(emp.getId());
-		System.out.println("nowcount : " + nowCount);
 		mv.addObject("isread", nowCount);
 		mv.setViewName("jsonView");
 		return mv;
