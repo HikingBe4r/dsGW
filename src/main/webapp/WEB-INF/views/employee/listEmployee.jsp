@@ -24,8 +24,7 @@
 
 		for (var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 
-			htmlStr += "<tr onclick=\"location=\'/groupware/modifyEmployee.do?id="
-					+ data.employeeList[i].ID + "\'\">";
+			htmlStr += "<tr onclick=\"location=\'/groupware/modifyEmployee.do?id=" + data.employeeList[i].ID + "\'\">";
 			htmlStr += "<td>" + data.employeeList[i].ID + "</td>";
 			htmlStr += "<td>" + data.employeeList[i].NAME + "</td>";
 			htmlStr += "<td>" + data.employeeList[i].DEPARTMENT + "</td>";

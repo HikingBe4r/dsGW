@@ -31,7 +31,7 @@ public interface EmployeeService {
 	
 	public int checkIsRead(String empId);
 	
-	public void isreadNotice(String id);
+	public void isReadNotice(String id);
 	
 	public void removeNotice(String id);
 	

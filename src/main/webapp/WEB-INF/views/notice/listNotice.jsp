@@ -12,19 +12,34 @@
 <script
 	src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
 <script>
+
+	
 	function listNotice(data) {
 		$("#tableBody").empty(data);
 		var htmlStr = "";
 		for (var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 
 			htmlStr += "<tr>";
-			htmlStr += "<td>" + "</td>";
+			htmlStr += "<td onclick=\"location=\'/groupware/isReadNotice.do?id=" + data.noticeList[i].id + "&currentPage="
+			+ data.paging.currentPage + "\'\">"
+			if(data.noticeList[i].isRead == '1'){
+				htmlStr += "<input class='btn btn-default' type='submit' value='읽음'>"
+			}
+			else{
+				htmlStr += "<input class='btn btn-warning' type='submit' value='읽지않음'>"
+			}
+			
+			htmlStr += "</td>";
 			htmlStr += "<td>" + data.noticeList[i].content + "</td>";
-			htmlStr += "<td><a href='/groupware/removeNotice.do?id=" + data.noticeList[i].id + "&currentPage=" + data.paging.currentPage +
-					"'><button type='button' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button></td>";
+			htmlStr += "<td><a href='/groupware/removeNotice.do?id="
+					+ data.noticeList[i].id
+					+ "&currentPage="
+					+ data.paging.currentPage
+					+ "'><button type='button' class='close' aria-label='Close'><span aria-hidden='true'>&times;</span></button></td>";
 			htmlStr += "</tr>";
 		}
 		$("#tableBody").append(htmlStr);
+		console
 	};
 
 	function pagination(data) {
@@ -58,33 +73,34 @@
 
 		$("#pagination").append(htmlStr);
 	}
-	$(document).ready(
+	$(document)
+			.ready(
 					function() {
 						$
-						.ajax({
-							url : '${pageContext.request.contextPath}/listNoticePaging.do',
-							method : 'GET',
-							cache : false,
-							dataType : 'json',
-							data : {
-								currentPage : "1"
-							},
-							success : function(data) {
-								listNotice(data);
-								pagination(data);
-							},
-							error : function(request, status, error) {
-								alert("code:" + request.status + "\n"
-										+ "message:"
-										+ request.responseText + "\n"
-										+ "error:" + error);
-								console.log("code:" + request.status
-										+ "\n" + "message:"
-										+ request.responseText + "\n"
-										+ "error:" + error);
-							}
-						});
-						
+								.ajax({
+									url : '${pageContext.request.contextPath}/listNoticePaging.do',
+									method : 'GET',
+									cache : false,
+									dataType : 'json',
+									data : {
+										currentPage : "1"
+									},
+									success : function(data) {
+										listNotice(data);
+										pagination(data);
+									},
+									error : function(request, status, error) {
+										alert("code:" + request.status + "\n"
+												+ "message:"
+												+ request.responseText + "\n"
+												+ "error:" + error);
+										console.log("code:" + request.status
+												+ "\n" + "message:"
+												+ request.responseText + "\n"
+												+ "error:" + error);
+									}
+								});
+
 						$("#pagination")
 								.on(
 										"click",

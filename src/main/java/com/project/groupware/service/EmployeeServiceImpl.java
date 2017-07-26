@@ -112,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return noticeMapper.countIsRead(empId);
 	}
 
-	public void isreadNotice(String empId) {
+	public void isReadNotice(String empId) {
 		noticeMapper.updateNotice(empId);
 	}
 
