@@ -47,7 +47,18 @@ public class UploadFileUtils {
 		long fileSize = file.getSize();
 		String systemFileName = "";
 		
-		UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload");
+		
+		// 디렉토리 생성
+		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/form"));
+		
+		// 대상폴더가 없으면 생성
+		if(!destFolder.exists()) {
+			destFolder.mkdirs();
+		}
+		
+		UPLOAD_PATH = destFolder.getAbsolutePath();//request.getSession().getServletContext().getRealPath("/upload");
+		System.out.println("destFolder: "+destFolder.getPath());
+		System.out.println("uploadPath: "+UPLOAD_PATH);
 		
 		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
 		if(temp.exists()) {
