@@ -93,7 +93,7 @@ function search() {
 			alert("Error : " + jqXHR.responseText);
 		}				
 	}); 
-
+	$('#keyword').val('');
 }
 
 

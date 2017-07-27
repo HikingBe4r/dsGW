@@ -168,7 +168,21 @@
 </script>
 
 <div class="panel panel-default">
-	<div class="panel-body">결재대기문서 목록</div>
+	<c:choose>
+		<c:when test="${param.boardId == 1 }">
+			<div class="panel-body">결재대기문서 목록</div>		
+		</c:when>
+		<c:when test="${param.boardId == 2 }">
+			<div class="panel-body">수신문서 목록</div>		
+		</c:when>
+		<c:when test="${param.boardId == 3 }">
+			<div class="panel-body">결재미완료문서 목록</div>		
+		</c:when>
+		<c:when test="${param.boardId == 4 }">
+			<div class="panel-body">기안문서 목록</div>		
+		</c:when>
+	</c:choose>
+	
 </div>
 <div>
 	<form class="form-inline pull-right" name="searchForm">

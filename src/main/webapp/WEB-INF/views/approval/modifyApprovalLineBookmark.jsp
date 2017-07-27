@@ -269,6 +269,7 @@ function search() {
 		}); 
 
 	}
+	$('#keyword').val('');
 }
 
 // 탭 설정

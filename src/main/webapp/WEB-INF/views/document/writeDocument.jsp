@@ -74,7 +74,7 @@
 		
 		//결재선 버튼
 		$('#approvalLine').click(function() {
-			var popUrl = "/groupware/addApprover.do";
+			var popUrl = "${pageContext.request.contextPath }/addApprover.do";
 			window.open(popUrl, 'test', 'width=1200, height=750');
 		});
 		
