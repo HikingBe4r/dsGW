@@ -19,7 +19,8 @@ public class EmployeeVO {
 	private String statusId;
 	private List<MultipartFile> upload = new ArrayList<MultipartFile>();
 	private List<EmployeeImageVO> imageList = new ArrayList<EmployeeImageVO>();
-
+	private DepartmentVO department = new DepartmentVO();// 이름 가져오기
+	
 	public EmployeeVO() {
 		super();
 	}
@@ -138,12 +139,20 @@ public class EmployeeVO {
 		this.imageList.add(image);
 	}
 
+	public DepartmentVO getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(DepartmentVO department) {
+		this.department = department;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [id=" + id + ", name=" + name + ", email=" + email + ", hireDate=" + hireDate + ", address="
 				+ address + ", addressDetail=" + addressDetail + ", password=" + password + ", phone=" + phone
 				+ ", departmentId=" + departmentId + ", gradeId=" + gradeId + ", statusId=" + statusId + ", upload="
-				+ upload + ", imageList=" + imageList + "]";
+				+ upload + ", imageList=" + imageList + ", department=" + department + "]";
 	}
 
 }

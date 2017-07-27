@@ -18,4 +18,7 @@ public interface DepartmentService {
 	public List<DepartmentVO> retrieveDepartmentList(Map<String, Object> keyword);
 	
 	public List<DepartmentVO> retrieveDepartmentListWithCount();
+	
+	/*게시판에서 부서 이름 가져오기*/
+	public List<DepartmentVO> retrieveDepartmentListID();
 }

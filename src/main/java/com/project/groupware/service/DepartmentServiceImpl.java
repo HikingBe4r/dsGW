@@ -39,6 +39,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return deptMapper.selectDepartmentListWithCount();
 	}
 	
+	/*게시판에서 부서 이름 가져오기*/
+	public List<DepartmentVO> retrieveDepartmentListID() {
+		return deptMapper.selectDepartmentListID();
+	}
 	
 
 }

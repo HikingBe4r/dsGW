@@ -26,6 +26,7 @@
 				</choose>
 			</trim>
 		</if>
+		order by id asc
 	</select>
 
 	<select id="selectDepartment" parameterType="String" resultType="departmentVO"
@@ -35,18 +36,12 @@
 		WHERE ID = #{id}
 	</select>
 
-	<update id="updateDepartment" parameterType="departmentVO"
-		statementType="PREPARED">
-		UPDATE DEPARTMENT
-		<trim prefix="SET" suffixOverrides=",">
-			<if test="id != null and id != ''">
-				ID = #{id} ,
-			</if>
-			<if test="subject != null and subject != ''">
-				NAME = #{name} ,
-			</if>
-		</trim>
-		WHERE ID = #{id}
+	<update id="updateDepartment" parameterType="map" statementType="PREPARED">
+		UPDATE employee SET department_id = #{deptid,jdbcType=CHAR} WHERE id IN
+		<foreach item="emplist" index="index" collection="emplist" open="("
+			separator="," close=")">
+			#{emplist,jdbcType=VARCHAR}
+		</foreach>
 	</update>
 
 	<delete id="deleteDepartment" parameterType="String"
@@ -56,6 +51,16 @@
 		WHERE ID = #{id}
 	</delete>
 	
+	<select id="selectDepartmentListWithCount" statementType="STATEMENT" resultType="departmentVO">
+		SELECT 
+			d.id as id, 
+			d.name as name, 
+			count(e.id) as employeeCount
+		from DEPARTMENT d, EMPLOYEE e
+		where d.id = e.department_id(+) 
+		group by d.id, d.name
+	</select>
+	
 	<!-- 게시판에서 부서 이름 가져오기  -->
 	<select id="selectDepartmentListID" resultType="departmentVO"
 		 statementType="PREPARED">
@@ -64,4 +69,5 @@
 		NAME
 		FROM DEPARTMENT
 	</select>
+	
 </mapper>

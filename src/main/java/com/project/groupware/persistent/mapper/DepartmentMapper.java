@@ -13,12 +13,12 @@ public interface DepartmentMapper {
 	
 	public DepartmentVO selectDepartment(String id);
 	
-	public void updateDepartment(DepartmentVO dept);
+	public void updateDepartment(Map<String, Object> map);
 	
 	public void deleteDepartment(DepartmentVO dept);
 	
+	public List<DepartmentVO> selectDepartmentListWithCount();
+	
 	/*게시판에서 부서 이름 가져오기*/
 	public List<DepartmentVO> selectDepartmentListID();
-	
-
 }
