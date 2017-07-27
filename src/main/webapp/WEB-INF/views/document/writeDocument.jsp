@@ -87,7 +87,7 @@
 				$.ajax({
 					url: '${pageContext.request.contextPath}/writeTempDocument.do'
 					,
-					method: 'POST'
+					type: 'POST'
 					,
 					dataType: 'json'
 					,
@@ -102,11 +102,7 @@
 					cache: false
 					,
 					success: function(data) {
-						
-						
-						
-						location.href = 'choiceForm.do'; //임시문서 목록 페이지로?
-					
+						location.href = 'listTempDocument.do'; 				
 					}
 					,
 					error : function(jqXHR) {
