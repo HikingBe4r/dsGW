@@ -77,7 +77,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<div class="thumbnail">
-			<img src="resources/image/example.png" alt="..." id="profileImg"
+			<img src="${pageContext.request.contextPath }/upload/empImage/${sessionScope.empImage1.systemFileName}" alt="..." id="profileImg"
 				style="height: 150px;">
 		</div>
 	</div>

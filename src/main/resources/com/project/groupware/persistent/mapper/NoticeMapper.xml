@@ -19,7 +19,7 @@
 		employee_id as employeeId,
 		content as
 		content,
-		to_char(writeday, 'YYYY/MM/DD') as writeDay,
+		to_char(writeday, 'YYYY/MM/DD HH24:MI:SS') as writeDay,
 		isRead as isRead
 		FROM NOTICE
 		WHERE employee_id = #{value}

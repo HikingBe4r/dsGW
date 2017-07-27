@@ -31,6 +31,7 @@
 			
 			htmlStr += "</td>";
 			htmlStr += "<td>" + data.noticeList[i].content + "</td>";
+			htmlStr += "<td>" + data.noticeList[i].writeDay + "</td>";
 			htmlStr += "<td><a href='/groupware/removeNotice.do?id="
 					+ data.noticeList[i].id
 					+ "&currentPage="
@@ -141,6 +142,7 @@
 						<tr>
 							<th>읽음</th>
 							<th>내용</th>
+							<th>시간</th>
 							<th>삭제</th>
 						</tr>
 					</thead>

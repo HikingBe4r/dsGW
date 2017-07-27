@@ -15,7 +15,7 @@
 	<!-- <div class="col-sm-1 col-md-1"></div> -->
 	<div class="col-sm-7 col-md-7">
 		<div class="thumbnail">
-			<img src="resources/image/example.png" alt="..." id="profileImg">
+			<img src="${pageContext.request.contextPath }/upload/empImage/${sessionScope.empImage1.systemFileName}" alt="..." id="profileImg">
 		</div>
 	</div>
 
