@@ -1,5 +1,8 @@
 package com.project.groupware.controller.employee;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +56,20 @@ public class LoginEmployeeController {
 			pwd = Encryption.encryption(pwd);
 			EmployeeVO login = service.loginEmployee(new EmployeeVO(id, pwd));
 			if (login != null) {
+				Map<String, Object>keyword = new HashMap<String, Object>();
 				session.setAttribute("employee", login);
 				session.setAttribute("employeeDetail", service.retrieveEmployeeDetail(login.getId()));
+				
+				keyword.put("employeeVO", login);
+				keyword.put("kind", "1");
+				session.setAttribute("empImage1", service.retrieveEmployeeImage(keyword));
+				keyword.clear();
+				
+				keyword.put("employeeVO", login);
+				keyword.put("kind", "2");
+				session.setAttribute("empImage2", service.retrieveEmployeeImage(keyword));
+				
+				
 				model.addAttribute("isread", service.checkIsRead(login.getId()));
 				return "approvalNav/notice/listNotice";// 로그인후 알림 화면으로 이동
 			} else {
