@@ -72,13 +72,6 @@ $(document).ready(function() {
 		htmlStr += "</a>";		
 		htmlStr += "</li>";
 		
-		/*
-		// 이게 왜 실패했는지 생각해보자.
-		if(data.paging.currentPage == $("#pageNum").val()) {
-			$("#pageNum").attr("class", "active");
-		}
-		*/
-		
 		$("#pagination").append(htmlStr);
 	}
 	
@@ -245,7 +238,6 @@ $(document).ready(function() {
 	<h3>&nbsp;&nbsp;&nbsp;&nbsp;새 기안 양식 선택</h3>
 	<form class="form-inline pull-right" onsubmit="return false">
 		<select class="form-control" name="keytype" id="keytype">
-			<option value="전체" id="1">전체</option>
 			<option value="제목" id="2">제목</option>
 		</select>
 		<div class="form-group">

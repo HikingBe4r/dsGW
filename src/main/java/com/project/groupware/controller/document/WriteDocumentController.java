@@ -45,6 +45,7 @@ public class WriteDocumentController {
 		FormVO form = formService.retrieveForm(formId);		
 		form.setFormContent(form.getFormContent().replace("\n", ""));
 		form.setFormContent(form.getFormContent().replace("\r", ""));
+		form.setFormContent(form.getFormContent().replace("'", "\""));
 		mv.addObject("form", form);
 		mv.addObject("department", departmentService.retrieveDepartment(employee.getDepartmentId()));
 		mv.setViewName("approvalNav/document/writeDocument");
@@ -59,7 +60,10 @@ public class WriteDocumentController {
 						HttpServletRequest request) throws Exception {
 		
 		document.setEndDate(document.getEndDate()+" 17:00:00");
-		document.setFormVO(formService.retrieveForm(formId));	
+		//document.setFormVO(formService.retrieveForm(formId));	
+		FormVO form = new FormVO();
+		form.setId(formId);
+		document.setFormVO(form);	
 		document.setStatus("1");	// 기안
 			
 		List<MultipartFile> fileList = document.getUpload();
