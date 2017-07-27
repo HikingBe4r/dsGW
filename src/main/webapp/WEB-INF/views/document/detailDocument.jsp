@@ -98,9 +98,9 @@
 						</tr>
 					</table>
 				</div>
-				<div class="col-sm-6"></div>
-
-				<div class="col-sm-3">
+				<div class="col-sm-${9 - requestScope.approvalDocument.approverList.size() + 1 }"></div>
+				
+				<div class="col-sm-${requestScope.approvalDocument.approverList.size()-1 }">
 					<table class="table table-bordered table-condensed">
 						<c:forEach var="i" begin="0" end="1">
 							<tr>
@@ -112,12 +112,12 @@
 								<c:if test="${i == 0 && 
 										requestScope.approvalDocument.approverList[j].APPID == 
 										requestScope.approvalDocument.currentApprover.id }">
-									<td style="color: red;">${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
+									<td style="width: 100px; color: red;">${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
 								</c:if>
 								<c:if test="${i == 0 && 
 										requestScope.approvalDocument.approverList[j].APPID != 
 										requestScope.approvalDocument.currentApprover.id }">
-									<td>${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
+									<td style="width: 100px;">${requestScope.approvalDocument.approverList[j].EMPLOYEENAME}</td>	
 								</c:if>
 							
 								<!-- 
@@ -146,9 +146,8 @@
 						</c:forEach>
 						
 					</table>
-					<div class="col-sm-1"></div>
 				</div>
-				<div class="pull-right col-sm-1"></div>
+				<div class="col-sm-1"></div>
 			</div>
 
 				<div class="form-group">

@@ -31,6 +31,7 @@ public class ModifyFormController {
 		FormVO form = formService.retrieveForm(formId);
 		form.setFormContent(form.getFormContent().replace("\n", ""));
 		form.setFormContent(form.getFormContent().replace("\r", ""));
+		form.setFormContent(form.getFormContent().replace("'", "\""));
 		mv.addObject("form", form);
 		
 		mv.setViewName("adminNav/form/modifyForm");

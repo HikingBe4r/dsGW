@@ -12,16 +12,16 @@
 	<c:when test="${sessionScope.employee == null}">
 		<div class="col-md-10">
 			<ul class="nav nav-tabs">
-				<li id="approval" role="presentation"><a>전자결재</a></li>
-				<li id="board" role="presentation"><a href="board.do">게시판</a></li>
+				<li id="board" role="presentation"><a href="${pageContext.request.contextPath }/board.do">게시판</a></li>
+				<li id="adminTab" role="presentation"><a href="${pageContext.request.contextPath}/listEmployee.do">관리자 전용</a></li>
 			</ul>
 		</div>
 	</c:when>
 	<c:otherwise>
 		<div class="col-md-10">
 			<ul class="nav nav-tabs">
-				<li id="approval" role="presentation"><a href="choiceForm.do">전자결재</a></li>
-				<li id="board" role="presentation"><a href="board.do">게시판</a></li>
+				<li id="approval" role="presentation"><a href="${pageContext.request.contextPath }/choiceForm.do">전자결재</a></li>
+				<li id="board" role="presentation"><a href="${pageContext.request.contextPath }/board.do">게시판</a></li>
 			</ul>
 		</div>
 	</c:otherwise>

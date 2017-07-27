@@ -22,6 +22,9 @@ public class LogoutEmployeeController {
 		}else if(sessionEmp != null){
 			session.removeAttribute("employee");
 		}
+		
+		session.invalidate();
+		
 		return "login/loginForm";
 	}
 

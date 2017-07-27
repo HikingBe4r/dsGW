@@ -9,6 +9,7 @@
 
 <script>
 	$(document).ready(function() {
+		// 승인버튼
 		$("#approveBtn").click(function() {
 			
 			if($("#comment").val().length == 0) {
@@ -44,6 +45,10 @@
 				})
 			}
 			
+		});
+		
+		$("#backBtn").click(function() {
+			window.close();
 		});
 	});
 		

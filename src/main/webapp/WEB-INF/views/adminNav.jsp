@@ -9,7 +9,7 @@
 	<div class="row">
 		<div class="col-sm-7 col-md-7">
 			<div class="thumbnail">
-				<img src="resources/image/example.png" alt="..." id="profileImg">
+				<img src="${pageContext.request.contextPath }/resources/image/example.png" id="profileImg">
 			</div>
 		</div>
 

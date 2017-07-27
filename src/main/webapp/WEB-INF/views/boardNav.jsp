@@ -1,6 +1,6 @@
 <%-- nav.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
@@ -15,7 +15,12 @@
 	<!-- <div class="col-sm-1 col-md-1"></div> -->
 	<div class="col-sm-7 col-md-7">
 		<div class="thumbnail">
-			<img src="${pageContext.request.contextPath }/upload/empImage/${sessionScope.empImage1.systemFileName}" alt="..." id="profileImg">
+			<c:if test="${sessionScope.employee == null}">
+				<img src="${pageContext.request.contextPath }/resources/image/example.png" alt="..." id="profileImg">
+			</c:if>
+			<c:if test="${sessionScope.employee != null}">
+				<img src="${pageContext.request.contextPath }/upload/empImage/${sessionScope.empImage1.systemFileName}" alt="..." id="profileImg">
+			</c:if>
 		</div>
 	</div>
 
