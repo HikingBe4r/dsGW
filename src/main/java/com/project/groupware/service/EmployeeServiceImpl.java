@@ -148,8 +148,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return imageMapper.selectImage(keyword);
 	}
 
-	public int checkEmail(String email) {
-		return empMapper.countEmail(email);
+	public String checkEmail(String email) {
+		return empMapper.selectEmail(email);
 	}
 
 }

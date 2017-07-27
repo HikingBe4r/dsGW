@@ -31,5 +31,5 @@ public interface EmployeeMapper {
 	
 	public List<EmployeeVO> selectEmployeeByDepartment(String departmentId);
 	
-	public int countEmail(String email);
+	public String selectEmail(String email);
 }

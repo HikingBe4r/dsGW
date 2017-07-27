@@ -170,7 +170,7 @@
 					<button class="btn btn-primary" id="searchBtn">검색</button>
 				</div>
 				<div style="float: right">
-					<input type="text" class="form-control" name="keyword"
+					<input type="text" class="form-control" name="keyword" 
 						placeholder="검색어">
 
 				</div>

@@ -216,9 +216,9 @@
 		ORDER BY e.grade_id
 	</select>
 
-	<select id="countEmail" parameterType="string" statementType="PREPARED"
-		resultType="int">
-		SELECT count(email)
+	<select id="selectEmail" parameterType="string" statementType="PREPARED"
+		resultType="string">
+		SELECT email
 		from EMPLOYEE
 		where EMAIL = #{value}
 	</select>

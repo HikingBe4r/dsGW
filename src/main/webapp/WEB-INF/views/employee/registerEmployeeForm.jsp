@@ -22,7 +22,7 @@
 		if (pw1 != pw2) {
 			document.getElementById('checkPwd').style.color = "red";
 			document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요.";
-		} else {
+		} else if(pw1 > 6 && pw2 > 6){
 			document.getElementById('checkPwd').style.color = "black";
 			document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다.";
 		}
@@ -39,10 +39,10 @@
 					email: $("#email").val()
 				},
 				success : function(data) {
-					if(data.check == 0){
-						$('#checkEmail').html('사용 가능한 아이디 입니다');
+					if(data.check == $("#email").val()){
+						$('#checkEmail').html('중복된 메일 입니다.');
 					}else{
-						$('#checkEmail').html('중복된 아이디 입니다.');
+						$('#checkEmail').html('사용 가능한 메일 입니다');
 					}
 				},
 				error : function(request, status, error) {
@@ -59,9 +59,24 @@
 		});//click 완료
 	});//ready 완료
 	
+
+	function empSumit(frm) {
+		if ($('#checkEmail').html() == '사용 가능한 메일 입니다'
+				&& $('#checkPwd').html() == '암호가 확인 되었습니다.') {
+			var url = "${pageContext.request.contextPath }/registerEmployee.do";
+			frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
+			frm.method = "post";
+			frm.submit();
+		} else if ($('#checkEmail').html() != '사용 가능한 메일 입니다') {
+			alert("이메일을 확인하세요");
+		} else if ($('#checkPwd').html() != '암호가 확인 되었습니다.') {
+			alert("암호를 확인하세요");
+		}
+		
+	}
 </script>
 <form action="${pageContext.request.contextPath }/registerEmployee.do"
-	method="post" enctype="multipart/form-data" name="form">
+	method="post" enctype="multipart/form-data" name="form" >
 	<div class="py-5">
 		<div class="container">
 			<br>
@@ -70,12 +85,12 @@
 				<div class="col-md-6">
 					<div id="holder" style="width: 300px; height: 400px; margin: auto;"></div>
 					<div class="btn btn-success fileinput-button" style="margin: auto;">
-						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
-						<input type="file" name="upload" id="upload">
+						<i class="glyphicon glyphicon-plus"></i> <span>사원사진등록</span>
+						<input type="file" name="upload" id="upload" >
 					</div>
 					<div id="holder2" style="width: 300px; height: 400px; margin: auto;"></div>
 					<div class="btn btn-success fileinput-button">
-						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
+						<i class="glyphicon glyphicon-plus"></i> <span>결재정보등록</span>
 						<input type="file" name="upload" id="upload">
 					</div>
 				</div>
@@ -129,12 +144,12 @@
 							placeholder="이름" name="name">
 					</div>
 					<div class="form-group">
-						<label>비밀번호</label> <input type="password" class="form-control"
-							placeholder="Password" name="password">
+						<label>비밀번호</label> <input type="password" class="form-control" onpaste="return false;"
+							placeholder="Password" name="password" required="required">
 					</div>
 					<div class="form-group">
 						<label>비밀번호 확인</label> <input type="password" class="form-control"
-							name="pwd_check" onkeyup="return checkPwd();"
+							name="pwd_check" onkeyup="return checkPwd();" onpaste="return false;"
 							placeholder="Password Check">
 					</div>
 					<div id="checkPwd">동일한 암호를 입력하세요.</div>
@@ -142,7 +157,7 @@
 					<div class="form-group">
 						<label>이메일</label>
 						 <input type="email" class="form-control"
-							placeholder="xxxx@xxxx.xxx" name="email" id="email">
+							placeholder="xxxx@xxxx.xxx" name="email" id="email" onpaste="return false;">
 					</div>
 					<div id="checkEmail">이메일을 입력해주세요</div>
 					<br>
@@ -161,54 +176,8 @@
 								new daum.Postcode(
 										{
 											oncomplete : function(data) {
-												// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-												// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-												// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-												var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-												var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
-												// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-												// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-												if (data.bname !== ''
-														&& /[동|로|가]$/g
-																.test(data.bname)) {
-													extraRoadAddr += data.bname;
-												}
-												// 건물명이 있고, 공동주택일 경우 추가한다.
-												if (data.buildingName !== ''
-														&& data.apartment === 'Y') {
-													extraRoadAddr += (extraRoadAddr !== '' ? ', '
-															+ data.buildingName
-															: data.buildingName);
-												}
-												// 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-												if (extraRoadAddr !== '') {
-													extraRoadAddr = ' ('
-															+ extraRoadAddr
-															+ ')';
-												}
-												// 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
-												if (fullRoadAddr !== '') {
-													fullRoadAddr += extraRoadAddr;
-												}
-
 												// 우편번호와 주소 정보를 해당 필드에 넣는다.
-												document
-														.getElementById('address').value = data.jibunAddress;
-
-												// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-												if (data.autoJibunAddress) {
-													var expJibunAddr = data.autoJibunAddress;
-													document
-															.getElementById('guide').innerHTML = '(예상 지번 주소 : '
-															+ expJibunAddr
-															+ ')';
-
-												} else {
-													document
-															.getElementById('guide').innerHTML = '';
-												}
-
+												document.getElementById('address').value = data.jibunAddress;
 												window.close();
 											}
 										}).open();
@@ -243,7 +212,7 @@
 			</div>
 			<div>
 				<P align=right>
-					<button type="submit" class="btn btn-primary">등록</button>
+					<button type="button" class="btn btn-primary" onclick="empSumit(this.form)">등록</button>
 					<button type="button" class="btn btn-primary">취소</button>
 				</p>
 			</div>

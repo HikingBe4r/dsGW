@@ -49,6 +49,6 @@ public interface EmployeeService {
 	
 	public EmployeeImageVO retrieveEmployeeImage(Map<String, Object> keyword);
 	
-	public int checkEmail(String email);
+	public String checkEmail(String email);
 
 }
