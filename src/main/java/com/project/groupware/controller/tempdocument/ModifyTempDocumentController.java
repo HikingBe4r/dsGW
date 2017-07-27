@@ -21,7 +21,7 @@ public class ModifyTempDocumentController {
 		
 		tempDocumentService.modifyTempDocument(tempDocumentVO);
 		
-		return "redirect:/listTempDocument.do";
+		return "jsonView";
 		
 	}
 }
