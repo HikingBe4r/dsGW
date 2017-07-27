@@ -464,10 +464,14 @@ function retrieveAll() {
 			
 			var htmlStr = "<span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br><br> ";
 			for(var i=0; i<data.departmentList.length; i++) {
-				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+				htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+				 if('${sessionScope.employee.departmentId }' == data.departmentList[i].id) {
+					htmlStr += data.departmentList[i].name + "(";
+					htmlStr += parseInt(data.departmentList[i].employeeCount)-1 + ")</span> <br>" ;			
+				 } else {
+					htmlStr += data.departmentList[i].name + "("+ data.departmentList[i].employeeCount + ")</span> <br>" ;
+				 }		 			 	 
 			}	
-			//htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
 			$('#employeeList').append(htmlStr);
 		}
 		,

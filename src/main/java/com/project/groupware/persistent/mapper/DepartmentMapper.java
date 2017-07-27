@@ -16,4 +16,6 @@ public interface DepartmentMapper {
 	public void updateDepartment(Map<String, Object> map);
 	
 	public void deleteDepartment(DepartmentVO dept);
+	
+	public List<DepartmentVO> selectDepartmentListWithCount();
 }

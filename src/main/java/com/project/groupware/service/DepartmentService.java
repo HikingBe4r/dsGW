@@ -16,4 +16,6 @@ public interface DepartmentService {
 	public DepartmentVO retrieveDepartment(String id);
 	
 	public List<DepartmentVO> retrieveDepartmentList(Map<String, Object> keyword);
+	
+	public List<DepartmentVO> retrieveDepartmentListWithCount();
 }

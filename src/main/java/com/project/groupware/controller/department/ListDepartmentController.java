@@ -43,8 +43,8 @@ public class ListDepartmentController {
 	@RequestMapping(value = "/listDepartment.do", method = RequestMethod.POST)
 	public ModelAndView listDepartmentPost() {
 		ModelAndView mv = new ModelAndView();
-		Map<String, Object> keyword = new HashMap<String, Object>();
-		mv.addObject("departmentList", service.retrieveDepartmentList(keyword));
+		//Map<String, Object> keyword = new HashMap<String, Object>();
+		mv.addObject("departmentList", service.retrieveDepartmentListWithCount());
 		mv.setViewName("jsonView");
 		return mv;
 	}

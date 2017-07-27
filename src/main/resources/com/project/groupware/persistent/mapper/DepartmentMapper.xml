@@ -50,4 +50,15 @@
 		FROM DEPARTMENT
 		WHERE ID = #{id}
 	</delete>
+	
+	<select id="selectDepartmentListWithCount" statementType="STATEMENT" resultType="departmentVO">
+		SELECT 
+			d.id as id, 
+			d.name as name, 
+			count(e.id) as employeeCount
+		from DEPARTMENT d, EMPLOYEE e
+		where d.id = e.department_id(+) 
+		group by d.id, d.name
+	</select>
+	
 </mapper>

@@ -343,6 +343,7 @@ jQuery.tableDnD = {
             top    += element.offsetTop;
             element = element.offsetParent;
         }
+        
 
         left += element.offsetLeft;
         top  += element.offsetTop;

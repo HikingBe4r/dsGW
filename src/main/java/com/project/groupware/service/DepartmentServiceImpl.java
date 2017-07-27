@@ -35,4 +35,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 		return deptMapper.selectDepartmentList(keyword);
 	}
 
+	public List<DepartmentVO> retrieveDepartmentListWithCount() {
+		return deptMapper.selectDepartmentListWithCount();
+	}
+	
+	
+
 }

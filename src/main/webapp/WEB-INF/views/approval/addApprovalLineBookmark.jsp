@@ -45,8 +45,13 @@ $(document).ready(function() {
 			
 			var htmlStr = "";
 			for(var i=0; i<data.departmentList.length; i++) {
-				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+				htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
+				 if('${sessionScope.employee.departmentId }' == data.departmentList[i].id) {
+					htmlStr += data.departmentList[i].name + "(";
+					htmlStr += parseInt(data.departmentList[i].employeeCount)-1 + ")</span> <br>" ;			
+				 } else {
+					htmlStr += data.departmentList[i].name + "("+ data.departmentList[i].employeeCount + ")</span> <br>" ;
+				 }		 	 	 
 			}	
 			htmlStr += "<br>";
 			$('#employeeList').append(htmlStr);
@@ -295,6 +300,7 @@ function search() {
 			
 		});
 	}
+	$('#keyword').val('');
 }
 
 // 탭 설정

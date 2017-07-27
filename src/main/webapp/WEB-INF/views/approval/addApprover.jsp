@@ -14,6 +14,7 @@ var tap = 1;
 var approverList = [];
 var recieverList = [];
 
+
 $(document).ready(function() {
 	
 	$('#approverTap').on('click', function() {
@@ -201,8 +202,7 @@ $(document).ready(function() {
 function search() {
 	$('#employeeList').empty();
 	if($('#keyword').val() == '') {
-		retrieveAll();
-		
+		retrieveAll();		
 	} else {
 		//사원 검색
 		$.ajax({
@@ -270,6 +270,7 @@ function search() {
 			}				
 		}); 
 	}
+	$('#keyword').val('');
 }
 
 // 탭 설정
@@ -428,8 +429,7 @@ $(function() {
 					htmlStr += "<td>참조</td>";
 					htmlStr += "</tr>";
 				}
-				$('#recieverTable').append(htmlStr);
-				
+				$('#recieverTable').append(htmlStr);			
 			}
 			,
 			error : function(jqXHR) {
@@ -460,9 +460,13 @@ function retrieveAll() {
 			var htmlStr = "<span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br><br>";
 			for(var i=0; i<data.departmentList.length; i++) {
 				 htmlStr += "<span class='glyphicon glyphicon-folder-open' aria-hidden='true' id=" + data.departmentList[i].id  + ">  "; 
-				 htmlStr += data.departmentList[i].name + "</span> <br>" ;			 	 
+				 if('${sessionScope.employee.departmentId }' == data.departmentList[i].id) {
+					htmlStr += data.departmentList[i].name + "(";
+					htmlStr += parseInt(data.departmentList[i].employeeCount)-1 + ")</span> <br>" ;			
+				 } else {
+					htmlStr += data.departmentList[i].name + "("+ data.departmentList[i].employeeCount + ")</span> <br>" ;
+				 }		 			 	 
 			}	
-			//htmlStr += "<br><span class='glyphicon glyphicon-star' aria-hidden='true' id='approvalBookmark'> 즐겨찾기 </span><br> ";
 			$('#employeeList').append(htmlStr);
 		}
 		,
