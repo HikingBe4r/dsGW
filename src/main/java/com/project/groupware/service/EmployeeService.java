@@ -48,5 +48,7 @@ public interface EmployeeService {
 	public List<EmployeeVO> retrieveEmployeeByDepartment(String departmentId);
 	
 	public EmployeeImageVO retrieveEmployeeImage(Map<String, Object> keyword);
+	
+	public int checkEmail(String email);
 
 }

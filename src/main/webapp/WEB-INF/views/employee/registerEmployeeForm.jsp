@@ -28,48 +28,37 @@
 		}
 	}
 	
-	$(document)
-			.ready(
-					function() {
-						var checkAjaxSetTimeout;
-						$('#email')
-								.keyup(
-										function() {
-											clearTimeout(checkAjaxSetTimeout);
-											checkAjaxSetTimeout = setTimeout(
-													function() {
-														if ($('#email').val().length > 6) {
-															var email = $(this)
-																	.val();
-															// ajax 실행
-															$
-																	.ajax({
-																		type : 'POST',
-																		url : '${pageContext.request.contextPath}/emailCheck.do',
-																		data : {
-																			email : email
-																		},
-																		success : function(
-																				result) {
-																			alert(result);
-																			if (result == "ok") {
-																				$(
-																						"#checkEmail")
-																						.html(
-																								"사용 가능한 아이디 입니다.");
-																			} else {
-																				$(
-																						"#checkEmail")
-																						.html(
-																								"사용 불가능한 아이디 입니다.");
-																			}
-																		}
-																	}); // end ajax
-														}
-													}, 1000); //end setTimeout
-
-										}); // end keyup
-					});
+	$(document).ready(function(){
+			$('#email').keyup(function(){
+			$.ajax({
+				url : '${pageContext.request.contextPath}/checkEmail.do',
+				method : 'POST',
+				cache : false,
+				dataType : 'json',
+				data : {
+					email: $("#email").val()
+				},
+				success : function(data) {
+					if(data.check == 0){
+						$('#checkEmail').html('사용 가능한 아이디 입니다');
+					}else{
+						$('#checkEmail').html('중복된 아이디 입니다.');
+					}
+				},
+				error : function(request, status, error) {
+					alert("code:" + request.status + "\n"
+							+ "message:"
+							+ request.responseText + "\n"
+							+ "error:" + error);
+					console.log("code:" + request.status
+							+ "\n" + "message:"
+							+ request.responseText + "\n"
+							+ "error:" + error);
+				}
+			});//ajax 완료
+		});//click 완료
+	});//ready 완료
+	
 </script>
 <form action="${pageContext.request.contextPath }/registerEmployee.do"
 	method="post" enctype="multipart/form-data" name="form">
@@ -132,7 +121,7 @@
 				</script>
 				<div class="col-md-6">
 					<div class="form-group">
-						<label>사번</label> <input type="text" class="form-control"
+						<label>사번</label> <input type="text" class="form-control" 
 							placeholder="사번은 입사일+순번 입니다." disabled="disabled">
 					</div>
 					<div class="form-group">
@@ -151,10 +140,12 @@
 					<div id="checkPwd">동일한 암호를 입력하세요.</div>
 					<br>
 					<div class="form-group">
-						<label>이메일</label> <input type="email" class="form-control"
-							placeholder="xxxx@xxxx.xxx" name="email">
+						<label>이메일</label>
+						 <input type="email" class="form-control"
+							placeholder="xxxx@xxxx.xxx" name="email" id="email">
 					</div>
 					<div id="checkEmail">이메일을 입력해주세요</div>
+					<br>
 					<div class="form-group">
 						<label>연락처</label> <input type="text" class="form-control"
 							placeholder="000-0000-0000" name="phone">

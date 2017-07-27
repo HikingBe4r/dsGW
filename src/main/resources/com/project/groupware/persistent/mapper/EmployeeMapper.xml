@@ -5,7 +5,8 @@
 <mapper namespace="com.project.groupware.persistent.mapper.EmployeeMapper">
 
 	<insert id="insertEmployee" parameterType="employeeVO"
-		statementType="PREPARED" useGeneratedKeys="true"  keyProperty="id"  keyColumn="id">
+		statementType="PREPARED" useGeneratedKeys="true" keyProperty="id"
+		keyColumn="id">
 		insert
 		into EMPLOYEE(NAME, EMAIL, hire_date, address,
 		address_detail,
@@ -46,7 +47,8 @@
 		GRADE_ID as gradeId,
 		STATUS_ID as statusId
 		FROM EMPLOYEE
-		WHERE email = #{email} and name = #{name}
+		WHERE email =
+		#{email} and name = #{name}
 	</select>
 
 	<select id="selectEmployeeList" parameterType="map"
@@ -125,12 +127,15 @@
 		e.ADDRESS_DETAIL as addressDetail,
 		e.PASSWORD,
 		e.PHONE,
-		d.name as departmentId,
+		d.name as
+		departmentId,
 		g.grade as gradeId,
 		es.status as statusId
-		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es
+		FROM EMPLOYEE e,
+		DEPARTMENT d, GRADE g, EMP_STATUS es
 		WHERE e.id = #{value}
-		AND e.department_id = d.id
+		AND
+		e.department_id = d.id
 		AND e.grade_id = g.id
 		AND e.status_id = es.id
 	</select>
@@ -141,16 +146,19 @@
 		e.ID,
 		e.NAME,
 		e.EMAIL,
-		to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate,
+		to_char(e.HIRE_DATE, 'YYYY/MM/DD') as
+		hireDate,
 		e.ADDRESS,
 		e.ADDRESS_DETAIL as addressDetail,
 		e.PASSWORD,
 		e.PHONE,
 		d.name as departmentId,
 		g.grade as gradeId,
-		es.status as statusId
+		es.status as
+		statusId
 		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es
-		WHERE e.department_id = d.id
+		WHERE
+		e.department_id = d.id
 		AND e.grade_id = g.id
 		AND e.status_id =
 		es.id
@@ -185,27 +193,34 @@
 		ORDER BY ID
 
 	</select>
-	
+
 	<select id="selectEmployeeByDepartment" parameterType="string"
 		statementType="PREPARED" resultType="employeeVO">
 		SELECT
-			e.ID,
-			e.NAME,
-			e.EMAIL,
-			to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate,
-			e.ADDRESS,
-			e.ADDRESS_DETAIL as addressDetail,
-			e.PASSWORD,
-			e.PHONE,
-			d.name as departmentId,
-			g.grade as gradeId,
-			es.status as statusId
+		e.ID,
+		e.NAME,
+		e.EMAIL,
+		to_char(e.HIRE_DATE, 'YYYY/MM/DD') as hireDate,
+		e.ADDRESS,
+		e.ADDRESS_DETAIL as addressDetail,
+		e.PASSWORD,
+		e.PHONE,
+		d.name as departmentId,
+		g.grade as gradeId,
+		es.status as statusId
 		FROM EMPLOYEE e, DEPARTMENT d, GRADE g, EMP_STATUS es
 		WHERE d.id = #{value}
 		AND e.department_id = d.id
 		AND e.grade_id = g.id
 		AND e.status_id = es.id
 		ORDER BY e.grade_id
+	</select>
+
+	<select id="countEmail" parameterType="string" statementType="PREPARED"
+		resultType="int">
+		SELECT count(email)
+		from EMPLOYEE
+		where EMAIL = #{value}
 	</select>
 
 </mapper>

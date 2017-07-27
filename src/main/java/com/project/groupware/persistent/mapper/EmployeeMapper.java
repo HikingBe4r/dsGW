@@ -30,4 +30,6 @@ public interface EmployeeMapper {
 	public EmployeeVO selectEmployeeFind(EmployeeVO emp);
 	
 	public List<EmployeeVO> selectEmployeeByDepartment(String departmentId);
+	
+	public int countEmail(String email);
 }
