@@ -37,7 +37,7 @@
 </head>
 <body>
 	<h3>Q&A</h3>
-	<form action="${pageContext.request.contextPath}/modifyArticle.do"	method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath}/modifyQnA.do"	method="post" enctype="multipart/form-data">
 		<input type="hidden" name="fileNo" value="${param.fileNo}" id="fileNo">
 		<input type="hidden" name="id" value="${requestScope.article.id}">
 		<input type="hidden" name="secret" value="0">

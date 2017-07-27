@@ -73,40 +73,44 @@ $(document).ready(function() {
 			 if($(this).prop('checked')) {
 				 //결재자
 				 if(tap==1) {
-					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {	
-						 approverList.push($(this).val());
-						 $('#submitBtn').removeAttr('disabled');
-						 $.ajax({
-								url: '${pageContext.request.contextPath}/getEmployee.do'
-								,
-								method: 'POST'
-								,
-								dataType: 'json'
-								,
-								data: {
-									employeeId: $(this).val()									
-								}
-								, 
-								cache: false
-								,
-								success: function(data) {
+					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
+						 if(approverList.length < 4) {
+							 approverList.push($(this).val());
+							 $('#submitBtn').removeAttr('disabled');
+							 $.ajax({
+									url: '${pageContext.request.contextPath}/getEmployee.do'
+									,
+									method: 'POST'
+									,
+									dataType: 'json'
+									,
+									data: {
+										employeeId: $(this).val()									
+									}
+									, 
+									cache: false
+									,
+									success: function(data) {
+										
+										var htmlStr = "<tr id="+ data.employee.id +">";
+										htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+										htmlStr += "<td>" + data.employee.name + "</td>";
+										htmlStr += "<td>" + data.employee.gradeId + "</td>";
+										htmlStr += "<td>" + data.employee.departmentId + "</td>";
+										htmlStr += "<td>결재</td>";
+										htmlStr += "</tr>";
+										$('#approverTable').append(htmlStr);
+													
+									}						
+									,
+									error : function(jqXHR) {
+										alert("Error : " + jqXHR.responseText);
+									}			
 									
-									var htmlStr = "<tr id="+ data.employee.id +">";
-									htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
-									htmlStr += "<td>" + data.employee.name + "</td>";
-									htmlStr += "<td>" + data.employee.gradeId + "</td>";
-									htmlStr += "<td>" + data.employee.departmentId + "</td>";
-									htmlStr += "<td>결재</td>";
-									htmlStr += "</tr>";
-									$('#approverTable').append(htmlStr);
-												
-								}						
-								,
-								error : function(jqXHR) {
-									alert("Error : " + jqXHR.responseText);
-								}			
-								
-							});
+								});
+						 }  else {
+							 alert($(this).val() + " 사원을 추가할 수 없습니다.\n결재자는 최대 4명까지 선택가능합니다.");
+						 }
 						 
 					 } else {
 						 alert($(this).val() +" 사원은 이미 추가된 사원입니다.")

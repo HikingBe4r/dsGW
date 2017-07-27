@@ -154,7 +154,7 @@
 			
 			if(confirm('정말로 삭제하시겠습니까?')) {
 				$.ajax({
-					url: '${pageContext.request.contextPath}/deleteTempDocument.do'
+					url: '${pageContext.request.contextPath}/removeTempDocument.do'
 					,
 					method: 'GET'
 					,

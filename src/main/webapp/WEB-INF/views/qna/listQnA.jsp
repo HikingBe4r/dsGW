@@ -1,4 +1,4 @@
-<%-- listArticle.jsp 
+<!-- listQnA.jsp --> 
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="com.project.groupware.domain.ArticleVO"%>
 <%@ page import="com.project.groupware.domain.EmployeeVO"%>
@@ -14,7 +14,7 @@
 //쓰기 버튼
 $(document).ready(function() {   
 	$("#writeBtn").click(function() {
-		location.href	= 'writeArticle.do?boardId=${param.boardId}&open=${param.open}';
+		location.href	= 'writeQnA.do?boardId=${param.boardId}&open=${param.open}';
 	});
 });
 
@@ -34,7 +34,7 @@ $(document).ready(function() {
 			}
 			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 				
-				var linkUrl = '${pageContext.request.contextPath}/detailArticle.do';	
+				var linkUrl = '${pageContext.request.contextPath}/detailQnA.do';	
 					linkUrl += '?id=' + data.articleList[i].id;
 					
 				
@@ -92,7 +92,7 @@ $(document).ready(function() {
 		
 		//페이지 로드시
 		$.ajax ({
-			url: '${pageContext.request.contextPath}/listArticle.do'
+			url: '${pageContext.request.contextPath}/listQnA.do'
 			,
 			method : 'GET'
 			,
@@ -125,7 +125,7 @@ $(document).ready(function() {
 			keyword = $("#searchKeyword").val();
 			
 			$.ajax({
-				url : '${pageContext.request.contextPath}/listArticle.do'
+				url : '${pageContext.request.contextPath}/listQnA.do'
 				,
 				method : 'GET'
 				,
@@ -162,7 +162,7 @@ $(document).ready(function() {
 		// 페이지 클릭시
 		$("#pagination").on("click", "li", function() {
 			$.ajax({
-				url : '${pageContext.request.contextPath}/listArticle.do'
+				url : '${pageContext.request.contextPath}/listQnA.do'
 				,
 				method : 'GET'
 				,
@@ -201,7 +201,7 @@ $(document).ready(function() {
 			if($(this).text() =='내글보기' ) {
 				
 				$.ajax({
-					url : '${pageContext.request.contextPath}/myArticle.do'
+					url : '${pageContext.request.contextPath}/myQnA.do'
 					,
 					method : 'GET'
 					,
@@ -236,7 +236,7 @@ $(document).ready(function() {
 			else if($(this).text() =='전체조회' ) {
 				
 				$.ajax({
-					url : '${pageContext.request.contextPath}/listArticle.do'
+					url : '${pageContext.request.contextPath}/listQnA.do'
 					,
 					method : 'GET'
 					,
@@ -499,5 +499,3 @@ $(document).ready(function() {
 
 
      
-      
-    --%>

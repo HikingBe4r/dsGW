@@ -1,4 +1,4 @@
-<%-- detailArticle.jsp --%>
+<%-- detailQnA.jsp --%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page import="com.project.groupware.domain.ArticleVO"%>
 <%@ page import="com.project.groupware.domain.ArticleFileVO" %>
@@ -138,7 +138,7 @@
 </div>
 <div class="row">
   <div class="col-md-11"></div>
-  <div class="col-md-1"><button id="listBtn" onclick="location.href='${pageContext.request.contextPath}/listArticle.do?boardId=${requestScope.article.boardId}'">목록보기</button></div>
+  <div class="col-md-1"><button id="listBtn" onclick="location.href='${pageContext.request.contextPath}/listQnA.do?boardId=${requestScope.article.boardId}'">목록보기</button></div>
 </div>
 
 <!--  글제목 -->
@@ -173,8 +173,8 @@
 <!-- 수정//삭제 버튼 -->
 <div class="row">
 	<div class="col-md-10"></div>
-	<div class="col-md-1"><button id="modifyBtn" onclick="location.href='${pageContext.request.contextPath}/modifyArticle.do?id=${param.id}'">수정</button></div>
-	<div class="col-md-1"><button id="deleteBtn" onclick="location.href='${pageContext.request.contextPath}/removeArticle.do?id=${param.id}&boardId=${requestScope.article.boardId}'">삭제</button></div>
+	<div class="col-md-1"><button id="modifyBtn" onclick="location.href='${pageContext.request.contextPath}/modifyQnA.do?id=${param.id}'">수정</button></div>
+	<div class="col-md-1"><button id="deleteBtn" onclick="location.href='${pageContext.request.contextPath}/removeQnA.do?id=${param.id}&boardId=${requestScope.article.boardId}'">삭제</button></div>
 </div>
 
 

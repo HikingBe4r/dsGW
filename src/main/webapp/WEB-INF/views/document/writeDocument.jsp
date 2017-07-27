@@ -11,21 +11,17 @@
 <script type="text/javascript">
 	var hasApprovalLine = false;
 
-	$(document).ready(
-			function() {
-
-				// 오늘 날짜 설정
-				var now = new Date();
-				var year = now.getFullYear();
-				var mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1)
-						: '0' + (now.getMonth() + 1);
-				var day = now.getDate() > 9 ? '' + now.getDate() : '0'
-						+ now.getDate();
-				var today = year + '/' + mon + '/' + day;
-				$('#endDate').val(today);
-				$('#writeday').text(today);
-				
-			});
+	$(document).ready(function() {
+		// 오늘 날짜 설정
+		var now = new Date();
+		var year = now.getFullYear();
+		var mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1): '0' + (now.getMonth() + 1);
+		var day = now.getDate() > 9 ? '' + now.getDate() : '0' + now.getDate();
+		var today = year + '/' + mon + '/' + day;
+		$('#endDate').val(today);
+		$('#writeday').text(today);
+		
+	});
 
 	//시행일 달력
 	$(function() {
@@ -185,10 +181,8 @@
 					<table class="table table-condensed table-bordered">
 						<tr>
 							<td style="width: 100px;">기안자</td>
-							<td style="width: 100px;">${sessionScope.employee.name }<input
-								type="hidden" name="employeeId"
-								value="${sessionScope.employee.id }"></td>
-								
+							<td style="width: 100px;">${sessionScope.employee.name }
+							<input type="hidden" name="employeeId" value="${sessionScope.employee.id }"></td>	
 						</tr>
 						<tr>
 							<td>소속</td>
@@ -223,8 +217,7 @@
 					</div>
 
 					<div class="col-sm-12">
-						<textarea class="form-control" name="content" id="content"
-							rows="16"></textarea>
+						<textarea class="form-control" name="content" id="content" rows="16"></textarea>
 					</div>
 				</div>
 			</form>
