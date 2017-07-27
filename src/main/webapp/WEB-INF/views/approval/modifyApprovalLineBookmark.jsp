@@ -255,7 +255,7 @@ function search() {
 			success: function(data) {
 				var htmlStr = "";
 				for(var i=0; i<data.approvalLineList.length; i++) { 
-				    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
+				    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm' name='"+ data.approvalLineList[i].subject +"'> ";
 				    htmlStr += "<span class='glyphicon glyphicon-scissors' aria-hidden='true'></span>  ";
 				    htmlStr += data.approvalLineList[i].subject + "</button></label><br> ";		    									
 				}		
@@ -327,7 +327,7 @@ $(function () {
 					
 					var htmlStr = "<br><br>";
 					for(var i=0; i<data.approvalLineList.length; i++) { 
-					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm'> ";
+					    htmlStr += "<label> <button id='" + data.approvalLineList[i].id + "' type='button' class='btn btn-default btn-sm' name='"+ data.approvalLineList[i].subject +"'> ";
 					    htmlStr += "<span class='glyphicon glyphicon-scissors' aria-hidden='true'></span> " + data.approvalLineList[i].subject +"</button></label><br> ";		    									
 					}		
 					htmlStr += "<br>";
@@ -393,6 +393,7 @@ $(function() {
 		$('#recieverTable tr:not(:first)').empty();
 		
 		currentBookmark = $(this);
+		$('#selectedBookmark').text(currentBookmark.attr("name"));
 		
 		$.ajax({
 			url: '${pageContext.request.contextPath}/listApproverInBookmark.do'
@@ -498,7 +499,11 @@ function retrieveAll() {
 						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
 						<li id="recieverTap"><a href=#>참조자</a></li>
 					</ul>
+					<div class="pull-right">
+						<h5><strong id="selectedBookmark"> </strong></h5>
+					</div>
 				</div>
+				
 			</form>
 			<div class="col-md-12">
 				<!-- 리스트 영역 -->
