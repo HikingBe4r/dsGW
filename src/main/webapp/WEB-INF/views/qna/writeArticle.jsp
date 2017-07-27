@@ -29,7 +29,7 @@
 </head>
 <body>
 	<h3>Q&A</h3>
-	<form action="${pageContext.request.contextPath }/writeArticle.do"	method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/writeQnA.do"	method="post" enctype="multipart/form-data">
 		<input type="hidden" name="boardId" value="${param.boardId}">
 		<input type="hidden" name="secret" value="0">
 		<table style="border: 0px;">
