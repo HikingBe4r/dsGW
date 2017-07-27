@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groupware.persistent.mapper.QnAReplyMapper">
+
+
+
+
+	<!-- 댓글 등록 -->
+	<insert id="insertReply" parameterType="articleReplyVO"
+		statementType="PREPARED">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
+			resultType="int">
+			SELECT ARTICLE_REPLY_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO
+		ARTICLE_REPLY(id, article_id, employee_id, content,
+		writeday)
+		VALUES( #{id}, #{articleId}, 1, #{content}, SYSDATE)
+	</insert>
+
+	<!-- 댓글 수정 -->
+	<update id="updateReply" statementType="PREPARED" parameterType="articleReplyVO">
+		UPDATE ARTICLE_REPLY
+		SET content = #{content}
+		WHERE id = #{id}
+	</update>
+
+	<!-- 게시글 댓글 삭제 -->
+	<delete id="deleteArticleReply" statementType="PREPARED" parameterType="int">
+		DELETE FROM ARTICLE_REPLY
+		WHERE article_id = #{articleId}
+	</delete>
+
+	<!-- 댓글만 삭제 -->
+	<delete id="deleteReply" statementType="PREPARED" parameterType="int">
+		DELETE FROM ARTICLE_REPLY
+		WHERE id = #{id}
+	</delete>
+	
+	<!-- 댓글여러개 삭제 -->
+	<!-- <delete id="deleteReply" statementType="PREPARED" parameterType="int">
+		DELETE FROM ARTICLE_REPLY
+		WHERE id in (?)
+	</delete> -->
+
+</mapper>

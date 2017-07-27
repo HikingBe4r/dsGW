@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groupware.persistent.mapper.ArticleReplyMapper">
+
+	<!-- 댓글 등록 -->
+	<insert id="insertArticleReply" statementType="PREPARED" parameterType="articleReplyVO">
+		<selectKey keyProperty="id" statementType="STATEMENT" resultType="int" order="BEFORE">
+			SELECT	ARTICLE_REPLY_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO ARTICLE_REPLY(ID,ARTICLE_ID,EMPLOYEE_ID,CONTENT,WRITEDAY)
+		VALUES( #{id},#{articleId},20170711002,#{content},sysdate)
+		
+	</insert>
+	
+	<!-- 댓글 삭제 (댓글) -->
+	<delete id="deleteReply" parameterType="int" statementType="PREPARED">
+		delete from ARTICLE_REPLY 
+		where id = #{id}
+	</delete>
+	
+	<!-- 댓글 삭제 (게시글) -->
+	<delete id="deleteArticleReply" parameterType="int" statementType="PREPARED">
+		delete from ARTICLE_REPLY 
+		where article_id = #{value} 
+	</delete>
+	
+	<!-- 댓글 수정  -->
+	<update id="updateReply" parameterType="articleReplyVO" statementType="PREPARED">
+		update ARTICLE_REPLY
+		SET	
+			CONTENT  = #{content},
+			WRITEDAY = SYSDATE
+		WHERE 
+			 id = #{id}
+	</update>
+	
+	<!-- 댓글 리스트 맵  -->
+	<resultMap  id="selectReplyListMap" type="articleReplyVO">
+		<id column="id" 		property="id"/>
+		<result column="content" property="content"/> 
+		<result column="writeday" property="writeday"/> 
+		<result column="article_id" property="articleId"/> 
+		<result column="employee_id" property="employeeId"/> 
+		<association property="employee" javaType="employeeVO">
+			<id column="id" 		property="id"/>
+			<result column="name" property="name"/> 
+		</association>
+	</resultMap>
+	
+	<select id ="selectReplyList" parameterType="int" resultMap="selectReplyListMap">
+		SELECT
+			r1.id,
+			r1.content,
+			to_char(r1.writeday, 'YYYY/MM/DD') as writeday, 
+			r1.article_id,
+			r1.employee_id,
+			e1.id,
+			e1.name
+		FROM ARTICLE_REPLY r1, EMPLOYEE e1
+		WHERE r1.employee_id = e1.id
+		AND r1.ARTICLE_id = #{value}
+	</select>
+	
+</mapper>

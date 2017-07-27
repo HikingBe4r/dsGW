@@ -22,6 +22,16 @@
 		<mapper resource="com/project/groupware/persistent/mapper/FormMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/NoticeMapper.xml" />
 		<mapper resource="com/project/groupware/persistent/mapper/TempDocumentMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/ArticleMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/ArticleFileMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/ArticleReplyMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/BoardMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/QnAMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/QnAFileMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/QnAReplyMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/NoticeMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/NoticeFileMapper.xml" />
+		<mapper resource="com/project/groupware/persistent/mapper/NoticeReplyMapper.xml" />
 	</mappers>
 
 </configuration>

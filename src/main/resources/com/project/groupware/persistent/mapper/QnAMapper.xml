@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groupware.persistent.mapper.QnAMapper">
+
+
+
+
+	<!-- 게시글 등록 -->
+	<insert id="insertArticle" parameterType="articlevo"
+		statementType="PREPARED">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
+			resultType="int">
+			SELECT ARTICLE_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO
+		ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,secret)
+		VALUES( #{id}, 1, #{boardId}, #{subject}, #{content}, SYSDATE, 0, 0)
+	</insert>
+
+
+
+	<!-- 총 게시글 수 -->
+	<select id="selectTotalArticle" statementType="PREPARED"
+		parameterType="int" resultType="int">
+		select count(*)
+		from article
+		where
+		board_id = #{value}
+	</select>
+
+
+
+	<!-- 게시글 전체 목록 조회 -->
+	<resultMap id="selectArticleListResultMap" type="articleVO">
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="count" property="count" />
+		<association property="employee" javaType="employeeVO"
+			column="employee_id">
+			<id column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<select id="selectArticleList" statementType="PREPARED"
+		resultMap="selectArticleListResultMap" parameterType="map">
+		select
+		p1.id,
+		p1.board_id,
+		p1.subject,
+		p1.writeday,
+		p1.hitcount,
+		e1.name as
+		name,
+		(select count(*) from article_file a2 where p1.id =
+		a2.article_id) as count
+		from ( select rownum as r, post.*
+		from ( select
+		* from article where
+		board_id = #{boardId} order by writeday desc )post) p1,
+		employee e1
+		<![CDATA[where p1.employee_id = e1.id and r>=#{startRow} and r<=#{endRow}]]>
+
+	</select>
+
+	<!-- 게시글 검색 -->
+	<resultMap id="findArticleListResultMap" type="articleVO">
+
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="count" property="count" />
+		<association property="employee" javaType="employeeVO"
+			column="employee_id">
+			<id column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<select id="findArticleList" statementType="PREPARED"
+      resultMap="findArticleListResultMap" parameterType="map">
+      
+      select 
+                  t1.id,
+                  t1.board_id,
+                  t1.subject,
+                  t1.writeday, 
+                  t1.hitcount,
+                  t2.name as name,
+                  t1.employee_id,
+                  (select count(*) from article_file t2 where t1.id = t2.article_id) as count
+               FROM ARTICLE t1, employee t2
+         <where>
+               <choose>
+                  <when test="keytype == 'name' and keyword != 'all' ">
+                     t1.employee_id = t2.id and
+                     t1.board_id = #{boardId} and
+                     t2.name like '%' || #{keyword} || '%'
+                  </when>
+                  <when test="keytype == 'subject' and keyword != 'all'">
+                     t1.employee_id = t2.id and
+                     t1.board_id = #{boardId} and
+                     t1.subject like '%' || #{keyword} ||'%'
+   
+                  </when>
+                  <when test="keytype == 'content' and keyword != 'all'">
+                     t1.employee_id = t2.id and
+                     t1.board_id = #{boardId} and
+                     t1.content like '%' || #{keyword} || '%'
+                  </when>
+                  <when test="keyword == 'all'">
+                     t1.employee_id = t2.id and
+                     t1.board_id = #{boardId}
+                  </when>
+               </choose>
+               <if test="employeeId != null">
+                  and t1.employee_id = #{employeeId}
+               </if>
+               
+            </where>
+            ORDER BY t1.id DESC     
+   </select>
+
+<!-- 게시글 상세조회 -->
+	<resultMap id="selectArticleResultMap" type="articleVO">
+
+		<id column="id" property="id" />
+		<result column="boardId" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="content" property="content" />
+		<result column="writeday" property="writeday" />
+		<result column="rcount" property="rcount" />
+		<result column="hitcount" property="hitcount"/>
+		<association property="employee" javaType="employeeVO" column="employee_id">
+			<id column="name" property="name" />
+		</association>
+		<collection property="files" ofType="articleFileVO"	javaType="list">
+			<id column="fileid" property="id" />
+			<result column="filename" property="originalFileName" />
+		</collection>
+		<collection property="replys" ofType="articleReplyVO" javaType="list">
+			<id column="replyid" property="id" />
+			<result column="rcontent" property="content" />
+			<result column="rwriteday" property="writeday" />
+			<association property="employee" javaType="employeeVO" column="employee_id">
+				<id column="rname" property="name"/>
+			</association>
+		</collection>
+	</resultMap>
+
+
+	<!-- 게시글 상세 조회 -->
+	<select id="selectArticle" statementType="PREPARED"	resultMap="selectArticleResultMap" parameterType="int">
+		select
+		a1.id,
+		a1.board_id as boardId,
+		a1.subject,
+		a1.content,
+		a1.writeday,
+		a1.hitcount,
+		emp1.name,
+		af.id as fileid,
+		af.original_file_name as filename,
+		ar.id as replyid,
+		ar.content as rcontent,
+		ar.writeday as rwriteday,
+		(select count(*) from article_reply ar2 where a1.id = ar2.article_id) as rcount,
+		(select name from employee emp2 where ar.employee_id = emp2.id) as rname
+		from article a1, employee emp1, article_file af, article_reply ar
+
+		where
+		a1.employee_id = emp1.id and
+		a1.id = af.article_id(+) and
+		a1.id = ar.article_id(+) and
+		a1.id = #{id}
+
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="upHitcount" statementType="PREPARED" parameterType="int">
+		UPDATE article
+		SET hitcount = hitcount+1
+		where id = #{articleId}
+	</update>
+
+	<!-- 게시글 수정 -->
+	<update id="updateArticle" statementType="PREPARED" parameterType="articleVO">
+		UPDATE article
+		<!-- <trim prefix="set">
+			<if test="subject != null and subejct != ''">
+				subject = #{subject} 
+			</if>
+			<if test="content != null and content != ''">
+				content = #{content} 
+			</if>
+		</trim> -->
+		SET subject=#{subject},
+			content=#{content}
+		where id = #{id}
+	</update>
+	
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteArticle" statementType="PREPARED" parameterType="int">
+		DELETE FROM ARTICLE
+		WHERE id = #{id}
+	</delete>
+	
+	 <!-- 게시글 여러개 삭제 -->
+	<!--<delete id="deleteArticles" statementType="PREPARED" parameterType="map">
+	delete from article
+	where id in (?)
+	</delete> -->
+	
+	<!-- 내글 보기 -->
+		<resultMap id="selectMyArticleListResultMap" type="articleVO">
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="count" property="count" />
+		<association property="employee" javaType="employeeVO"
+			column="employee_id">
+			<id column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<select id="selectMyArticleList" statementType="PREPARED"
+		resultMap="selectArticleListResultMap" parameterType="map">
+		select
+		p1.id,
+		p1.board_id,
+		p1.subject,
+		p1.writeday,
+		p1.hitcount,
+		e1.name as
+		name,
+		(select count(*) from article_file a2 where p1.id =
+		a2.article_id) as count
+		from ( select rownum as r, post.*
+		from ( select
+		* from article where
+		board_id = #{boardId} order by writeday desc )post) p1,
+		employee e1
+		<![CDATA[where p1.employee_id = e1.id and r>=#{startRow} and r<=#{endRow}]]>
+
+	</select>
+	
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.groupware.persistent.mapper.QnAFileMapper">
+
+	<!-- 파일 등록 -->
+	<insert id="insertArticleFile" parameterType="map"	statementType="PREPARED">
+		insert All
+		<foreach item="articleFile" collection="articleFiles">
+			into
+			ARTICLE_FILE(article_id,original_file_name,system_file_name,file_size)
+			values(#{articleFile.articleId},#{articleFile.originalFileName},#{articleFile.systemFileName},#{articleFile.fileSize})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteArticleFile" statementType="PREPARED" parameterType="int">
+		DELETE FROM ARTICLE_FILE
+		WHERE article_id = #{articleId}
+	</delete>
+	
+	<!-- 파일만 삭제 -->
+	<delete id="deleteFile" statementType="PREPARED" parameterType="int">
+		DELETE FROM ARTICLE_FILE
+		WHERE id = #{id}
+	</delete>
+	
+	<!-- 파일 여려개 삭제 -->
+	<!-- <delete id="deleteFiles" statementType="PREPARED" parameterType="map">
+		DELETE FROM ARTICLE_FILE
+		WHERE id in (?)
+	</delete> -->
+	
+</mapper>
+	

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.project.groupware.persistent.mapper.NoticeArticleImageMapper">
+
+	<insert id="insertArticleImage" parameterType="map" statementType="PREPARED">	
+		insert all
+		<foreach item="articleImage" collection="articleImages">
+		into ARTICLE_IMAGE(article_id, original_image_name, system_image_name, file_size)
+		values(#{articleImage.articleId},#{articleImage.originalImageName},#{articleImage.systemImageName},#{articleImage.fileSize})
+	</foreach>
+	select * from dual 
+	</insert>
+	
+	<delete id="deleteArticleImage" parameterType="map" statementType="PREPARED">
+   delete from ARTICLE_IMAGE
+        where article_id = #{value}
+
+</delete>
+
+<delete id="deleteImage" parameterType="map" statementType="PREPARED">
+   delete from ARTICLE_IMAGE
+        where id = #{value}
+
+</delete>
+	
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

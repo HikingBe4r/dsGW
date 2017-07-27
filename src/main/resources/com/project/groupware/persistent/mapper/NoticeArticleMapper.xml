@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.project.groupware.persistent.mapper.NoticeArticleMapper">
+
+	<!-- 게시글쓰기 -->
+	<insert id="insertArticle" parameterType="articleVO"
+		statementType="PREPARED">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
+			resultType="int">
+			SELECT ARTICLE_ID_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO
+		ARTICLE(ID,employee_id,board_id,subject,content,writeday,hitcount,secret)
+		VALUES( #{id}, 1, 1, #{subject}, #{content}, SYSDATE, 0, 0)
+
+	</insert>
+
+	<resultMap id="selectArticleResultListMap" type="articleVO">
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="count" property="count" />
+		<association property="employee" javaType="employeeVO">
+			<id column="id" property="id" />
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<!-- 게시글 목록조회 -->
+	<select id="selectArticleList" resultMap="selectArticleResultListMap"
+		statementType="PREPARED" parameterType="map">
+		select
+		t1.id,
+		t1.board_id,
+		t1.subject,
+		to_char(t1.writeday, 'YYYY/MM/DD')
+		as writeday,
+		t1.hitcount,
+		t2.name as name,
+		(select count(*) from
+		ARTICLE_FILE t3 where t1.id = t3.article_id) as count
+		From (select
+		rownum as r, post.* from
+		(select * FROM ARTICLE ORDER BY writeday DESC)
+		post ) t1, employee t2
+           <![CDATA[ WHERE t1.board_id = #{boardId} and t1.employee_id = t2.id and r>=#{startRow} and r<=#{endRow} ]]>
+	</select>
+
+
+	<resultMap id="findArticleListResultMap" type="articleVO">
+
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="count" property="count" />
+		<association property="employee" javaType="employeeVO">
+			<id column="id" property="id" />
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+
+	<!-- 게시글 검색 -->
+	<select id="findArticleList" statementType="PREPARED"
+		resultMap="findArticleListResultMap" parameterType="map">
+
+		select
+		post1.id,
+		post1.board_id,
+		post1.subject,
+		post1.writeday,
+		post1.hitcount,
+		post1.name,
+		(select count(*)
+		from article_file t3
+		where
+		post1.id = t3.article_id) as count
+
+		FROM
+		(select rownum as r, post.*
+		from
+		(select
+		t1.id,
+		t1.board_id,
+		t1.subject,
+		t1.writeday,
+		t1.hitcount, t2.name
+		as name
+		FROM ARTICLE t1, employee t2
+		<where>
+			<choose>
+				<when test="keyfield == 'name' and keyword != 'all' ">
+					t1.employee_id = t2.id and
+					t1.board_id = #{boardId}
+					and
+					t2.name like '%' || #{keyword} || '%'
+				</when>
+				<when test="keyfield == 'subject' and keyword != 'all'">
+					t1.employee_id = t2.id and
+					t1.board_id = #{boardId}
+					and
+					t1.subject like '%' || #{keyword} ||'%'
+
+				</when>
+				<when test="keyfield == 'content' and keyword != 'all'">
+					t1.employee_id = t2.id and
+					t1.board_id = #{boardId}
+					and
+					t1.content like '%' || #{keyword} || '%'
+				</when>
+			</choose>
+		</where>
+		ORDER BY writeday DESC) post ) post1
+         
+         <![CDATA[ where r>=#{startRow} and r<=#{endRow}  ]]>
+	</select>
+
+	<!-- 총 게시글 수 -->
+	<select id="TotalPost" parameterType="int" resultType="int"
+		statementType="PREPARED">
+		select
+		count(*)
+		from article
+		where board_id = #{boardId}
+
+	</select>
+
+
+
+	<!-- 상세조회 맵 -->
+	<resultMap id="selectArticleResultMap" type="articleVO">
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="content" property="content" />
+		<result column="hitcount" property="hitcount" />
+		<association property="employee" javaType="employeeVO"
+			column="employee_id">
+			<result column="name" property="name" />
+		</association>
+		<collection property="image" ofType="articleImageVO"
+			javaType="list">
+			<id column="image_id" property="id" />
+			<result column="original_image_name" property="originalImageName" />
+			<result column="system_image_name" property="systemImageName" />
+		</collection>
+		<collection property="files" ofType="articleFileVO"
+			javaType="list">
+			<id column="file_id" property="id" />
+			<result column="original_file_name" property="originalFileName" />
+			<result column="system_file_name" property="systemFileName" />
+		</collection>
+	</resultMap>
+
+
+	<!-- 게시글 상세조회 -->
+	<select id="selectArticle" resultMap="selectArticleResultMap"
+		statementType="PREPARED" parameterType="map">
+		SELECT
+		t1.id,
+		t1.subject,
+		t1.board_id,
+		t1.employee_id,
+		e1.name,
+		t1.content,
+		t1.hitcount,
+		to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
+		i1.id as image_id,
+		i1.original_image_name,
+		i1.system_image_name,
+		t2.id as file_id,
+		t2.original_file_name,
+		t2.system_file_name
+		FROM ARTICLE t1, ARTICLE_FILE
+		t2 , ARTICLE_IMAGE i1 , EMPLOYEE e1
+		WHERE
+		t1.employee_id = e1.id and
+		t1.id = t2.article_id(+) and
+		t1.id = i1.article_id(+) and
+		t1.id = #{id}
+	</select>
+
+	<update id="updateArticle" parameterType="articleVO"
+		statementType="PREPARED">
+		UPDATE ARTICLE
+		set SUBJECT = #{subject} ,
+		CONTENT =
+		#{content}
+		WHERE ID = #{id}
+	</update>
+
+
+	<delete id="deleteArticle" parameterType="int" statementType="PREPARED">
+		DELETE FROM ARTICLE
+		WHERE ID = #{ID}
+	</delete>
+
+
+	<update id="upHitcount" parameterType="int" statementType="PREPARED">
+		UPDATE ARTICLE
+		SET HITCOUNT = HITCOUNT + 1
+		WHERE ID = #{value}
+	</update>
+
+	
+	<select id="prevArticle" resultMap="selectArticleResultMap" statementType="PREPARED"  parameterType="map">
+	<![CDATA[	
+		select
+			t1.id,
+			t1.subject,
+			t1.board_id,
+			t1.employee_id,
+			e1.name,
+			t1.content,
+			t1.hitcount,
+			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
+			i1.id as image_id,
+			i1.original_image_name,
+			i1.system_image_name,
+			t2.id as file_id,
+			t2.original_file_name,
+			t2.system_file_name
+			from article t1, article_file
+			t2 , article_image i1 , employee e1
+        where
+			t1.employee_id = e1.id and
+			t1.id = t2.article_id(+) and
+			t1.id = i1.article_id(+) and
+			t1.id = ( select id
+				      from ( select id
+				             from article
+				             where writeday > ( select writeday from article where id = #{id} and board_id = #{boardId} ) order by writeday ) where rownum <= 1) ]]>
+			             
+	</select>
+	
+	<select id="nextArticle" resultMap="selectArticleResultMap" statementType="PREPARED"  parameterType="map">
+	
+		<![CDATA[	
+		select
+			t1.id,
+			t1.subject,
+			t1.board_id,
+			t1.employee_id,
+			e1.name,
+			t1.content,
+			t1.hitcount,
+			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
+			i1.id as image_id,
+			i1.original_image_name,
+			i1.system_image_name,
+			t2.id as file_id,
+			t2.original_file_name,
+			t2.system_file_name
+			from article t1, article_file
+			t2 , article_image i1 , employee e1
+        where
+			t1.employee_id = e1.id and
+			t1.id = t2.article_id(+) and
+			t1.id = i1.article_id(+) and
+			t1.id = ( select id
+				      from ( select id
+				             from article
+				             where writeday < ( select writeday from article where id = #{id} and board_id = #{boardId} ) order by writeday desc) where rownum <= 1) ]]>
+	
+	</select>
+	
+	
+	
+	
+
+
+
+
+</mapper>
+ 
