@@ -19,20 +19,31 @@
 		
 		for (var i = data.paging.startArticleNum ; i <= data.paging.endArticleNum ; i++) {
 			htmlStr += "<tr>";
-			if (data.myDocs == 2) {
-				htmlStr += "<td></td>";
-			}
+			//if (data.myDocs == 2) {
+				htmlStr += '<td id="bookmark">';
+				htmlStr += '&nbsp;&nbsp;<button type="button" class="btn btn-default" aria-label="Center Align">';
+				if(data.documentList[i].isBookmark == 0) {
+					htmlStr += '<span class="glyphicon glyphicon-star-empty" aria-hidden="true">';
+				} else {
+					htmlStr += '<span class="glyphicon glyphicon-star" aria-hidden="true">';
+				}
+				htmlStr += '<input type="hidden" id="isBookmark" value='+data.documentList[i].isBookmark+' />';
+				htmlStr += '<input type="hidden" id="documentId" value='+data.documentList[i].id+' />';
+				htmlStr += '</span>';
+				htmlStr += '</button>';
+				htmlStr += '</td>';
+			//}
 			htmlStr += "<td>" + data.documentList[i].id + "</td>";
 			htmlStr += "<td><a href='${pageContext.request.contextPath}/detailApprovalDocument.do?documentId=" + data.documentList[i].id + "'>" + data.documentList[i].subject + "</a></td>";
 			htmlStr += "<td>" + data.documentList[i].writeday + "</td>";
 			htmlStr += "<td>" + data.documentList[i].endDate + "</td>";
 			htmlStr += "<td>" + data.documentList[i].writer + "</td>";
 	 		if (data.myDocs == 1 || data.myDocs == 2 && data.status == 5) {
-	 			htmlStr += "<td>" + data.documentList[i].status + "</td>";
+	 			htmlStr += "<td>&nbsp;&nbsp;" + data.documentList[i].status + "</td>";
 	 		}
-	 		if (data.myDocs == 1) {
+	 		/* if (data.myDocs == 1) {
 	 			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='documentId' value='" + data.documentList[i].id + "'></td>";
-	 		}
+	 		} */
 			htmlStr += "</tr>";
 		}
 							
@@ -67,7 +78,7 @@
 		$("#pagination").append(htmlStr);
 	};
 
-	$(document).ready(function() {
+	$(document).ready(function() {		
 		// 오픈되자마자.
 		$.ajax({
 				url : '${pageContext.request.contextPath}/searchDocument.do'
@@ -171,7 +182,7 @@
 			});
 		});
 		
-		$('#allSelectBtn').click(function() {			 
+		/* $('#allSelectBtn').click(function() {			 
 			 $(":checkbox[name='documentId']").each(function() {
 				 var subChecked = $(this).attr('checked');
 				 
@@ -207,7 +218,7 @@
 			
 			if(confirm('정말로 삭제하시겠습니까?')) {				
 				$.ajax({
-					url: '${pageContext.request.contextPath}/deleteMyDocs.do'
+					url: '${pageContext.request.contextPath}/removeMyDocs.do'
 					,
 					method: 'GET'
 					,
@@ -240,7 +251,7 @@
 				});
 			}
 			
-		});
+		}); */
 		
 		$("#pagination").on("click", "li", function() {
 			$.ajax({
@@ -274,6 +285,51 @@
 					console.log(jqXHR.responseText);
 				}
 				
+			});
+		});		
+		
+		// 즐겨찾기 추가/제거
+		$('#documents').on("click", "tr > td > button", function() {
+			var isBookmark = $(this).children().children().first().val();
+			var documentId = $(this).children().children().last().val();
+		
+			console.log("isbookmark: "+$(this).children().children().first().val()); // hidden1
+			console.log("documentId: "+$(this).children().children().last().val()); // hidden2			
+			
+			// 0: 북마크x, 1: 북마크o
+			$.ajax ({
+				url: '${pageContext.request.contextPath}/registerMyDocs.do'
+				,
+				method: 'POST'
+				,
+				cache: false
+				,
+				dataType: 'json'
+				,
+				data : {						
+					isBookmark : isBookmark,
+					documentId : documentId,
+					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+					keyword:  $(":text[name='keyword']").val() ,
+					startDay:  $(":text[name='startDay']").val() ,
+					endDay:  $(":text[name='endDay']").val() ,
+					searchDay:  $(":radio[name='searchDay']:checked").val() ,
+					myDocs:  $(":hidden[name='myDocs']").val() ,
+					status:  $(":hidden[name='status']").val() ,
+					searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
+					currentPage: "1"
+				}
+				,
+				success: function(data) {
+					listDocument(data);
+					pagination(data);
+					
+				}
+				,
+				error: function(jqXHR) {
+					alert("Error : " + jqXHR.responseText);
+					console.log(jqXHR.responseText);
+				}
 			});
 		});
 		
@@ -342,9 +398,10 @@
 	<table class="table table-striped" align="center">
 		<thead>
 			<tr>
-				<c:if test="${requestScope.myDocs == 2}">
+				<%-- <c:if test="${requestScope.myDocs == 2}">
 					<th width="100">즐겨찾기</th>
-				</c:if>
+				</c:if> --%>
+				<th width="100">즐겨찾기</th>
 				<th width="100">번호</th>
 				<th>제목</th>
 				<th width="200">작성일</th>
@@ -359,18 +416,18 @@
 						</select>
 					</th>
 				</c:if>
-				<c:if test="${requestScope.myDocs == 1}">
+				<%-- <c:if test="${requestScope.myDocs == 1}">
 					<th width="100">비고</th>
-				</c:if>
+				</c:if> --%>
 			</tr>
 		</thead>
 		<tbody id="documents">
-			<c:forEach var="document" items="${requestScope.documentList }" varStatus="loop">
+			<%-- <c:forEach var="document" items="${requestScope.documentList }" varStatus="loop">
 		 		<c:url var="url" value="/detailApprovalDocument.do">
 		 			<c:param name="documentId" value="${pageScope.document.id }" />
 		 		</c:url>
 		 		<tr>
-		 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
+		 			<td>${requestScope.paging.num - loop.index }</td>
 		 			<c:if test="${requestScope.myDocs == 2}">
 						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="documentId" value="${pageScope.document.id }"></td>
 					</c:if>
@@ -386,19 +443,18 @@
 			 			<td>&nbsp;&nbsp;<input type="checkbox" name="documentId" value="${pageScope.document.id }"></td>
 			 		</c:if>
 		 		</tr>
-		 	</c:forEach>
+		 	</c:forEach> --%>
 	 	</tbody>
 	</table>
 </div>
 
-<c:if test="${requestScope.myDocs == 1}">
+<%-- <c:if test="${requestScope.myDocs == 1}">
 	<div align="right">
 		<button type="button" class="btn btn-default" id="allSelectBtn">전체선택</button>
 		<button type="button" class="btn btn-default" id="allSelectCancelBtn">전체취소</button>
 		<button type="button" class="btn btn-default" id="deleteBtn">삭제</button>
 	</div>
-</c:if>
-
+</c:if> --%>
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">

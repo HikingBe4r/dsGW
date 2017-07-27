@@ -17,8 +17,7 @@ public interface DocumentMapper {
 	DocumentVO selectDocument(String documentId);
 	
 	void insertBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
-	
-	void deleteBookMarkDocument(Map<String, Object> map);
+	void deleteBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 	
 	void updateDocumentStatus(DocumentVO documentVO);
 	

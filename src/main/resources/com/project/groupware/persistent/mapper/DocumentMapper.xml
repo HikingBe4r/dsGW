@@ -78,7 +78,7 @@
 				AND t2.name like '%' ||#{keyword}|| '%'
 			</if>
 		</if>
-		ORDER BY doc.enddate-sysdate asc
+		ORDER BY doc.id DESC
 	</select>
 	
 	<resultMap type="documentVO" id="selectApprovalDocumentMap" autoMapping="true">
@@ -94,10 +94,7 @@
 		</association>
 		<collection property="documentFileList" javaType="documentFileVO">
 			<id property="id" column="docFileId"/>
-			<result property="originalFileName" column="originalFileName"/>
-			<result property="systemFileName" column="systemFileName"/>
-			<result property="fileSize" column="fileSize"/>
-			<result property="documentId" column="documentId"/>
+			<result property="originalFileName" column="original_file_name"/>
 		</collection>
 	</resultMap>
 	
@@ -112,14 +109,13 @@
 			form.id formId, 
 			form.subject formSubject, 
 			docFile.id docFileId,
-			docFile.original_file_name originalFileName,
-			docFile.system_file_name systemFileName,
-			docFile.file_size fileSize
+			docFile.system_file_name
 		FROM document doc, form, document_file docFile
 		WHERE doc.id = #{documentId}
 		  AND doc.form_id = form.id(+)
 		  AND doc.id = docfile.document_id(+)
 	</select>
+	
 	
 	
 	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">		
@@ -174,45 +170,41 @@
 					<if test="searchStatus == 'reject'">
 						and ds.id = 4
 					</if>
+				</if>				
+				<if test="keyfield == 'subject'">
+					and doc.subject like '%' || #{keyword} || '%'
 				</if>
-				<!-- <if test="keyword != 'all'"> -->
-					<if test="keyfield == 'subject'">
-						and doc.subject like '%' || #{keyword} || '%'
+				<if test="keyfield == 'writer'">
+					and emp.name like '%' || #{keyword} || '%'
+				</if>
+				<if test="searchDay == 'writeDay'">
+					<if test="startDay != 'all' and endDay != 'all'">
+						and to_char(doc.writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay}
 					</if>
-					<if test="keyfield == 'writer'">
-						and emp.name like '%' || #{keyword} || '%'
+					<if test="startDay != 'all' and endDay == 'all'">
+						and to_char(doc.writeday, 'YYYY/MM/DD') = #{startDay}
 					</if>
-					<if test="searchDay == 'writeDay'">
-						<if test="startDay != 'all' and endDay != 'all'">
-							and to_char(doc.writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay}
-						</if>
-						<if test="startDay != 'all' and endDay == 'all'">
-							and to_char(doc.writeday, 'YYYY/MM/DD') = #{startDay}
-						</if>
-						<if test="startDay == 'all' and endDay != 'all'">
-							and to_char(doc.writeday, 'YYYY/MM/DD') = #{endDay}
-						</if>
+					<if test="startDay == 'all' and endDay != 'all'">
+						and to_char(doc.writeday, 'YYYY/MM/DD') = #{endDay}
 					</if>
-					<if test="searchDay == 'finishDay'">
-						<if test="startDay != 'all' and endDay != 'all'">
-							and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') between #{startDay} and #{endDay}
-						</if>
-						<if test="startDay != 'all' and endDay == 'all'">
-							and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{startDay}
-						</if>
-						<if test="startDay == 'all' and endDay != 'all'">
-							and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
-						</if>
+				</if>
+				<if test="searchDay == 'finishDay'">
+					<if test="startDay != 'all' and endDay != 'all'">
+						and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') between #{startDay} and #{endDay}
 					</if>
-					<!-- <if test="searchDay == 'all'">
-						
-					</if> -->
-				<!-- </if> -->
+					<if test="startDay != 'all' and endDay == 'all'">
+						and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{startDay}
+					</if>
+					<if test="startDay == 'all' and endDay != 'all'">
+						and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
+					</if>
+				</if>
 		order by writeday desc
+		
 	</select>
 	
 	<insert id="insertBookMarkDocument" parameterType="bookMarkDocumentVO" statementType="PREPARED">
-		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="String">
 			select mydocs_id_seq.nextval from dual
 		</selectKey>
 		
@@ -220,15 +212,16 @@
 		values (#{id}, #{employeeId}, #{documentId})
 	</insert>
 	
-	<delete id="deleteBookMarkDocument" parameterType="map" statementType="PREPARED">
+	<delete id="deleteBookMarkDocument" parameterType="bookMarkDocumentVO" statementType="PREPARED">
 		delete from mydocs
-		where document_id in (
+		where document_id = #{documentId} and employee_id = #{employeeId}
+		<!-- where document_id in (
 			<trim suffixOverrides=",">
 				<foreach item="id" collection="documentIdList">
 					#{id},
 				</foreach>
 			</trim>
-		) and employee_id = #{employeeId}
+		) and employee_id = #{employeeId} -->
 	</delete>
 	
 </mapper>

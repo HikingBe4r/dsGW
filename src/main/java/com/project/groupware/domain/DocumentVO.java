@@ -20,7 +20,7 @@ public class DocumentVO {
 	private List<MultipartFile> upload;	//업로드된 파일
 	private List<DocumentFileVO> documentFileList = new ArrayList<DocumentFileVO>();
 
-	
+	private int isBookmark = 0;
 	
 	public DocumentVO() {
 		
@@ -130,12 +130,20 @@ public class DocumentVO {
 		this.approverList.add(approver);
 	}
 
+	public int getIsBookmark() {
+		return isBookmark;
+	}
+
+	public void setIsBookmark(int isBookmark) {
+		this.isBookmark = isBookmark;
+	}
+
 	@Override
 	public String toString() {
 		return "DocumentVO [id=" + id + ", employeeId=" + employeeId + ", subject=" + subject + ", content=" + content
 				+ ", writer=" + writer + ", writeday=" + writeday + ", endDate=" + endDate + ", status=" + status
 				+ ", formVO=" + formVO + ", approverList=" + approverList + ", upload=" + upload + ", documentFileList="
-				+ documentFileList + "]";
-	}	
+				+ documentFileList + ", isBookmark=" + isBookmark + "]";
+	}
 
 }

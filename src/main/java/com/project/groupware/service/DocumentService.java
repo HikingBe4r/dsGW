@@ -29,12 +29,12 @@ public interface DocumentService {
 	DocumentVO retrieveDocument(String documentId);
 
 	void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
+	void removeBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 
 	void removeApprovalLine(String approvalLineId);
 	
-	void removeBookMarkDocument(Map<String, Object> map);
-
-
+	
+	
 	// 결재 관련
 	Boolean approveDocument(Map<String, Object> map);
 
