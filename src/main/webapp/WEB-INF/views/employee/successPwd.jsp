@@ -1,4 +1,4 @@
-<%-- findEmployeeId.jsp --%>
+<%-- successPwd.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">

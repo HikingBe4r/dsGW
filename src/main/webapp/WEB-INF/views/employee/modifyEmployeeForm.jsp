@@ -31,8 +31,6 @@
 
 	function modifysumit(frm) {
 		var url = "${pageContext.request.contextPath }/successEmployee.do";
-		var title = "사원 정보 변경";
-		frm.target = title; //form.target 이 부분이 빠지면 form값 전송이 되지 않습니다. 
 		frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
 		frm.method = "post";
 		frm.submit();

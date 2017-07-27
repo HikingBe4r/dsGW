@@ -83,9 +83,10 @@ public class ModifyEmployeeController {
 			}
 		}
 		service.modifyEmployee(emp);
-		return "redirect:/listEmployee.do";
 		
+		return "redirect:/listEmployee.do";
 	}
+	
 	@RequestMapping(value = "/successEmployee.do", method = RequestMethod.POST)
 	public ModelAndView employeeSubmit(@ModelAttribute(value = "findEmployee") EmployeeVO emp, HttpServletRequest request, HttpSession session) throws Exception{
 		ModelAndView mv = new ModelAndView();
@@ -97,6 +98,7 @@ public class ModifyEmployeeController {
 			}
 		}
 		service.modifyEmployee(emp);
+		
 		mv.setViewName("employee/successEmployee");
 		return mv;
 		

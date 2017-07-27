@@ -43,7 +43,6 @@ public class RegisterEmployeeController {
 	@RequestMapping(value = "/registerEmployee.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute(value = "employee") EmployeeVO emp, HttpServletRequest request) throws Exception {
 		List<MultipartFile> files = emp.getUpload();
-		System.out.println(files.size());
 		for (MultipartFile file : files) {
 			if (!file.isEmpty()) {
 				EmployeeImageVO image = UploadFileUtils.uploadImageFile(file, request);
