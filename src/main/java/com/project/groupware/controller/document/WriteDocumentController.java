@@ -69,7 +69,7 @@ public class WriteDocumentController {
 		List<MultipartFile> fileList = document.getUpload();
 		for(MultipartFile file : fileList) {
 			if(!file.isEmpty()) {
-				DocumentFileVO documentFile = UploadFileUtils.uploadDocumentFile(file);
+				DocumentFileVO documentFile = UploadFileUtils.uploadDocumentFile(file, request); // 파일 서버에 업로드 하기위해 request
 				document.addDocumentFile(documentFile);
 			}
 		}

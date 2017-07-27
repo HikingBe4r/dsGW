@@ -180,10 +180,17 @@
 				<dl class="dl-horizontal">
 					<table>
 						<c:forEach var="documentFile" items="${requestScope.approvalDocument.document.documentFileList }" varStatus="loop">
+						
+							<c:url var="downloadURL" value="/downloadFile.do">
+				 				<c:param name="originalFileName" value="${documentFile.originalFileName }"/>
+				 				<c:param name="systemFileName" value="${documentFile.systemFileName }"/>
+				 			</c:url>
+				 			 
 							<tr>
 								<td style="width: 100px;"><label>첨부파일 ${loop.index+1 }</label></td>
-								<td style="width: 300px;"><a href="#">${documentFile.originalFileName }</a></td>
+								<td style="width: 300px;"><a href="${downloadURL }">${documentFile.originalFileName }</a></td>
 							</tr>
+							
 						</c:forEach>
 					</table>
 				</dl>

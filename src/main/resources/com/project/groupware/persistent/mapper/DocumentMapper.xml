@@ -94,7 +94,10 @@
 		</association>
 		<collection property="documentFileList" javaType="documentFileVO">
 			<id property="id" column="docFileId"/>
-			<result property="originalFileName" column="original_file_name"/>
+			<result property="originalFileName" column="originalFileName"/>
+			<result property="systemFileName" column="systemFileName"/>
+			<result property="fileSize" column="fileSize"/>
+			<result property="documentId" column="documentId"/>
 		</collection>
 	</resultMap>
 	
@@ -109,7 +112,9 @@
 			form.id formId, 
 			form.subject formSubject, 
 			docFile.id docFileId,
-			docFile.system_file_name
+			docFile.original_file_name originalFileName,
+			docFile.system_file_name systemFileName,
+			docFile.file_size fileSize
 		FROM document doc, form, document_file docFile
 		WHERE doc.id = #{documentId}
 		  AND doc.form_id = form.id(+)

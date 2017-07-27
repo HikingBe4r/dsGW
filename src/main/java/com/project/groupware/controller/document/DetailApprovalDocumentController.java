@@ -29,6 +29,10 @@ public class DetailApprovalDocumentController {
 			@RequestParam(value="documentId", required=true) String documentId) {
 		ModelAndView mv = new ModelAndView();
 		Map<String, Object> approvalDocument = documentService.retrieveApprovalDocument(documentId);
+		
+		
+		
+		
 		mv.addObject("approvalDocument", approvalDocument);
 		mv.setViewName("approvalNav/document/detailDocument");
 		

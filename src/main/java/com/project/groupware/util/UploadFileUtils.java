@@ -88,12 +88,21 @@ public class UploadFileUtils {
 		return formFile;		
 	}
 	
-	public static DocumentFileVO uploadDocumentFile(MultipartFile file) throws Exception {
+	public static DocumentFileVO uploadDocumentFile(MultipartFile file, HttpServletRequest request) throws Exception {
 		String originalFileName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemFileName = "";
 		
+		// 디렉토리 생성
+		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/document"));
 		
+		// 대상폴더가 없으면 생성
+		if(!destFolder.exists()) {
+			destFolder.mkdirs();
+		}
+		
+		//request.getSession().getServletContext().getRealPath("/upload");
+		UPLOAD_PATH = destFolder.getAbsolutePath();
 		
 		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
 		if(temp.exists()) {
@@ -116,12 +125,26 @@ public class UploadFileUtils {
 	}
 	
 	public static EmployeeImageVO uploadImageFile(MultipartFile file, HttpServletRequest request) throws Exception {
-		String IMAGE_UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload");
+		//String IMAGE_UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload/empImage");
 		String originalFileName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemFileName = "";
 		
-		File temp = new File(IMAGE_UPLOAD_PATH + File.separator + originalFileName);
+		// 디렉토리 생성
+		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/empImage"));
+		
+		// 대상폴더가 없으면 생성
+		if(!destFolder.exists()) {
+			destFolder.mkdirs();
+		}
+		
+		//request.getSession().getServletContext().getRealPath("/upload");
+		UPLOAD_PATH = destFolder.getAbsolutePath();
+		
+		
+		
+		
+		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
 		if(temp.exists()) {
 			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) +
 					"_" + count++ + originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -130,7 +153,7 @@ public class UploadFileUtils {
 		}
 		
 		// copy file in memory or C:/tempUpload folder at C:/upload folder
-		File dest = new File(IMAGE_UPLOAD_PATH + File.separator + systemFileName);
+		File dest = new File(UPLOAD_PATH + File.separator + systemFileName);
 		file.transferTo(dest);
 		
 		EmployeeImageVO image = new EmployeeImageVO();
