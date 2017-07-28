@@ -18,7 +18,7 @@
 		var mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1): '0' + (now.getMonth() + 1);
 		var day = now.getDate() > 9 ? '' + now.getDate() : '0' + now.getDate();
 		var today = year + '/' + mon + '/' + day;
-		$('#endDate').val(today);
+		$('#endDate').val('${requestScope.tempDocumentVO.endDate}');
 		$('#writeday').text(today);
 		
 	});
