@@ -202,8 +202,8 @@
 		order by writeday desc -->
 		
 		select 
-			doc.id,
-			doc.subject,
+			doc.id as id,
+			doc.subject as subject,
 			to_char(doc.writeday, 'YYYY/MM/DD HH24:MI:SS') as writeday,
 			to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD HH24:MI:SS') as endDate,
 			<if test="myDocs == 1">
@@ -212,7 +212,7 @@
 			<if test="myDocs != 1">
 				t2.writer as writer,
 			</if>
-			ds.status
+			ds.status as status
 		from
 			<if test="myDocs == 1">
 				mydocs md,
@@ -303,31 +303,31 @@
 	        	</if>
 	        </if>
 	        <if test="keyfield == 'subject'">
-				and doc.subject like '%' || #{keyword} || '%'
+				and subject like '%' || #{keyword} || '%'
 			</if>
 			<if test="keyfield == 'writer'">
-				and emp.name like '%' || #{keyword} || '%'
+				and writer like '%' || #{keyword} || '%'
 			</if>
 			<if test="searchDay == 'writeDay'">
 				<if test="startDay != 'all' and endDay != 'all'">
-					and to_char(doc.writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay}
+					and to_char(writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay}
 				</if>
 				<if test="startDay != 'all' and endDay == 'all'">
-					and to_char(doc.writeday, 'YYYY/MM/DD') = #{startDay}
+					and to_char(writeday, 'YYYY/MM/DD') = #{startDay}
 				</if>
 				<if test="startDay == 'all' and endDay != 'all'">
-					and to_char(doc.writeday, 'YYYY/MM/DD') = #{endDay}
+					and to_char(writeday, 'YYYY/MM/DD') = #{endDay}
 				</if>
 			</if>
 			<if test="searchDay == 'finishDay'">
 				<if test="startDay != 'all' and endDay != 'all'">
-					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') between #{startDay} and #{endDay}
+					and to_char(endDate, 'YYYY/MM/DD') between #{startDay} and #{endDay}
 				</if>
 				<if test="startDay != 'all' and endDay == 'all'">
-					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{startDay}
+					and to_char(endDate, 'YYYY/MM/DD') = #{startDay}
 				</if>
 				<if test="startDay == 'all' and endDay != 'all'">
-					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
+					and to_char(endDate, 'YYYY/MM/DD') = #{endDay}
 				</if>
 			</if>
       	order by writeday desc

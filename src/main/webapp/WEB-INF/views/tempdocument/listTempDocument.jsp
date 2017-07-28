@@ -11,7 +11,6 @@
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <script>
-
 	function listTempDocument(data) {
 		$('#tempDocuments').empty(data);
 		
@@ -19,10 +18,10 @@
 		
 		for (var i = data.paging.startArticleNum ; i <= data.paging.endArticleNum ; i++) {
 			htmlStr += "<tr>";
+			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='tempDocumentId' value='" + data.tempDocumentList[i].id + "'></td>";
 			htmlStr += "<td>&nbsp;&nbsp;" + data.tempDocumentList[i].id + "</td>";
 			htmlStr += "<td><a href='${pageContext.request.contextPath}/detailTempDocument.do?id=" + data.tempDocumentList[i].id + "'>" + data.tempDocumentList[i].subject + "</a></td>";
-			htmlStr += "<td>" + data.tempDocumentList[i].writeday + "</td>";
-			htmlStr += "<td>&nbsp;&nbsp;<input type='checkbox' name='tempDocumentId' value='" + data.tempDocumentList[i].id + "'></td>";
+			htmlStr += "<td>" + data.tempDocumentList[i].writeday + "</td>";			
 			htmlStr += "</tr>";
 		}
 							
@@ -92,6 +91,13 @@
 		});
 		
 		$('#searchBtn').click(function() {
+			if ($(":text[name='startDay']").val() != '' && $(":text[name='endDay']").val() != '') {
+				if ($(":text[name='startDay']").val() > $(":text[name='endDay']").val()) {
+					alert('정확한 날짜를 입력하세요.');
+					return;
+				}
+			}
+			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/searchTempDocument.do'
 				,
@@ -106,7 +112,7 @@
 					endDay:  $(":text[name='endDay']").val() ,
 					currentPage: "1"
 				}
-				, 
+				,
 				cache: false
 				,
 				success: function(data) {
@@ -120,26 +126,27 @@
 				}				
 				
 			});
-		});
+		});				
 		
-		$('#allSelectBtn').click(function() {			 
-			 $(":checkbox[name='tempDocumentId']").each(function() {
-				 var subChecked = $(this).attr('checked');
-				 
-				 if (subChecked != 'checked')
-				 	$(this).click();
-				 
-			 });
-		});
-		
-		$('#allSelectCancelBtn').click(function() {			 
-			 $(":checkbox[name='tempDocumentId']").each(function() {
-				 var subChecked = $(this).attr('checked');
-				 
-				 if (subChecked == 'checked')
-				 	$(this).click();
-				 
-			 });
+		$('#select').click(function() {
+			if ($(this).attr('checked') == 'checked') {
+				$(":checkbox[name='tempDocumentId']").each(function() {
+					 var subChecked = $(this).attr('checked');
+					 
+					 if (subChecked != 'checked') {
+					 	$(this).click();
+					 }
+				 });
+			}
+			else {
+				$(":checkbox[name='tempDocumentId']").each(function() {
+					 var subChecked = $(this).attr('checked');
+					 
+					 if (subChecked == 'checked') {
+					 	$(this).click();
+					 }
+				 });
+			}
 		});
 		
 		$('#deleteBtn').click(function() {
@@ -241,7 +248,6 @@
 	        buttonImage: "resources/image/calendar6.png"
 	    });
 	});
-
 </script>
 
 <div>
@@ -265,36 +271,21 @@
 	<table class="table table-striped" align="center">
 		<thead>
 			<tr>
+				<th width="50">&nbsp;&nbsp;<input type="checkbox" id="select" name="select"></th>
 				<th width="100">번호</th>
 				<th>제목</th>
 				<th width="200">임시저장일</th>
-				<th width="100">비고</th>
 			</tr>
 		</thead>
 		<tbody id="tempDocuments">
-			<%-- <c:forEach var="tempDocument" items="${requestScope.tempDocumentList }" varStatus="loop">
-		 		<c:url var="url" value="/detailTempDocument.do">
-		 			<c:param name="id" value="${pageScope.tempDocument.id }" />
-		 		</c:url>
-		 		<tr>
-		 			<td>${requestScope.paging.num - loop.index }</td>
-		 			<td>&nbsp;&nbsp;${pageScope.tempDocument.id }</td> 			
-		 			<td><a href="${pageScope.url }">${pageScope.tempDocument.subject }</a></td>
-		 			<td>${pageScope.tempDocument.writeday }</td>
-		 			<td>&nbsp;&nbsp;<input type="checkbox" name="tempDocumentId" value="${pageScope.tempDocument.id }"></td>
-		 		</tr>
-		 	</c:forEach> --%>
+			
 	 	</tbody>
 	</table>
 </div>
 
 <div align="right">
-	<button type="button" class="btn btn-default" id="allSelectBtn">전체선택</button>
-	<button type="button" class="btn btn-default" id="allSelectCancelBtn">전체취소</button>
-	<button type="button" class="btn btn-default" id="deleteBtn">삭제</button>
+	<button type="button" class="btn btn-danger" id="deleteBtn">삭제</button>
 </div>
-
-
 
 <div class="col-md-12" align="center">
 	<ul id="pagination" class="pagination">
