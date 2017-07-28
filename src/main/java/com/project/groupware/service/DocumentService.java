@@ -29,6 +29,7 @@ public interface DocumentService {
 	DocumentVO retrieveDocument(String documentId);
 
 	void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
+	
 	void removeBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO);
 
 	void removeApprovalLine(String approvalLineId);
