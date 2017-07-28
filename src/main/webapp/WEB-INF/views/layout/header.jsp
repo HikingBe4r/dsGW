@@ -1,9 +1,9 @@
 <%-- header.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script type="text/javascript" src="resources/js/jquery-3.2.1.min.js"></script>
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
 
 
 
@@ -20,17 +20,12 @@
 	<c:otherwise>
 		<div class="col-md-10">
 			<ul class="nav nav-tabs">
-				<li id="approval" role="presentation"><a href="${pageContext.request.contextPath }/choiceForm.do">전자결재</a></li>
+				<li id="approval" role="presentation"><a href="${pageContext.request.contextPath }/listNotice.do">전자결재</a></li>
 				<li id="board" role="presentation"><a href="${pageContext.request.contextPath }/board.do">게시판</a></li>
 			</ul>
 		</div>
 	</c:otherwise>
 </c:choose>
-
-
-
-
-
 
 
 <div class="col-md-2">

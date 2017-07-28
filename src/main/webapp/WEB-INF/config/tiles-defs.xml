@@ -7,25 +7,25 @@
 
 <tiles-definitions>
 
-	<definition name="main" template="/WEB-INF/views/layout.jsp">
-		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
-		<put-attribute name="nav" value="/WEB-INF/views/nav.jsp" />
+	<definition name="main" template="/WEB-INF/views/layout/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="nav" value="/WEB-INF/views/layout/nav.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/content.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
 	
-	<definition name="default" template="/WEB-INF/views/defaultForm.jsp">
+	<definition name="default" template="/WEB-INF/views/layout/defaultForm.jsp">
 		<put-attribute name="content" value="/WEB-INF/views/defaultForm.jsp" />
 	</definition>
 	
 	<definition name="admin/*/*" extends="main">		
-		<put-attribute name="nav" value="/WEB-INF/views/{1}.jsp" />
+		<put-attribute name="nav" value="/WEB-INF/views/layout/{1}.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/{2}.jsp" />
 		
 	</definition>
 	
 	<definition name="*/*/*" extends="main">
-		<put-attribute name="nav" value="/WEB-INF/views/{1}.jsp" />
+		<put-attribute name="nav" value="/WEB-INF/views/layout/{1}.jsp" />
 		<put-attribute name="content" value="/WEB-INF/views/{2}/{3}.jsp" />
 		
 	</definition>

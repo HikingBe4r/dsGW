@@ -1,8 +1,14 @@
 <%-- nav.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 
-<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<script>
+	$('#board').removeAttr('class');
+	$('#adminTab').attr('class', 'active');
+</script>
+
 
 <form action="${pageContext.request.contextPath }/logout.do"
 	method="post">

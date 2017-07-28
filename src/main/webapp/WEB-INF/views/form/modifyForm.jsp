@@ -1,9 +1,9 @@
 <%-- registerForm.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js?ver=3"></script>
 <script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js?ver=23"></script>
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
+<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
 
 <script>
 	if(${sessionScope.admin == null}) {

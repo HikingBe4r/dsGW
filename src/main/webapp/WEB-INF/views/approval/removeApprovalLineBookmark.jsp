@@ -1,11 +1,11 @@
 <%-- removeApprovalLineBookmark.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
-<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="//code.jquery.com/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
-<script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
+<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->  
 <script type="text/javascript" src="resources/tablednd/jquery.tablednd.js"></script>
 
 

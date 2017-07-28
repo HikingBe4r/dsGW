@@ -6,6 +6,11 @@
 <link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+<script>
+	$('#approval').removeAttr('class');
+	$('#board').attr('class', 'active');
+</script>
+
 <html>
 <div class="row">
 	<!-- <div class="col-sm-1 col-md-1"></div> -->

@@ -4,12 +4,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="resources/bootstrap/css/jquery.fileupload.css">
-
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
-<script src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
+<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
