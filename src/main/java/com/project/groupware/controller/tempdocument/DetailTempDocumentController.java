@@ -36,7 +36,9 @@ public class DetailTempDocumentController {
 		tempDocument.setContent(tempDocument.getContent().replaceAll("\r", ""));
 		tempDocument.setContent(tempDocument.getContent().replaceAll("'", "\""));
 		
+		model.addAttribute(tempDocument.getFormVO());
 		model.addAttribute("tempDocumentVO", tempDocument);
+		model.addAttribute("formId", tempDocument.getFormVO().getId());
 		model.addAttribute("department", departmentService.retrieveDepartment(employee.getDepartmentId()));
 		return "approvalNav/tempdocument/detailTempDocument";
 		//return "approvalNav/document/writeDocument";

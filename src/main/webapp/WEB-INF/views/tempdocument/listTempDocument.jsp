@@ -40,7 +40,11 @@
 		htmlStr += "</a>";
 		htmlStr += "</li>";
 		for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
-			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			if(data.paging.currentPage == i) {
+				htmlStr += "<li class='active' name='pageNum' id='pageNum' value="+ i +">";
+			} else {
+				htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			}
 			htmlStr += "<a>";
 			htmlStr += i;
 			htmlStr += "</a>";
@@ -266,18 +270,18 @@
 			</tr>
 		</thead>
 		<tbody id="tempDocuments">
-			<c:forEach var="tempDocument" items="${requestScope.tempDocumentList }" varStatus="loop">
+			<%-- <c:forEach var="tempDocument" items="${requestScope.tempDocumentList }" varStatus="loop">
 		 		<c:url var="url" value="/detailTempDocument.do">
 		 			<c:param name="id" value="${pageScope.tempDocument.id }" />
 		 		</c:url>
 		 		<tr>
-		 			<%-- <td>${requestScope.paging.num - loop.index }</td> --%>
+		 			<td>${requestScope.paging.num - loop.index }</td>
 		 			<td>&nbsp;&nbsp;${pageScope.tempDocument.id }</td> 			
 		 			<td><a href="${pageScope.url }">${pageScope.tempDocument.subject }</a></td>
 		 			<td>${pageScope.tempDocument.writeday }</td>
 		 			<td>&nbsp;&nbsp;<input type="checkbox" name="tempDocumentId" value="${pageScope.tempDocument.id }"></td>
 		 		</tr>
-		 	</c:forEach>
+		 	</c:forEach> --%>
 	 	</tbody>
 	</table>
 </div>

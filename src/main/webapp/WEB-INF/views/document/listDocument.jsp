@@ -61,7 +61,11 @@
 		htmlStr += "</a>";
 		htmlStr += "</li>";
 		for(var i = data.paging.startPage; i <= data.paging.endPage; i++) {
-			htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			if(data.paging.currentPage == i) {
+				htmlStr += "<li class='active' name='pageNum' id='pageNum' value="+ i +">";
+			} else {
+				htmlStr += "<li name='pageNum' id='pageNum' value="+ i +">";
+			}
 			htmlStr += "<a>";
 			htmlStr += i;
 			htmlStr += "</a>";
@@ -304,7 +308,7 @@
 				,
 				dataType: 'json'
 				,
-				data : {						
+				data : {
 					isBookmark : isBookmark,
 					documentId : documentId,
 					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
@@ -314,8 +318,7 @@
 					searchDay:  $(":radio[name='searchDay']:checked").val() ,
 					myDocs:  $(":hidden[name='myDocs']").val() ,
 					status:  $(":hidden[name='status']").val() ,
-					searchStatus:  $("select[name='searchStatus'] > option:selected").val() ,
-					currentPage: "1"
+					searchStatus:  $("select[name='searchStatus'] > option:selected").val()
 				}
 				,
 				success: function(data) {
@@ -369,6 +372,9 @@
 		<c:when test="${requestScope.status == 5 and requestScope.myDocs == 2}">
 			<h3>수신문서 목록</h3>
 		</c:when>
+		<c:when test="${requestScope.status == 6 and requestScope.myDocs == 2}">
+			<h3>만료문서 목록</h3>
+		</c:when>
 	</c:choose>
 	<form class="form-inline pull-right">
 		<div class="form-group">
@@ -405,12 +411,15 @@
 				<th width="200">작성일</th>
 				<th width="200">완료일</th>
 				<th width="100">작성자</th>
-				<c:if test="${requestScope.myDocs == 1 or requestScope.myDocs == 2 and requestScope.status == 5}">
+				<c:if test="${requestScope.myDocs == 1 or requestScope.myDocs == 2 and requestScope.status == 5}">				
 					<th width="100">
 						<select id="searchStatus" name="searchStatus">
 							<option value="all">전체</option>
 							<option value="accept">승인</option>
 							<option value="reject">반려</option>
+							<c:if test="${requestScope.myDocs == 1}">
+								<option value="expiration">만료</option>
+							</c:if>
 						</select>
 					</th>
 				</c:if>

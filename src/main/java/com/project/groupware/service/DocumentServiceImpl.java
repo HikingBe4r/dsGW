@@ -148,7 +148,6 @@ public class DocumentServiceImpl implements DocumentService {
 
 	public void registerBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO) {
 		documentMapper.insertBookMarkDocument(bookMarkDocumentVO);
-
 	}
 
 	public void removeBookMarkDocument(BookMarkDocumentVO bookMarkDocumentVO) {

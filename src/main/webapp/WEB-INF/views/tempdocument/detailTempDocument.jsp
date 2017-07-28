@@ -1,4 +1,4 @@
-<%-- writeDocument.jsp --%>
+<%-- detailTempDocument.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
 <script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
@@ -16,7 +16,7 @@
 		var mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1): '0' + (now.getMonth() + 1);
 		var day = now.getDate() > 9 ? '' + now.getDate() : '0' + now.getDate();
 		var today = year + '/' + mon + '/' + day;
-		$('#endDate').val(today);
+		$('#endDate').val('${requestScope.tempDocumentVO.endDate}');
 		$('#writeday').text(today);
 		
 	});
@@ -62,6 +62,27 @@
 				alert("결재선이 없습니다.");
 			} else {
 				obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
+				$.ajax({
+					url: '${pageContext.request.contextPath}/removeTempDocument.do'
+					,
+					type: 'POST'
+					,
+					dataType: 'json'
+					,
+					data: {
+						id: '${requestScope.tempDocumentVO.id}',
+					}
+					, 
+					cache: false
+					,
+					success: function(data) {
+					}
+					,
+					error : function(jqXHR) {
+						alert("Error : " + jqXHR.responseText);
+					}			
+					
+				});
 				$("#insertDocumentForm").submit();
 			}
 		});
@@ -171,8 +192,7 @@
 </script>
 
 
-<form action="${pageContext.request.contextPath }/writeDocument.do"
-	method="post" enctype="multipart/form-data" id="insertDocumentForm">
+<form action="${pageContext.request.contextPath }/writeDocument.do" method="post" enctype="multipart/form-data" id="insertDocumentForm">
 	<!-- 상단 버튼 그룹 -->
 	<div>
 		<div class="btn-group" role="group" aria-label="...">
@@ -191,7 +211,7 @@
 	<div class="panel panel-info" style="height: 820px;">
 		<div class="panel-heading" align="center">
 			<h4>${requestScope.form.subject }</h4>
-			<input type="hidden" name="formId" value="${requestScope.form.id}">
+			<input type="hidden" name="formId" id="formId" value="${requestScope.formId}">
 		</div>
 
 		<div class="panel-body">
