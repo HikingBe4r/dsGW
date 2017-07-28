@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.io.File;
 import java.util.List;
@@ -25,7 +25,7 @@ public class RemoveArticleController {
 	
 
 
-	@RequestMapping(value="/removeArticle.do", method=RequestMethod.GET)
+	@RequestMapping(value="/removeNoticeArticle.do", method=RequestMethod.GET)
 	public String submit(@RequestParam(value="boardId", required=true) int boardId,	// 게시판 번호
 			             @RequestParam(value="id", required=true) int id) {    	    //게시글 번호
 			
@@ -54,7 +54,6 @@ public class RemoveArticleController {
 			System.out.println("1231231"+ boardId);
 			noticleArticleService.removeArticle(id);
 			boardService.retrieveBoardList();	
-			return "redirect:/listArticle.do?boardId=" + article.getBoardId();
+			return "redirect:/listNoticeArticle.do?boardId=" + article.getBoardId();
 	}
 }
-*/

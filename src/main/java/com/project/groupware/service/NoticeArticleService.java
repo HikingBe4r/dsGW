@@ -10,8 +10,8 @@ public interface NoticeArticleService {
 	// 게시글 쓰기 서비스
 	void registerArticle(ArticleVO article);
 
-	// 게시글 목록 조회 서비스
-	List<ArticleVO> retrieveArticleList(Map<String, Object> map);
+	//게시글 목록 조회 서비스
+		public List<ArticleVO> retrieveArticleList(Map<String, Object> map);
 
 	// 게시글 검색 서비스
 	List<ArticleVO> searchArticleList(Map<String, Object> map);

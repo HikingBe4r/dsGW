@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class NaviArticleController {
 	private BoardService boardService;
 
 
-	@RequestMapping(value="/naviDetailArticle.do", method=RequestMethod.GET)
+	@RequestMapping(value="/naviDetailNoticeArticle.do", method=RequestMethod.GET)
 	public ModelAndView submit(@RequestParam(value="id", required=true) int id, 
 			            @RequestParam(value="navi", required=true) String navi,
 			            @RequestParam(value = "boardId") int boardId,
@@ -58,11 +58,10 @@ public class NaviArticleController {
 			mv.addObject("article", article);			
 			mv.addObject("boards", boardService.retrieveBoardList());
 		    
-			mv.setViewName("boardNavTest/article/detailArticle");		
+			mv.setViewName("boardNavTest/noticleArticle/detailArticle");		
 			
 			return mv;			
 	}
 }
 
 
-*/

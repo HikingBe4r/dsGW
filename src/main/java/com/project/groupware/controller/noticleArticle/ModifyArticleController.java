@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import com.project.groupware.service.BoardService;
 import com.project.groupware.service.NoticeArticleService;
 import com.project.groupware.service.NoticeFileArticleService;
 import com.project.groupware.service.NoticeImageArticleService;
-import com.project.groupware.util.UploadFileUtils;
+import com.project.groupware.util.UploadFileUtils2;
 
 @Controller
 public class ModifyArticleController {
@@ -39,7 +39,7 @@ public class ModifyArticleController {
 	private BoardService boardService;
 
 	// 게시글 수정 폼 요청 처리 컨트롤러 메소드
-	@RequestMapping(value = "/modifyArticle.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/modifyNoticeArticle.do", method = RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value = "id", required = true) int id) {
 
 		List<BoardVO> boards = boardService.retrieveBoardList();		
@@ -47,12 +47,12 @@ public class ModifyArticleController {
 		mv.addObject("boards", boards);
 		mv.addObject("article", noticeArticleService.retrieveArticle(id));
 		
-		mv.setViewName("boardNavTest/article/modifyArticleForm");
+		mv.setViewName("boardNavTest/noticleArticle/modifyArticleForm");
 		return mv;
 	}
 
 	// 게시글 수정 요청 처리 컨트롤러 메소드
-	@RequestMapping(value = "/modifyArticle.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/modifyNoticeArticle.do", method = RequestMethod.POST)
 	public String submit(@ModelAttribute(value = "article") ArticleVO article,
 			@RequestParam(value = "fileId", required = false, defaultValue = "") String fileId,
 			@RequestParam(value = "imageId", required = false, defaultValue = "") String imageId,
@@ -61,11 +61,11 @@ public class ModifyArticleController {
 		System.out.println("fileId : " + fileId);
 		System.out.println("imageId : " + imageId);
 		//일반 파일 첨부한 경우
-		List<MultipartFile> files = article.getFileUpload();
+		List<MultipartFile> files = article.getUpload();
 
 		for (MultipartFile file : files) {
 			if (!file.isEmpty()) {
-				ArticleFileVO articleFile = UploadFileUtils.uploadFile(file, request);
+				ArticleFileVO articleFile = UploadFileUtils2.uploadFile(file, request);
 				articleFile.setArticleId(article.getId());
 				article.addArticleFile(articleFile);
 			}
@@ -76,7 +76,7 @@ public class ModifyArticleController {
 		MultipartFile files1 = article.getImgUpload();
 		if ((files1 != null) &&  (!files1.isEmpty())) {
 			System.out.println("call 이미지 파일 첨부");
-			ArticleImageVO articleImage = UploadFileUtils.uploadFile1(files1, request);
+			ArticleImageVO articleImage = UploadFileUtils2.uploadFile1(files1, request);
 			articleImage.setArticleId(article.getId());
 			article.addArticleImage(articleImage);
 		}
@@ -105,8 +105,7 @@ public class ModifyArticleController {
 		noticeArticleService.modifyArticle(article);
 		boardService.retrieveBoardList();
 
-		return "redirect:/detailArticle.do?id=" + article.getId();
+		return "redirect:/detailNoticeArticle.do?id=" + article.getId();
 
 	}
 }
-*/

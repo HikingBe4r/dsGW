@@ -53,7 +53,6 @@ public class NoticeArticleServiceImpl implements NoticeArticleService {
 
 	// 게시글 목록조회
 	public List<ArticleVO> retrieveArticleList(Map<String, Object> map) {
-		System.out.println("-------------" + map);
 		return noticeArticleMapper.selectArticleList(map);
 	}
 
@@ -118,14 +117,12 @@ public class NoticeArticleServiceImpl implements NoticeArticleService {
 
 	// 이전
 	public ArticleVO prevArticle(Map<String, Object> map) {
-		return	noticeArticleMapper.prevArticle(map);
+		return noticeArticleMapper.prevArticle(map);
 	}
 
 	// 다음
 	public ArticleVO nextArticle(Map<String, Object> map) {
-		return	noticeArticleMapper.nextArticle(map);
+		return noticeArticleMapper.nextArticle(map);
 	}
-
-
 
 }

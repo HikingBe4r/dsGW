@@ -6,7 +6,7 @@
 	<body>
 	<h3 align="center">공지글 쓰기 화면</h3>
 	<hr style="border: solid 1px red; width: 50%;">
-	<form action="${pageContext.request.contextPath }/writeArticle.do"   method="post" enctype="multipart/form-data">>
+	<form action="${pageContext.request.contextPath }/writeNoticeArticle.do"   method="post" enctype="multipart/form-data">>
 	<input type="hidden" name="boardId=1" value="${param.boardId}">
 	<table border="0" align="center">
 		<tr>

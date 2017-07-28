@@ -43,7 +43,7 @@
 <body>
 	<h3 align="center">공지글 쓰기 화면</h3>
 	<hr style="border: solid 1px red; width: 50%;">
-	<form method="post" action="${pageContext.request.contextPath }/modifyArticle.do" enctype="multipart/form-data">
+	<form method="post" action="${pageContext.request.contextPath }/modifyNoticeArticle.do" enctype="multipart/form-data">
 		<input type="hidden" name="fileId" value="" id="fileId">
 		<input type="hidden" name="imageId" value="" id="imageId">
 		<input type="hidden" name="id" value="${requestScope.article.id }">

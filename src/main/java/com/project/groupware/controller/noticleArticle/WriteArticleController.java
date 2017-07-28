@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import com.project.groupware.domain.ArticleFileVO;
 import com.project.groupware.domain.ArticleImageVO;
 import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.service.NoticeArticleService;
-import com.project.groupware.util.UploadFileUtils;
+import com.project.groupware.util.UploadFileUtils2;
 
 
 
@@ -27,22 +27,22 @@ public class WriteArticleController {
 
 	
 	//게시글 쓰기 폼 요청 처리
-	@RequestMapping(value="/writeArticle.do", method=RequestMethod.GET)
+	@RequestMapping(value="/writeNoticeArticle.do", method=RequestMethod.GET)
 	public String form() {
-		return "boardNav/article/writeArticleForm";
+		return "boardNav/noticleArticle/writeArticleForm";
 	}
 	
 	
 	
 	//게시글 쓰기 요청 처리
-	@RequestMapping(value="/writeArticle.do", method=RequestMethod.POST)
+	@RequestMapping(value="/writeNoticeArticle.do", method=RequestMethod.POST)
 	public String submit(@ModelAttribute(value="notice") ArticleVO article, HttpServletRequest request) throws Exception {   //Command 객체
 		
 		//파일 업로드
-		List<MultipartFile> files = article.getFileUpload();
+		List<MultipartFile> files = article.getUpload();
 		for(MultipartFile file : files) {
 			if( !file.isEmpty() ) {
-				ArticleFileVO ArticleFile = UploadFileUtils.uploadFile(file, request);
+				ArticleFileVO ArticleFile = UploadFileUtils2.uploadFile(file, request);
 				article.addArticleFile(ArticleFile);
 			}
 		}
@@ -51,12 +51,12 @@ public class WriteArticleController {
 		//이미지 파일 업로드
 		MultipartFile files1 = article.getImgUpload();
 		if( !files1.isEmpty() ) {
-			ArticleImageVO ArticleImage = UploadFileUtils.uploadFile1(files1, request);
+			ArticleImageVO ArticleImage = UploadFileUtils2.uploadFile1(files1, request);
 			article.addArticleImage(ArticleImage);
 		}
 		
 		noticeArticleService.registerArticle(article);	
-		return "redirect:/listArticle.do";
+		return "boardNavTest/noticleArticle/listArticle";
 	}
 	
 	
@@ -74,4 +74,3 @@ public class WriteArticleController {
 
 
 
-*/
