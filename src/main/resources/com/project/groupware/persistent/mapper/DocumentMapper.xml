@@ -355,4 +355,10 @@
 		) and employee_id = #{employeeId} -->
 	</delete>
 	
+	<select id="selectDocumentListByFormId" resultType="int" parameterType="String" statementType="PREPARED">
+		SELECT count(id)
+		FROM DOCUMENT
+		WHERE FORM_ID = #{formId}
+	</select>
+	
 </mapper>

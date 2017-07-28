@@ -19,4 +19,6 @@ public interface FormMapper {
 	List<BookmarkFormVO> selectBookmarkFormList(String employeeId);
 	void insertBookmarkForm(BookmarkFormVO bookmarkFormVO);
 	void removeBookmarkForm(BookmarkFormVO bookmarkFormVO);
+	
+
 }

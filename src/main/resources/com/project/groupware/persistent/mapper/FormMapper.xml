@@ -107,8 +107,10 @@
 	
 	<delete id="removeBookmarkForm" parameterType="bookmarkFormVO" statementType="PREPARED">
 		DELETE FROM FORM_BOOKMARK
-		WHERE employee_id = #{employeeId}
-		  AND form_id = #{formId}	
+		WHERE form_id = #{formId}
+		<if test="employeeId != null">
+		  AND employee_id = #{employeeId}
+		</if> 		
 	</delete>
 	
 	

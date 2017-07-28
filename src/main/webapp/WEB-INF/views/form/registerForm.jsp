@@ -29,7 +29,7 @@
 		});
 		
 		$("#listBtn").click(function() {
-			document.location.href='${pageContext.request.contextPath}/listForm.do';
+			document.location.href='${pageContext.request.contextPath}/listForm.do?boardId=1';
 		});
 		
 		
@@ -46,8 +46,6 @@
 			}
 		
 		});
-		
-		
 	});
 </script>
 

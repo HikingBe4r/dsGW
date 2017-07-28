@@ -4,7 +4,7 @@
 
 <script>
 	$(document).ready(function() {
-		alert("등록성공");
+		alert("삭제 실패: [연관된 문서 존재]");
 		document.location.href = "${pageContext.request.contextPath}/listForm.do?boardId=1";
 	});
 </script>

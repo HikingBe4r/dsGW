@@ -1,5 +1,7 @@
 package com.project.groupware.controller.form;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,11 +18,20 @@ public class DetailFormController {
 	private FormService formService;
 	
 	@RequestMapping(value="/detailForm.do", method=RequestMethod.GET)
-	public ModelAndView detailForm(@RequestParam(value="formId", required=true) String formId) {
+	public ModelAndView detailForm(
+			@RequestParam(value="formId", required=true) String formId,
+			HttpSession session
+			) {
+		
 		ModelAndView mv = new ModelAndView();
 		
 		mv.addObject("form", formService.retrieveForm(formId));
-		mv.setViewName("approvalNav/form/detailForm");
+		
+		if(session.getAttribute("employee") != null) {
+			mv.setViewName("approvalNav/form/detailForm");
+		} else {
+			mv.setViewName("adminNav/form/detailForm");
+		}
 		
 		return mv;		
 	}

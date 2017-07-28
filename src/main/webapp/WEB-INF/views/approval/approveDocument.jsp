@@ -30,13 +30,11 @@
 					}
 					,
 					success: function(data) {
-						alert("결재완료.");
 						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do?boardId=3';
 						window.close();						
 					}
 					,
 					error : function(jqXHR) {
-						alert("실패했습니다.");
 						window.opener.document.location.href='${pageContext.request.contextPath}/listApprovalDocument.do?boardId=1';
 						window.close();
 					}					

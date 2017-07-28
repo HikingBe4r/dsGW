@@ -12,7 +12,7 @@ public interface FormService {
 	List<FormVO> retrieveFormList(Map<String, Object> map);
 	FormVO retrieveForm(String id);
 	void registerForm(FormVO formVO) throws Exception;
-	void removeForm(String id);
+	boolean removeForm(String id);
 	void modifyForm(FormVO formVO);
 
 	// 양식 즐겨찾기

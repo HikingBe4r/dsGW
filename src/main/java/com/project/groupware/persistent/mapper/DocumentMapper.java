@@ -26,4 +26,6 @@ public interface DocumentMapper {
 	List<Map<String, Object>> selectApprovalDocumentList(Map<String, Object> keyword);
 	DocumentVO selectApprovalDocument(String documentId);
 
+	// 해당 양식 사용하는 문서 갯수 조회
+	int selectDocumentListByFormId(String formId);
 }

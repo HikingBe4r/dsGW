@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +30,19 @@ public class ListFormController {
 	private FormService formService;
 	
 	@RequestMapping(value="/listForm.do", method=RequestMethod.GET)
-	public String listForm() {
-		return "approvalNav/form/listForm";
+	public String listForm(HttpSession session) {
+		
+		if(session.getAttribute("employee") != null) {
+			return "approvalNav/form/listForm";
+		} else {
+			return "adminNav/form/listForm";
+		}
 	}
 	
-	@RequestMapping(value="/listFormForAdmin.do", method=RequestMethod.GET)
+	/*@RequestMapping(value="/listFormForAdmin.do", method=RequestMethod.GET)
 	public String listFormForAdmin() {
 		return "adminNav/form/listForm";
-	}
+	}*/
 	
 	@RequestMapping(value="/searchForm.do", method=RequestMethod.GET)
 	public ModelAndView searchForm(

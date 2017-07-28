@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.project.groupware.domain.BookmarkFormVO;
 import com.project.groupware.domain.FormFileVO;
 import com.project.groupware.domain.FormVO;
+import com.project.groupware.persistent.mapper.DocumentMapper;
 import com.project.groupware.persistent.mapper.FormFileMapper;
 import com.project.groupware.persistent.mapper.FormMapper;
 
@@ -16,6 +17,9 @@ import com.project.groupware.persistent.mapper.FormMapper;
 public class FormServiceImpl implements FormService{
 	@Autowired
 	private FormMapper formMapper;
+	
+	@Autowired
+	private DocumentMapper documentMapper; 
 	
 	@Autowired
 	private FormFileMapper formFileMapper;
@@ -46,9 +50,20 @@ public class FormServiceImpl implements FormService{
 			
 	}	
 
-	public void removeForm(String formId) {		
-		formFileMapper.deleteFormFile(formId);
-		formMapper.deleteForm(formId);	
+	public boolean removeForm(String formId) {		
+		int num = documentMapper.selectDocumentListByFormId(formId);
+		
+		if(num == 0) {
+			BookmarkFormVO bookmark = new BookmarkFormVO();
+			bookmark.setFormId(formId);
+			
+			formFileMapper.deleteFormFile(formId);
+			formMapper.removeBookmarkForm(bookmark);
+			formMapper.deleteForm(formId);
+			
+			return true;			
+		}
+		return false;
 	}
 	
 	public void modifyForm(FormVO formVO) {
