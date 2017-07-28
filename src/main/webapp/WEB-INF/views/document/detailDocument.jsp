@@ -43,6 +43,18 @@
 			form.submit();
 		});
 		
+		// 재기안버튼
+		$('#rewriteDocument').click(function() {
+			<c:url var="rewriteURL" value="/rewriteDocument.do">
+				<c:param name="subject" value="${requestScope.approvalDocument.document.subject }"/>
+				<c:param name="content" value="${requestScope.approvalDocument.document.content }"/>
+				<c:param name="endDate" value="${requestScope.approvalDocument.document.endDate }"/>
+				<c:param name="formId" value="${requestScope.approvalDocument.document.formVO.id}"/>
+			</c:url>
+			
+			location.href = "${rewriteURL }";
+		});
+		
 	});
 </script>
 
@@ -61,6 +73,10 @@
 				<button type="button" class="btn btn-primary btn-lg" id="approveDocument">승인</button>
 				<button type="button" class="btn btn-primary btn-lg btn-danger" id="rejectDocument">반려</button>
 			</c:if> 
+			<c:if test="${requestScope.approvalDocument.document.status == 4 &&
+						requestScope.approvalDocument.approverList[0].EMPLOYEEID == sessionScope.employee.id}" >
+				<button type="button" class="btn btn-primary btn-lg" id="rewriteDocument">재기안</button>
+			</c:if>
 			
 		</div>
 	</div>

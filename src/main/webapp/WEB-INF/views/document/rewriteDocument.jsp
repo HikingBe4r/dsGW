@@ -1,4 +1,4 @@
-<%-- detailTempDocument.jsp --%>
+<%-- rewriteDocument.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
 <script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
@@ -17,7 +17,7 @@
 		var mon = (now.getMonth() + 1) > 9 ? '' + (now.getMonth() + 1): '0' + (now.getMonth() + 1);
 		var day = now.getDate() > 9 ? '' + now.getDate() : '0' + now.getDate();
 		var today = year + '/' + mon + '/' + day;
-		$('#endDate').val('${requestScope.tempDocumentVO.endDate}');
+		$('#endDate').val('${requestScope.endDate}');
 		$('#writeday').text(today);
 		
 	});
@@ -47,7 +47,7 @@
 				bUseModeChanger : false
 			},
 			fOnAppLoad : function() {	//기존 양식 불러오기
-				var temp = '${requestScope.tempDocumentVO.content }';
+				var temp = '${requestScope.content}';
 				obj.getById["content"].exec("PASTE_HTML", [temp]); 	
 			}
 
@@ -63,27 +63,6 @@
 				alert("결재선이 없습니다.");
 			} else {
 				obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
-				$.ajax({
-					url: '${pageContext.request.contextPath}/removeTempDocument.do'
-					,
-					type: 'POST'
-					,
-					dataType: 'json'
-					,
-					data: {
-						id: '${requestScope.tempDocumentVO.id}',
-					}
-					, 
-					cache: false
-					,
-					success: function(data) {
-					}
-					,
-					error : function(jqXHR) {
-						alert("Error : " + jqXHR.responseText);
-					}			
-					
-				});
 				$("#insertDocumentForm").submit();
 			}
 		});
@@ -101,19 +80,18 @@
 			} else {
 				obj.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);		
 				$.ajax({
-					url: '${pageContext.request.contextPath}/modifyTempDocument.do'
+					url: '${pageContext.request.contextPath}/writeTempDocument.do'
 					,
 					type: 'POST'
 					,
 					dataType: 'json'
 					,
 					data: {
-						id: '${requestScope.tempDocumentVO.id}',
 						employeeId: '${sessionScope.employee.id}',
 						subject: $('#subject').val(),
 						content: $('#content').val(),
 						endDate: $('#endDate').val(),
-	 					formId: '${requestScope.form.id}'
+	 					formId: '${requestScope.formId}'
 					}
 					, 
 					cache: false
@@ -132,30 +110,9 @@
 			
 		});
 
-		//삭제 버튼
+		//취소 버튼
 		$("#cancel").click(function() {
-			$.ajax({
-				url: '${pageContext.request.contextPath}/removeTempDocument.do'
-				,
-				type: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: {
-					id: '${requestScope.tempDocumentVO.id}',
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
-					location.href = 'listTempDocument.do'; 				
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
-				
-			});
+			location.href = 'choiceForm.do';
 		});
 
 	});
@@ -193,13 +150,14 @@
 </script>
 
 
-<form action="${pageContext.request.contextPath }/writeDocument.do" method="post" enctype="multipart/form-data" id="insertDocumentForm">
+<form action="${pageContext.request.contextPath }/writeDocument.do"
+	method="post" enctype="multipart/form-data" id="insertDocumentForm">
 	<!-- 상단 버튼 그룹 -->
 	<div>
 		<div class="btn-group" role="group" aria-label="...">
 			<button type="button" class="btn btn-default" id="approvalLine">결재선</button>
 			<button type="button" class="btn btn-default" id="tempDocument">임시저장</button>
-			<button type="button" class="btn btn-danger" id="cancel">삭제</button>
+			<button type="button" class="btn btn-danger" id="cancel">취소</button>
 		</div>
 
 		<div class="pull-right">
@@ -212,7 +170,7 @@
 	<div class="panel panel-info" style="height: 820px;">
 		<div class="panel-heading" align="center">
 			<h4>${requestScope.form.subject }</h4>
-			<input type="hidden" name="formId" id="formId" value="${requestScope.formId}">
+			<input type="hidden" name="formId" value="${requestScope.formId}">
 		</div>
 
 		<div class="panel-body">
@@ -227,7 +185,7 @@
 						</tr>
 						<tr>
 							<td>소속</td>
-							<td>${requestScope.department.name }</td>
+							<td>${sessionScope.employeeDetail.departmentId }</td>
 						</tr>
 						<tr>
 							<td>날짜</td>
@@ -253,7 +211,8 @@
 				<div class="form-group">
 					<label for="subject" class="col-sm-1 control-label" align="right">제목</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="subject" name="subject" value="${requestScope.tempDocumentVO.subject }">	
+						<input type="text" class="form-control" id="subject"
+							name="subject" placeholder="제목을 입력하시오" value="${requestScope.subject }">
 					</div>
 
 					<div class="col-sm-12">
