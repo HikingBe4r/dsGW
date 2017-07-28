@@ -78,10 +78,7 @@ public class ListDocumentController {
 											@RequestParam(value="myDocs", required=false) String myDocs,
 											@RequestParam(value="status", required=false) String status,
 											@RequestParam(value="searchStatus", required=false) String searchStatus,
-											@RequestParam(value="currentPage", required=false) Integer currentPage) {
-		
-		
-		System.out.println("여기까진 오니 2번");
+											@RequestParam(value="currentPage", required=false) Integer currentPage) {	
 		
 		HttpSession session = request.getSession();
 		EmployeeVO employee = (EmployeeVO)session.getAttribute("employee");

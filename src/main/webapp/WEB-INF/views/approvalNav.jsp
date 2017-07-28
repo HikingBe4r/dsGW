@@ -158,7 +158,7 @@
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=3">승인문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=4">반려문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=5">수신문서</a></li>
-
+			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=6">만료문서</a></li>
 		</ul>
 	</div>
 

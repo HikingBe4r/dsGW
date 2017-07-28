@@ -31,10 +31,10 @@ public class RegisterMyDocsController {
 			@RequestParam(value="myDocs", required=false) String myDocs,
 			@RequestParam(value="status", required=false) String status,
 			@RequestParam(value="searchStatus", required=false) String searchStatus,
-			@RequestParam(value="currentPage", required=false) Integer currentPage
+			@SessionAttribute(value="currentPage", required=false) Integer currentPage
 			) {
 
-		ModelAndView mv = new ModelAndView();		
+		ModelAndView mv = new ModelAndView();
 		
 		// 즐겨찾기 추가/제거
 		BookMarkDocumentVO bookmark = new BookMarkDocumentVO();

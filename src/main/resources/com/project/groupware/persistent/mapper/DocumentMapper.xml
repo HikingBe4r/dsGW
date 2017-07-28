@@ -119,7 +119,7 @@
 	
 	
 	<select id="selectDocumentList" resultType="documentVO" statementType="PREPARED" parameterType="map">		
-		select 
+		<!-- select 
 			doc.id,
 			doc.subject,
 			doc.writeday,
@@ -199,7 +199,138 @@
 						and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
 					</if>
 				</if>
-		order by writeday desc
+		order by writeday desc -->
+		
+		select 
+			doc.id,
+			doc.subject,
+			to_char(doc.writeday, 'YYYY/MM/DD HH24:MI:SS') as writeday,
+			to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD HH24:MI:SS') as endDate,
+			<if test="myDocs == 1">
+				emp.name as writer,
+			</if>
+			<if test="myDocs != 1">
+				t2.writer as writer,
+			</if>
+			ds.status
+		from
+			<if test="myDocs == 1">
+				mydocs md,
+			</if>
+			document doc,
+		    document_status ds,
+		    approval_history ah,
+		    approver ap,
+		    <if test="myDocs == 1">
+				employee emp
+			</if>
+			<if test="myDocs != 1">
+			    (select
+	            	ap.id firstAppId,
+	            	emp.name as writer,
+	            	t1.myappid
+				from
+	            	approver ap,
+	            	employee emp, 
+	            	(select
+	                  	ap.approval_line_id,
+	                  	ap.id myAppId
+	            	from
+	                  	approver ap,
+	                  	employee emp
+	            	where
+	                  	emp.id = ap.employee_id
+	                  	<if test="status == 3 or status == 4">
+	                    	and ap.approval_auth_id in (1,2)
+	                    </if>
+	                    <if test="status == 5">
+	                    	and ap.approval_auth_id in (3)
+	                    </if>
+	                    <if test="status == 6">
+	                    	and ap.approval_auth_id in (1)
+	                    </if>
+	                    and emp.id = #{employeeId}
+	            	) t1					                                          
+				where
+	            	ap.approval_line_id = t1.approval_line_id
+	              	and ap.approval_auth_id = 1
+	              	and ap.employee_id = emp.id
+	        	) t2
+	        </if>
+		where
+			doc.document_status_id = ds.id
+			and doc.id = ah.document_id
+			and ah.approval_status_id = 1
+			and ah.approver_id = ap.id
+			<if test="myDocs == 1">
+				and ap.employee_id = emp.id
+		        and ap.step = 1
+		        and doc.id = md.document_id
+		        and md.employee_id = #{employeeId}
+		        <if test="searchStatus == 'accept'">
+					and ds.id = 3
+				</if>
+				<if test="searchStatus == 'reject'">
+					and ds.id = 4
+				</if>
+				<if test="searchStatus == 'expiration'">
+					and ds.id = 5
+				</if>
+			</if>
+			<if test="myDocs != 1">
+	        	and ah.approver_id = t2.firstappid
+	        	<if test="status == 3">
+	        		and ds.id = 3
+	        	</if>
+	        	<if test="status == 4">
+	        		and ds.id = 4
+	        	</if>
+	        	<if test="status == 5">
+	        		<!-- and ds.id in (3,4,5) -->
+	        		and ds.id in (3,4)
+	        		<if test="searchStatus == 'accept'">
+						and ds.id = 3
+					</if>
+					<if test="searchStatus == 'reject'">
+						and ds.id = 4
+					</if>
+					<!-- <if test="searchStatus == 'expiration'">
+						and ds.id = 5
+					</if> -->
+	        	</if>
+	        	<if test="status == 6">
+	        		and ds.id = 5
+	        	</if>
+	        </if>
+	        <if test="keyfield == 'subject'">
+				and doc.subject like '%' || #{keyword} || '%'
+			</if>
+			<if test="keyfield == 'writer'">
+				and emp.name like '%' || #{keyword} || '%'
+			</if>
+			<if test="searchDay == 'writeDay'">
+				<if test="startDay != 'all' and endDay != 'all'">
+					and to_char(doc.writeday, 'YYYY/MM/DD') between #{startDay} and #{endDay}
+				</if>
+				<if test="startDay != 'all' and endDay == 'all'">
+					and to_char(doc.writeday, 'YYYY/MM/DD') = #{startDay}
+				</if>
+				<if test="startDay == 'all' and endDay != 'all'">
+					and to_char(doc.writeday, 'YYYY/MM/DD') = #{endDay}
+				</if>
+			</if>
+			<if test="searchDay == 'finishDay'">
+				<if test="startDay != 'all' and endDay != 'all'">
+					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') between #{startDay} and #{endDay}
+				</if>
+				<if test="startDay != 'all' and endDay == 'all'">
+					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{startDay}
+				</if>
+				<if test="startDay == 'all' and endDay != 'all'">
+					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
+				</if>
+			</if>
+      	order by writeday desc
 		
 	</select>
 	
