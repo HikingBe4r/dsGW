@@ -1,6 +1,5 @@
 package com.project.groupware.controller.qnaArticle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class ListQnAController {
 		
 		mv.addObject("departments",departmentService.retrieveDepartmentListID());
 		mv.addObject("boards",boardService.retrieveBoardList());
-		mv.setViewName("boardNavTest/article/listArticle"); 
+		mv.setViewName("boardNavTest/qna/listQnA"); 
 		return mv;
 	}
 	
@@ -48,37 +47,28 @@ public class ListQnAController {
 	public ModelAndView search(@SessionAttribute(value="employee", required=false) EmployeeVO employee,
 						 @RequestParam(value="keytype", required=false)String keytype,
 						 @RequestParam(value="keyword", required=false, defaultValue="all")String keyword,
-						 @RequestParam(value="boardId", required=true) int boardId,
-						 @RequestParam(value="secret", required=true) String secret, 
-						 @RequestParam(value="currentPage" , required=true) Integer  currentPage
-						
-						
-						 ){
+						 @RequestParam(value="boardId", required=true) int boardId, 
+						 @RequestParam(value="currentPage" , required=true) Integer  currentPage){
+		
 				ModelAndView mv = new ModelAndView();
 		
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("boardId", boardId);
 				map.put("keytype", keytype);
 				map.put("keyword", keyword);
-				map.put("secret", secret);
+					
+				List<ArticleVO> QnAList = qnaService.retrieveQnAList(map);
 								
-				
-				List<ArticleVO> tempFormList = qnaService.retrieveQnAList(map);
-				List<ArticleVO> articleList = new ArrayList<ArticleVO>();
-				
-				articleList = tempFormList;
-				
 				if(currentPage == null) {
 					currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
 				}
 
-				PagingVO paging = new PagingVO(currentPage, articleList.size());
+				PagingVO paging = new PagingVO(currentPage, QnAList.size());
 						
 				mv.addObject("paging", paging);
 				//  페이징 처리 끝
-				mv.addObject("articleList", articleList);
 				
-				
+				mv.addObject("QnAList", QnAList);		
 				mv.setViewName("jsonView");
 				
 				return mv;

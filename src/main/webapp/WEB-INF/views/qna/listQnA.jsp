@@ -14,7 +14,7 @@
 //쓰기 버튼
 $(document).ready(function() {   
 	$("#writeBtn").click(function() {
-		location.href	= 'writeQnA.do?boardId=${param.boardId}&open=${param.open}';
+		location.href	= 'writeQnA.do?boardId=${param.boardId}';
 	});
 });
 
@@ -22,33 +22,33 @@ $(document).ready(function() {
 
 	$(document).ready(function() {
 		var currentPage = 1;
-		var keytype = '전체';
-		var keyword = '';
+		var keytype = "";
+		var keyword = "";
 		  
 		
 		function loadArticleList(data) {
 			$("#articleBody").empty(data);
 			var htmlStr = "";
-			if(data.articleList.length == 0) {
+			if(data.QnAList.length == 0) {
 				alert("검색결과가 없습니다.");
 			}
 			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailQnA.do';	
-					linkUrl += '?id=' + data.articleList[i].id;
+					linkUrl += '?id=' + data.QnAList[i].id;
 					
 				
 				htmlStr += "<tr>";
 				htmlStr += "<td><label><input type='checkbox' id='checkRow '></label></td>";
-				htmlStr += "<input type='hidden' id='id' value="+data.articleList[i].id +  "/>";
-				htmlStr += "<td>"+data.articleList[i].id+"</td>";
-				htmlStr += "<td><a href="+linkUrl+">"+data.articleList[i].subject+"</a></td>";
-				htmlStr += "<td>"+data.articleList[i].employee.name+"</td>";
-				htmlStr += "<td>"+data.articleList[i].writeday+"</td>";
-				htmlStr += "<td>"+data.articleList[i].hitcount+"</td>";
+				htmlStr += "<input type='hidden' id='id' value="+data.QnAList[i].id +  "/>";
+				htmlStr += "<td>"+data.QnAList[i].id+"</td>";
+				htmlStr += "<td><a href="+linkUrl+">"+data.QnAList[i].subject+"</a></td>";
+				htmlStr += "<td>"+data.QnAList[i].employee.name+"</td>";
+				htmlStr += "<td>"+data.QnAList[i].writeday+"</td>";
+				htmlStr += "<td>"+data.QnAList[i].hitcount+"</td>";
 				
 				htmlStr += "<td>";
-				if(data.articleList[i].count != 0) {
+				if(data.QnAList[i].count != 0) {
 					htmlStr += "<span class='glyphicon glyphicon-save' aria-hidden='true'></span>";
 				}
 				htmlStr += "</td>";
@@ -104,7 +104,6 @@ $(document).ready(function() {
 				keytype: $("#keytype").val(),
 				keyword: $("#searchKeyword").val(),
 				boardId : '${param.boardId}',
-				secret: '${param.secret}',
 				currentPage : '1'
 			}
 			,
@@ -305,81 +304,6 @@ $(document).ready(function() {
 	      });     
 	   
 
-	/*  //전체 선택
-    $('#allCheck').click(function() {
-    	 $(":checkbox[name='allCheck']").each(function() {
-			 var subChecked = $(this).attr('checked');
-			 
-			 if (subChecked != 'checked')
-			 	$(this).click();
-			 
-		 });
-	});
-   */
-   
-	     /*  //전체 해제
-	     $('#allCheck').click(function() {
-	      	 $(":checkbox[name='allCheck']").each(function() {
-	  			 var subChecked = $(this).attr('checked');
-	  			 
-	  			 if (subChecked != 'checked')
-	  			 	$(this).click();
-	  			 
-	  		 });
-	  	});
-	     */
-	     
-	      /*  //선택 삭제
-	      $('#removeBtn').click(function() {
-	    	  
-	    	  var checkRow = '';
-				
-				$(":checkbox[name='documentId']:checked").each(function(){
-					checkRow = checkRow + $(this).val() + ', ';
-				});
-				
-				checkRow = checkRow.substring(0, checkRow.lastIndexOf(', ')); //맨끝 콤마 지우기
-				
-				if(checkRow == '') {
-					alert("삭제할 문서를 선택하세요.");
-				    return;
-				}
-	    	  
-							
-					$.ajax({
-						url: '${pageContext.request.contextPath}/removeArticleList.do'
-						,
-						method: 'GET'
-						,
-						dataType: 'json'
-						,
-						data: {
-							
-							keytype: $("#keytype").val(),
-							keyword: $("#searchKeyword").val(),
-							boardId : '${param.boardId}',
-							secret: '${param.secret}',
-							currentPage : '1'
-						}
-						,
-						cache: false
-						,
-						success: function(data) {
-							loadArticleList(data);
-							pagination(data);
-						}
-						,
-						error : function(jqXHR) {
-							alert("Error : " + jqXHR.responseText);
-							console.log(jqXHR.responseText);
-						}
-						
-					});
-			
-				
-			}); */
-	   
-	     
 	     
 });	 	
 
@@ -395,11 +319,9 @@ $(document).ready(function() {
 	<c:if test="${sessionScope.employee.id ne null}">
 		<button type="button" class="btn btn-default" id="myBtn" >내글보기</button>
 	</c:if>
-   <form action="${pageContext.request.contextPath}/listArticle.do"   method="get" class="form-inline pull-right">
+   <form action="${pageContext.request.contextPath}/listQnA.do"   method="get" class="form-inline pull-right">
       <input type="hidden" name="boardId" value="${param.boardId}">
-      <input type="hidden" name="open" value="${param.open}">
-
- 
+       
       <c:if test="${sessionScope.employee.id eq null}">
      	<select name="departments" id="departments" class="form-control">
      			<option value="all">전체</option>
@@ -412,12 +334,10 @@ $(document).ready(function() {
 				<option value="subject">제목</option>
 				<option value="name">작성자</option>
 				<option value="content">내용</option>
-
 			</select>
 
      <div class="form-group">
-			<input type="text" class="form-control" id="searchKeyword"
-				placeholder="keyword">
+			<input type="text" class="form-control" id="searchKeyword" placeholder="keyword">
 		</div>
    	  <button type="button" class="btn btn-default" id="searchBtn">검색</button>
    </form>
@@ -442,7 +362,19 @@ $(document).ready(function() {
          </thead>
          
  		<tbody id="articleBody">
-			
+			<c:forEach var="articles" items="${requestScope.QnAList}" varStatus="loop">
+					<tr>
+						<td><label><input name="check" type="checkbox" value="${pageScope.articles.id}"></label></td>
+						<td>${fn:length(requestScope.articles) - loop.index}</td>
+						<td><a href="${pageContext.request.contextPath}/detailArticle.do?id=${pageScope.articles.id}">${pageScope.articles.subject}</a></td>
+						<td>${pageScope.articles.employee.name}</td>
+						<td>${pageScope.articles.writeday}</td>
+						<td>${pageScope.articles.hitcount}</td>
+						<td><c:if test="${pageScope.articles.count != 0}">
+								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+							</c:if></td>
+					</tr>
+				</c:forEach>
 		</tbody>
 	</table>
 	</form>
