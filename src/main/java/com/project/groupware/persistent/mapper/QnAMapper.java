@@ -7,21 +7,30 @@ import com.project.groupware.domain.ArticleVO;
 
 public interface QnAMapper {
 
-	void insertArticle(ArticleVO article);
+	//게시글을 등록한다.
+	public void insertQnA(ArticleVO article);
 	
-	List<ArticleVO> selectArticleList(Map<String, Object> map);
+	//게시글 목록 조회하다.
+	public List<ArticleVO> selectQnAList(Map<String, Object> map);
 	
-	List<ArticleVO> findArticleList(Map<String, Object> map);
+	//게시글 전체 갯수를 구하다
+	public int totalQnA(int boardId);
 	
-	int selectTotalArticle(int boardId);
+	//게시글 상세 조회하다
+	public ArticleVO selectQnA(int id);
 	
-	ArticleVO selectArticle(int id);
+	//조회수를 증가시키다
+	public void upHitcountQnA(int id);
 	
-	void upHitcount(int articleId);
+	//게시글을 수정하다
+	public void updateQnA(ArticleVO article);
 	
-	void updateArticle(ArticleVO article);
+	//게시글 을 삭제하다.
+	public void deleteQnA(int id);
 	
-	void deleteArticle(int articleId);
-	
-	//void deleteAllArticle(Map<String, Object> map);
+	/*//내글을 조회하다
+	public List<ArticleVO> findmyArticle(Map<String, Object> map);
+*/
+	//게시글을 삭제하다(여러개)
+	public void deleteQnAs(Map<String, Object> map);
 }

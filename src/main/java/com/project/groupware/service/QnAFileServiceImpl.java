@@ -1,5 +1,7 @@
 package com.project.groupware.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,16 +12,24 @@ public class QnAFileServiceImpl implements QnAFileService{
 
 	@Autowired
 	private QnAFileMapper qnaFileMapper;
-	
-	public void removeFile(int fileId) {
-		qnaFileMapper.deleteFile(fileId);
+
+	public void registerQnAFile(Map<String, Object> map) {
+		qnaFileMapper.insertQnAFile(map);
 		
 	}
 
-	public void removeArticleFile(int articleId) {
-		qnaFileMapper.deleteArticleFile(articleId);
+	public void delteQnAFile(Map<String, Object> map) {
+		qnaFileMapper.deleteQnAFile(map);
 		
 	}
+
+	public void deleteQnAArticleFile(int articleId) {
+		qnaFileMapper.deleteQnAArticleFile(articleId);
+		
+	}
+
+	
+	
 
 	
 	

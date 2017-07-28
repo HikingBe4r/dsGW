@@ -1,5 +1,7 @@
 package com.project.groupware.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,26 +13,27 @@ public class QnAReplyServiceImpl implements QnAReplyService{
 
 	@Autowired
 	private QnAReplyMapper qnaReplyMapper;
-	
-	public void registerReply(ArticleReplyVO articleReply) {
-		qnaReplyMapper.insertReply(articleReply);
-		
-	}
-	
-	public void modifyReply(ArticleReplyVO articleReply) {
-		qnaReplyMapper.updateReply(articleReply);
+
+	public void registerQnAReply(ArticleReplyVO articleReply) {
+		qnaReplyMapper.insertQnAReply(articleReply);
 		
 	}
 
-	public void removeArticleReply(int articleId) {
-		qnaReplyMapper.deleteArticleReply(articleId);
+	public void removeQnAReply(int id) {
+		qnaReplyMapper.deleteQnAArticleReply(id);
 		
 	}
 
-	public void removeReply(int replyId) {
-		qnaReplyMapper.deleteReply(replyId);
+	public void modifyQnAReply(ArticleReplyVO articleReply) {
+		qnaReplyMapper.updateQnAReply(articleReply);
 		
 	}
+
+	public List<ArticleReplyVO> retrieveQnAReply(int articleId) {
+		return qnaReplyMapper.selectQnAReplyList(articleId);
+	}
+	
+
 	
 	
 	

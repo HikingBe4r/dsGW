@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.PagingVO;
-import com.project.groupware.service.BoardService;
+import com.project.groupware.service.DepartmentService;
 import com.project.groupware.service.QnAService;
 
 @Controller
@@ -24,13 +24,7 @@ public class ListMyQnAController {
 
    @Autowired
    private QnAService qnaService;
-   
-   @Autowired
-   private BoardService boardService;
-   
-   /*@Autowired
-   private DepartmentService departmentService;*/
-   
+        
    @RequestMapping(value="/myQnA.do", method=RequestMethod.GET)
    public ModelAndView search(
 		  @SessionAttribute(value="employee") EmployeeVO employee,
@@ -48,7 +42,7 @@ public class ListMyQnAController {
       map.put("currentPage", currentPage);      
       map.put("employeeId", employee.getId());
       
-      List<ArticleVO> tempFormList = qnaService.searchArticle(map);
+      List<ArticleVO> tempFormList = qnaService.retrieveQnAList(map);
       List<ArticleVO> articleList = new ArrayList<ArticleVO>();
       
       articleList = tempFormList;

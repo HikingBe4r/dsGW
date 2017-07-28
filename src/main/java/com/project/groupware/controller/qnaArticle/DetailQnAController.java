@@ -23,9 +23,9 @@ public class DetailQnAController {
 	@RequestMapping(value="/detailQnA.do", method=RequestMethod.GET)
 	public ModelAndView datailArticle(@RequestParam(value="id", required=true)int id){
 		
-		qnaService.upHitcount(id);
+		qnaService.upHitcountQnA(id);
 		
-		ArticleVO article = qnaService.retrieveArticle(id);
+		ArticleVO article = qnaService.retrieveQnA(id);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("article", article);

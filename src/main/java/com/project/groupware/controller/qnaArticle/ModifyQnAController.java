@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,14 +38,14 @@ public class ModifyQnAController {
 		List<BoardVO> boards = boardService.retrieveBoardList();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("board", boards);
-		mv.addObject("article", qnaService.retrieveArticle(id));
+		mv.addObject("article", qnaService.retrieveQnA(id));
 		mv.setViewName("boardNavTest/qna/modifyQnA");
 		return mv;
 	}
 
 	// 게시글 수정 요청처리 컨트롤러
 	@RequestMapping(value = "modifyQnA.do", method = RequestMethod.POST)
-	public String submit(@ModelAttribute(value = "article") ArticleVO article, HttpServletRequest request)
+	public String submit(@ModelAttribute(value = "article") ArticleVO article, HttpServletRequest request, Model model)
 			throws Exception {
 		//return null;
 
@@ -66,8 +67,10 @@ public class ModifyQnAController {
 				file.delete();
 			}
 		}
+		
+		model.addAttribute("boards", boardService.retrieveBoardList());
 
-		qnaService.modifyArticle(article);
+		qnaService.modifyQnA(article);
 		return "redirect:/detailQnA.do?id=" + article.getId();
 	}
 }

@@ -269,44 +269,7 @@ $(document).ready(function() {
 			}
 	 	});
 		
-		//부서이동
-
-		$('#departments').on("change", function() {
-				alert('부서번호 : ' + $(this).find('option:selected').val());
-			
-				$.ajax({
-					url : '${pageContext.request.contextPath}/departmentArticle.do'
-					,
-					method : 'GET'
-					,
-					cache : false
-					,
-					dataType : 'json'
-					,
-					data : {
-						
-						boardId: "${param.boardId}",
-						secret: '${param.secret}',
-						currentPage: '1',
-						departmentId: $(this).find('option:selected').val()
-						
-					}
-					,
-					success : function(data) {
-						loadArticleList(data);
-						pagination(data);
-						currentPage = data.paging.currentPage;
-					}	
-					,
-					error : function(jqXHR) {
-						alert("ERROR: "+jqXHR.responseText);
-						console.log(jqXHR.responseText);
-					}		
-				});
-
-	 	});	 	
-		
-		
+				
 		   //선택
 	      $('#removeBtn').click(function() {
 	         var array = [];
@@ -316,6 +279,7 @@ $(document).ready(function() {
 	         });   
 	         $("input[name='articleIdList']").val(array.join());      
 	         $('#inputForm').submit();
+	         console.log($("input[name='articleIdList']").val());
 	         
 	         
 	      });
@@ -331,12 +295,13 @@ $(document).ready(function() {
 	            $("input[name='check']:checked").each(function() {
 	               array.push($(this).val());   
 	            });   
-	            
 	            $("input[name='articleIdList']").val(array.join());      
 	            
 	         } else {
 	            $('input[type=checkbox]').prop('checked', false);
 	         }
+	         
+	         console.log($("input[name='articleIdList']").val());
 	      });     
 	   
 

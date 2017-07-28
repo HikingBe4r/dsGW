@@ -28,21 +28,11 @@
 	</div>
 </div>
 <br><br>
-
-
-
-
-
-	
-	
 	
 	 <ul class="nav nav-pills nav-stacked">
 	   <c:forEach var="board" items="${requestScope.boards}" varStatus="loop">
-	         <li><a href="${pageContext.request.contextPath}/listArticleForm.do?boardId=${pageScope.board.id}&open=${pageScope.board.secret}">${pageScope.board.name}</a></li>
+	         <li><a href="${pageContext.request.contextPath}/listQnA.do?boardId=${pageScope.board.id}&open=${pageScope.board.secret}">${pageScope.board.name}</a></li>
 	   </c:forEach>
 	</ul>
 	
-	
-	
-
 </html>

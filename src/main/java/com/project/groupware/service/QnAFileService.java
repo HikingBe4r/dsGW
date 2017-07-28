@@ -1,8 +1,13 @@
 package com.project.groupware.service;
 
+import java.util.Map;
+
 public interface QnAFileService {
 
-	void removeFile(int fileId);
+	void registerQnAFile(Map<String, Object> map);
 	
-	void removeArticleFile(int articleId);
+	void delteQnAFile(Map<String, Object> map);
+	
+	void deleteQnAArticleFile(int articleId);
+	
 }

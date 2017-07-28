@@ -50,7 +50,7 @@ public class WriteQnAController {
 				article.addArticleFile(articleFile);
 			}
 		}
-		qnaService.registerArticle(article);
+		qnaService.registerQnA(article);
 
 		return "redirect:/listQnA.do?boardId=" + article.getBoardId();
 	}

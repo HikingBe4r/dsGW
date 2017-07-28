@@ -25,7 +25,7 @@ public class RemoveQnAController {
 						  @RequestParam(value="boardId")int boardId){
 		
 		//게시글 삭제(1.파일삭제, 2.댓글 삭제, 3.게시글삭제)
-		qnaService.removeArticle(id);
+		qnaService.removeQnA(id);
 		
 		 //메뉴 리스트
 		boardService.retrieveBoardList();

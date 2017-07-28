@@ -23,8 +23,8 @@ public class QnAServiceImpl implements QnAService{
 	@Autowired
 	private QnAReplyMapper qnaReplyMapper;
 	
-	public void registerArticle(ArticleVO article) {
-		qnaMapper.insertArticle(article);
+	public void registerQnA(ArticleVO article) {
+		qnaMapper.insertQnA(article);
 		
 		int articleId = article.getId();
 		List<ArticleFileVO> articleFiles = article.getFiles();
@@ -35,55 +35,81 @@ public class QnAServiceImpl implements QnAService{
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("articleFiles", articleFiles);
-			qnaFileMapper.insertArticleFile(map);
+			qnaFileMapper.insertQnAFile(map);
 			
 		}
 	}
 	
-	public List<ArticleVO> retrieveArticleList(Map<String, Object> map) {
-		return qnaMapper.selectArticleList(map);
-		
-	}
+	//게시글 목록조회
+		public List<ArticleVO> retrieveQnAList(Map<String, Object> map) {
+			return qnaMapper.selectQnAList(map);
+		}
 
-	public List<ArticleVO> searchArticle(Map<String, Object> map) {
-		return qnaMapper.findArticleList(map);
-	}
-
-	public int retrieveTotalArticle(int boardId) {
-		int count = qnaMapper.selectTotalArticle(boardId); 
-		return count;
-	}
-
-	public ArticleVO retrieveArticle(int id) {
-		return qnaMapper.selectArticle(id);
-	}
-
-	public void upHitcount(int articleId) {
-		qnaMapper.upHitcount(articleId);
-	}
-
-	public void modifyArticle(ArticleVO article) {
-		qnaMapper.updateArticle(article);
-		
-		int articleId = article.getId();
-		List<ArticleFileVO> articleFiles = article.getFiles();
-		if(articleFiles.size() != 0){
-			for(ArticleFileVO articleFile : articleFiles){
-				articleFile.setArticleId(articleId);
-			}
-			
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("articleFiles", articleFiles);
-			qnaFileMapper.insertArticleFile(map);
+		//전체 게시글 구하기
+		public int retrieveTotalQnA(int boardId) {
+			int count = qnaMapper.totalQnA(boardId);
+			return count;
 		}
 		
-	}
+		//게시글 상세조회
+		public ArticleVO retrieveQnA(int id) {
+			return qnaMapper.selectQnA(id);
+		}
 
-	public void removeArticle(int id) {
-		qnaFileMapper.deleteArticleFile(id);
-		qnaReplyMapper.deleteArticleReply(id);
-		qnaMapper.deleteArticle(id);
-	}
+		//조회수 증가
+		public void upHitcountQnA(int id) {
+			qnaMapper.upHitcountQnA(id);
+			
+		}
+		
+		//게시글 수정
+		public void modifyQnA(ArticleVO article) {
+			qnaMapper.updateQnA(article);
+					//게시글 번호를 구한다.
+					int articleId = article.getId();
+					List<ArticleFileVO> articleFiles = article.getFiles();
+					if(articleFiles.size() != 0) {
+						for (ArticleFileVO articleFile : articleFiles) {
+							articleFile.setArticleId(articleId);
+						}
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("articleFiles", articleFiles);
+						qnaFileMapper.insertQnAFile(map);
+						
+					}
+					
+					//파일 번호를 구한다
+					String fileNo = article.getFileNo();
+					String[] temp = fileNo.split(",");
+					
+						
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("fileNoList",temp);
+						
+					qnaFileMapper.deleteQnAFile(map);
+
+					
+		}
+		
+		//게시글 삭제
+		public void removeQnA(int id) {
+			qnaFileMapper.deleteQnAArticleFile(id);
+			qnaReplyMapper.deleteQnAReply(id);
+			qnaMapper.deleteQnA(id);
+		}
+
+		/*//내글을 조회하다
+		public List<ArticleVO> myArticle(Map<String, Object> map) {
+			return articleMapper.findmyArticle(map);
+		}*/
+		
+		
+		//게시글을 삭제하다(여러개)
+		public void removeQnAs(Map<String, Object> map) {
+			qnaMapper.deleteQnAs(map);
+			
+			
+		}
 		            
 	
 	

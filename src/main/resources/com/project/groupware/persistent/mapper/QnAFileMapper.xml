@@ -5,7 +5,7 @@
 <mapper namespace="com.project.groupware.persistent.mapper.QnAFileMapper">
 
 	<!-- 파일 등록 -->
-	<insert id="insertArticleFile" parameterType="map"	statementType="PREPARED">
+	<insert id="insertQnAFile" parameterType="map" statementType="PREPARED">
 		insert All
 		<foreach item="articleFile" collection="articleFiles">
 			into
@@ -14,24 +14,27 @@
 		</foreach>
 		select * from dual
 	</insert>
-	
+
 	<!-- 게시글 삭제 -->
-	<delete id="deleteArticleFile" statementType="PREPARED" parameterType="int">
+	<delete id="deleteQnAArticleFile" statementType="PREPARED"
+		parameterType="int">
 		DELETE FROM ARTICLE_FILE
 		WHERE article_id = #{articleId}
 	</delete>
-	
-	<!-- 파일만 삭제 -->
-	<delete id="deleteFile" statementType="PREPARED" parameterType="int">
-		DELETE FROM ARTICLE_FILE
-		WHERE id = #{id}
+
+	<!-- 파일 삭제(파일) -->
+	<delete id="deleteQnAFile" parameterType="map" statementType="PREPARED">
+		delete from ARTICLE_FILE
+		where id in
+		
+		<foreach item="item" collection="fileNoList" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+
 	</delete>
-	
-	<!-- 파일 여려개 삭제 -->
-	<!-- <delete id="deleteFiles" statementType="PREPARED" parameterType="map">
-		DELETE FROM ARTICLE_FILE
-		WHERE id in (?)
-	</delete> -->
-	
+
+
+
 </mapper>
 	

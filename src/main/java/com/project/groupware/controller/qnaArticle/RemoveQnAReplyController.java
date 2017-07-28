@@ -24,11 +24,11 @@ public class RemoveQnAReplyController {
 					
 		//댓글 삭제
 		
-		qnaReplyService.removeReply(Integer.parseInt(replyId));
+		qnaReplyService.removeQnAReply(Integer.parseInt(replyId));
 		
 		//리스트 출력
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("replyList", qnaService.retrieveArticle(Integer.parseInt(articleId)).getReplys());
+		mv.addObject("replyList", qnaService.retrieveQnA(Integer.parseInt(articleId)).getReplys());
 		mv.setViewName("jsonView");
 		return mv;
 	}

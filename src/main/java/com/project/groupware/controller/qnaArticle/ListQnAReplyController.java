@@ -21,7 +21,7 @@ public class ListQnAReplyController {
 		
 		//QnA댓글 리스트
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("replys", qnaService.retrieveArticle(articleReply.getArticleId()).getReplys());
+		mv.addObject("replys", qnaService.retrieveQnA(articleReply.getArticleId()).getReplys());
 		mv.setViewName("jsonView");
 		return mv;
 	}

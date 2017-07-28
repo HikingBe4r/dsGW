@@ -4,46 +4,62 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.groupware.persistent.mapper.QnAReplyMapper">
 
-
-
-
 	<!-- 댓글 등록 -->
-	<insert id="insertReply" parameterType="articleReplyVO"
-		statementType="PREPARED">
-		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
-			resultType="int">
+	<insert id="insertQnAReply" parameterType="articleReplyVO"	statementType="PREPARED">
+		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE" resultType="int">
 			SELECT ARTICLE_REPLY_ID_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 
-		INSERT INTO
-		ARTICLE_REPLY(id, article_id, employee_id, content,
-		writeday)
+		INSERT INTO	ARTICLE_REPLY(id, article_id, employee_id, content,	writeday)
 		VALUES( #{id}, #{articleId}, 1, #{content}, SYSDATE)
 	</insert>
 
 	<!-- 댓글 수정 -->
-	<update id="updateReply" statementType="PREPARED" parameterType="articleReplyVO">
+	<update id="updateQnAReply" statementType="PREPARED" parameterType="articleReplyVO">
 		UPDATE ARTICLE_REPLY
-		SET content = #{content}
+		SET 
+			content = #{content},
+			writeday = sysdate
 		WHERE id = #{id}
 	</update>
 
 	<!-- 게시글 댓글 삭제 -->
-	<delete id="deleteArticleReply" statementType="PREPARED" parameterType="int">
+	<delete id="deleteQnAArticleReply" statementType="PREPARED" parameterType="int">
 		DELETE FROM ARTICLE_REPLY
 		WHERE article_id = #{articleId}
 	</delete>
 
 	<!-- 댓글만 삭제 -->
-	<delete id="deleteReply" statementType="PREPARED" parameterType="int">
+	<delete id="deleteQnAReply" statementType="PREPARED" parameterType="int">
 		DELETE FROM ARTICLE_REPLY
 		WHERE id = #{id}
 	</delete>
 	
-	<!-- 댓글여러개 삭제 -->
-	<!-- <delete id="deleteReply" statementType="PREPARED" parameterType="int">
-		DELETE FROM ARTICLE_REPLY
-		WHERE id in (?)
-	</delete> -->
-
+	<!-- 댓글 리스트  -->
+	<resultMap  id="selectQnAReplyListMap" type="articleReplyVO">
+		<id column="id" 		property="id"/>
+		<result column="content" property="content"/> 
+		<result column="writeday" property="writeday"/> 
+		<result column="article_id" property="articleId"/> 
+		<result column="employee_id" property="employeeId"/> 
+		<association property="employee" javaType="employeeVO">
+			<id column="id" 		property="id"/>
+			<result column="name" property="name"/> 
+		</association>
+	</resultMap>
+	
+	<select id ="selectQnAReplyList" parameterType="int" resultMap="selectQnAReplyListMap">
+		SELECT
+			r1.id,
+			r1.content,
+			to_char(r1.writeday, 'YYYY/MM/DD') as writeday, 
+			r1.article_id,
+			r1.employee_id,
+			e1.id,
+			e1.name
+		FROM ARTICLE_REPLY r1, EMPLOYEE e1
+		WHERE r1.employee_id = e1.id
+		AND r1.ARTICLE_id = #{value}
+	</select>
+	
 </mapper>

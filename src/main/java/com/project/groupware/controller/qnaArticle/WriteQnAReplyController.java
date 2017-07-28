@@ -24,11 +24,11 @@ public class WriteQnAReplyController {
    public ModelAndView writeReply(@ModelAttribute(value="replyList") ArticleReplyVO articleReply){
      
 	  //댓글등록
-      qnaReplyService.registerReply(articleReply);
+      qnaReplyService.registerQnAReply(articleReply);
       
       //댓글 리스트
       ModelAndView mv = new ModelAndView();
-      mv.addObject("replyList", qnaService.retrieveArticle(articleReply.getArticleId()).getReplys());
+      mv.addObject("replyList", qnaService.retrieveQnA(articleReply.getArticleId()).getReplys());
       mv.setViewName("jsonView");
       return mv;
    }

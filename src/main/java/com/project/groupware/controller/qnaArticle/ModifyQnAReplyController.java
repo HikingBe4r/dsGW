@@ -32,11 +32,11 @@ public class ModifyQnAReplyController {
 		articleReply.setId(Integer.parseInt(replyId));
 		articleReply.setArticleId(Integer.parseInt(articleId));
 		articleReply.setContent(content);
-		qnaReplyService.modifyReply(articleReply);
+		qnaReplyService.modifyQnAReply(articleReply);
 		
 		//댓글리스트출력
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("replyList", qnaService.retrieveArticle(articleReply.getArticleId()).getReplys());
+		mv.addObject("replyList", qnaService.retrieveQnA(articleReply.getArticleId()).getReplys());
 		mv.setViewName("jsonView");
 		return mv;
 		
