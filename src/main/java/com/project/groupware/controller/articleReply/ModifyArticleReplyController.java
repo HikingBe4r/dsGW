@@ -1,4 +1,4 @@
-package com.project.groupware.controller.articleReply;
+/*package com.project.groupware.controller.articleReply;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,3 +32,4 @@ public class ModifyArticleReplyController {
 		return "jsonView";
 	}
 }
+*/
