@@ -24,18 +24,22 @@
 					linkUrl += '?formId=' + data.formList[i].id;
 				
 				htmlStr += '<tr>';
-				htmlStr += '<td id="bookmark">';
-				htmlStr += '<button type="button" class="btn btn-default" aria-label="Center Align">';
-				if(data.formList[i].isBookmark == 0) {
-					htmlStr += '<span class="glyphicon glyphicon-star-empty" aria-hidden="true">';
-				} else {
-					htmlStr += '<span class="glyphicon glyphicon-star" aria-hidden="true">';
+				
+				// admin 로그인시 즐겨찾기는 필요없음.
+				if(${session.employee != null}) {
+					htmlStr += '<td id="bookmark">';
+					htmlStr += '<button type="button" class="btn btn-default" aria-label="Center Align">';
+					if(data.formList[i].isBookmark == 0) {
+						htmlStr += '<span class="glyphicon glyphicon-star-empty" aria-hidden="true">';
+					} else {
+						htmlStr += '<span class="glyphicon glyphicon-star" aria-hidden="true">';
+					}
+					htmlStr += '<input type="hidden" id="isBookmark" value='+data.formList[i].isBookmark+' />';
+					htmlStr += '<input type="hidden" id="formId" value='+data.formList[i].id+' />';
+					htmlStr += '</span>';
+					htmlStr += '</button>';
+					htmlStr += '</td>';
 				}
-				htmlStr += '<input type="hidden" id="isBookmark" value='+data.formList[i].isBookmark+' />';
-				htmlStr += '<input type="hidden" id="formId" value='+data.formList[i].id+' />';
-				htmlStr += '</span>';
-				htmlStr += '</button>';
-				htmlStr += '</td>';
 
 				htmlStr += '<td>'+data.formList[i].id+'</td>';
 				htmlStr += '<td><a href='+linkUrl+'>'+data.formList[i].subject+'</a></td>';
@@ -255,7 +259,9 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="100">즐겨찾기</th>
+				<c:if test="${session.employee != null }">
+					<th width="100">즐겨찾기</th>
+				</c:if>
 				<th width="100">번호</th>
 				<th>제목</th>
 				<th width="200">등록일</th>
