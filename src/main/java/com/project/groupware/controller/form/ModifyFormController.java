@@ -29,9 +29,12 @@ public class ModifyFormController {
 		ModelAndView mv = new ModelAndView();
 		
 		FormVO form = formService.retrieveForm(formId);
-		form.setFormContent(form.getFormContent().replace("\n", ""));
-		form.setFormContent(form.getFormContent().replace("\r", ""));
-		form.setFormContent(form.getFormContent().replace("'", "\""));
+		
+		if(form.getFormContent() != null) {
+			form.setFormContent(form.getFormContent().replace("\n", ""));
+			form.setFormContent(form.getFormContent().replace("\r", ""));
+			form.setFormContent(form.getFormContent().replace("'", "\""));
+		}
 		mv.addObject("form", form);
 		
 		mv.setViewName("adminNav/form/modifyForm");
@@ -52,6 +55,6 @@ public class ModifyFormController {
 		
 		formService.modifyForm(form);
 		
-		return "redirect:/listFormForAdmin.do?boardId=1";
+		return "redirect:/listForm.do?boardId=1";
 	}
 }

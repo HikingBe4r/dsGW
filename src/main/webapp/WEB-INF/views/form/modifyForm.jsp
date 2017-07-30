@@ -21,10 +21,11 @@
 				alert("설명을 입력하세요.");
 			} else if ($('#upload') == null) {
 				alert("파일을 첨부하세요.");
-			} else {
+			} 
+			else {
 				obj.getById["formContent"].exec("UPDATE_CONTENTS_FIELD", []);
-				$("#regForm").attr("action", "${pageContext.request.contextPath}/modifyForm.do");
-				$("#regForm").submit();
+				$("#modForm").attr("action", "${pageContext.request.contextPath}/modifyForm.do");
+				$("#modForm").submit();
 			}
 		});
 		
