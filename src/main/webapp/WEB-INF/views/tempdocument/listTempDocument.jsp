@@ -2,10 +2,12 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
-<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
 <script type="text/javascript" src="./resources/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />  
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>  
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 <script>
@@ -61,31 +63,31 @@
 	$(document).ready(function() {
 		// 오픈되자마자.
 		$.ajax({
-				url : '${pageContext.request.contextPath}/searchTempDocument.do'
-				,
-				method : 'GET'
-				,
-				cache : false
-				,
-				dataType : 'json'
-				,
-				data : {
-					keyfield:  $("select[name='keyfield'] > option:selected").val() ,
-					keyword:  $(":text[name='keyword']").val() ,
-					startDay:  $(":text[name='startDay']").val() ,
-					endDay:  $(":text[name='endDay']").val() ,
-					currentPage: "1"
-				}
-				,
-				success : function(data) {
-					listTempDocument(data);
-					pagination(data);
-				}
-				,
-				error : function(request,status,error) {
-					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-				}
+			url : '${pageContext.request.contextPath}/searchTempDocument.do'
+			,
+			method : 'GET'
+			,
+			cache : false
+			,
+			dataType : 'json'
+			,
+			data : {
+				keyfield:  $("select[name='keyfield'] > option:selected").val() ,
+				keyword:  $(":text[name='keyword']").val() ,
+				startDay:  $(":text[name='startDay']").val() ,
+				endDay:  $(":text[name='endDay']").val() ,
+				currentPage: "1"
+			}
+			,
+			success : function(data) {
+				listTempDocument(data);
+				pagination(data);
+			}
+			,
+			error : function(request,status,error) {
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
 		});
 		
 		$('#searchBtn').click(function() {
@@ -134,7 +136,7 @@
 					 if (subChecked != 'checked') {
 					 	$(this).click();
 					 }
-				 });
+				});
 			}
 			else {
 				$(":checkbox[name='tempDocumentId']").each(function() {
@@ -143,7 +145,7 @@
 					 if (subChecked == 'checked') {
 					 	$(this).click();
 					 }
-				 });
+				});
 			}
 		});
 		
