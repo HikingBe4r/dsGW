@@ -8,7 +8,7 @@
 		<!-- <selectKey keyProperty="status" statementType="PREPARED" order="BEFORE" resultType="string">
 			SELECT id 
 			FROM DOCUMENT_STATUS
-			WHERE status = #{status}	
+			WHERE status = #{status}
 		</selectKey> -->
 		INSERT INTO DOCUMENT (form_id, subject, content, writeday, enddate, document_status_id )
 		VALUES (#{formVO.id}, #{subject}, #{content}, sysdate, to_date(#{endDate}, 'YYYY/MM/DD HH24:MI:SS'), #{status} )		
