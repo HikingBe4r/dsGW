@@ -1,4 +1,4 @@
-package com.project.groupware.controller.noticleArticle;
+/*package com.project.groupware.controller.noticleArticle;
 
 import java.io.File;
 import java.util.List;
@@ -30,7 +30,7 @@ public class RemoveNoticeArticleController {
 			             @RequestParam(value="id", required=true) int id) {    	    //게시글 번호
 			
 			
-			ArticleVO article = noticleArticleService.retrieveArticle(id);
+			ArticleVO article = noticleArticleService.retrieveNoticeArticle(id);
 			List<ArticleFileVO> files = article.getFiles();			
 			if(!files.isEmpty()) {
 				File file = null;
@@ -52,8 +52,9 @@ public class RemoveNoticeArticleController {
 				}
 			}
 			System.out.println("1231231"+ boardId);
-			noticleArticleService.removeArticle(id);
+			noticleArticleService.removeNoticeArticle(id);
 			boardService.retrieveBoardList();	
 			return "redirect:/listNoticeArticle.do?boardId=" + article.getBoardId();
 	}
 }
+*/

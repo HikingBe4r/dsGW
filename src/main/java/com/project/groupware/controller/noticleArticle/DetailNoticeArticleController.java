@@ -1,4 +1,4 @@
-package com.project.groupware.controller.noticleArticle;
+/*package com.project.groupware.controller.noticleArticle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,21 +26,13 @@ public class DetailNoticeArticleController {
    
    //게시글 상세조회
    @RequestMapping(value="/detailNoticeArticle.do" , method=RequestMethod.GET)
-   public ModelAndView detailArticle(
-		   @RequestParam(value="id", required=true)int id // 당사자. articleId
-		
-		 
-		   ){
-	  
-	  noticearticleService.upHitcount(id);
+   public ModelAndView detailArticle(  @RequestParam(value="id", required=true)int id) {
+	  noticearticleService.upHitcountNotice(id);
       List<BoardVO> boards = boardService.retrieveBoardList();
       
       ModelAndView mv = new ModelAndView();   
       mv.addObject("boards",boards);
-      mv.addObject("article", noticearticleService.retrieveArticle(id));
-      
-            
-  
+      mv.addObject("article", noticearticleService.retrieveNoticeArticle(id));
       
       mv.setViewName("boardNavTest/noticleArticle/detailArticle");
       return mv;
@@ -50,4 +42,4 @@ public class DetailNoticeArticleController {
 
    
    
-}
+}*/

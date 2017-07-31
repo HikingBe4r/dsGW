@@ -1,5 +1,5 @@
-package com.project.groupware.controller.noticleArticle;
 /*package com.project.groupware.controller.noticleArticle;
+
 
 import java.util.List;
 
@@ -7,43 +7,63 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.project.groupware.domain.ArticleFileVO;
 import com.project.groupware.domain.ArticleImageVO;
 import com.project.groupware.domain.ArticleVO;
+import com.project.groupware.domain.BoardVO;
+import com.project.groupware.domain.EmployeeVO;
+import com.project.groupware.service.BoardService;
+import com.project.groupware.service.DepartmentService;
 import com.project.groupware.service.NoticeArticleService;
-import com.project.groupware.util.UploadFileUtils2;
+import com.project.groupware.util.UploadFileUtils;
 
 
 
 @Controller
-public class WriteArticleController {
+public class WriteNoticeArticleController {
 	
 	@Autowired
 	private NoticeArticleService noticeArticleService;
 
+	@Autowired
+	private BoardService boardService;
+
+	@Autowired
+	private DepartmentService departmentService;
 	
 	//게시글 쓰기 폼 요청 처리
 	@RequestMapping(value="/writeNoticeArticle.do", method=RequestMethod.GET)
-	public String form() {
-		return "boardNav/noticleArticle/writeArticleForm";
+	public ModelAndView form() {
+		List<BoardVO> boards = boardService.retrieveBoardList();
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("boards", boards);
+		mv.setViewName("boardNav/noticleArticle/writeArticleForm");
+		return mv;
 	}
 	
 	
 	
 	//게시글 쓰기 요청 처리
 	@RequestMapping(value="/writeNoticeArticle.do", method=RequestMethod.POST)
-	public String submit(@ModelAttribute(value="notice") ArticleVO article, HttpServletRequest request) throws Exception {   //Command 객체
+	public String submit(@SessionAttribute(value = "employee") EmployeeVO employee,
+			@ModelAttribute(value = "article") ArticleVO article, HttpServletRequest request, Model model)
+			throws Exception {
 		
+		article.setEmployeeId(employee.getId());
 		//파일 업로드
 		List<MultipartFile> files = article.getUpload();
 		for(MultipartFile file : files) {
 			if( !file.isEmpty() ) {
-				ArticleFileVO ArticleFile = UploadFileUtils2.uploadFile(file, request);
+				ArticleFileVO ArticleFile = UploadFileUtils.uploadFile(file, request);
 				article.addArticleFile(ArticleFile);
 			}
 		}
@@ -52,11 +72,15 @@ public class WriteArticleController {
 		//이미지 파일 업로드
 		MultipartFile files1 = article.getImgUpload();
 		if( !files1.isEmpty() ) {
-			ArticleImageVO ArticleImage = UploadFileUtils2.uploadFile1(files1, request);
+			ArticleImageVO ArticleImage = UploadFileUtils.uploadFile1(files1, request);
 			article.addArticleImage(ArticleImage);
 		}
 		
-		noticeArticleService.registerArticle(article);	
+		model.addAttribute("boards", boardService.retrieveBoardList());
+		model.addAttribute("departments", departmentService.retrieveDepartmentListID());
+
+		
+		noticeArticleService.registerNoticeArticle(article);	
 		return "boardNavTest/noticleArticle/listArticle";
 	}
 	

@@ -7,34 +7,34 @@ import com.project.groupware.domain.ArticleVO;
 
 public interface NoticeArticleMapper {
 	// 게시글을 등록한다.
-	void insertArticle(ArticleVO article);
+	void insertNoticeArticle(ArticleVO article);
 
 	// 게시글 목록 조회하다.
-	List<ArticleVO> selectArticleList(Map<String, Object> map);
+	List<ArticleVO> selectNoticeArticleList(Map<String, Object> map);
 
 	// 게시글을 검색하다
-	List<ArticleVO> findArticleList(Map<String, Object> map);
+	List<ArticleVO> findNoticeArticleList(Map<String, Object> map);
 
 	// 게시글 전체 갯수를 구하다
-	int TotalPost(int boardId);
+	int TotalPostNotice(int boardId);
 
 	// 게시글 상세 조회하다
-	ArticleVO selectArticle(int id);
+	ArticleVO selectNoticeArticle(int id);
 
 	// 게시글 정보를 수정하다.
-	void updateArticle(ArticleVO article);
+	void updateNoticeArticle(ArticleVO article);
 
 	// 게시글 삭제를 한다.
-	void deleteArticle(int id);
+	void deleteNoticeArticle(int id);
 
 	// 게시글 조회수
-	void upHitcount(int id);
+	void upHitcountNotice(int id);
 
 	// 게시글 이전
-	ArticleVO prevArticle(Map<String, Object> map);
+	ArticleVO prevNoticeArticle(Map<String, Object> map);
 
 	// 게시글 다음
-	ArticleVO nextArticle(Map<String, Object> map);
+	ArticleVO nextNoticeArticle(Map<String, Object> map);
 	
 	
 }

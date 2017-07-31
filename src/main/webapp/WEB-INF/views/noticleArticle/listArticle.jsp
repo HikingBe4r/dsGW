@@ -40,6 +40,7 @@
 				var linkUrl = '${pageContext.request.contextPath}/detailNoticeArticle.do';	
 					linkUrl += '?id=' + data.articleList[i].id;
 					linkUrl += '&boardId=' + data.articleList[i].boardId;
+					linkUrl += '&open=' + '${param.open}';
 					
 				
 				htmlStr += "<tr>";
@@ -108,7 +109,7 @@
 				keytype: $("#keytype").val(),
 				keyword: $("#searchKeyword").val(),
 				boardId : '${param.boardId}',
-				secret: '${param.secret}',
+				secret: '${param.open}',
 				currentPage : '1'
 			}
 			,
@@ -174,12 +175,11 @@
 				,
 				dataType : 'json'
 				,
-				data : {
-					//employeeId : '${sessionScope.employee.id}',
+				data : {				
 					keytype: keytype,
 					keyword: keyword,
 					boardId: "${param.boardId}",
-					secret: '${param.secret}',
+					secret: '${param.open}',
 					currentPage: $(this).val()
 				}
 				,
@@ -406,15 +406,15 @@
                <th width="100">파일</th>
             </tr>
          </thead>
-
-
-        <%--  <c:forEach var="article" items="${requestScope.articles}"
+		
+		<tbody id="articleBody">
+         <c:forEach var="article" items="${requestScope.articles}"
             varStatus="loop">
             <c:url var="url" value="/detailArticle.do">            
                <c:param name="id" value="${pageScope.article.id }" />
 			   <c:param name="boardId" value="${param.boardId }" />
-            </c:url>
-            
+			   <c:param name="open" value="${param.open }" />
+            </c:url>           
             
             <tr>
                <td>${requestScope.paging.num - loop.index }</td>
@@ -427,10 +427,7 @@
                   </c:if></td>
 
             </tr>
-         </c:forEach> --%>
-
-<tbody id="articleBody">
-			
+         </c:forEach> 
 		</tbody>
       </table>
    </div>

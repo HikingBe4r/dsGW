@@ -19,14 +19,15 @@
 		
 		$('#prevBtn').click(function() {
 			alert('이전' + '${requestScope.article.id}');
-			$(location).attr('href', '${pageContext.request.contextPath}/naviDetailArticle.do?id=${requestScope.article.id}&navi=prev&boardId=${param.boardId}');
+			$(location).attr('href', 
+					'${pageContext.request.contextPath}/naviDetailNoticeArticle.do?id=${requestScope.article.id}&navi=prev&boardId=${param.boardId}&open=${param.open}');
 		});
 		
 		
 
 		$('#nextBtn').click(function() {
 			alert('다음');
-			$(location).attr('href', '${pageContext.request.contextPath}/naviDetailArticle.do?id=${requestScope.article.id}&navi=next&boardId=${param.boardId}');
+			$(location).attr('href', '${pageContext.request.contextPath}/naviDetailNoticeArticle.do?id=${requestScope.article.id}&navi=next&boardId=${param.boardId}&open=${param.open}');
 		});
 		
 	
@@ -45,10 +46,10 @@
 
 <div class="row">
 	<div class="col-md-11"></div>
-	<c:url var="modifyUrl" value="/modifyArticle.do">
+	<c:url var="modifyUrl" value="/modifyNoticeArticle.do">
 		<c:param name="id" value="${requestScope.article.id }" />
 	</c:url>
-	<c:url var="removeUrl" value="/removeArticle.do">
+	<c:url var="removeUrl" value="/removeNoticeArticle.do">
 		<c:param name="id" value="${requestScope.article.id }" />
 		<c:param name="boardId" value="${requestScope.article.boardId }" />
 	</c:url>
@@ -63,7 +64,7 @@
 	
 	<div class="col-md-1">
 		<button id="listBtn"
-			onclick="location.href='${pageContext.request.contextPath}/listArticle.do?boardId=${requestScope.article.boardId}'">목록보기</button>			
+			onclick="location.href='${pageContext.request.contextPath}/listNoticeArticle.do?boardId=${requestScope.article.boardId}'">목록보기</button>			
 	</div>
 
 	<div class="col-md-1">

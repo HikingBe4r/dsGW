@@ -24,8 +24,8 @@ public class NoticeArticleServiceImpl implements NoticeArticleService {
 	private NoticeArticleImageMapper noticeArticleImageMapper;
 
 	// 게시글 등록
-	public void registerArticle(ArticleVO article) {
-		noticeArticleMapper.insertArticle(article);
+	public void registerNoticeArticle(ArticleVO article) {
+		noticeArticleMapper.insertNoticeArticle(article);
 		// 게시글 번호를 구한다.
 		int articleId = article.getId();
 		List<ArticleFileVO> articleFiles = article.getFiles();
@@ -52,29 +52,29 @@ public class NoticeArticleServiceImpl implements NoticeArticleService {
 	}
 
 	// 게시글 목록조회
-	public List<ArticleVO> retrieveArticleList(Map<String, Object> map) {
-		return noticeArticleMapper.selectArticleList(map);
+	public List<ArticleVO> retrieveNoticeArticleList(Map<String, Object> map) {
+		return noticeArticleMapper.selectNoticeArticleList(map);
 	}
 
 	// 게시글 검색
-	public List<ArticleVO> searchArticleList(Map<String, Object> map) {
-		return noticeArticleMapper.findArticleList(map);
+	public List<ArticleVO> searchNoticeArticleList(Map<String, Object> map) {
+		return noticeArticleMapper.findNoticeArticleList(map);
 	}
 
 	// 전체 게시글 구하기
-	public int retrieveTotalArticle(int boardId) {
-		int count = noticeArticleMapper.TotalPost(boardId);
+	public int retrieveTotalNoticeArticle(int boardId) {
+		int count = noticeArticleMapper.TotalPostNotice(boardId);
 		return count;
 	}
 
 	// 게시글 상세 조회
-	public ArticleVO retrieveArticle(int id) {
-		return noticeArticleMapper.selectArticle(id);
+	public ArticleVO retrieveNoticeArticle(int id) {
+		return noticeArticleMapper.selectNoticeArticle(id);
 	}
 
-	public void modifyArticle(ArticleVO article) {
+	public void modifyNoticeArticle(ArticleVO article) {
 
-		noticeArticleMapper.updateArticle(article);
+		noticeArticleMapper.updateNoticeArticle(article);
 
 		// 게시글 번호를 구한다.
 		int articleId = article.getId();
@@ -104,25 +104,25 @@ public class NoticeArticleServiceImpl implements NoticeArticleService {
 		}
 	}
 
-	public void removeArticle(int id) {
+	public void removeNoticeArticle(int id) {
 		noticeArticleFileMapper.deleteArticleFile(id);
 		noticeArticleImageMapper.deleteArticleImage(id);
-		noticeArticleMapper.deleteArticle(id);
+		noticeArticleMapper.deleteNoticeArticle(id);
 	}
 
 	// 게시글 조회수
-	public void upHitcount(int id) {
-		noticeArticleMapper.upHitcount(id);
+	public void upHitcountNotice(int id) {
+		noticeArticleMapper.upHitcountNotice(id);
 	}
 
 	// 이전
-	public ArticleVO prevArticle(Map<String, Object> map) {
-		return noticeArticleMapper.prevArticle(map);
+	public ArticleVO prevNoticeArticle(Map<String, Object> map) {
+		return noticeArticleMapper.prevNoticeArticle(map);
 	}
 
 	// 다음
-	public ArticleVO nextArticle(Map<String, Object> map) {
-		return noticeArticleMapper.nextArticle(map);
+	public ArticleVO nextNoticeArticle(Map<String, Object> map) {
+		return noticeArticleMapper.nextNoticeArticle(map);
 	}
 
 }

@@ -7,7 +7,7 @@
 <mapper namespace="com.project.groupware.persistent.mapper.NoticeArticleMapper">
 
 	<!-- 게시글쓰기 -->
-	<insert id="insertArticle" parameterType="articleVO"
+	<insert id="insertNoticeArticle" parameterType="articleVO"
 		statementType="PREPARED">
 		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
 			resultType="int">
@@ -15,16 +15,15 @@
 		</selectKey>
 
 		INSERT INTO
-		ARTICLE(ID,employee_id,board_id,subject,content,writeday,hitcount,secret)
-		VALUES( #{id},#{employeeId},#{boardId}, #{subject}, #{content},
-		SYSDATE, 0, 0)
+		ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,secret)
+		VALUES( #{id},#{employeeId},#{boardId}, #{subject}, #{content}, SYSDATE, 0, 0)
 
 	</insert>
 
 
 
 	<!-- 검색맵 -->
-	<resultMap id="selectArticleResultListMap" type="articleVO">
+	<resultMap id="selectNoticeArticleResultListMap" type="articleVO">
 
 		<id column="id" property="id" />
 		<result column="board_id" property="boardId" />
@@ -41,8 +40,8 @@
 	</resultMap>
 
 
-	<select id="selectArticleList" statementType="PREPARED"
-		resultMap="selectArticleResultListMap" parameterType="map">
+	<select id="selectNoticeArticleList" statementType="PREPARED"
+		resultMap="selectNoticeArticleResultListMap" parameterType="map">
 		<if test="secret == 1">
 			select
 			t1.id,
@@ -186,7 +185,7 @@
 		]]> </select> -->
 
 	<!-- 총 게시글 수 -->
-	<select id="TotalPost" parameterType="int" resultType="int"
+	<select id="TotalPostNotice" parameterType="int" resultType="int"
 		statementType="PREPARED">
 		select
 		count(*)
@@ -198,7 +197,7 @@
 
 
 	<!-- 상세조회 맵 -->
-	<resultMap id="selectArticleResultMap" type="articleVO">
+	<resultMap id="selectNoticeArticleResultMap" type="articleVO">
 		<id column="id" property="id" />
 		<result column="board_id" property="boardId" />
 		<result column="subject" property="subject" />
@@ -225,7 +224,7 @@
 
 
 	<!-- 게시글 상세조회 -->
-	<select id="selectArticle" resultMap="selectArticleResultMap"
+	<select id="selectNoticeArticle" resultMap="selectNoticeArticleResultMap"
 		statementType="PREPARED" parameterType="map">
 		SELECT
 		t1.id,
@@ -251,7 +250,7 @@
 		t1.id = #{id}
 	</select>
 	<!-- 게시글 수정 -->
-	<update id="updateArticle" parameterType="articleVO"
+	<update id="updateNoticeArticle" parameterType="articleVO"
 		statementType="PREPARED">
 		UPDATE ARTICLE
 		set SUBJECT = #{subject} ,
@@ -261,22 +260,24 @@
 	</update>
 
 	<!-- 게시글 삭제 -->
-	<delete id="deleteArticle" parameterType="int" statementType="PREPARED">
+	<delete id="deleteNoticeArticle" parameterType="int" statementType="PREPARED">
 		DELETE FROM ARTICLE
 		WHERE ID = #{ID}
 	</delete>
 
 
 	<!-- 조회수 증가 -->
-	<update id="upHitcount" parameterType="int" statementType="PREPARED">
+	<update id="upHitcountNotice" parameterType="int" statementType="PREPARED">
 		UPDATE ARTICLE
 		SET HITCOUNT = HITCOUNT + 1
 		WHERE id = #{id}
 	</update>
 
 	<!-- 이전 -->
-	<select id="prevArticle" resultMap="selectArticleResultMap"
+	<select id="prevNoticeArticle" resultMap="selectNoticeArticleResultMap"
 		statementType="PREPARED" parameterType="map">
+	
+		<if test="secret == 1">
 	<![CDATA[	
 		select
 			t1.id,
@@ -304,9 +305,39 @@
 				             from article
 				             where writeday > ( select writeday from article where id = #{id} and board_id = #{boardId} ) order by writeday ) where rownum <= 1) ]]>
 
+	</if>
+	<if test="secret == 0">
+	<![CDATA[	
+		select
+			t1.id,
+			t1.subject,
+			t1.board_id,
+			t1.employee_id,
+			e1.name,
+			t1.content,
+			t1.hitcount,
+			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
+			i1.id as image_id,
+			i1.original_image_name,
+			i1.system_image_name,
+			t2.id as file_id,
+			t2.original_file_name,
+			t2.system_file_name
+			from article t1, article_file
+			t2 , article_image i1 , employee e1
+        where
+			t1.employee_id = e1.id and
+			t1.id = t2.article_id(+) and
+			t1.id = i1.article_id(+) and
+			t1.id = ( select id
+				      from ( select id
+				             from article
+				             where writeday > ( select writeday from article where id = #{id} and board_id = #{boardId} and employee_id in (select employee_id from department where id = #{departmentId} ) ) order by writeday ) where rownum <= 1) ]]>
+
+	</if>
 	</select>
 	<!-- 다음 -->
-	<select id="nextArticle" resultMap="selectArticleResultMap"
+	<select id="nextNoticeArticle" resultMap="selectNoticeArticleResultMap"
 		statementType="PREPARED" parameterType="map">
 	
 		<![CDATA[	

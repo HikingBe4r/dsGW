@@ -1,5 +1,5 @@
-package com.project.groupware.controller.noticleArticle;
 /*package com.project.groupware.controller.noticleArticle;
+
 
 import java.util.List;
 
@@ -26,10 +26,11 @@ import com.project.groupware.service.BoardService;
 import com.project.groupware.service.NoticeArticleService;
 import com.project.groupware.service.NoticeFileArticleService;
 import com.project.groupware.service.NoticeImageArticleService;
-import com.project.groupware.util.UploadFileUtils2;
+import com.project.groupware.util.UploadFileUtils;
+
 
 @Controller
-public class ModifyArticleController {
+public class ModifyNoticeArticleController {
 	@Autowired
 	private NoticeArticleService noticeArticleService;
 	@Autowired
@@ -46,7 +47,7 @@ public class ModifyArticleController {
 		List<BoardVO> boards = boardService.retrieveBoardList();		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("boards", boards);
-		mv.addObject("article", noticeArticleService.retrieveArticle(id));
+		mv.addObject("article", noticeArticleService.retrieveNoticeArticle(id));
 		
 		mv.setViewName("boardNavTest/noticleArticle/modifyArticleForm");
 		return mv;
@@ -66,7 +67,7 @@ public class ModifyArticleController {
 
 		for (MultipartFile file : files) {
 			if (!file.isEmpty()) {
-				ArticleFileVO articleFile = UploadFileUtils2.uploadFile(file, request);
+				ArticleFileVO articleFile = UploadFileUtils.uploadFile(file, request);
 				articleFile.setArticleId(article.getId());
 				article.addArticleFile(articleFile);
 			}
@@ -77,7 +78,7 @@ public class ModifyArticleController {
 		MultipartFile files1 = article.getImgUpload();
 		if ((files1 != null) &&  (!files1.isEmpty())) {
 			System.out.println("call 이미지 파일 첨부");
-			ArticleImageVO articleImage = UploadFileUtils2.uploadFile1(files1, request);
+			ArticleImageVO articleImage = UploadFileUtils.uploadFile1(files1, request);
 			articleImage.setArticleId(article.getId());
 			article.addArticleImage(articleImage);
 		}
@@ -103,7 +104,7 @@ public class ModifyArticleController {
 
 		}
 
-		noticeArticleService.modifyArticle(article);
+		noticeArticleService.modifyNoticeArticle(article);
 		boardService.retrieveBoardList();
 
 		return "redirect:/detailNoticeArticle.do?id=" + article.getId();
