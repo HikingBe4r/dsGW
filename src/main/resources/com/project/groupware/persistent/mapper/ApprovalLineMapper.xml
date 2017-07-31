@@ -148,6 +148,7 @@
 				      FROM approver app, approval_history apphis
 				      WHERE app.id = apphis.approver_id
 				        AND app.approval_auth_id = 1 
+				        AND apphis.approval_status_id = 1  
 				        AND apphis.document_id = #{documentId}) t1
 			WHERE app.employee_id = emp.id
 		      AND app.approval_line_id = t1.lineid
