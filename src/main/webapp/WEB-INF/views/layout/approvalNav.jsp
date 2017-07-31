@@ -149,8 +149,8 @@
 	</div>
 	<div class="panel-body">
 		<ul>
-			<li><a href="${pageContext.request.contextPath }/listTempDocument.do">임시보관</a></li>
-			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=1&status=0">개인보관</a></li>
+			<li><a href="${pageContext.request.contextPath }/listTempDocument.do">임시문서</a></li>
+			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=1&status=0">개인문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=3">승인문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=4">반려문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=5">참조문서</a></li>
