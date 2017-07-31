@@ -149,7 +149,6 @@
 
 </script>
 
-
 <form action="${pageContext.request.contextPath }/writeDocument.do"
 	method="post" enctype="multipart/form-data" id="insertDocumentForm">
 	<!-- 상단 버튼 그룹 -->

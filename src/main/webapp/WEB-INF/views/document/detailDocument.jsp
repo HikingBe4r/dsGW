@@ -45,7 +45,6 @@
 		
 		// 재기안버튼
 		$('#rewriteDocument').click(function() {
-			
 			var content = '${requestScope.approvalDocument.document.content }';
 			var htmlStr = "<input type='hidden' name='subject' value='${requestScope.approvalDocument.document.subject }'>";
 			htmlStr += "<input type='hidden' name='content' value='";
