@@ -76,9 +76,8 @@
 				<button type="button" class="btn btn-primary btn-lg btn-danger" id="rejectDocument">반려</button>
 			</c:if> 
 			<c:if test="${requestScope.approvalDocument.document.status == 4 &&
-						requestScope.approvalDocument.approverList[0].EMPLOYEEID == sessionScope.employee.id}" >
-					
-						<button type="button" class="btn btn-primary btn-lg" id="rewriteDocument">재기안</button>
+						requestScope.approvalDocument.approverList[0].EMPLOYEEID == sessionScope.employee.id}" >	
+				<button type="button" class="btn btn-primary btn-lg" id="rewriteDocument">재기안</button>
 			</c:if>
 			
 		</div>

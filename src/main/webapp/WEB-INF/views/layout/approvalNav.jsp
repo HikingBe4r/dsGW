@@ -81,8 +81,15 @@
 				style="height: 150px;">
 		</div>
 	</div>
-
-	<div class="col-md-5" id="notice">
+	
+	<br>
+	<div id="employeeInfo" style="height: 70px;">
+		<h5>${sessionScope.employeeDetail.departmentId }</h5>
+		<h4>${sessionScope.employeeDetail.name }
+			${sessionScope.employeeDetail.gradeId }</h4>
+	</div>
+	
+	<div class="col-md-1" id="notice">
 		<c:choose>
 			<c:when test="${requestScope.isread == '0'}">
 				<form action="${pageContext.request.contextPath }/listNotice.do"
@@ -99,19 +106,8 @@
 				</form>
 			</c:otherwise>
 		</c:choose>
-	</div><br><br>
-	<div id="employeeInfo" style="height: 70px;">
-		<h5>${sessionScope.employeeDetail.departmentId }</h5>
-		<h4>${sessionScope.employeeDetail.name }
-			${sessionScope.employeeDetail.gradeId }</h4>
 	</div>
 
-	<button id="modifyInfo" class="btn btn-default" type="button" onclick="window.open('${pageContext.request.contextPath }/modifyEmployee.do?id=${sessionScope.employee.id }', '개인정보수정','width=1250, height=900, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">정보수정</button>
-	
-	<form action="${pageContext.request.contextPath }/logout.do"
-		method="post">
-		<input id="logout" class="btn btn-default" type="submit" value="로그아웃">
-	</form>
 </div>
 <br>
 <button id="writeDocument" type="button"

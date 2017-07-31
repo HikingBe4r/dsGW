@@ -7,21 +7,24 @@
 <script>
 	$('#board').removeAttr('class');
 	$('#adminTab').attr('class', 'active');
+	$('#settingGroup').empty();
+	$('#settingGroup').append('<li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>');
 </script>
 
-
-<form action="${pageContext.request.contextPath }/logout.do"
-	method="post">
 	<div class="row">
-		<div class="col-sm-7 col-md-7">
+		<div class="col-md-6">
 			<div class="thumbnail">
 				<img src="${pageContext.request.contextPath }/resources/image/example.png" id="profileImg">
 			</div>
 		</div>
 
-		<div class="col-sm-3 col-md-3">
+		<%-- <div class="col-sm-3 col-md-3">
 			<div class="panel panel-default">${sessionScope.admin.id }</div>
-			<button class="btn btn-default" type="submit">로그아웃</button>
+		</div> --%>
+		
+		<br>
+		<div style="height: 70px;">
+			<h2>&nbsp;&nbsp;&nbsp;${sessionScope.admin.id }</h2>
 		</div>
 	</div>
 	<br> <br>
@@ -44,11 +47,6 @@
 			<li role="presentation"><a href="${pageContext.request.contextPath }/listForm.do?boardId=1">양식 관리</a></li>
 		</ul>
 	</div>
-
-
-
-
-</form>
 
 
 

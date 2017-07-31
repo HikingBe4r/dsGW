@@ -36,18 +36,15 @@
 				class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" role="menu">
-			<li><a href="#">XX 설정</a></li>
-			<li><a href="#">YY 설정</a></li>
+			<li onclick="window.open('${pageContext.request.contextPath }/modifyEmployee.do?id=${sessionScope.employee.id }', 
+				'개인정보수정','width=1250, height=900, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">
+				<a href="#">개인정보 수정</a></li>
 			<li class="divider"></li>
-			<li><a
-				href="${pageContext.request.contextPath }/addApprovalLineBookmark.do">결재선
-					즐겨찾기 추가</a></li>
-			<li><a
-				href="${pageContext.request.contextPath }/modifyApprovalLineBookmark.do">결재선
-					즐겨찾기 수정</a></li>
-			<li><a
-				href="${pageContext.request.contextPath }/removeApprovalLineBookmark.do">결재선
-					즐겨찾기 삭제</a></li>
+			<li><a href="${pageContext.request.contextPath }/addApprovalLineBookmark.do">결재선 즐겨찾기 추가</a></li>
+			<li><a href="${pageContext.request.contextPath }/modifyApprovalLineBookmark.do">결재선 즐겨찾기 수정</a></li>
+			<li><a href="${pageContext.request.contextPath }/removeApprovalLineBookmark.do">결재선 즐겨찾기 삭제</a></li>
+			<li class="divider"></li>
+			<li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>
 		</ul>
 	</div>
 </div>
