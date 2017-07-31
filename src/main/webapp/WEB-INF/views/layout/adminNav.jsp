@@ -17,11 +17,6 @@
 				<img src="${pageContext.request.contextPath }/resources/image/example.png" id="profileImg">
 			</div>
 		</div>
-
-		<%-- <div class="col-sm-3 col-md-3">
-			<div class="panel panel-default">${sessionScope.admin.id }</div>
-		</div> --%>
-		
 		<br>
 		<div style="height: 70px;">
 			<h2>&nbsp;&nbsp;&nbsp;${sessionScope.admin.id }</h2>

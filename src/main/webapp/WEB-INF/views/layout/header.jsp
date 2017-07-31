@@ -35,7 +35,7 @@
 			<span class="glyphicon glyphicon-cog" aria-hidden="true"> <span
 				class="caret"></span>
 		</button>
-		<ul class="dropdown-menu" role="menu">
+		<ul id="settingGroup" class="dropdown-menu" role="menu">
 			<li onclick="window.open('${pageContext.request.contextPath }/modifyEmployee.do?id=${sessionScope.employee.id }', 
 				'개인정보수정','width=1250, height=900, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">
 				<a href="#">개인정보 수정</a></li>

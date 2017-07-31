@@ -42,7 +42,7 @@ public class UploadFileUtils2 {
       return articleFile;      
    }
    
-/*   public static ArticleImageVO uploadFile1(MultipartFile file,  HttpServletRequest request) throws Exception {
+   public static ArticleImageVO uploadFile1(MultipartFile file,  HttpServletRequest request) throws Exception {
       String originalImageName = file.getOriginalFilename();
       long fileSize = file.getSize();
       String systemImageName = "";
@@ -67,7 +67,7 @@ public class UploadFileUtils2 {
       articleImage.setFileSize(fileSize);
       
       return articleImage;      
-   }*/
+   }
 }
 	
 /*public static FormFileVO uploadFormFile(MultipartFile file, HttpServletRequest request) throws Exception{

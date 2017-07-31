@@ -117,7 +117,7 @@ $(document).ready(function() {
 				   	
 				 }
 				 
-				 //참조자
+				 //수신자
 				 if(tap==2) {
 					 if(approverList.indexOf($(this).val()) == -1 && recieverList.indexOf($(this).val()) == -1) {
 						 recieverList.push($(this).val());
@@ -142,7 +142,7 @@ $(document).ready(function() {
 									htmlStr += "<td>" + data.employee.name + "</td>";
 									htmlStr += "<td>" + data.employee.gradeId + "</td>";
 									htmlStr += "<td>" + data.employee.departmentId + "</td>";
-									htmlStr += "<td>참조</td>";
+									htmlStr += "<td>수신</td>";
 									htmlStr += "</tr>";
 									$('#recieverTable').append(htmlStr);
 								}
@@ -396,7 +396,7 @@ $(function () {
 				<div class="collapse navbar-collapse" id="navbar">
 					<ul class="nav navbar-nav">
 						<li id="approverTap" class="active" ><a href=#>결재자</a></li>
-						<li id="recieverTap"><a href=#>참조자</a></li>
+						<li id="recieverTap"><a href=#>수신자</a></li>
 					</ul>
 				</div>
 			</form>
@@ -458,7 +458,7 @@ $(function () {
 	</div>
 	<br>
 	<div class="panel panel-default" style="overflow:scroll; height: 310px;"> 
-		<!-- 참조자 -->
+		<!-- 수신자 -->
 		<div class="panel-body">
 			<div class="checkbox">
 				<table id="recieverTable" class="table table-striped" align="center">
