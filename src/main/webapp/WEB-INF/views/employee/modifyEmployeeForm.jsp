@@ -84,7 +84,7 @@
 					</div>
 					<div class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
-						<input type="file" name="upload" id="upload"> 
+						<input type="file" name="upload1" id="upload1"> 
 						
 					</div>
 					<div id="holder2" style="width: 300px; height: 400px; margin: auto;">
@@ -92,7 +92,7 @@
 					</div>
 					<div class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
-						<input type="file" name="upload" id="upload"> 
+						<input type="file" name="upload2" id="upload2"> 
 						
 					</div>
 				</div>

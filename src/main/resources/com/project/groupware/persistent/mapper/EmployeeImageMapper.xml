@@ -19,16 +19,30 @@
 	<select id="selectImage" parameterType="map" resultType="employeeImageVO"
 		statementType="PREPARED">
 		select
-		ID,EMPLOYEE_ID as employeeId,ORIGINAL_FILE_NAME as originalFileName,SYSTEM_FILE_NAME as systemFileName,FILE_SIZE as fileSize,KIND
+		ID,EMPLOYEE_ID as employeeId,ORIGINAL_FILE_NAME as
+		originalFileName,SYSTEM_FILE_NAME as systemFileName,FILE_SIZE as
+		fileSize,KIND
 		from
 		EMP_IMAGE
-		WHERE EMPLOYEE_ID = #{employeeVO.id} and KIND = #{kind}
+		WHERE EMPLOYEE_ID = #{employeeVO.id} and
+		KIND = #{kind}
 	</select>
 
-	<delete id="deleteImage" parameterType="String"
-		statementType="PREPARED">
+	<delete id="deleteImage" parameterType="String" statementType="PREPARED">
 		DELETE
 		FROM EMP_IMAGE
 		WHERE EMPLOYEE_ID = #{id}
+	</delete>
+
+	<delete id="deleteImage1" parameterType="String" statementType="PREPARED">
+		DELETE
+		FROM EMP_IMAGE
+		WHERE EMPLOYEE_ID = #{id} and kind = '1'
+	</delete>
+
+	<delete id="deleteImage2" parameterType="String" statementType="PREPARED">
+		DELETE
+		FROM EMP_IMAGE
+		WHERE EMPLOYEE_ID = #{id} and kind = '2'
 	</delete>
 </mapper>

@@ -79,16 +79,32 @@ public class EmployeeServiceImpl implements EmployeeService {
 		empMapper.updateEmployee(emp);
 		String empId = emp.getId();
 		List<EmployeeImageVO> empImageList = emp.getImageList();
+		System.out.println("size : " + empImageList.size());
 		if (empImageList.size() != 0) {
+			if (empImageList.size() == 2) {
+				System.out.println(empImageList.get(0).toString());
+				System.out.println(empImageList.get(1).toString());
+				imageMapper.deleteImage(empId);
+				empImageList.get(0).setEmployeeId(empId);
+				empImageList.get(0).setKind("1");
+				empImageList.get(1).setEmployeeId(empId);
+				empImageList.get(1).setKind("2");
 
-			imageMapper.deleteImage(empId);
-			empImageList.get(0).setEmployeeId(empId);
-			empImageList.get(0).setKind("1");
-			empImageList.get(1).setEmployeeId(empId);
-			empImageList.get(1).setKind("2");
-
-			imageMapper.insertImage(empImageList.get(0));
-			imageMapper.insertImage(empImageList.get(1));
+				imageMapper.insertImage(empImageList.get(0));
+				imageMapper.insertImage(empImageList.get(1));
+			} else if (empImageList.size() == 1) {
+				if (empImageList.get(0).getKind().equals("1")) {
+					imageMapper.deleteImage1(empId);
+					empImageList.get(0).setEmployeeId(empId);
+					empImageList.get(0).setKind("1");
+					imageMapper.insertImage(empImageList.get(0));
+				} else if (empImageList.get(0).getKind().equals("2")) {
+					imageMapper.deleteImage2(empId);
+					empImageList.get(0).setEmployeeId(empId);
+					empImageList.get(0).setKind("2");
+					imageMapper.insertImage(empImageList.get(0));
+				}
+			}
 		}
 	}
 
