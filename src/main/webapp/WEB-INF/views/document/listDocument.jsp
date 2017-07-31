@@ -320,7 +320,17 @@
 			날짜검색 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<!-- <input type="radio" name="searchDay" value="all">전체&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
 			<input type="radio" name="searchDay" value="writeDay">작성일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<input type="radio" name="searchDay" value="finishDay">완료일&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="radio" name="searchDay" value="finishDay">
+			<c:if test="${requestScope.myDocs == 1 or requestScope.myDocs == 2 and requestScope.status == 5}">
+				완료일
+			</c:if>
+			<c:if test="${requestScope.status == 3 and requestScope.myDocs == 2}">
+				승인일
+			</c:if>
+			<c:if test="${requestScope.status == 4 and requestScope.myDocs == 2}">
+				반려일
+			</c:if>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<input id="startDay" name="startDay" type="text" class="form-control" style="width: 150px;">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
 			<input id="endDay" name="endDay" type="text" class="form-control" style="width: 150px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<select class="form-control" name="keyfield">
