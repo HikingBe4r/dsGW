@@ -1,4 +1,4 @@
-package com.project.groupware.controller.approval;
+package com.project.groupware.controller.employee;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
