@@ -43,7 +43,7 @@
 					and emp.NAME like '%' || #{keyword} || '%'
 				</when>
 				<when test="keyfield == 'endDate'">
-					and ENDDATE '%' || #{keyword} || '%'
+					and to_char(END_DATE, 'YYYY/MM/DD') like '%' || #{keyword} || '%'
 				</when>
 				<when test="keyfield == 'kind'">
 					and KIND like '%' || #{keyword} || '%'

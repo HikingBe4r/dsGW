@@ -279,7 +279,7 @@ $(function () {
 		</div>
 	</div>
 	<br>
-	<button type="button" class="btn btn-primary btn-lg pull-right">취소</button>
+	<button type="button" class="btn btn-primary btn-lg pull-right"  onClick="javascript:history.go(-1);">취소</button>
 	<button type="button" id="submitBtn"
 		class="btn btn-primary btn-lg pull-right">수정</button>
 </div>

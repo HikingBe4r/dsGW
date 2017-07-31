@@ -3,24 +3,26 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="resources/bootstrap/css/jquery.fileupload.css">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
-<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
 
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+<script
+	src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
 	src="http://s1.daumcdn.net/svc/attach/U03/cssjs/postcode/1495012223804/170517.js"></script>
 <script type="text/javascript">
 	function checkPwd() {
-		var pw1 = document.form.password.value;
-		var pw2 = document.form.pwd_check.value;
+		var pw1 = document.frm.password.value;
+		var pw2 = document.frm.pwd_check.value;
 		if (pw1 != pw2) {
 			document.getElementById('checkPwd').style.color = "red";
 			document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요.";
-		} else if(pw1 > 6 && pw2 > 6){
+		} else{
 			document.getElementById('checkPwd').style.color = "black";
 			document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다.";
 		}
@@ -59,8 +61,8 @@
 	
 
 	function empSumit(frm) {
-		if ($('#checkEmail').html() == '사용 가능한 메일 입니다'
-				&& $('#checkPwd').html() == '암호가 확인 되었습니다.') {
+		var f = document.getElementsByTagName('form')[0];
+		if ($('#checkEmail').html() == '사용 가능한 메일 입니다' && $('#checkPwd').html() == '암호가 확인 되었습니다.' && f.checkValidity()) {
 			var url = "${pageContext.request.contextPath }/registerEmployee.do";
 			frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
 			frm.method = "post";
@@ -74,7 +76,7 @@
 	}
 </script>
 <form action="${pageContext.request.contextPath }/registerEmployee.do"
-	method="post" enctype="multipart/form-data" name="form" >
+	method="post" enctype="multipart/form-data" name="frm" >
 	<div class="py-5">
 		<div class="container">
 			<br>
@@ -138,15 +140,15 @@
 							placeholder="사번은 입사일+순번 입니다." disabled="disabled">
 					</div>
 					<div class="form-group">
-						<label>이름</label> <input type="text" class="form-control"
+						<label>이름</label> <input type="text" class="form-control" required="required"
 							placeholder="이름" name="name">
 					</div>
 					<div class="form-group">
 						<label>비밀번호</label> <input type="password" class="form-control" onpaste="return false;"
-							placeholder="Password" name="password" required="required">
+							placeholder="Password" name="password" >
 					</div>
 					<div class="form-group">
-						<label>비밀번호 확인</label> <input type="password" class="form-control"
+						<label>비밀번호 확인</label> <input type="password" class="form-control" 
 							name="pwd_check" onkeyup="return checkPwd();" onpaste="return false;"
 							placeholder="Password Check">
 					</div>
@@ -164,7 +166,7 @@
 							placeholder="000-0000-0000" name="phone">
 					</div>
 					<div class="form-group">
-						<label>주소</label> <input type="text" class="form-control"
+						<label>주소</label> <input type="text" class="form-control" 
 							id="address" placeholder="주소" name="address">
 						<button type="button" class="btn btn-primary"
 							onclick="sample4_execDaumPostcode()">주소검색</button>
@@ -183,23 +185,23 @@
 						</script>
 					</div>
 					<div class="form-group">
-						<label>상세주소</label> <input type="text" class="form-control"
+						<label>상세주소</label> <input type="text" class="form-control" required="required"
 							placeholder="상세주소" name="addressDetail">
 					</div>
 
-					<label>부서</label><br> <select class="form-control"
+					<label>부서</label><br> <select class="form-control" required="required"
 						name="departmentId">
 						<c:forEach var="deptList" items="${requestScope.deptList }"
 							varStatus="loop">
 							<option value="${pageScope.deptList.id}">${pageScope.deptList.name }</option>
 						</c:forEach>
-					</select> <br> <br> <label>직급</label><br> <select
+					</select> <br> <br> <label>직급</label><br> <select required="required"
 						class="form-control" name="gradeId">
 						<c:forEach var="gradeList" items="${requestScope.gradeList }"
 							varStatus="loop">
 							<option value="${loop.count}">${pageScope.gradeList.GRADE }</option>
 						</c:forEach>
-					</select> <br> <br> <label>상태</label><br> <select
+					</select> <br> <br> <label>상태</label><br> <select required="required"
 						class="form-control" name="statusId">
 						<c:forEach var="statusList" items="${requestScope.statusList }"
 							varStatus="loop">
@@ -211,7 +213,7 @@
 			<div>
 				<P align=right>
 					<button type="button" class="btn btn-primary" onclick="empSumit(this.form)">등록</button>
-					<button type="button" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onClick="javascript:history.go(-1);">취소</button>
 				</p>
 			</div>
 		</div>

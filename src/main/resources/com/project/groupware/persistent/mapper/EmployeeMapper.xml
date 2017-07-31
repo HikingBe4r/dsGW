@@ -60,7 +60,7 @@
 		EMP_STATUS st
 		where emp.DEPARTMENT_ID = dept.ID and emp.GRADE_ID =
 		gr.ID and
-		emp.STATUS_ID = st.ID and not gr.ID = 4
+		emp.STATUS_ID = st.ID and not st.ID = 4
 		<if test="keyword != 'all'">
 			<choose>
 				<when test="keyfield == 'id'">

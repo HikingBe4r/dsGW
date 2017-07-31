@@ -4,8 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="resources/bootstrap/css/jquery.fileupload.css">
 
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
@@ -161,18 +161,18 @@
 					</div>
 					<div class="form-group">
 						<label>이메일</label>
-						 <input type="email" class="form-control" value="${requestScope.findEmployee.email}"
+						 <input type="email" class="form-control" value="${requestScope.findEmployee.email}" required="required"
 							placeholder="xxxx@xxxx.xxx" name="email" id="email" onpaste="return false;">
 							<input type="hidden" id="empEmail" value="${requestScope.findEmployee.email}">
 					</div>
 					<div id="checkEmail">이메일을 입력해주세요</div>
 					<div class="form-group">
-						<label>연락처</label> <input type="text" class="form-control"
+						<label>연락처</label> <input type="text" class="form-control" required="required"
 							placeholder="000-0000-0000" name="phone"
 							value="${requestScope.findEmployee.phone}">
 					</div>
 					<div class="form-group">
-						<label>주소</label> <input type="text" class="form-control"
+						<label>주소</label> <input type="text" class="form-control" required="required"
 							id="address" placeholder="주소" name="address"
 							value="${requestScope.findEmployee.address}">
 						<button type="button" class="btn btn-primary"
@@ -193,7 +193,7 @@
 						</script>
 					</div>
 					<div class="form-group">
-						<label>상세주소</label> <input type="text" class="form-control"
+						<label>상세주소</label> <input type="text" class="form-control" required="required"
 							placeholder="상세주소" name="addressDetail"
 							value="${requestScope.findEmployee.addressDetail}">
 					</div>
@@ -250,7 +250,7 @@
 			<div>
 				<P align=right>
 					<button type="button" class="btn btn-primary" onclick="modifysumit(this.form)">수정</button>
-					<button type="button" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onclick="javascript:self.close()">취소</button>
 				</p>
 			</div>
 

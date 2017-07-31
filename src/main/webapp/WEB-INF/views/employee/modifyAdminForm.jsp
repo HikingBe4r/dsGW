@@ -4,11 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
+<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="resources/bootstrap/css/jquery.fileupload.css">
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
-<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script charset="UTF-8" type="text/javascript"
@@ -83,7 +84,7 @@
 					</div>
 					<div class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
-						<input type="file" name="upload" id="upload"> 
+						<input type="file" name="upload" id="upload" value="${requestScope.empImage }"> 
 						
 					</div>
 					<div id="holder2" style="width: 300px; height: 400px; margin: auto;">
@@ -91,7 +92,7 @@
 					</div>
 					<div class="btn btn-success fileinput-button">
 						<i class="glyphicon glyphicon-plus"></i> <span>등록</span>
-						<input type="file" name="upload" id="upload"> 
+						<input type="file" name="upload" id="upload" value="${requestScope.empImage2 }"> 
 						
 					</div>
 				</div>
@@ -160,18 +161,18 @@
 					</div>
 					<div class="form-group">
 						<label>이메일</label>
-						 <input type="email" class="form-control" value="${requestScope.findEmployee.email}"
+						 <input type="email" class="form-control" value="${requestScope.findEmployee.email}" required="required"
 							placeholder="xxxx@xxxx.xxx" name="email" id="email" onpaste="return false;">
 							<input type="hidden" id="empEmail" value="${requestScope.findEmployee.email}">
 					</div>
 					<div id="checkEmail">이메일을 입력해주세요</div>
 					<div class="form-group">
-						<label>연락처</label> <input type="text" class="form-control"
+						<label>연락처</label> <input type="text" class="form-control" required="required"
 							placeholder="000-0000-0000" name="phone"
 							value="${requestScope.findEmployee.phone}">
 					</div>
 					<div class="form-group">
-						<label>주소</label> <input type="text" class="form-control"
+						<label>주소</label> <input type="text" class="form-control" required="required"
 							id="address" placeholder="주소" name="address"
 							value="${requestScope.findEmployee.address}">
 						<button type="button" class="btn btn-primary"
@@ -191,12 +192,12 @@
 						</script>
 					</div>
 					<div class="form-group">
-						<label>상세주소</label> <input type="text" class="form-control"
+						<label>상세주소</label> <input type="text" class="form-control" required="required"
 							placeholder="상세주소" name="addressDetail"
 							value="${requestScope.findEmployee.addressDetail}">
 					</div>
 
-					<label>부서</label><br> <select class="form-control"
+					<label>부서</label><br> <select class="form-control" required="required"
 						name="departmentId">
 						<c:forEach var="deptList" items="${requestScope.deptList }"
 							varStatus="loop">
@@ -211,7 +212,7 @@
 							</c:choose>
 
 						</c:forEach>
-					</select> <br> <br> <label>직급</label><br> <select
+					</select> <br> <br> <label>직급</label><br> <select required="required"
 						class="form-control" name="gradeId">
 						<c:forEach var="gradeList" items="${requestScope.gradeList }"
 							varStatus="loop">
@@ -226,7 +227,7 @@
 							</c:choose>
 
 						</c:forEach>
-					</select> <br> <br> <label>상태</label><br> <select
+					</select> <br> <br> <label>상태</label><br> <select required="required"
 						class="form-control" name="statusId">
 						<c:forEach var="statusList" items="${requestScope.statusList }"
 							varStatus="loop">
@@ -248,7 +249,7 @@
 			<div>
 				<P align=right>
 					<button type="button" class="btn btn-primary" onclick="modifysumit(this.form)">수정</button>
-					<button type="button" class="btn btn-primary">취소</button>
+					<button type="button" class="btn btn-primary" onClick="javascript:history.go(-1);">취소</button>
 				</p>
 			</div>
 

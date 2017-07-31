@@ -173,9 +173,8 @@ function pagination(data) {
 					<select class="btn btn-primary dropdown-toggle" name="keyfield">
 						<option value="id">사번</option>
 						<option value="name">이름</option>
-						<option value="departmentId">부서</option>
-						<option value="hireDate">입사일</option>
-						<option value="gradeId">직급</option>
+						<option value="kind">분류</option>
+						<option value="endDate">최종 변경일</option>
 					</select>
 				</div>
 			</div>

@@ -1,21 +1,32 @@
 <%-- findEmpPwd.jsp --%>
 <%@ page contentType="text/html; charset=utf-8"%>
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-<link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-<script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
-<script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
+<link href="resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script
+	src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 	<script>
 	function checkPwd() {
-		var pw1 = $('#password').value;
-		var pw2 = $('#pwd_check').value;
+		var pw1 = $("#password").val();
+		var pw2 = $("#pwd_check").val();
 		if (pw1 != pw2) {
-			$('#checkPwd').style.color = "red";
-			$('#checkPwd').innerHTML = "동일한 암호를 입력하세요.";
-		} else if(pw1 > 6 && pw2 > 6){
-			$('#checkPwd').style.color = "black";
-			$('#checkPwd').innerHTML = "암호가 확인 되었습니다.";
+			document.getElementById('checkPwd').style.color = "red";
+			document.getElementById('checkPwd').innerHTML = "동일한 암호를 입력하세요.";
+		} else {
+			document.getElementById('checkPwd').style.color = "black";
+			document.getElementById('checkPwd').innerHTML = "암호가 확인 되었습니다.";
 		}
-		alert(pw2.html());
+	}
+	
+	function pwdSumit(frm) {
+		if ($('#checkPwd').html() == '암호가 확인 되었습니다.') {
+			var url = "${pageContext.request.contextPath }/successPwd.do";
+			frm.action = url; //form.action 이 부분이 빠지면 action값을 찾지 못해서 제대로 된 팝업이 뜨질 않습니다.
+			frm.method = "post";
+			frm.submit();
+		} else{
+			alert("암호를 확인하세요");
+		}
 	}
 	</script>
 <form action="${pageContext.request.contextPath }/successPwd.do"
@@ -35,7 +46,7 @@
 							placeholder="Password" onkeyup="return checkPwd();" onpaste="return false;">
 					</div>
 					<div id="checkPwd">동일한 암호를 입력하세요.</div>
-					<button type="submit" class="btn btn-primary">수정</button>
+					<button type="button" onclick="pwdSumit(this.form)" class="btn btn-primary">수정</button>
 					<button type="button" class="btn btn-primary"
 						onclick="javascript:self.close()">취소</button>
 

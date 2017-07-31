@@ -17,11 +17,11 @@ public class LogoutEmployeeController {
 	public String logout(HttpSession session, Model model){
 		AdminVO sessionAdmin = (AdminVO) session.getAttribute("admin");
 		EmployeeVO sessionEmp = (EmployeeVO) session.getAttribute("employee");
-		if(sessionAdmin != null){
+/*		if(sessionAdmin != null){
 			session.removeAttribute("admin");
 		}else if(sessionEmp != null){
 			session.removeAttribute("employee");
-		}
+		}*/
 		
 		session.invalidate();
 		

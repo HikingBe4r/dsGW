@@ -99,6 +99,16 @@ public class ModifyEmployeeController {
 		}
 		service.modifyEmployee(emp);
 		
+		Map<String, Object>keyword = new HashMap<String, Object>();
+		keyword.put("employeeVO", emp);
+		keyword.put("kind", "1");
+		session.setAttribute("empImage1", service.retrieveEmployeeImage(keyword));
+		keyword.clear();
+		
+		keyword.put("employeeVO", emp);
+		keyword.put("kind", "2");
+		session.setAttribute("empImage2", service.retrieveEmployeeImage(keyword));
+		
 		mv.setViewName("employee/successEmployee");
 		return mv;
 		

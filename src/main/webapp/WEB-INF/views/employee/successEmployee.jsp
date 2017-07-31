@@ -6,5 +6,6 @@
 <script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
 <script>
 	alert("변경이 완료되었습니다.");
+	opener.parent.location.reload();
 	window.close();
 </script>
