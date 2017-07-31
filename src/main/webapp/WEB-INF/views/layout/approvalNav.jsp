@@ -81,8 +81,15 @@
 				style="height: 150px;">
 		</div>
 	</div>
-
-	<div class="col-md-5" id="notice">
+	
+	<br>
+	<div id="employeeInfo" style="height: 70px;">
+		<h5>${sessionScope.employeeDetail.departmentId }</h5>
+		<h4>${sessionScope.employeeDetail.name }
+			${sessionScope.employeeDetail.gradeId }</h4>
+	</div>
+	
+	<div class="col-md-1" id="notice">
 		<c:choose>
 			<c:when test="${requestScope.isread == '0'}">
 				<form action="${pageContext.request.contextPath }/listNotice.do"
@@ -99,11 +106,6 @@
 				</form>
 			</c:otherwise>
 		</c:choose>
-	</div><br><br>
-	<div id="employeeInfo" style="height: 70px;">
-		<h5>${sessionScope.employeeDetail.departmentId }</h5>
-		<h4>${sessionScope.employeeDetail.name }
-			${sessionScope.employeeDetail.gradeId }</h4>
 	</div>
 
 </div>
