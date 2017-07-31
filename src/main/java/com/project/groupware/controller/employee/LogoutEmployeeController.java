@@ -13,7 +13,7 @@ import com.project.groupware.domain.EmployeeVO;
 @Controller
 public class LogoutEmployeeController {
 	
-	@RequestMapping(value = "/logout.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/logout.do", method = RequestMethod.GET)
 	public String logout(HttpSession session, Model model){
 		AdminVO sessionAdmin = (AdminVO) session.getAttribute("admin");
 		EmployeeVO sessionEmp = (EmployeeVO) session.getAttribute("employee");
