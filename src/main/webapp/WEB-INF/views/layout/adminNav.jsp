@@ -7,6 +7,8 @@
 <script>
 	$('#board').removeAttr('class');
 	$('#adminTab').attr('class', 'active');
+	$('#settingGroup').empty();
+	$('#settingGroup').append('<li><a href="${pageContext.request.contextPath }/logout.do">로그아웃</a></li>');
 </script>
 
 	<div class="row">
