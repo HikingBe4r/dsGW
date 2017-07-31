@@ -69,6 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
 		ApproverVO nextApprover = approvalLineMapper.selectCurrentApprover(documentId);
 		NoticeVO notice = new NoticeVO();
 		if (nextApprover != null) {
+			notice.setDocumentId(documentId);
 			notice.setEmployeeId(nextApprover.getEmployeeId());
 			notice.setContent("[ " + document.getSubject() + " ] 문서의 결재순서입니다.");
 			document.setStatus("1"); // 문서의 최종상태 : 대기
