@@ -309,7 +309,7 @@
 			<h3>반려문서 목록</h3>
 		</c:when>
 		<c:when test="${requestScope.status == 5 and requestScope.myDocs == 2}">
-			<h3>수신문서 목록</h3>
+			<h3>참조문서 목록</h3>
 		</c:when>
 		<c:when test="${requestScope.status == 6 and requestScope.myDocs == 2}">
 			<h3>만료문서 목록</h3>
