@@ -327,13 +327,13 @@
 			</if>
 			<if test="searchDay == 'finishDay'">
 				<if test="startDay != 'all' and endDay != 'all'">
-					and to_char(endDate, 'YYYY/MM/DD') between #{startDay} and #{endDay}
+					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') between #{startDay} and #{endDay}
 				</if>
 				<if test="startDay != 'all' and endDay == 'all'">
-					and to_char(endDate, 'YYYY/MM/DD') = #{startDay}
+					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{startDay}
 				</if>
 				<if test="startDay == 'all' and endDay != 'all'">
-					and to_char(endDate, 'YYYY/MM/DD') = #{endDay}
+					and to_char((select max(auth_date) from approval_history ah where ah.document_id = doc.id), 'YYYY/MM/DD') = #{endDay}
 				</if>
 			</if>
       	order by writeday desc
