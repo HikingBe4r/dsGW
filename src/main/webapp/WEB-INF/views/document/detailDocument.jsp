@@ -50,9 +50,7 @@
 			htmlStr += "<input type='hidden' name='content' value='";
 			htmlStr += content;	
 			htmlStr += "'><input type='hidden' name='endDate' value='${requestScope.approvalDocument.document.endDate }'>";
-			htmlStr += "<input type='hidden' name='formId' value='${requestScope.approvalDocument.document.formVO.id }'>";
-			
-			
+			htmlStr += "<input type='hidden' name='formId' value='${requestScope.approvalDocument.document.formVO.id }'>";	
 			$('#rewriteForm').append(htmlStr);
 			$("#rewriteForm").submit();
 					

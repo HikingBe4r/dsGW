@@ -142,8 +142,6 @@
 		if(oDate < today ) {
 			return false;
 		}
-			
-		
 		return true;
 	}
 

@@ -24,7 +24,6 @@ public class RewriteDocumentController {
 		model.addAttribute("endDate", endDate.substring(0, 10));
 		model.addAttribute("formId", formId);
 		
-	
 		return "approvalNav/document/rewriteDocument";
 	}
 	
