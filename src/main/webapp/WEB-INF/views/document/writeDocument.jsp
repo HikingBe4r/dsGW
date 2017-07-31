@@ -142,13 +142,10 @@
 		if(oDate < today ) {
 			return false;
 		}
-			
-		
 		return true;
 	}
 
 </script>
-
 
 <form action="${pageContext.request.contextPath }/writeDocument.do"
 	method="post" enctype="multipart/form-data" id="insertDocumentForm">

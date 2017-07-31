@@ -45,20 +45,22 @@
 		
 		// 재기안버튼
 		$('#rewriteDocument').click(function() {
-			<c:url var="rewriteURL" value="/rewriteDocument.do">
-				<c:param name="subject" value="${requestScope.approvalDocument.document.subject }"/>
-				<c:param name="content" value="${requestScope.approvalDocument.document.content }"/>
-				<c:param name="endDate" value="${requestScope.approvalDocument.document.endDate }"/>
-				<c:param name="formId" value="${requestScope.approvalDocument.document.formVO.id}"/>
-			</c:url>
-			
-			location.href = "${rewriteURL }";
+			var content = '${requestScope.approvalDocument.document.content }';
+			var htmlStr = "<input type='hidden' name='subject' value='${requestScope.approvalDocument.document.subject }'>";
+			htmlStr += "<input type='hidden' name='content' value='";
+			htmlStr += content;	
+			htmlStr += "'><input type='hidden' name='endDate' value='${requestScope.approvalDocument.document.endDate }'>";
+			htmlStr += "<input type='hidden' name='formId' value='${requestScope.approvalDocument.document.formVO.id }'>";	
+			$('#rewriteForm').append(htmlStr);
+			$("#rewriteForm").submit();
+					
 		});
+		
 		
 	});
 </script>
 
-
+<form action="${pageContext.request.contextPath }/rewriteDocument.do" method="post" id="rewriteForm"></form>
 <form name="detailDocumentForm" id="detailDocumentForm">
 	<input type="hidden" name="documentId" id="documentId" value="${requestScope.approvalDocument.document.id }" />
 	<input type="hidden" name="kind" id="kind" value="" />
@@ -75,7 +77,8 @@
 			</c:if> 
 			<c:if test="${requestScope.approvalDocument.document.status == 4 &&
 						requestScope.approvalDocument.approverList[0].EMPLOYEEID == sessionScope.employee.id}" >
-				<button type="button" class="btn btn-primary btn-lg" id="rewriteDocument">재기안</button>
+					
+						<button type="button" class="btn btn-primary btn-lg" id="rewriteDocument">재기안</button>
 			</c:if>
 			
 		</div>
