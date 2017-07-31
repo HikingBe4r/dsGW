@@ -26,7 +26,7 @@
 				htmlStr += '<tr>';
 				
 				// admin 로그인시 즐겨찾기는 필요없음.
-				if(${session.employee != null}) {
+				if(${sessionScope.employee != null}) {
 					htmlStr += '<td id="bookmark">';
 					htmlStr += '<button type="button" class="btn btn-default" aria-label="Center Align">';
 					if(data.formList[i].isBookmark == 0) {
@@ -259,7 +259,7 @@
 	<table class="table table-striped">
 		<thead>
 			<tr>
-				<c:if test="${session.employee != null }">
+				<c:if test="${sessionScope.employee != null}">
 					<th width="100">즐겨찾기</th>
 				</c:if>
 				<th width="100">번호</th>
