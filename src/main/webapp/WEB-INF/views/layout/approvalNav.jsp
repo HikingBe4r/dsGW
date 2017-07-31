@@ -136,8 +136,8 @@
 		<ul>
 			<li><a
 				href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=1">결재문서</a></li>
-			<li><a
-				href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=2">수신문서</a></li>
+			<%-- <li><a
+				href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=2">수신문서</a></li> --%>
 			<li><a
 				href="${pageContext.request.contextPath }/listApprovalDocument.do?boardId=3">미완료문서</a></li>
 			<li><a
@@ -153,7 +153,7 @@
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=1&status=0">개인보관</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=3">승인문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=4">반려문서</a></li>
-			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=5">수신문서</a></li>
+			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=5">참조문서</a></li>
 			<li><a href="${pageContext.request.contextPath }/listDocument.do?myDocs=2&status=6">만료문서</a></li>
 		</ul>
 	</div>

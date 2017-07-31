@@ -10,9 +10,6 @@
 	function listApprovalDocument(data) {
 		$("#documents").empty(data);
 		var htmlStr = "";
-		if(data.documentList.length == 0) {
-			alert("검색결과가 없습니다.");
-		}
 		
 		for(var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
 						
@@ -171,9 +168,9 @@
 		<c:when test="${param.boardId == 1 }">
 			<div class="panel-body">결재대기문서 목록</div>		
 		</c:when>
-		<c:when test="${param.boardId == 2 }">
+		<%-- <c:when test="${param.boardId == 2 }">
 			<div class="panel-body">수신문서 목록</div>		
-		</c:when>
+		</c:when> --%>
 		<c:when test="${param.boardId == 3 }">
 			<div class="panel-body">결재미완료문서 목록</div>		
 		</c:when>
