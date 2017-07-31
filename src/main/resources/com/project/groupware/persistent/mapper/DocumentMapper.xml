@@ -78,7 +78,8 @@
 				AND t2.name like '%' ||#{keyword}|| '%'
 			</if>
 		</if>
-		ORDER BY doc.id DESC
+		ORDER BY ROUND((doc.enddate-sysdate)*24*60*60)  asc, 
+				 doc.id asc
 	</select>
 	
 	<resultMap type="documentVO" id="selectApprovalDocumentMap" autoMapping="true">
@@ -94,7 +95,10 @@
 		</association>
 		<collection property="documentFileList" javaType="documentFileVO">
 			<id property="id" column="docFileId"/>
-			<result property="originalFileName" column="original_file_name"/>
+			<result property="originalFileName" column="originalFileName"/>
+			<result property="systemFileName" column="systemFileName"/>
+			<result property="fileSize" column="fileSize"/>
+			<result property="documentId" column="documentId"/>
 		</collection>
 	</resultMap>
 	
@@ -109,7 +113,9 @@
 			form.id formId, 
 			form.subject formSubject, 
 			docFile.id docFileId,
-			docFile.system_file_name
+			docFile.original_file_name originalFileName,
+			docFile.system_file_name systemFileName,
+			docFile.file_size fileSize
 		FROM document doc, form, document_file docFile
 		WHERE doc.id = #{documentId}
 		  AND doc.form_id = form.id(+)
