@@ -60,10 +60,11 @@
 			<c:url var="downloadURL" value="/downloadFile.do">
  				<c:param name="originalFileName" value="${requestScope.form.formFile.originalFileName }"/>
  				<c:param name="systemFileName" value="${requestScope.form.formFile.systemFileName }"/>
+ 				<c:param name="kind" value="form"/>
  			</c:url> 
 			<tr>
 				<td><label>첨부파일</label></td>
-				<td><a href="${downloadURL}">${requestScope.form.formFile.systemFileName }</a></td>
+				<td><a href="${downloadURL}">${requestScope.form.formFile.originalFileName }</a></td>
 			</tr>
 	
 			<tr>

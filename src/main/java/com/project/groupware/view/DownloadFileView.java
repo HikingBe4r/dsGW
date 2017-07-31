@@ -22,6 +22,7 @@ public class DownloadFileView extends AbstractView {
 			HttpServletResponse response) throws Exception {
 		String originalFileName = (String) model.get("originalFileName");
 		String systemFileName = (String) model.get("systemFileName");
+		String kind = (String) model.get("kind");
 
 		response.setContentType("application/octet-stream");
 		originalFileName = URLEncoder.encode(originalFileName, "utf-8");
@@ -31,7 +32,7 @@ public class DownloadFileView extends AbstractView {
 		ServletOutputStream sos = null;
 
 		try {
-			fis = new FileInputStream(UploadFileUtils.UPLOAD_PATH + File.separator + systemFileName);
+			fis = new FileInputStream(UploadFileUtils.getUploadPath(request) + File.separator + kind + File.separator + systemFileName);
 			sos = response.getOutputStream();
 			
 			FileCopyUtils.copy(fis, sos);

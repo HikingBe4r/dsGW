@@ -3,6 +3,7 @@ package com.project.groupware.util;
 import java.io.File;
 import java.io.IOException;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +18,12 @@ public class UploadFileUtils {
 
 	private static int count = 1;
 	public static String UPLOAD_PATH = "C:" + File.separator + "upload";
+	
+	public static String getUploadPath(HttpServletRequest request) {
+		UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload"); 
+		
+		return UPLOAD_PATH;
+	}
 
 	/*
 	 * public static ArticleFileVO uploadFile(MultipartFile file) throws
@@ -46,18 +53,20 @@ public class UploadFileUtils {
 		long fileSize = file.getSize();
 		String systemFileName = "";
 
-		// 디렉토리 생성
-		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/form"));
+		// 디렉토리 생성		
+		File destFolder = new File(getUploadPath(request) + File.separator + "form");
+		
 
 		// 대상폴더가 없으면 생성
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-
+		
 		// request.getSession().getServletContext().getRealPath("/upload");
-		UPLOAD_PATH = destFolder.getAbsolutePath();
+		
+		// UPLOAD_PATH = destFolder.getAbsolutePath(); // UPLOAD_PATH 안건드리는 테스트중.
 
-		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
+		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
 		if (temp.exists()) {
 			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) + "_" + count++
 					+ originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -66,7 +75,7 @@ public class UploadFileUtils {
 		}
 
 		// copy file in memory or C:/tempUpload folder at C:/upload folder
-		File dest = new File(UPLOAD_PATH + File.separator + systemFileName);
+		File dest = new File(destFolder.getAbsolutePath() + File.separator + systemFileName);
 		try {
 			file.transferTo(dest);
 		} catch (IllegalStateException e) {
@@ -91,7 +100,7 @@ public class UploadFileUtils {
 		String systemFileName = "";
 
 		// 디렉토리 생성
-		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/document"));
+		File destFolder = new File(getUploadPath(request) + File.separator + "document");
 
 		// 대상폴더가 없으면 생성
 		if (!destFolder.exists()) {
@@ -101,7 +110,7 @@ public class UploadFileUtils {
 		// request.getSession().getServletContext().getRealPath("/upload");
 		UPLOAD_PATH = destFolder.getAbsolutePath();
 
-		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
+		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
 		if (temp.exists()) {
 			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) + "_" + count++
 					+ originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -110,7 +119,7 @@ public class UploadFileUtils {
 		}
 
 		// copy file in memory or C:/tempUpload folder at C:/upload folder
-		File dest = new File(UPLOAD_PATH + File.separator + systemFileName);
+		File dest = new File(destFolder.getAbsolutePath() + File.separator + systemFileName);
 		file.transferTo(dest);
 
 		DocumentFileVO documentFile = new DocumentFileVO();
@@ -129,7 +138,7 @@ public class UploadFileUtils {
 		String systemFileName = "";
 
 		// 디렉토리 생성
-		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/empImage"));
+		File destFolder = new File(getUploadPath(request) + File.separator + "empImage");
 
 		// 대상폴더가 없으면 생성
 		if (!destFolder.exists()) {
@@ -139,7 +148,7 @@ public class UploadFileUtils {
 		// request.getSession().getServletContext().getRealPath("/upload");
 		UPLOAD_PATH = destFolder.getAbsolutePath();
 
-		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
+		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
 		if (temp.exists()) {
 			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) + "_" + count++
 					+ originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -148,7 +157,7 @@ public class UploadFileUtils {
 		}
 
 		// copy file in memory or C:/tempUpload folder at C:/upload folder
-		File dest = new File(UPLOAD_PATH + File.separator + systemFileName);
+		File dest = new File(destFolder.getAbsolutePath() + File.separator + systemFileName);
 		file.transferTo(dest);
 
 		EmployeeImageVO image = new EmployeeImageVO();

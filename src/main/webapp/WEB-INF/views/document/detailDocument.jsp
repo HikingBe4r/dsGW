@@ -201,6 +201,7 @@
 							<c:url var="downloadURL" value="/downloadFile.do">
 				 				<c:param name="originalFileName" value="${documentFile.originalFileName }"/>
 				 				<c:param name="systemFileName" value="${documentFile.systemFileName }"/>
+				 				<c:param name="kind" value="document" />
 				 			</c:url>
 				 			 
 							<tr>
