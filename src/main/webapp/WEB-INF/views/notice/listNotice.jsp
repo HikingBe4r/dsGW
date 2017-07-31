@@ -28,7 +28,8 @@
 			}
 			
 			htmlStr += "</td>";
-			htmlStr += "<td>" + data.noticeList[i].content + "</td>";
+			htmlStr += "<td><a href='/groupware/detailApprovalDocument.do?documentId=" + data.noticeList[i].documentId + "'>";
+			htmlStr += data.noticeList[i].content + "</td>";
 			htmlStr += "<td>" + data.noticeList[i].writeDay + "</td>";
 			htmlStr += "<td><a href='/groupware/removeNotice.do?id="
 					+ data.noticeList[i].id

@@ -6,9 +6,9 @@
 
 	<insert id="insertNotice" parameterType="noticeVO"
 		statementType="PREPARED">
-		insert into notice (employee_id, content, writeday, isRead)
+		insert into notice (employee_id, content, writeday, isRead, document_id)
 		values
-		(#{employeeId}, #{content}, sysdate, '0') <!-- 안 읽은게 0 -->
+		(#{employeeId}, #{content}, sysdate, '0', #{documentId}) <!-- 안 읽은게 0 -->
 	</insert>
 
 
@@ -20,7 +20,8 @@
 		content as
 		content,
 		to_char(writeday, 'YYYY/MM/DD HH24:MI:SS') as writeDay,
-		isRead as isRead
+		isRead as isRead,
+		DOCUMENT_ID as documentId
 		FROM NOTICE
 		WHERE employee_id = #{value}
 		ORDER BY writeday

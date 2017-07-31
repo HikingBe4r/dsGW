@@ -213,6 +213,7 @@
 		AND e.department_id = d.id
 		AND e.grade_id = g.id
 		AND e.status_id = es.id
+		AND es.id != 4
 		ORDER BY e.grade_id
 	</select>
 

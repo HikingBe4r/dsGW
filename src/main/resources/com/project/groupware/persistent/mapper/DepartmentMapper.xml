@@ -58,6 +58,7 @@
 			count(e.id) as employeeCount
 		from DEPARTMENT d, EMPLOYEE e
 		where d.id = e.department_id(+) 
+		and e.status_id != 4
 		group by d.id, d.name
 	</select>
 	

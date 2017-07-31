@@ -6,6 +6,7 @@ public class NoticeVO {
 	private String content;
 	private String writeDay;
 	private String isRead;
+	private String documentId;	// 대상 문서번호 
 
 	public NoticeVO() {
 		super();
@@ -55,6 +56,14 @@ public class NoticeVO {
 	public String toString() {
 		return "NoticeVO [id=" + id + ", employeeId=" + employeeId + ", content=" + content + ", writeDay=" + writeDay
 				+ ", isRead=" + isRead + "]";
+	}
+
+	public String getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
 	}
 
 }

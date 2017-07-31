@@ -69,6 +69,7 @@ public class DocumentServiceImpl implements DocumentService {
 		ApproverVO nextApprover = approvalLineMapper.selectCurrentApprover(documentId);
 		NoticeVO notice = new NoticeVO();
 		if (nextApprover != null) {
+			notice.setDocumentId(documentId);
 			notice.setEmployeeId(nextApprover.getEmployeeId());
 			notice.setContent("[ " + document.getSubject() + " ] 문서의 결재순서입니다.");
 			document.setStatus("1"); // 문서의 최종상태 : 대기
@@ -196,6 +197,7 @@ public class DocumentServiceImpl implements DocumentService {
 				if (nextApprover != null) {
 					noticeVO.setEmployeeId(nextApprover.getEmployeeId());
 					noticeVO.setContent("[ " + document.getSubject() + " ] 문서의 결재순서입니다.");
+					noticeVO.setDocumentId(documentId);
 					document.setStatus("2"); // 문서의 최종상태를 결재중으로.
 				} else if (nextApprover == null) {
 					noticeVO.setEmployeeId(approverList.get(0).getEmployeeId()); // 0:
@@ -204,6 +206,7 @@ public class DocumentServiceImpl implements DocumentService {
 																					// :
 																					// 결재자
 					noticeVO.setContent("[ " + document.getSubject() + " ] 문서가 최종 승인되었습니다.");
+					noticeVO.setDocumentId(documentId);
 					document.setStatus("3"); // 문서 최종상태를 승인으로
 				}
 
@@ -254,12 +257,9 @@ public class DocumentServiceImpl implements DocumentService {
 				// 2. 기안자에게 문서반려 알림보내기.
 				NoticeVO noticeVO = new NoticeVO();
 
-				noticeVO.setEmployeeId(approverList.get(0).getEmployeeId()); // 0:
-																				// 기안자
-																				// 1~
-																				// :
-																				// 결재자
+				noticeVO.setEmployeeId(approverList.get(0).getEmployeeId()); // 0: 기안자  1~ : 결재자
 				noticeVO.setContent("[ " + document.getSubject() + " ] 문서가 반려되었습니다.");
+				noticeVO.setDocumentId(documentId);
 				document.setStatus("4"); // 문서의 최종상태를 결재중으로.
 
 				noticeMapper.insertNotice(noticeVO);
