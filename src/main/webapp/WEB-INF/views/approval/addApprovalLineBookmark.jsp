@@ -192,33 +192,38 @@ $(document).ready(function() {
 			alert("선택된 사원이 없습니다.");
 		} else {		
 			var subject = prompt('즐겨찾기 이름');
-			$.ajax({
-				url: '${pageContext.request.contextPath}/addApprover.do'
-				,
-				method: 'POST'
-				,
-				dataType: 'json'
-				,
-				data: {
-					employeeId: '${sessionScope.employee.id}', 
-					subject: subject ,
-					approverEmpIdList: JSON.stringify(approverList),
-					recieverEmpIdList: JSON.stringify(recieverList)
-							
-				}
-				, 
-				cache: false
-				,
-				success: function(data) {
-					alert("즐겨찾기 등록 성공!");
-					location.href = 'choiceForm.do'; //실행 후 어디로 보낼까
-				}
-				,
-				error : function(jqXHR) {
-					alert("Error : " + jqXHR.responseText);
-				}			
+			if(subject.length == 0) {
+				alert("즐겨찾기 이름을 설정하십시오");
+			} else {
+				$.ajax({
+					url: '${pageContext.request.contextPath}/addApprover.do'
+					,
+					method: 'POST'
+					,
+					dataType: 'json'
+					,
+					data: {
+						employeeId: '${sessionScope.employee.id}', 
+						subject: subject ,
+						approverEmpIdList: JSON.stringify(approverList),
+						recieverEmpIdList: JSON.stringify(recieverList)
+								
+					}
+					, 
+					cache: false
+					,
+					success: function(data) {
+						alert("즐겨찾기 등록 성공!");
+						location.href = 'choiceForm.do'; //실행 후 어디로 보낼까
+					}
+					,
+					error : function(jqXHR) {
+						alert("Error : " + jqXHR.responseText);
+					}			
 				
-			});
+				});
+			}
+			
 		}		
 	});
 	
