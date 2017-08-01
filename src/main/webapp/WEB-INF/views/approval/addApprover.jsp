@@ -297,7 +297,6 @@ $(function() {
 				for (var i=0; i<rows.length; i++) {
 	                approverList.push(rows[i].id);
 	            }
-				alert(approverList.join());
 			}
 		});
 	})	
