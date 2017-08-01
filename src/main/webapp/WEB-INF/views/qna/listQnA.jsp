@@ -13,7 +13,7 @@
 
 //쓰기 버튼
 $(document).ready(function() {   
-	$("#writeBtn").click(function() {
+	$('#writeBtn').click(function() {
 		location.href	= 'writeQnA.do?boardId=${param.boardId}';
 	});
 });
@@ -29,26 +29,26 @@ $(document).ready(function() {
 		function loadArticleList(data) {
 			$("#articleBody").empty(data);
 			var htmlStr = "";
-			if(data.QnAList.length == 0) {
+			if(data.loadArticleList.length == 0) {
 				alert("검색결과가 없습니다.");
 			}
 			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailQnA.do';	
-					linkUrl += '?id=' + data.QnAList[i].id;
-					
+					linkUrl += '?id=' + data.loadArticleList[i].id;
+					/* linkUrl += '&secret' + data.loadArticleList[i].board.secret; */
 				
 				htmlStr += "<tr>";
-				htmlStr += "<td><label><input type='checkbox' id='checkRow '></label></td>";
-				htmlStr += "<input type='hidden' id='id' value="+data.QnAList[i].id +  "/>";
-				htmlStr += "<td>"+data.QnAList[i].id+"</td>";
-				htmlStr += "<td><a href="+linkUrl+">"+data.QnAList[i].subject+"</a></td>";
-				htmlStr += "<td>"+data.QnAList[i].employee.name+"</td>";
-				htmlStr += "<td>"+data.QnAList[i].writeday+"</td>";
-				htmlStr += "<td>"+data.QnAList[i].hitcount+"</td>";
-				
+				htmlStr += "<td><label><input type='checkbox' name='checkRow' value="+data.loadArticleList[i].id + "></label></td>";
+				htmlStr += "<input type='hidden' id='id' value="+data.loadArticleList[i].id +"/>";
+				htmlStr += "<td>"+data.loadArticleList[i].id+"</td>";
+				htmlStr += "<td><a href="+linkUrl+">"+data.loadArticleList[i].subject+"</a></td>";
+				htmlStr += "<td>"+data.loadArticleList[i].employee.name+"</td>";
+				htmlStr += "<td>"+data.loadArticleList[i].writeday+"</td>";
+				htmlStr += "<td>"+data.loadArticleList[i].hitcount+"</td>";
+
 				htmlStr += "<td>";
-				if(data.QnAList[i].count != 0) {
+				if(data.loadArticleList[i].count != 0) {
 					htmlStr += "<span class='glyphicon glyphicon-save' aria-hidden='true'></span>";
 				}
 				htmlStr += "</td>";
@@ -103,7 +103,8 @@ $(document).ready(function() {
 			data : {
 				keytype: $("#keytype").val(),
 				keyword: $("#searchKeyword").val(),
-				boardId : '${param.boardId}',
+				boardId: '${param.boardId}',
+				secret: '${param.secret}',
 				currentPage : '1'
 			}
 			,
@@ -273,12 +274,12 @@ $(document).ready(function() {
 	      $('#removeBtn').click(function() {
 	         var array = [];
 	         
-	         $("input[name='check']:checked").each(function() {
+	         $("input[name='checkRow']:checked").each(function() {
 	            array.push($(this).val());   
 	         });   
-	         $("input[name='articleIdList']").val(array.join());      
+	         $("input[name='checkList']").val(array.join());      
 	         $('#inputForm').submit();
-	         console.log($("input[name='articleIdList']").val());
+	         console.log($("input[name='checkList']:checked").val());
 	         
 	         
 	      });
@@ -291,16 +292,16 @@ $(document).ready(function() {
 	            
 	            var array = [];
 	                  
-	            $("input[name='check']:checked").each(function() {
+	            $("input[name='checkRow']:checked").each(function() {
 	               array.push($(this).val());   
 	            });   
-	            $("input[name='articleIdList']").val(array.join());      
+	            $("input[name='checkList']").val(array.join());      
 	            
 	         } else {
 	            $('input[type=checkbox]').prop('checked', false);
 	         }
 	         
-	         console.log($("input[name='articleIdList']").val());
+	         console.log($("input[name='checkList']").val());
 	      });     
 	   
 
@@ -362,7 +363,7 @@ $(document).ready(function() {
          </thead>
          
  		<tbody id="articleBody">
-			<c:forEach var="articles" items="${requestScope.QnAList}" varStatus="loop">
+		<%-- 	<c:forEach var="articles" items="${requestScope.QnAList}" varStatus="loop">
 					<tr>
 						<td><label><input name="check" type="checkbox" value="${pageScope.articles.id}"></label></td>
 						<td>${fn:length(requestScope.articles) - loop.index}</td>
@@ -374,19 +375,21 @@ $(document).ready(function() {
 								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
 							</c:if></td>
 					</tr>
-				</c:forEach>
+				</c:forEach> --%>
 		</tbody>
 	</table>
 	</form>
 </div>
 
 <div class="pull-right">
-      <form action="${pageContext.request.contextPath}/removeArticleList.do" id="inputForm" method="get">
-         <input type="hidden"  name="articleIdList"  value="">
+      <form action="${pageContext.request.contextPath}/removeQnAList.do" id="inputForm" method="get">
+         <input type="hidden"  name="checkList"  value="">
          <input type="hidden" name="boardId" value="${param.boardId}">
+         <input type="hidden" name="secret" value="${param.secret}">
+         <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
          <button type="button" id="removeBtn" class="btn btn-default">삭제</button>
       </form>
-      <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
+      
    </div>
 
 <div class="col-md-12" align="center">

@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.articleReply;
+package com.project.groupware.controller.articleReply;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,9 @@ public class ListArticleReplyController {
 	public ModelAndView detailArticle(@RequestParam(value="articleId")int articleId){
 		
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("replys", articleReplyService.retrieveReply(articleId));
+		mv.addObject("listReply", articleReplyService.retrieveReply(articleId));
 		mv.setViewName("jsonView");
 		return mv;
 		
 	}
 }
-*/

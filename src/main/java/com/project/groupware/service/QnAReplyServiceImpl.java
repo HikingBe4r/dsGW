@@ -20,7 +20,7 @@ public class QnAReplyServiceImpl implements QnAReplyService{
 	}
 
 	public void removeQnAReply(int id) {
-		qnaReplyMapper.deleteQnAArticleReply(id);
+		qnaReplyMapper.deleteQnAReply(id);
 		
 	}
 

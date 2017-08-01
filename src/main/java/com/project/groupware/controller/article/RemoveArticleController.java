@@ -26,22 +26,24 @@ public class RemoveArticleController {
 	// 게시글 삭제 요청 처리 컨트롤러 메소드
 	@RequestMapping(value = "/removeArticle.do", method = RequestMethod.GET)
 	public String submit(@RequestParam(value = "id", required = false) int id, Model model) {
-		return null;
-		/*articleService.removeArticle(id);
+		
+		articleService.removeArticle(id);
 
 		model.addAttribute("boards", boardService.retrieveBoardList());
 		model.addAttribute("departments", departmentService.retrieveDepartmentListID());
 
-		return "boardNavTest/article/listArticle";*/
+		return "boardNavTest/article/listArticle";
 	}
 
 	@RequestMapping(value = "/removeArticleList.do", method = RequestMethod.GET)
-	public String submit(@RequestParam(value = "articleIdList") String articleIdList,
+	public String submit(
+			@RequestParam(value = "articleIdList") String articleIdList,
 			@RequestParam(value = "boardId") int boardId) {
-		return null;
-		/*if (!articleIdList.isEmpty()) {
+	
+		if (!articleIdList.isEmpty()) {
 			String[] list = articleIdList.split(",");
 			for (int i = 0; i < list.length; i++) {
+				System.out.println("삭제 리스트"+list[i]);
 				articleService.removeArticle(Integer.parseInt(list[i]));
 			}
 		}
@@ -49,7 +51,7 @@ public class RemoveArticleController {
 		// 메뉴 리스트
 		boardService.retrieveBoardList();
 		departmentService.retrieveDepartmentListID();
-		return "boardNavTest/article/listArticle";*/
+		return "redirect:/listArticleForm.do?boardId=" + boardId;
 	}
 
 }

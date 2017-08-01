@@ -8,16 +8,16 @@
 
 <script>
    $(document).ready(function(){
-      $('#secret').on('click', function(){
+      $('#off').on('click', function(){
          
          if($(this).prop('checked')) {
-            $('input[name=secret]').val("1");
+            $('input[name=off]').val("1");
          } else {
-            $('input[name=secret]').val("0");
+            $('input[name=off]').val("0");
             
          }
          
-         console.log($('input[name=secret]').val());
+         console.log($('input[name=off]').val());
       });
    });
    
@@ -31,14 +31,14 @@
    <h3>Q&A</h3>
    <form action="${pageContext.request.contextPath }/writeArticle.do"   method="post" enctype="multipart/form-data">
       <input type="hidden" name="boardId" value="${param.boardId}">
-      <input type="hidden" name="secret" value="0">
+      <input type="hidden" name="secret" value="${param.secret}">
       <table style="border: 0px;">
 
          <tr>
             <td>제목&nbsp;<input type="text" name="subject" size="100"></td>
          </tr>
          <tr>
-            <td>문의내용<input id="secret" type="checkbox"><td>
+            <td>문의내용<input id="off" type="checkbox"><td>
          </tr>
          <tr>
             <td><textarea name="content" cols="107" rows="20"></textarea></td>

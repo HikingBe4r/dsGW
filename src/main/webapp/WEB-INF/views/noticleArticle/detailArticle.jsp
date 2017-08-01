@@ -17,6 +17,8 @@
 <script>
 	$(document).ready(function() {
 		
+		
+		
 		$('#prevBtn').click(function() {
 			alert('이전' + '${requestScope.article.id}');
 			$(location).attr('href', 
@@ -56,7 +58,7 @@
 
 
 	<div class="col-md-1">
-		<button onclick="location.href='${pageScope.modifyUrl }'">수정</button>
+			<a href="${pageScope.modifyUrl}"><button type="button" class="btn btn-primary">수정</button></a>
 	</div>
 	<div class="col-md-1">
 		<button onclick="location.href='${pageScope.removeUrl }'">삭제</button>	

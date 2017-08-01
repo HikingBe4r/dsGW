@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.project.groupware.persistent.mapper.ArticleMapper">
+<mapper namespace="com.project.groupware.persistent.mapper.QnAMapper">
 
 	<!-- 게시글쓰기 -->
 	<insert id="insertQnA" parameterType="articleVO" statementType="PREPARED">
@@ -10,8 +10,8 @@
 			SELECT ARTICLE_ID_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
 
-		INSERT INTO	ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,secret)
-		VALUES( #{id},#{employeeId},#{boardId}, #{subject}, #{content},	SYSDATE, 0, #{secret})
+		INSERT INTO	ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,off)
+		VALUES( #{id}, #{employeeId}, #{boardId}, #{subject}, #{content}, SYSDATE, 0, #{off})
 	</insert>
 
 	<!-- 검색맵 -->
@@ -40,10 +40,8 @@
 			t1.employee_id,
 			t2.id as employeeId,
 			t2.name as name,
-			t2.department_id,
-			t3.id as departmentId,
 			(select count(*) from article_file t2 where t1.id = t2.article_id) as count
-			FROM ARTICLE t1, employee t2, department t3
+			FROM ARTICLE t1, employee t2
 			<where>
 				<choose>
 					<when test="keytype == 'name' and keyword != 'all' ">
@@ -63,8 +61,8 @@
 						t1.content like '%' || #{keyword} || '%'
 					</when>
 					<when test="keyword == 'all'">
-						t1.employee_id = t2.id and
-						t1.board_id = #{boardId}
+						t1.board_id = #{boardId} and
+						t1.employee_id = t2.id
 					</when>
 				</choose>
 	
@@ -83,16 +81,17 @@
 	</select>
 
 	<!-- 상세조회 맵 -->
-	<resultMap id="selectQnAResultMap" type="articleVO">
+	<!-- <resultMap id="selectQnAResultMap" type="articleVO">
 
-		<id column="id" property="id" />
+		<id column="articleId" property="id" />
 		<result column="board_id" property="boardId" />
 		<result column="subject" property="subject" />
 		<result column="content" property="content" />
 		<result column="writeday" property="writeday" />
 		<result column="hitcount" property="hitcount" />
+		<result column="off" property="off"/>
 		<result column="rcount" property="rcount" />
-		<result column="employee_id" property="employeeId" />
+		<result column="employeeId" property="employeeId" />
 		<association property="employee" javaType="employeeVO">
 			<id column="employeeId" property="id" />
 			<result column="name" property="name" />
@@ -108,25 +107,91 @@
 			<result column="reply_article_id" property="articleId" />
 			<result column="reply_content" property="content" />
 			<result column="reply_writeday" property="writeday" />
+			<result column="employeeId" property="employeeId" />
 			<association property="employee" javaType="employeeVO">
-				<id column="id" property="id" />
+				<id column="employeeId" property="id" />
 				<result column="reply_name" property="name" />
 			</association>
 		</collection>
+	</resultMap> -->
+	
+	<!-- <resultMap id="selectQnAResultMap" type="articleVO">
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="rcount" property="rcount" />
+		<result column="off" property="off"/>
+		<result column="employee_id" 	  property="employeeId" />
+		<association property="employee" javaType="employeeVO">
+			<id column="employeeId" property="id" />
+			<result column="name" property="name" />
+		</association>
+		<collection property="files" ofType="articleFileVO" javaType="list">
+			<id column="file_id" 				property="id" />
+			<result column="file_article_id" property="articleId" />
+			<result column="original_file_name" property="originalFileName" />
+			<result column="system_file_name" property="systemFileName" />
+		</collection>
+		<collection property="replys" ofType="articleReplyVO" javaType="list">
+			<id column="reply_id" 				property="id" />
+			<result column="reply_article_id" property="articleId" />
+			<result column="reply_content" 		property="content" />
+			<result column="reply_writeday" 	property="writeday" />
+				<association property="employee" javaType="employeeVO">
+					<id column="id" property="id" />
+					<result column="reply_name" property="name" />
+				</association>
+		</collection>
+	</resultMap> -->
+	
+	<resultMap id="selectQnAResultMap" type="articleVO">
+		<id column="articleId" property="id" />
+		<result column="employeeId" property="employeeId" />
+		<result column="boardId" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="content" property="content" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="off" property="off" />
+		<association property="employee" javaType="employeeVO" >
+			<id column="employeeId" property="id" />
+			<result column="empName" property="name"/>
+		</association>
+		<collection property="files" javaType="list" ofType="articleFileVO">
+			<id column="articleFileId" property="id"/>
+			<result column="originalFileName" property="originalFileName" />
+			<result column="articleId" property="articleId" />
+			<result column="systemFileName" property="systemFileName" />
+			<result column="fileSize" property="fileSize" />
+		</collection>
+		<collection property="replys" javaType="list" ofType="articleReplyVO">
+			<id column="replyId" property="id" />
+			<result column="articleId" property="articleId" />
+			<result column="employeeId" property="employeeId" />
+			<result column="replyContent" property="content" />
+			<result column="replyWriteDay" property="writeday" />
+			<association property="employee" javaType="employeeVO">
+				<id column="replyEmpId" property="id" /> 
+				<result column="replyEmpName" property="name"/>
+			</association>
+		</collection>	
 	</resultMap>
-
 
 	<!-- 게시글 상세조회 -->
 	<select id="selectQnA" resultMap="selectQnAResultMap" statementType="PREPARED" parameterType="map">
-		SELECT
-			t1.id,
+	<if test="off == 0">
+		<!-- SELECT
+			t1.id articleId,
 			t1.subject,
 			t1.board_id,
 			e1.id as employeeId,
 			e1.name,
 			t1.content,
-			t1.employee_id,
 			t1.hitcount,
+			t1.off,
 			(select count(*) from ARTICLE_REPLY r2 where t1.id = r2.article_id) as rcount,
 			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
 			t2.id as file_id,
@@ -144,9 +209,140 @@
 		t1.employee_id = e1.id and
 		t1.id = t2.article_id(+) and
 		t1.id = r1.article_id(+) and
-		t1.id = #{id}
+		t1.id = #{id}  -->
+	</if>
+	
+	<if test="off == 1">
+		SELECT 
+		  a.id articleId,
+		  a.employee_id employeeId,
+		  a.board_id boardId,
+		  a.subject,
+		  a.content,
+		  a.writeday,
+		  a.hitcount,
+		  a.off,
+		  e.name empName,
+		  af.id articleFileId,
+		  af.original_file_name originalFileName,
+		  af.system_file_name systemFileName,
+		  af.file_size fileSize,
+		  ar.id replyId,
+		  ar.content replyContent,
+	      ar.writeday replyWriteDay,
+	      t1.id replyEmpId,
+	      t1.name replyEmpName		  
+			FROM 
+			  article a, 
+			  employee e,
+			  article_file af,
+			  article_reply ar,
+	      (SELECT emp.id , emp.name, ar2.id replyId2
+			   FROM   employee emp, article_reply ar2
+			   WHERE  emp.id = ar2.employee_id) t1
+			WHERE a.employee_id = e.id
+			and   a.id = af.article_id(+)
+			and   a.id = ar.article_id(+)
+			and  a.id = #{id}
+	   		and ar.id = t1.replyid2
 
+		<!-- SELECT
+			t1.id,
+			t1.subject,
+			t1.board_id,
+			e1.id as employeeId,
+			e1.name,
+			t1.content,
+			t1.employee_id,
+			t1.hitcount,
+			t1.off,
+			(select count(*) from ARTICLE_REPLY r2 where t1.id = r2.article_id) as rcount,
+			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
+			t2.id as file_id,
+			t2.article_id as file_article_id,
+			t2.original_file_name,
+			t2.system_file_name,
+			r1.id as reply_id,
+			r1.article_id as reply_article_id,
+			r1.content as reply_content,
+			to_char(r1.writeday, 'YYYY/MM/DD') as reply_writeday,
+			(select name from EMPLOYEE e2 where e2.id = r1.employee_id ) as reply_name
+
+		FROM ARTICLE t1, ARTICLE_FILE t2 , ARTICLE_REPLY r1 , EMPLOYEE e1
+		WHERE
+		t1.employee_id = e1.id and
+		t1.id = t2.article_id(+) and
+		t1.id = r1.article_id(+) and
+		t1.id = #{id} -->
+	</if>
 	</select>
+
+	<!--  내글 보기 -->
+	
+	<resultMap id="selectMyQnAResultListMap" type="articleVO">
+
+		<id column="id" property="id" />
+		<result column="board_id" property="boardId" />
+		<result column="subject" property="subject" />
+		<result column="writeday" property="writeday" />
+		<result column="hitcount" property="hitcount" />
+		<result column="count" property="count" />
+		<result column="employee_id" property="employeeId" />
+		<association property="employee" javaType="employeeVO">
+			<id column="employeeId" property="id" />
+			<result column="name" property="name" />
+		</association>
+	</resultMap>
+	
+	
+	 <select id="selectMyQnAList" statementType="PREPARED" resultMap="selectMyQnAResultListMap" parameterType="map">
+		select
+			t1.id,
+			t1.board_id,
+			t1.subject,
+			t1.writeday,
+			t1.hitcount,
+			t1.employee_id,
+			t2.id as employeeId,
+			t2.name as name,
+			(select count(*) from article_file t2 where t1.id = t2.article_id) as count
+			FROM ARTICLE t1, employee t2
+			<where>
+					<choose>
+						<when test="keytype == 'name' and keyword != 'all' ">
+							t1.employee_id = t2.id and
+							t1.board_id = #{boardId} and
+							t2.name like '%' || #{keyword} || '%' and
+							t1.employee_id = #{employeeId}
+						</when>
+						<when test="keytype == 'subject' and keyword != 'all'">
+							t1.employee_id = t2.id and
+							t1.board_id = #{boardId} and
+							t1.subject like '%' || #{keyword} ||'%' and
+							t1.employee_id = #{employeeId}
+	
+						</when>
+						<when test="keytype == 'content' and keyword != 'all'">
+							t1.employee_id = t2.id and
+							t1.board_id = #{boardId} and
+							t1.content like '%' || #{keyword} || '%' and
+							t1.employee_id = #{employeeId}
+						</when>
+						<when test="keyword == 'all'">
+							t1.employee_id = t2.id and
+							t1.board_id = #{boardId} and
+							t1.employee_id = #{employeeId}
+						</when>
+					</choose>
+				</where>
+				
+				
+				
+				ORDER BY t1.id DESC
+
+		</select>
+
+
 
 	<!-- 조회수 증가 -->
 	<update id="upHitcountQnA" parameterType="int" statementType="PREPARED">
@@ -182,15 +378,5 @@
 		where id = #{id}
 	</delete>
 
-
-	<!-- 게시글삭제(여러개) -->
-	<delete id="deleteQnAs" parameterType="map" statementType="PREPARED">
-		delete article SET id = #{id,jdbcType=INTEGER} WHERE id IN
-		<foreach item="item" index="index" collection="articleList"
-			open="(" separator="," close=")">
-			#{item,jdbcType=INTEGER}
-		</foreach>
-
-	</delete>
 
 </mapper>

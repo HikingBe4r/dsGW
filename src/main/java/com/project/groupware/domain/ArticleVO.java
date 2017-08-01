@@ -14,14 +14,14 @@ public class ArticleVO {
 	private	String content; // 내용
 	private	String writeday; // 작성일자
 	private int hitcount; // 조회수
-	private String secret; // 비밀글 여부
+	private int off; // 비밀글 여부
 	private EmployeeVO employee = new EmployeeVO(); // 이름 가져오기
 	private int count; // 파일 카운트
 	private int rcount; // 댓글 카운트
 	private String fileNo; // 파일번호
 
 	
-	private List<MultipartFile> upload; //업로드 된 파일
+	private List<MultipartFile> upload = new ArrayList<MultipartFile>(); //업로드 된 파일
 	private List<ArticleFileVO> files = new ArrayList<ArticleFileVO>();
 	private List<ArticleReplyVO> replys = new ArrayList<ArticleReplyVO>();
 	
@@ -88,12 +88,12 @@ public class ArticleVO {
 		this.hitcount = hitcount;
 	}
 
-	public String getSecret() {
-		return secret;
+	public int getOff() {
+		return off;
 	}
 
-	public void setSecret(String secret) {
-		this.secret = secret;
+	public void setOff(int off) {
+		this.off = off;
 	}
 
 	public List<MultipartFile> getUpload() {
@@ -182,7 +182,7 @@ public class ArticleVO {
 	@Override
 	public String toString() {
 		return "ArticleVO [id=" + id + ", employeeId=" + employeeId + ", boardId=" + boardId + ", subject=" + subject
-				+ ", content=" + content + ", writeday=" + writeday + ", hitcount=" + hitcount + ", secret=" + secret
+				+ ", content=" + content + ", writeday=" + writeday + ", hitcount=" + hitcount + ", off=" + off
 				+ ", employee=" + employee + ", count=" + count + ", rcount=" + rcount + ", fileNo=" + fileNo
 				+ ", upload=" + upload + ", files=" + files + ", replys=" + replys + ", image=" + image + ", imgUpload="
 				+ imgUpload + "]";

@@ -15,6 +15,17 @@
 	
 </insert>
 
+<select id="selectBoard" resultType="boardVO" statementType="PREPARED" parameterType="int">
+	SELECT 
+		b1.id,
+		b1.name,
+		b1.note,
+		b1.secret
+	FROM board b1
+	WHERE id = #{boardId}
+	ORDER BY b1.id ASC
+
+</select>
 
 <!-- 게시판 리스트  -->
 <select id="selectBoardList" resultType="boardVO" statementType="STATEMENT">
@@ -25,6 +36,7 @@
 		b1.secret,
 		(select count(*) from Article t1 where t1.board_id = b1.id) as articleCount
 	FROM board b1
+	ORDER BY b1.id ASC
 
 </select>
 
@@ -40,7 +52,8 @@
 	UPDATE BOARD
 	SET 
 		NAME = #{name},
-		NOTE = #{note}
+		NOTE = #{note},
+		SECRET = #{secret}
 	WHERE id = #{id}
 </update>	
 

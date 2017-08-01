@@ -11,7 +11,7 @@
 		</selectKey>
 		
 		INSERT INTO ARTICLE_REPLY(ID,ARTICLE_ID,EMPLOYEE_ID,CONTENT,WRITEDAY)
-		VALUES( #{id},#{articleId},20170711002,#{content},sysdate)
+		VALUES( #{id},#{articleId},#{employeeId},#{content},sysdate)
 		
 	</insert>
 	

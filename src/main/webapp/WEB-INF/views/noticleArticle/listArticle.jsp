@@ -1,5 +1,5 @@
-
- listArticle.jsp 
+<!-- 
+ listArticle.jsp  -->
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.project.groupware.domain.ArticleVO"%>
@@ -13,42 +13,65 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script src="<c:url value='/resources/js/jquery-3.2.1.min.js'/>"></script>
 <script>
-	$(document).ready(function() {
-		//글쓰기 
-		$('#writeBtn').click(function() {
-			location.href = "${pageContext.request.contextPath}/writeNoticeArticle.do?boardId=${param.boardId}";					
-		});
-	});
 	
+		
+
 	
 	$(document).ready(function() {
+				
 		var currentPage = 1;
 		var keytype = '전체';
 		var keyword = '';
+		
+		//글쓰기 
+		$('#writeBtn').click(function() {
+			location.href = 'writeNoticeArticle.do?boardId=${param.boardId}&secret=${param.secret}';			
+		});
 		  
 		
 		function loadArticleList(data) {
 			$("#articleBody").empty(data);
+			$("#departments").empty(data);
 			var htmlStr = "";
 			if(data.articleList.length == 0) {
 				alert("검색결과가 없습니다.");
 			}
-		
+			
+			var optionStr = "";
+			
+			optionStr += "<option value='all'>전체</option>"; 
+			if(data.departments != null) {
+				for(var j = 0; j < data.departments.length; j++) {
+					if(data.departmentId == data.departments[j].id ) {
+						optionStr += "<option value="+data.departments[j].id+" selected='selected'>"+data.departments[j].name+"</option>";	
+					} else {
+						optionStr += "<option value="+data.departments[j].id+">"+data.departments[j].name+"</option>";
+					}
+				}
+			}
+			
+			
+			$("#departments").append(optionStr);
 			
 			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailNoticeArticle.do';	
 					linkUrl += '?id=' + data.articleList[i].id;
 					linkUrl += '&boardId=' + data.articleList[i].boardId;
-					linkUrl += '&open=' + '${param.open}';
+					/* linkUrl += '&secret=' + '${param.secret}'; */
 					
 				
 				htmlStr += "<tr>";
-				htmlStr += "<td><label><input type='checkbox' id='checkRow '></label></td>";
+				htmlStr += "<td><label><input type='checkbox' name='checkRow' value="+data.articleList[i].id+"></label></td>";
 				htmlStr += "<input type='hidden' id='id' value="+data.articleList[i].id +  "/>";
 				htmlStr += "<td>"+data.articleList[i].id+"</td>";
 				htmlStr += "<td><a href="+linkUrl+">"+data.articleList[i].subject+"</a></td>";
-				htmlStr += "<td>"+data.articleList[i].employee.name+"</td>";
+				if(data.articleList[i].employee.name == null) {
+					htmlStr += "<td>관리자</td>";	
+				} else {
+					htmlStr += "<td>"+data.articleList[i].employee.name+"</td>";
+				}
+				
 				htmlStr += "<td>"+data.articleList[i].writeday+"</td>";
 				htmlStr += "<td>"+data.articleList[i].hitcount+"</td>";
 				
@@ -109,7 +132,7 @@
 				keytype: $("#keytype").val(),
 				keyword: $("#searchKeyword").val(),
 				boardId : '${param.boardId}',
-				secret: '${param.open}',
+				secret: '${param.secret}',
 				currentPage : '1'
 			}
 			,
@@ -179,7 +202,7 @@
 					keytype: keytype,
 					keyword: keyword,
 					boardId: "${param.boardId}",
-					secret: '${param.open}',
+					secret: '${param.secret}',
 					currentPage: $(this).val()
 				}
 				,
@@ -241,9 +264,11 @@
 	      $('#removeBtn').click(function() {
 	         var array = [];
 	         
-	         $("input[name='check']:checked").each(function() {
+	         $("input[name='checkRow']:checked").each(function() {
 	            array.push($(this).val());   
 	         });   
+	         console.log(array);
+	         
 	         $("input[name='articleIdList']").val(array.join());      
 	         $('#inputForm').submit();
 	         
@@ -258,7 +283,7 @@
 	            
 	            var array = [];
 	                  
-	            $("input[name='check']:checked").each(function() {
+	            $("input[name='checkRow']:checked").each(function() {
 	               array.push($(this).val());   
 	            });   
 	            
@@ -361,13 +386,14 @@
    
       <form action="${pageContext.request.contextPath}/listNoticeArticle.do"   method="get" class="form-inline pull-right">
       <input type="hidden" name="boardId" value="${param.boardId}">
-      <input type="hidden" name="open" value="${param.open}">
+      <input type="hidden" name="secret" value="${param.secret}">
 
  
      <c:if test="${sessionScope.employee.id eq null}">
-      <c:if test="${param.open eq 0}">
+      <c:if test="${param.secret eq 0}">
      	<select name="departments" id="departments" class="form-control">
      			<option value="all">전체</option>
+     			
 			<c:forEach var="department" items="${requestScope.departments }" varStatus="loop">
 				<option value="${department.id}">${department.name}</option>
 			</c:forEach>
@@ -378,12 +404,10 @@
 				<option value="subject">제목</option>
 				<option value="name">작성자</option>
 				<option value="content">내용</option>
-
 			</select>
 
      <div class="form-group">
-			<input type="text" class="form-control" id="searchKeyword"
-				placeholder="keyword">
+			<input type="text" class="form-control" id="searchKeyword"	placeholder="keyword">
 		</div>
    	  <button type="button" class="btn btn-default" id="searchBtn">검색</button>
    </form>
@@ -397,7 +421,7 @@
 
          <thead>
             <tr>
-               <!-- <th width="50"></th> -->
+               <th width="50"><label><input id="allCheck"   name="allCheck" type="checkbox"></label></th>
                <th width="100">번호</th>
                <th>제목</th>
                <th width="200">이름</th>
@@ -408,7 +432,7 @@
          </thead>
 		
 		<tbody id="articleBody">
-         <c:forEach var="article" items="${requestScope.articles}"
+       <%--   <c:forEach var="article" items="${requestScope.articles}"
             varStatus="loop">
             <c:url var="url" value="/detailArticle.do">            
                <c:param name="id" value="${pageScope.article.id }" />
@@ -427,7 +451,7 @@
                   </c:if></td>
 
             </tr>
-         </c:forEach> 
+         </c:forEach>  --%>
 		</tbody>
       </table>
    </div>
@@ -440,9 +464,9 @@
       <form action="${pageContext.request.contextPath}/removeNoticeArticleList.do" id="inputForm" method="get">
          <input type="hidden"  name="articleIdList"  value="">
          <input type="hidden" name="boardId" value="${param.boardId}">
+         <button type="button" class="btn btn-primary" id="writeBtn">등록</button>
          <button type="button" id="removeBtn" class="btn btn-default">삭제</button>
       </form>
-      <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
    </div>
 
 <div class="col-md-12" align="center">

@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.domain.BoardVO;
 import com.project.groupware.service.BoardService;
+/*import com.project.groupwAare.service.BoardService;*/
 import com.project.groupware.service.NoticeArticleService;
 
 @Controller
@@ -42,4 +43,4 @@ public class DetailNoticeArticleController {
 
    
    
-}*/
+}

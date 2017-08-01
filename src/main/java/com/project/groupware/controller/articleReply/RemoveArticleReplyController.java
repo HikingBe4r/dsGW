@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.articleReply;
+package com.project.groupware.controller.articleReply;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,9 +36,8 @@ public class RemoveArticleReplyController {
 		
 		
 		//댓글 목록조회
-		model.addAttribute("replyList",articleReplyService.retrieveReply(articleId));
+		model.addAttribute("listReply",articleReplyService.retrieveReply(articleId));
 		
 		return "jsonView";
 	}
 }
-*/

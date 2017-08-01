@@ -47,28 +47,32 @@ public class ListQnAController {
 	public ModelAndView search(@SessionAttribute(value="employee", required=false) EmployeeVO employee,
 						 @RequestParam(value="keytype", required=false)String keytype,
 						 @RequestParam(value="keyword", required=false, defaultValue="all")String keyword,
-						 @RequestParam(value="boardId", required=true) int boardId, 
-						 @RequestParam(value="currentPage" , required=true) Integer  currentPage){
-		
+						 @RequestParam(value="boardId", required=true) int boardId,
+						 @RequestParam(value="currentPage" , required=true, defaultValue="1") Integer  currentPage
+						
+						
+						 ){
 				ModelAndView mv = new ModelAndView();
 		
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("boardId", boardId);
 				map.put("keytype", keytype);
 				map.put("keyword", keyword);
-					
-				List<ArticleVO> QnAList = qnaService.retrieveQnAList(map);
+				map.put("currentPage", currentPage); //?
+							
+				List<ArticleVO> articleList = qnaService.retrieveQnAList(map);
 								
 				if(currentPage == null) {
 					currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
 				}
 
-				PagingVO paging = new PagingVO(currentPage, QnAList.size());
+				PagingVO paging = new PagingVO(currentPage, articleList.size());
 						
 				mv.addObject("paging", paging);
 				//  페이징 처리 끝
+				mv.addObject("loadArticleList", articleList);
 				
-				mv.addObject("QnAList", QnAList);		
+				
 				mv.setViewName("jsonView");
 				
 				return mv;

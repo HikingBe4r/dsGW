@@ -104,7 +104,7 @@
 				<c:forEach begin="${fn:length(requestScope.article.files) + 1}"
 					end="3">
 					<tr>
-						<td>파일&nbsp;<input type="file" name="fileUpload" size="20">${pageScope.files.originalFileName}</td>
+						<td>파일&nbsp;<input type="file" name="upload" size="20">${pageScope.files.originalFileName}</td>
 					</tr>
 				</c:forEach>
 			</c:if>

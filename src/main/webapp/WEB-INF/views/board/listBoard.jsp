@@ -16,17 +16,16 @@
 		 htmlStr += "<tr>";
 		 htmlStr +=	"<td>" + data.boardList[i].name + "</td>";
 		 htmlStr +=	"<td>" + data.boardList[i].note + "</td>"
-		 htmlStr +=	"<td><button type='button' class='btn btn-default'" +data.replyList[i].id+">수정</button></td>"
-		 htmlStr +=	"<td><button type='button' class='btn btn-default'" +data.replyList[i].id+">삭제</button></td>"	
 		 htmlStr += "</tr>";
 	 }
 	 $('#boardList').append(htmlStr);
 	 $('#name').val("");
  }
  
- $(document).ready(function() {
+/*  $(document).ready(function() {
 	 //게시판 등록
-	 $('#addbtn').on('click',function() {
+	 $('#addBtn').on('click',function() {
+		 alert("call");
 		$.ajax({
 			 url: '${pageContext.request.contextPath}/writeBoard.do'
 				  ,
@@ -42,14 +41,14 @@
 					  
 				  },
 				  success: function(data) {
-					  listReply(data);
+					  listBoard(data);
 				  }
 				  ,
 				  error:function(jqXHR) {
 					  alert("Error: " + jqXHR.responseText);
 				  }
 		}) ;		 
-	 }); 
+	 });  */
  });
 
 </script>
@@ -93,8 +92,8 @@
 		<tr>	
 			<td>${pageScope.board.name}</td>
 			<td>${pageScope.board.note}</td>
-			<td><button type="button" id="${pageScope.board.id}">수정</button></td>
-	    	<td><button type="button" id="${pageScope.board.id}">삭제</button></td>			
+	<%-- 		<td><button type="button" id="${pageScope.board.id}">수정</button></td>
+	    	<td><button type="button" id="${pageScope.board.id}">삭제</button></td>			 --%>
 		</tr>
 		<input type="hidden" name="departmentId" value="${pageScope.board.departmentId}"/> 
 	</c:forEach>

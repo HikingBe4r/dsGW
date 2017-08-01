@@ -11,7 +11,7 @@
 		</selectKey>
 
 		INSERT INTO	ARTICLE_REPLY(id, article_id, employee_id, content,	writeday)
-		VALUES( #{id}, #{articleId}, 1, #{content}, SYSDATE)
+		VALUES( #{id}, #{articleId}, #{employeeId}, #{content}, SYSDATE)
 	</insert>
 
 	<!-- 댓글 수정 -->
@@ -37,25 +37,24 @@
 	
 	<!-- 댓글 리스트  -->
 	<resultMap  id="selectQnAReplyListMap" type="articleReplyVO">
-		<id column="id" 		property="id"/>
+		<id column="replyId" 		property="id"/>
 		<result column="content" property="content"/> 
 		<result column="writeday" property="writeday"/> 
 		<result column="article_id" property="articleId"/> 
-		<result column="employee_id" property="employeeId"/> 
+		<result column="employeeId" property="employeeId"/> 
 		<association property="employee" javaType="employeeVO">
-			<id column="id" 		property="id"/>
+			<id column="employeeId" 		property="id"/>
 			<result column="name" property="name"/> 
 		</association>
 	</resultMap>
 	
 	<select id ="selectQnAReplyList" parameterType="int" resultMap="selectQnAReplyListMap">
 		SELECT
-			r1.id,
+			r1.id replyId,
 			r1.content,
 			to_char(r1.writeday, 'YYYY/MM/DD') as writeday, 
 			r1.article_id,
-			r1.employee_id,
-			e1.id,
+			e1.id employeeId,
 			e1.name
 		FROM ARTICLE_REPLY r1, EMPLOYEE e1
 		WHERE r1.employee_id = e1.id

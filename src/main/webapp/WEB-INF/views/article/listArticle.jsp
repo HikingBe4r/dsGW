@@ -39,7 +39,7 @@ $(document).ready(function() {
 					
 				
 				htmlStr += "<tr>";
-				htmlStr += "<td><label><input type='checkbox' id='checkRow '></label></td>";
+				htmlStr += "<td><label><input type='checkbox' name='checkRow' value="+data.articleList[i].id+"></label></td>";
 				htmlStr += "<input type='hidden' id='id' value="+data.articleList[i].id +  "/>";
 				htmlStr += "<td>"+data.articleList[i].id+"</td>";
 				htmlStr += "<td><a href="+linkUrl+">"+data.articleList[i].subject+"</a></td>";
@@ -138,7 +138,7 @@ $(document).ready(function() {
 					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
-					secret: '${param.secret}',
+					secret: '${param.open}',
 					currentPage: '1'
 				}
 				,
@@ -199,7 +199,6 @@ $(document).ready(function() {
 	 	$('#myBtn').click(function() {
 			
 			if($(this).text() =='내글보기' ) {
-				
 				$.ajax({
 					url : '${pageContext.request.contextPath}/myArticle.do'
 					,
@@ -307,11 +306,11 @@ $(document).ready(function() {
 	 	});	 	
 		
 		
-		   //선택
+		/*   //선택
 	      $('#removeBtn').click(function() {
 	         var array = [];
 	         
-	         $("input[name='check']:checked").each(function() {
+	         $("input[name='checkRow']:checked").each(function() {
 	            array.push($(this).val());   
 	         });   
 	         $("input[name='articleIdList']").val(array.join());      
@@ -328,7 +327,7 @@ $(document).ready(function() {
 	            
 	            var array = [];
 	                  
-	            $("input[name='check']:checked").each(function() {
+	            $("input[name='checkRow']:checked").each(function() {
 	               array.push($(this).val());   
 	            });   
 	            
@@ -340,7 +339,7 @@ $(document).ready(function() {
 	      });     
 	   
 
-	/*  //전체 선택
+	 //전체 선택
     $('#allCheck').click(function() {
     	 $(":checkbox[name='allCheck']").each(function() {
 			 var subChecked = $(this).attr('checked');
@@ -350,26 +349,14 @@ $(document).ready(function() {
 			 
 		 });
 	});
-   */
    
-	     /*  //전체 해제
-	     $('#allCheck').click(function() {
-	      	 $(":checkbox[name='allCheck']").each(function() {
-	  			 var subChecked = $(this).attr('checked');
-	  			 
-	  			 if (subChecked != 'checked')
-	  			 	$(this).click();
-	  			 
-	  		 });
-	  	});
-	     */
-	     
-	      /*  //선택 삭제
+       
+	      //선택 삭제
 	      $('#removeBtn').click(function() {
 	    	  
 	    	  var checkRow = '';
 				
-				$(":checkbox[name='documentId']:checked").each(function(){
+				$(":checkbox[name='checkRow']:checked").each(function(){
 					checkRow = checkRow + $(this).val() + ', ';
 				});
 				
@@ -412,8 +399,44 @@ $(document).ready(function() {
 					});
 			
 				
-			}); */
-	   
+			}); 
+	       */
+	      
+	      
+	       //선택
+	      $('#removeBtn').click(function() {
+	         var array = [];
+	         
+	         $("input[name='checkRow']:checked").each(function() {
+	            array.push($(this).val());   
+	         });   
+	         $("input[name='articleIdList']").val(array.join());      
+	         $('#inputForm').submit();
+	         console.log($("input[name='articleIdList']:checked").val());
+	         
+	         
+	      });
+	      
+	      
+	      //전체 선택
+	      $('#allCheck').on('click', function() {
+	         if ($(this).prop("checked") == true) {
+	            $('input[type=checkbox]').prop('checked', true);
+	            
+	            var array = [];
+	                  
+	            $("input[name='checkRow']:checked").each(function() {
+	               array.push($(this).val());   
+	            });   
+	            $("input[name='articleIdList']").val(array.join());      
+	            
+	         } else {
+	            $('input[type=checkbox]').prop('checked', false);
+	         }
+	         
+	         console.log($("input[name='articleIdList']").val());
+	      });     
+	        
 	     
 	     
 });	 	
@@ -489,9 +512,10 @@ $(document).ready(function() {
       <form action="${pageContext.request.contextPath}/removeArticleList.do" id="inputForm" method="get">
          <input type="hidden"  name="articleIdList"  value="">
          <input type="hidden" name="boardId" value="${param.boardId}">
+         <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
          <button type="button" id="removeBtn" class="btn btn-default">삭제</button>
       </form>
-      <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
+      
    </div>
 
 <div class="col-md-12" align="center">

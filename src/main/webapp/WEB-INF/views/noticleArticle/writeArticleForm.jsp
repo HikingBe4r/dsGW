@@ -7,7 +7,8 @@
 	<h3 align="center">공지글 쓰기 화면</h3>
 	<hr style="border: solid 1px red; width: 50%;">
 	<form action="${pageContext.request.contextPath }/writeNoticeArticle.do"   method="post" enctype="multipart/form-data">>
-	<input type="hidden" name="boardId=1" value="${param.boardId}">
+	<input type="hidden" name="boardId" value="${param.boardId}">
+	<input type="hidden" name=secret value="${param.secret}">
 	<table border="0" align="center">
 		<tr>
 			<td>제목</td>
@@ -24,15 +25,15 @@
 
 		<tr>
 			<td>파일</td>
-			<td><input type="file" name="fileUpload" size="40"></td>
+			<td><input type="file" name="upload" size="40"></td>
 		</tr>	
 		<tr>
 			<td>파일</td>
-			<td><input type="file" name="fileUpload" size="40"></td>
+			<td><input type="file" name="upload" size="40"></td>
 		</tr>	
 		<tr>
 			<td>파일</td>
-			<td><input type="file" name="fileUpload" size="40"></td>
+			<td><input type="file" name="upload" size="40"></td>
 		</tr>	
 		<tr align="center">
 			<td colspan="2">

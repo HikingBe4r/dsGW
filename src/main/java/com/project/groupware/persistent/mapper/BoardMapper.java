@@ -20,4 +20,6 @@ public interface BoardMapper {
 	
 	//게시판에 등록된 게시글 수를 구하는 매퍼 
 	public int articleCount(int id);
+	
+	public BoardVO selectBoard(int boardId);
 }

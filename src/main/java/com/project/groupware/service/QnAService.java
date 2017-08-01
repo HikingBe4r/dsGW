@@ -17,7 +17,7 @@ public interface QnAService {
 		public int retrieveTotalQnA(int boardId);
 		
 		//게시글 상세 조회 서비스
-		public ArticleVO retrieveQnA(int id);
+		public ArticleVO retrieveQnA(Map<String, Object> map);
 		
 		//게시글 조회수증가 서비스
 		public void upHitcountQnA(int id);
@@ -28,9 +28,9 @@ public interface QnAService {
 		//게시글 삭제 서비스
 		public void removeQnA(int id);	
 		
-		/*//내글을 조회하다
-		public List<ArticleVO> myArticle(Map<String, Object> map);*/
+		//내글을 조회하다
+		public List<ArticleVO> myQnA(Map<String, Object> map);
 		
 		//게시글 삭제 서비스(여러개)
-		public void removeQnAs(Map<String, Object> map);
+		public void removeQnAs(int id);
 }

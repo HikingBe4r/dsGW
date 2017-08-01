@@ -52,14 +52,13 @@ public class QnAServiceImpl implements QnAService{
 		}
 		
 		//게시글 상세조회
-		public ArticleVO retrieveQnA(int id) {
-			return qnaMapper.selectQnA(id);
+		public ArticleVO retrieveQnA(Map<String, Object> map) {
+			return qnaMapper.selectQnA(map);
 		}
 
 		//조회수 증가
 		public void upHitcountQnA(int id) {
 			qnaMapper.upHitcountQnA(id);
-			
 		}
 		
 		//게시글 수정
@@ -98,15 +97,15 @@ public class QnAServiceImpl implements QnAService{
 			qnaMapper.deleteQnA(id);
 		}
 
-		/*//내글을 조회하다
-		public List<ArticleVO> myArticle(Map<String, Object> map) {
-			return articleMapper.findmyArticle(map);
-		}*/
+		//내글을 조회하다
+		public List<ArticleVO> myQnA(Map<String, Object> map) {
+			return qnaMapper.selectMyQnAList(map);
+		}
 		
 		
 		//게시글을 삭제하다(여러개)
-		public void removeQnAs(Map<String, Object> map) {
-			qnaMapper.deleteQnAs(map);
+		public void removeQnAs(int id) {
+			qnaMapper.deleteQnAs(id);
 			
 			
 		}

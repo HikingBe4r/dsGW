@@ -24,7 +24,7 @@ $(document).ready(function() {
 	<h3>게시글 쓰기 화면</h3>
 	<form action="${pageContext.request.contextPath }/writeArticle.do"  method="post" enctype="multipart/form-data">
 	<input type="hidden" name="boardId" value="${param.boardId}"> 
-	<input type="hidden" name=open value="${param.open}">
+	<input type="hidden" name=secret value="${param.secret}">
 	<table border="1">
 	<tr>
 			<td>제목</td>

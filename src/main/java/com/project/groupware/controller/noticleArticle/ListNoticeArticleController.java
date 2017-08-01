@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,8 +50,8 @@ public class ListNoticeArticleController {
 	@RequestMapping(value="/listNoticeArticle.do", method=RequestMethod.GET)
 	public ModelAndView search(@RequestParam(value="keytype", required=false)String keytype,
 						 @RequestParam(value="keyword", required=false, defaultValue="all")String keyword,
-						 @RequestParam(value="boardId", required=true) int boardId,
-						 @RequestParam(value="secret", required=true) int secret,
+						 @RequestParam(value="boardId", required=true) String boardId,
+						 @RequestParam(value="secret", required=true) String secret,
 						 @RequestParam(value="departmentId", required=false) String departmentId ,
 						 @RequestParam(value="currentPage" , required=true) Integer  currentPage,
 						 HttpSession session) {
@@ -67,16 +67,19 @@ public class ListNoticeArticleController {
 				
 				EmployeeVO employee = (EmployeeVO)session.getAttribute("employee");					
 				
-				if(secret == 1) {  				//전체
+				// 전체 공지사항
+				if(secret.equals("1")) {  				//전체
 					if(employee == null) {		//관리자인 경우
 						mv.addObject("departments",departmentService.retrieveDepartmentListID());						
 					}
 				}
 				
-				if(secret == 0) {       				//부서별
+				// 부서별 공지사항
+				if(secret.equals("0")) {       				//부서별
 					if(employee != null) { 				//사원인 경우					
 						map.put("departmentId",employee.getDepartmentId());
 					} else { 							//관리자인 경우
+						mv.addObject("departments",departmentService.retrieveDepartmentListID());
 						map.put("departmentId", departmentId);						
 					}
 				}
@@ -94,10 +97,11 @@ public class ListNoticeArticleController {
 				mv.addObject("paging", paging);
 				//  페이징 처리 끝
 				mv.addObject("articleList", articleList);
+				mv.addObject("departmentId", departmentId);
 				
 				
 				mv.setViewName("jsonView");
 				
 				return mv;
 			}
-		}*/
+		}

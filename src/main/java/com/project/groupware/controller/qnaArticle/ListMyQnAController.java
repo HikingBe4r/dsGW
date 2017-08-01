@@ -1,6 +1,5 @@
 package com.project.groupware.controller.qnaArticle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.PagingVO;
-import com.project.groupware.service.DepartmentService;
 import com.project.groupware.service.QnAService;
 
 @Controller
@@ -31,7 +29,7 @@ public class ListMyQnAController {
           @RequestParam(value="keytype", required=false)String keytype,
           @RequestParam(value="keyword", required=false, defaultValue="all")String keyword,
           @RequestParam(value="boardId", required=true) int boardId,
-          @RequestParam(value="currentPage" , required=true) Integer  currentPage)
+          @RequestParam(value="currentPage" , required=false, defaultValue="1") Integer  currentPage)
             {
       ModelAndView mv = new ModelAndView();
       
@@ -39,14 +37,11 @@ public class ListMyQnAController {
       map.put("keytype", keytype);
       map.put("keyword", keyword);
       map.put("boardId", boardId);
-      map.put("currentPage", currentPage);      
+      map.put("currentPage", currentPage);
       map.put("employeeId", employee.getId());
       
-      List<ArticleVO> tempFormList = qnaService.retrieveQnAList(map);
-      List<ArticleVO> articleList = new ArrayList<ArticleVO>();
-      
-      articleList = tempFormList;
-      
+      List<ArticleVO> articleList = qnaService.myQnA(map);
+           
       if(currentPage == null) {
          currentPage = 1; // param이 비어있으면 현재페이지 = 첫페이지 
       }

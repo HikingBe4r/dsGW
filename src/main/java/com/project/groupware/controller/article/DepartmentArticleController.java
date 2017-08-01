@@ -17,6 +17,7 @@ import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.domain.PagingVO;
 import com.project.groupware.service.ArticleService;
+import com.project.groupware.service.DepartmentService;
 
 
 
@@ -27,6 +28,8 @@ public class DepartmentArticleController {
 	
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private DepartmentService departmentService;
 	
 	@RequestMapping(value="/departmentArticle.do", method=RequestMethod.GET) 
 	public ModelAndView search(
@@ -65,6 +68,7 @@ public class DepartmentArticleController {
 		mv.addObject("paging", paging);
 		//  페이징 처리 끝
 		mv.addObject("articleList", articleList);
+		mv.addObject("departments",departmentService.retrieveDepartmentListID());
 		
 		
 		mv.setViewName("jsonView");

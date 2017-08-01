@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,4 +73,3 @@ public class NaviNoticeArticleController {
 }
 
 
-*/

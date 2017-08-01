@@ -16,11 +16,18 @@
 
 <script>
 	
+$(document).ready(function() {   
+  	$("#listBtn").click(function() {
+  		location.href	= 'listQnAForm.do?boardId=${requestScope.article.boardId}';
+  	});
+  });
+	
+	
 	function replyList(data) {
 		$('#replyList').empty();
 		
 		var htmlStr = "";
-		for(var i=0; i<data.replyList.length; i++){
+		for(var i=0; i< data.replyList.length; i++){
 			htmlStr += "<div>";
 			htmlStr += "<div id='replycontent' class='col-md-10'><textarea rows='2' cols='150' readonly>"+ data.replyList[i].content +"</textarea></div><br>";
 			htmlStr += "<label>"+data.replyList[i].employee.name+"</label><label>"+data.replyList[i].writeday+"</label><br>";
@@ -39,7 +46,7 @@
 		//댓글 등록	
 		$('#addBtn').click(function(){
 			$.ajax({
-				url: '${pageContext.request.contextPath}/writeReply.do'
+				url: '${pageContext.request.contextPath}/writeQnAReply.do'
 				,
 				method: 'GET'
 				,
@@ -67,7 +74,7 @@
 			//댓글 삭제
 			if($(this).text() == '삭제'){
 				$.ajax({
-						url: '${pageContext.request.contextPath}/removeReply.do'
+						url: '${pageContext.request.contextPath}/removeQnAReply.do'
 						,
 						method: 'GET'
 						,
@@ -138,7 +145,7 @@
 </div>
 <div class="row">
   <div class="col-md-11"></div>
-  <div class="col-md-1"><button id="listBtn" onclick="location.href='${pageContext.request.contextPath}/listQnA.do?boardId=${requestScope.article.boardId}'">목록보기</button></div>
+  <div class="col-md-1"><button id="listBtn">목록보기</button></div>
 </div>
 
 <!--  글제목 -->
@@ -180,8 +187,14 @@
 
 <!-- 첨부파일 목록 -->
 <div class="row">
-		<c:forEach var="files" items="${requestScope.article.files}">
- 			<div class="col-md-1"><a href="${pageScope.files.id}">${pageScope.files.originalFileName}</a></div>
+ 		<c:forEach var="files" items="${requestScope.article.files}">
+			<c:url var="downloadURL" value="/downloadFile.do">
+ 				<c:param name="originalFileName" value="${pageScope.files.originalFileName }"/>
+ 				<c:param name="systemFileName" value="${pageScope.files.systemFileName }"/>
+ 				<c:param name="kind" value="article"/>
+ 			</c:url> 
+		
+ 			<div class="col-md-1"><a href="${pageScope.downloadURL }">${pageScope.files.originalFileName}</a></div>
  		</c:forEach> 
 </div>
 <br><br>

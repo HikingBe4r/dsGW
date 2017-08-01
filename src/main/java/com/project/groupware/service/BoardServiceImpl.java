@@ -21,6 +21,10 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardVO> retrieveBoardList() {
 		return boardMapper.selectBoardList();
 	}
+	public BoardVO retrieveBoard(int boardId) {
+		return boardMapper.selectBoard(boardId);
+	}
+	
 
 	public void modifyBoard(BoardVO board) {
 		boardMapper.updateBoard(board);

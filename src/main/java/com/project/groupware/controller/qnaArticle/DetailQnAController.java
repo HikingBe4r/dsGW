@@ -1,13 +1,18 @@
 package com.project.groupware.controller.qnaArticle;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.groupware.domain.ArticleVO;
+import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.service.BoardService;
 import com.project.groupware.service.QnAService;
 
@@ -21,11 +26,18 @@ public class DetailQnAController {
 	private BoardService boardService;
 
 	@RequestMapping(value="/detailQnA.do", method=RequestMethod.GET)
-	public ModelAndView datailArticle(@RequestParam(value="id", required=true)int id){
+	public ModelAndView datailArticle(/*@SessionAttribute(value="employee") EmployeeVO employee,*/
+									@RequestParam(value="id", required=true)String id,
+									  @RequestParam(value="off", required=true, defaultValue="1")int off){
 		
-		qnaService.upHitcountQnA(id);
+		qnaService.upHitcountQnA(Integer.parseInt(id));
 		
-		ArticleVO article = qnaService.retrieveQnA(id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("off", off);
+		/*map.put("employeeId", employee.getId());*/
+		
+		ArticleVO article = qnaService.retrieveQnA(map);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("article", article);

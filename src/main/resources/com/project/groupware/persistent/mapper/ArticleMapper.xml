@@ -13,7 +13,7 @@
 		</selectKey>
 
 		INSERT INTO
-		ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,secret)
+		ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,off)
 		VALUES( #{id},#{employeeId},#{boardId}, #{subject}, #{content}, SYSDATE, 0, 0)
 
 	</insert>

@@ -40,7 +40,7 @@
 	<form action="${pageContext.request.contextPath}/modifyQnA.do"	method="post" enctype="multipart/form-data">
 		<input type="hidden" name="fileNo" value="${param.fileNo}" id="fileNo">
 		<input type="hidden" name="id" value="${requestScope.article.id}">
-		<input type="hidden" name="secret" value="0">
+		 <input type="hidden" name="secret" value="${param.secret}">
 		
 		<table style="border: 0px;">
 			<tr>

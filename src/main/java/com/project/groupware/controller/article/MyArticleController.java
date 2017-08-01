@@ -1,5 +1,10 @@
 package com.project.groupware.controller.article;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.domain.EmployeeVO;
+import com.project.groupware.domain.PagingVO;
 import com.project.groupware.service.ArticleService;
 import com.project.groupware.service.BoardService;
 import com.project.groupware.service.DepartmentService;
@@ -36,8 +43,8 @@ public class MyArticleController {
 			 @RequestParam(value="currentPage" , required=true) Integer  currentPage
 			 )
 				{
-		return null;
-		/*ModelAndView mv = new ModelAndView();
+		
+		ModelAndView mv = new ModelAndView();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardId", boardId);
@@ -64,7 +71,7 @@ public class MyArticleController {
 		
 		mv.setViewName("jsonView");
 		
-		return mv;*/
+		return mv;
 	}
 }
 		

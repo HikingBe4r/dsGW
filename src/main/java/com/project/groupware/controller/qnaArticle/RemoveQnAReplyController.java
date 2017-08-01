@@ -18,7 +18,7 @@ public class RemoveQnAReplyController {
 	@Autowired
 	private QnAReplyService qnaReplyService;
 	
-	@RequestMapping(value="/removeReply", method=RequestMethod.GET)
+	@RequestMapping(value="/removeQnAReply", method=RequestMethod.GET)
 	public ModelAndView removeReply(@RequestParam(value="replyId") String replyId,
 									@RequestParam(value="articleId")String articleId){
 					
@@ -28,7 +28,7 @@ public class RemoveQnAReplyController {
 		
 		//리스트 출력
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("replyList", qnaService.retrieveQnA(Integer.parseInt(articleId)).getReplys());
+		mv.addObject("replyList", qnaReplyService.retrieveQnAReply(Integer.parseInt(articleId)));
 		mv.setViewName("jsonView");
 		return mv;
 	}

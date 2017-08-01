@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 import java.io.File;
 import java.util.List;
@@ -13,6 +13,7 @@ import com.project.groupware.domain.ArticleFileVO;
 import com.project.groupware.domain.ArticleImageVO;
 import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.service.BoardService;
+import com.project.groupware.service.DepartmentService;
 import com.project.groupware.service.NoticeArticleService;
 import com.project.groupware.util.UploadFileUtils;
 
@@ -22,13 +23,15 @@ public class RemoveNoticeArticleController {
 	private NoticeArticleService noticleArticleService;
 	@Autowired
 	private BoardService boardService;
-	
+	@Autowired
+	private DepartmentService departmentService;
+
 
 
 	@RequestMapping(value="/removeNoticeArticle.do", method=RequestMethod.GET)
 	public String submit(@RequestParam(value="boardId", required=true) int boardId,	// 게시판 번호
 			             @RequestParam(value="id", required=true) int id) {    	    //게시글 번호
-			
+
 			
 			ArticleVO article = noticleArticleService.retrieveNoticeArticle(id);
 			List<ArticleFileVO> files = article.getFiles();			
@@ -56,5 +59,27 @@ public class RemoveNoticeArticleController {
 			boardService.retrieveBoardList();	
 			return "redirect:/listNoticeArticle.do?boardId=" + article.getBoardId();
 	}
+	
+	
+
+	@RequestMapping(value = "/removeNoticeArticleList.do", method=RequestMethod.GET)
+	public String submit(
+			@RequestParam(value = "articleIdList") String articleIdList,
+			@RequestParam(value = "boardId") int boardId) {
+	
+		if (!articleIdList.isEmpty()) {
+			String[] list = articleIdList.split(",");
+			for (int i = 0; i < list.length; i++) {
+				System.out.println("삭제 리스트"+list[i]);
+				noticleArticleService.removeNoticeArticle(Integer.parseInt(list[i]));
+			}
+		}
+
+		// 메뉴 리스트
+		boardService.retrieveBoardList();
+		departmentService.retrieveDepartmentListID();
+		return "redirect:/listNoticeArticleForm.do?boardId=" + boardId+"&secret=0";
+	}
+
 }
-*/
+

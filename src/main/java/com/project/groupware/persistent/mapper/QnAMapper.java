@@ -17,7 +17,7 @@ public interface QnAMapper {
 	public int totalQnA(int boardId);
 	
 	//게시글 상세 조회하다
-	public ArticleVO selectQnA(int id);
+	public ArticleVO selectQnA(Map<String, Object> map);
 	
 	//조회수를 증가시키다
 	public void upHitcountQnA(int id);
@@ -28,9 +28,9 @@ public interface QnAMapper {
 	//게시글 을 삭제하다.
 	public void deleteQnA(int id);
 	
-	/*//내글을 조회하다
-	public List<ArticleVO> findmyArticle(Map<String, Object> map);
-*/
+	//내글을 조회하다
+	public List<ArticleVO> selectMyQnAList(Map<String, Object> map);
+
 	//게시글을 삭제하다(여러개)
-	public void deleteQnAs(Map<String, Object> map);
+	public void deleteQnAs(int id);
 }

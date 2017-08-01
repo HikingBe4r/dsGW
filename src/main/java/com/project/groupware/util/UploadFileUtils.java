@@ -18,53 +18,25 @@ public class UploadFileUtils {
 
 	private static int count = 1;
 	public static String UPLOAD_PATH = "C:" + File.separator + "upload";
-	
+
 	public static String getUploadPath(HttpServletRequest request) {
-		UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload"); 
-		
+		UPLOAD_PATH = request.getSession().getServletContext().getRealPath("/upload");
+
 		return UPLOAD_PATH;
 	}
-
-	/*
-	 * public static ArticleFileVO uploadFile(MultipartFile file) throws
-	 * Exception { String originalFileName = file.getOriginalFilename(); long
-	 * fileSize = file.getSize(); String systemFileName = "";
-	 * 
-	 * File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
-	 * if(temp.exists()) { systemFileName = originalFileName.substring(0,
-	 * originalFileName.lastIndexOf(".")) + "_" + count++ +
-	 * originalFileName.substring(originalFileName.lastIndexOf(".")); } else {
-	 * systemFileName = originalFileName; }
-	 * 
-	 * // copy file in memory or C:/tempUpload folder at C:/upload folder File
-	 * dest = new File(UPLOAD_PATH + File.separator + systemFileName);
-	 * file.transferTo(dest);
-	 * 
-	 * ArticleFileVO articleFile = new ArticleFileVO();
-	 * articleFile.setOriginalFileName(originalFileName);
-	 * articleFile.setSystemFileName(systemFileName);
-	 * articleFile.setFileSize(fileSize);
-	 * 
-	 * return articleFile; }
-	 */
 
 	public static FormFileVO uploadFormFile(MultipartFile file, HttpServletRequest request) throws Exception {
 		String originalFileName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemFileName = "";
 
-		// 디렉토리 생성		
+		// 디렉토리 생성
 		File destFolder = new File(getUploadPath(request) + File.separator + "form");
-		
 
 		// 대상폴더가 없으면 생성
 		if (!destFolder.exists()) {
 			destFolder.mkdirs();
 		}
-		
-		// request.getSession().getServletContext().getRealPath("/upload");
-		
-		// UPLOAD_PATH = destFolder.getAbsolutePath(); // UPLOAD_PATH 안건드리는 테스트중.
 
 		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
 		if (temp.exists()) {
@@ -107,7 +79,6 @@ public class UploadFileUtils {
 			destFolder.mkdirs();
 		}
 
-		// request.getSession().getServletContext().getRealPath("/upload");
 		UPLOAD_PATH = destFolder.getAbsolutePath();
 
 		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
@@ -131,8 +102,7 @@ public class UploadFileUtils {
 	}
 
 	public static EmployeeImageVO uploadImageFile(MultipartFile file, HttpServletRequest request) throws Exception {
-		// String IMAGE_UPLOAD_PATH =
-		// request.getSession().getServletContext().getRealPath("/upload/empImage");
+
 		String originalFileName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemFileName = "";
@@ -145,7 +115,6 @@ public class UploadFileUtils {
 			destFolder.mkdirs();
 		}
 
-		// request.getSession().getServletContext().getRealPath("/upload");
 		UPLOAD_PATH = destFolder.getAbsolutePath();
 
 		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
@@ -168,49 +137,13 @@ public class UploadFileUtils {
 		return image;
 	}
 
-	/*public static ArticleImageVO uploadFile1(MultipartFile file, HttpServletRequest request) throws Exception {
+	public static ArticleImageVO uploadFile1(MultipartFile file, HttpServletRequest request) throws Exception {
 		String originalImageName = file.getOriginalFilename();
 		long fileSize = file.getSize();
 		String systemImageName = "";
 
 		// 디렉토리 생성
-				File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/empImage"));
-
-				// 대상폴더가 없으면 생성
-				if (!destFolder.exists()) {
-					destFolder.mkdirs();
-				}
-
-				// request.getSession().getServletContext().getRealPath("/upload");
-				UPLOAD_PATH = destFolder.getAbsolutePath();
-
-				File temp = new File(UPLOAD_PATH + File.separator + originalImageName);
-				if (temp.exists()) {
-					systemImageName = originalImageName.substring(0, originalImageName.lastIndexOf(".")) + "_" + count++
-							+ originalImageName.substring(originalImageName.lastIndexOf("."));
-				} else {
-					systemImageName = originalImageName;
-				}
-
-				// copy file in memory or C:/tempUpload folder at C:/upload folder
-				File dest = new File(UPLOAD_PATH + File.separator + systemImageName);
-				file.transferTo(dest);
-
-		ArticleImageVO articleImage = new ArticleImageVO();
-		articleImage.setOriginalImageName(originalImageName);
-		articleImage.setSystemImageName(systemImageName);
-		articleImage.setFileSize(fileSize);
-
-		return articleImage;
-	}
-
-	public static ArticleFileVO uploadFile(MultipartFile file, HttpServletRequest request) throws Exception {
-		String originalFileName = file.getOriginalFilename();
-		long fileSize = file.getSize();
-		String systemFileName = "";
-
-		// 디렉토리 생성
-		File destFolder = new File(request.getSession().getServletContext().getRealPath("/upload/form"));
+		File destFolder = new File(getUploadPath(request) + File.separator + "article");
 
 		// 대상폴더가 없으면 생성
 		if (!destFolder.exists()) {
@@ -220,7 +153,41 @@ public class UploadFileUtils {
 		// request.getSession().getServletContext().getRealPath("/upload");
 		UPLOAD_PATH = destFolder.getAbsolutePath();
 
-		File temp = new File(UPLOAD_PATH + File.separator + originalFileName);
+		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalImageName);
+		if (temp.exists()) {
+			systemImageName = originalImageName.substring(0, originalImageName.lastIndexOf(".")) + "_" + count++
+					+ originalImageName.substring(originalImageName.lastIndexOf("."));
+		} else {
+			systemImageName = originalImageName;
+		}
+
+		// copy file in memory or C:/tempUpload folder at C:/upload folder
+		File dest = new File(destFolder.getAbsolutePath() + File.separator + systemImageName);
+		file.transferTo(dest);
+
+		ArticleImageVO articleImage = new ArticleImageVO();
+		articleImage.setOriginalImageName(originalImageName);
+		articleImage.setSystemImageName(systemImageName);
+		articleImage.setFileSize(fileSize);
+
+		return articleImage;
+
+	}
+
+	public static ArticleFileVO uploadFile(MultipartFile file, HttpServletRequest request) throws Exception {
+		String originalFileName = file.getOriginalFilename();
+		long fileSize = file.getSize();
+		String systemFileName = "";
+
+		// 디렉토리 생성
+		File destFolder = new File(getUploadPath(request) + File.separator + "article");
+
+		// 대상폴더가 없으면 생성
+		if (!destFolder.exists()) {
+			destFolder.mkdirs();
+		}
+
+		File temp = new File(destFolder.getAbsolutePath() + File.separator + originalFileName);
 		if (temp.exists()) {
 			systemFileName = originalFileName.substring(0, originalFileName.lastIndexOf(".")) + "_" + count++
 					+ originalFileName.substring(originalFileName.lastIndexOf("."));
@@ -229,7 +196,7 @@ public class UploadFileUtils {
 		}
 
 		// copy file in memory or C:/tempUpload folder at C:/upload folder
-		File dest = new File(UPLOAD_PATH + File.separator + systemFileName);
+		File dest = new File(destFolder.getAbsolutePath() + File.separator + systemFileName);
 		try {
 			file.transferTo(dest);
 		} catch (IllegalStateException e) {
@@ -246,5 +213,5 @@ public class UploadFileUtils {
 		articleFile.setFileSize(fileSize);
 
 		return articleFile;
-	}*/
+	}
 }

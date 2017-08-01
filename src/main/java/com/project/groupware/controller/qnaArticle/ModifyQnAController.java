@@ -1,7 +1,9 @@
 package com.project.groupware.controller.qnaArticle;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,14 +14,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.groupware.domain.ArticleFileVO;
 import com.project.groupware.domain.ArticleVO;
 import com.project.groupware.domain.BoardVO;
+import com.project.groupware.domain.EmployeeVO;
 import com.project.groupware.service.BoardService;
 import com.project.groupware.service.QnAService;
+import com.project.groupware.util.UploadFileUtils;
 import com.project.groupware.util.UploadFileUtils2;
 
 @Controller
@@ -32,13 +37,20 @@ public class ModifyQnAController {
 
 	// 게시글 수정 폼 요청처리 컨트롤러
 	@RequestMapping(value = "/modifyQnA.do", method = RequestMethod.GET)
-	public ModelAndView form(@RequestParam(value = "id", required = true) int id, HttpServletRequest request)
-			throws Exception {
+	public ModelAndView form(@SessionAttribute(value="employee") EmployeeVO employee,
+							@RequestParam(value="id", required=true)int id,
+							@RequestParam(value="off", required=true, defaultValue="1")int off, HttpServletRequest request)	throws Exception {
 
 		List<BoardVO> boards = boardService.retrieveBoardList();
 		ModelAndView mv = new ModelAndView();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("off", off);
+		map.put("employeeId", employee.getId());
+		
 		mv.addObject("board", boards);
-		mv.addObject("article", qnaService.retrieveQnA(id));
+		mv.addObject("article", qnaService.retrieveQnA(map));
 		mv.setViewName("boardNavTest/qna/modifyQnA");
 		return mv;
 	}
@@ -62,7 +74,7 @@ public class ModifyQnAController {
 		List<ArticleFileVO> files = article.getFiles();
 		File file = null;
 		for (ArticleFileVO temp : files) {
-			file = new File(UploadFileUtils2.UPLOAD_PATH + File.separator + temp.getSystemFileName());
+			file = new File(UploadFileUtils.UPLOAD_PATH + File.separator + temp.getSystemFileName());
 			if (file.exists()) {
 				file.delete();
 			}

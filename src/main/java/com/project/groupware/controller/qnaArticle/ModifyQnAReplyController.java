@@ -20,7 +20,7 @@ public class ModifyQnAReplyController {
 	@Autowired
 	private QnAReplyService qnaReplyService;
 	
-	@RequestMapping(value="/modifyReply.do", method=RequestMethod.GET)
+	@RequestMapping(value="/modifyQnAReply.do", method=RequestMethod.GET)
 	public ModelAndView modifyReply(@RequestParam(value="replyId") String replyId,
 									@RequestParam(value="articleId")String articleId,
 									@RequestParam(value="content")String content){
@@ -36,7 +36,7 @@ public class ModifyQnAReplyController {
 		
 		//댓글리스트출력
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("replyList", qnaService.retrieveQnA(articleReply.getArticleId()).getReplys());
+		mv.addObject("replyList", qnaReplyService.retrieveQnAReply(articleReply.getArticleId()));
 		mv.setViewName("jsonView");
 		return mv;
 		

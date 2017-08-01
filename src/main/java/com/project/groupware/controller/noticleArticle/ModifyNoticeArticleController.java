@@ -1,4 +1,4 @@
-/*package com.project.groupware.controller.noticleArticle;
+package com.project.groupware.controller.noticleArticle;
 
 
 import java.util.List;
@@ -111,4 +111,3 @@ public class ModifyNoticeArticleController {
 
 	}
 }
-*/

@@ -7,16 +7,26 @@
 <mapper namespace="com.project.groupware.persistent.mapper.NoticeArticleMapper">
 
 	<!-- 게시글쓰기 -->
+
 	<insert id="insertNoticeArticle" parameterType="articleVO"
 		statementType="PREPARED">
 		<selectKey keyProperty="id" statementType="STATEMENT" order="BEFORE"
 			resultType="int">
 			SELECT ARTICLE_ID_SEQ.NEXTVAL FROM DUAL
 		</selectKey>
+		<if test="employeeId == 0">
+			INSERT INTO
+			ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,off)
+			VALUES( #{id},null,#{boardId}, #{subject}, #{content}, SYSDATE, 0, 0)
 
-		INSERT INTO
-		ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,secret)
-		VALUES( #{id},#{employeeId},#{boardId}, #{subject}, #{content}, SYSDATE, 0, 0)
+		</if>
+		<if test="employeeId != 0">
+			INSERT INTO
+			ARTICLE(id,employee_id,board_id,subject,content,writeday,hitcount,off)
+			VALUES( #{id},#{employeeId},#{boardId}, #{subject}, #{content},
+			SYSDATE, 0, 0)
+		</if>
+
 
 	</insert>
 
@@ -42,55 +52,15 @@
 
 	<select id="selectNoticeArticleList" statementType="PREPARED"
 		resultMap="selectNoticeArticleResultListMap" parameterType="map">
-		<if test="secret == 1">
-			select
-			t1.id,
-			t1.board_id,
-			t1.subject,
-			t1.writeday,
-			t1.hitcount,
-			t1.employee_id,
-			t2.id as employeeId,
-			t2.name as name,
-			t2.department_id,
-			t3.id as departmentId,
-			(select count(*) from article_file t2 where t1.id = t2.article_id) as count
-			FROM ARTICLE t1, employee t2, department t3
-			<where>
-				<choose>
-					<when test="keytype == 'name' and keyword != 'all' ">
-						t1.employee_id = t2.id and
-						t1.board_id = #{boardId} and
-						t2.name like '%' || #{keyword} || '%'
-					</when>
-					<when test="keytype == 'subject' and keyword != 'all'">
-						t1.employee_id = t2.id and
-						t1.board_id = #{boardId} and
-						t1.subject like '%' || #{keyword} ||'%'
-
-					</when>
-					<when test="keytype == 'content' and keyword != 'all'">
-						t1.employee_id = t2.id and
-						t1.board_id = #{boardId} and
-						t1.content like '%' || #{keyword} || '%'
-					</when>
-					<when test="keyword == 'all'">
-						t1.employee_id = t2.id and
-						t1.board_id = #{boardId}
-					</when>
-				</choose>
-				<if test="employeeId != null">
-					and t1.employee_id = #{employeeId}
-				</if>
-			</where>
-			ORDER BY t1.id DESC
-
-
-
-
-
+		<if test="secret == 1">    <!-- all -->
+			select t1.id, t1.board_id, t1.subject, t1.writeday, t1.hitcount,
+			(select count(*) from article_file t2 where t1.id = t2.article_id) as
+			count
+			FROM ARTICLE t1 WHERE
+			t1.board_id = 311 ORDER BY t1.id DESC
 		</if>
-		<if test="secret == 0">
+
+		<if test="secret == 0">  <!-- 부서별 -->
 
 			select
 			t1.id,
@@ -98,29 +68,33 @@
 			t1.subject,
 			t1.writeday,
 			t1.hitcount,
-			t1.employee_id,
 			t2.id as employeeId,
 			t2.name as name,
 			t2.department_id,
 			t3.id as departmentId,
-			(select count(*) from article_file t2 where t1.id = t2.article_id) as count
-			FROM ARTICLE t1, employee t2, department t3
+			(select count(*) from article_file t2 where
+			t1.id = t2.article_id) as count
+			FROM ARTICLE t1, employee t2,
+			department t3
 			<where>
 				<choose>
 					<when test="keytype == 'name' and keyword != 'all' ">
 						t1.employee_id = t2.id and
-						t1.board_id = #{boardId} and
+						t1.board_id = #{boardId}
+						and
 						t2.name like '%' || #{keyword} || '%'
 					</when>
 					<when test="keytype == 'subject' and keyword != 'all'">
 						t1.employee_id = t2.id and
-						t1.board_id = #{boardId} and
+						t1.board_id = #{boardId}
+						and
 						t1.subject like '%' || #{keyword} ||'%'
 
 					</when>
 					<when test="keytype == 'content' and keyword != 'all'">
 						t1.employee_id = t2.id and
-						t1.board_id = #{boardId} and
+						t1.board_id = #{boardId}
+						and
 						t1.content like '%' || #{keyword} || '%'
 					</when>
 					<when test="keyword == 'all'">
@@ -128,13 +102,14 @@
 						t1.board_id = #{boardId}
 					</when>
 				</choose>
-				<if test="employeeId != null">
-					and t1.employee_id = #{employeeId}
-				</if>
+				<!-- <if test="departmentId != null"> and t2.DEPARTMENT_id = t3.id and 
+					t2.department_id = #{departmentId} </if> -->
+
+				and t2.DEPARTMENT_id = t3.id
 				<if test="departmentId != null">
-					and t2.DEPARTMENT_id = t3.id
 					and t2.department_id = #{departmentId}
 				</if>
+				
 
 			</where>
 			ORDER BY t1.id DESC
@@ -260,7 +235,8 @@
 	</update>
 
 	<!-- 게시글 삭제 -->
-	<delete id="deleteNoticeArticle" parameterType="int" statementType="PREPARED">
+	<delete id="deleteNoticeArticle" parameterType="int"
+		statementType="PREPARED">
 		DELETE FROM ARTICLE
 		WHERE ID = #{ID}
 	</delete>
@@ -276,7 +252,7 @@
 	<!-- 이전 -->
 	<select id="prevNoticeArticle" resultMap="selectNoticeArticleResultMap"
 		statementType="PREPARED" parameterType="map">
-	
+
 		<if test="secret == 1">
 	<![CDATA[	
 		select
@@ -305,8 +281,8 @@
 				             from article
 				             where writeday > ( select writeday from article where id = #{id} and board_id = #{boardId} ) order by writeday ) where rownum <= 1) ]]>
 
-	</if>
-	<if test="secret == 0">
+		</if>
+		<if test="secret == 0">
 	<![CDATA[	
 		select
 			t1.id,
@@ -334,7 +310,7 @@
 				             from article
 				             where writeday > ( select writeday from article where id = #{id} and board_id = #{boardId} and employee_id in (select employee_id from department where id = #{departmentId} ) ) order by writeday ) where rownum <= 1) ]]>
 
-	</if>
+		</if>
 	</select>
 	<!-- 다음 -->
 	<select id="nextNoticeArticle" resultMap="selectNoticeArticleResultMap"

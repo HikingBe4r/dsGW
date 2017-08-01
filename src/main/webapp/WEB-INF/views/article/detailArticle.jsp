@@ -30,12 +30,12 @@
 		$('#replyList').empty();
 		
 		var htmlStr = "";
-		for(var i=0; i<data.replyList.length; i++) {
+		for(var i=0; i<data.listReply.length; i++) {
 			htmlStr += "<div>"
-			htmlStr += "<label>"+data.replyList[i].employee.name+"</label><label>"+data.replyList[i].writeday+"</label><br>"; 
-			htmlStr += "<div class='col-md-10'><textarea  rows='2' cols='150' readonly>"+ data.replyList[i].content +"</textarea></div>"; 
-			htmlStr += "<div class='col-md-1'><button id=" +data.replyList[i].id+">수정</button></div>";
-	      	htmlStr += "<div class='col-md-1'><button id=" +data.replyList[i].id+">삭제</button></div>";
+			htmlStr += "<label>"+data.listReply[i].employee.name+"</label><label>"+data.listReply[i].writeday+"</label><br>"; 
+			htmlStr += "<div class='col-md-10'><textarea  rows='2' cols='150' readonly>"+ data.listReply[i].content +"</textarea></div>"; 
+			htmlStr += "<div class='col-md-1'><button id=" +data.listReply[i].id+">수정</button></div>";
+	      	htmlStr += "<div class='col-md-1'><button id=" +data.listReply[i].id+">삭제</button></div>";
 	      	htmlStr += "</div>"	
 		}	
 		$('#replyList').append(htmlStr);
@@ -128,7 +128,7 @@
             dataType: 'json'
             ,
             success: function(data) {
-               replyList(data);
+            	listReply(data);
             }
             ,
             error: function(jqXHR) {
@@ -222,11 +222,19 @@
 <!-- 파일 보여주기 -->
 <div class="row">
       <c:forEach var="files" items="${requestScope.article.files}">
-         <c:url var="url" value="/downloadFile.do">
- 				<c:param name="originalFileName" value="${pageScope.files.originalFileName }"/>
- 				<c:param name="systemFileName" value="${pageScope.files.systemFileName }"/>
- 			</c:url>
-          <div class="col-md-1"><a href="${pageScope.url}">${pageScope.files.originalFileName}</a></div>
+        	<c:url var="url" value="/downloadFile.do">
+				<div class="col-md-1">
+					<c:param name="originalFileName"
+						value="${pageScope.files.originalFileName }" />
+					<c:param name="systemFileName"
+						value="${pageScope.files.systemFileName }" />
+				</div>
+			</c:url>
+        	<tr>
+				<td>파일${pageScope.loop.count }</td>
+				<td><a href="${pageScope.url }">${pageScope.files.originalFileName }</a></td>
+			</tr>
+         
        </c:forEach> 
 </div>
 

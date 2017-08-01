@@ -9,6 +9,7 @@ public class BoardVO {
 	private String name;
 	private String note;
 	private String secret;
+	private String departmentId;
 	private List<ArticleVO> article = new ArrayList<ArticleVO>();
 	private int articleCount; //게시글 카운트
 	
@@ -54,6 +55,13 @@ public class BoardVO {
 	}
 	public void setSecret(String secret) {
 		this.secret = secret;
+	}
+	
+	public String getDepartmentId() {
+		return departmentId;
+	}
+	public void setDepartmentId(String departmentId) {
+		this.departmentId = departmentId;
 	}
 	@Override
 	public String toString() {
