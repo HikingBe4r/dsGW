@@ -4,7 +4,7 @@
 <link href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/resources/js/jquery-3.2.1.min.js"></script>
 <script	src="${pageContext.request.contextPath }/resources/bootstrap/js/bootstrap.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  <!-- 이거 없으면 순서가 안 바뀌어서 DB 저장됨 -->
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>  <!-- 이거 없으면 결재순서가 안 바뀌고 DB 저장됨 -->
 <script type="text/javascript" src="resources/tablednd/jquery.tablednd.js"></script>
 
 
