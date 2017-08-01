@@ -18,7 +18,7 @@ public class RewriteDocumentController {
 								  @RequestParam(value="endDate") String endDate,
 								  @RequestParam(value="formId") String formId,
 								  Model model) {
-		
+		//
 		model.addAttribute("subject", subject);
 		model.addAttribute("content", content);
 		model.addAttribute("endDate", endDate.substring(0, 10));

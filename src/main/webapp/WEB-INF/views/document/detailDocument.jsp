@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 <script>
-	$(document).ready(function() {
+	$(document).ready(function() { 
 		var form = document.detailDocumentForm;
 		// 결재선 버튼 클릭시 팝업
 		$('#approvalLine').click(function() {
