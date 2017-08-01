@@ -408,32 +408,53 @@ $(function() {
 			cache: false
 			,
 			success: function(data) {
+				var flag = true;
 				
-				//배열 및 테이블 채우기
-				var htmlStr = "";
 				for(var i=0; i<data.approverList.length; i++) {
-					approverList.push(data.approverList[i].id);
-					htmlStr += "<tr id="+ data.approverList[i].id +">";
-					htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
-					htmlStr += "<td>" + data.approverList[i].name + "</td>";
-					htmlStr += "<td>" + data.approverList[i].gradeId + "</td>";
-					htmlStr += "<td>" + data.approverList[i].departmentId + "</td>";
-					htmlStr += "<td>결재</td>";
-					htmlStr += "</tr>";
+					if(data.approverList[i].statusId == '퇴직') {
+						alert("즐겨찾기에 퇴직한 사원이 포함되어 있습니다.");
+						flag = false;
+						break;
+					}
 				}
-				$('#approverTable').append(htmlStr);
-				htmlStr = "";
+				
 				for(var i=0; i<data.recieverList.length; i++) {
-					recieverList.push(data.recieverList[i].id);
-					htmlStr += "<tr id="+ data.recieverList[i].id +">";
-					htmlStr += "<td><label><input type='checkbox' name='reciever'></label></td>";
-					htmlStr += "<td>" + data.recieverList[i].name + "</td>";
-					htmlStr += "<td>" + data.recieverList[i].gradeId + "</td>";
-					htmlStr += "<td>" + data.recieverList[i].departmentId + "</td>";
-					htmlStr += "<td>수신</td>";
-					htmlStr += "</tr>";
+					if(data.recieverList[i].statusId == '퇴직') {
+						alert("즐겨찾기에 퇴직한 사원이 포함되어 있습니다.");
+						flag = false;
+						break;
+					}
 				}
-				$('#recieverTable').append(htmlStr);			
+				
+				
+				if(flag) {
+					//배열 및 테이블 채우기
+					var htmlStr = "";
+					for(var i=0; i<data.approverList.length; i++) {
+						approverList.push(data.approverList[i].id);
+						htmlStr += "<tr id="+ data.approverList[i].id +">";
+						htmlStr += "<td><label><input type='checkbox' name='approver'></label></td>";
+						htmlStr += "<td>" + data.approverList[i].name + "</td>";
+						htmlStr += "<td>" + data.approverList[i].gradeId + "</td>";
+						htmlStr += "<td>" + data.approverList[i].departmentId + "</td>";
+						htmlStr += "<td>결재</td>";
+						htmlStr += "</tr>";
+					}
+					$('#approverTable').append(htmlStr);
+					htmlStr = "";
+					for(var i=0; i<data.recieverList.length; i++) {
+						recieverList.push(data.recieverList[i].id);
+						htmlStr += "<tr id="+ data.recieverList[i].id +">";
+						htmlStr += "<td><label><input type='checkbox' name='reciever'></label></td>";
+						htmlStr += "<td>" + data.recieverList[i].name + "</td>";
+						htmlStr += "<td>" + data.recieverList[i].gradeId + "</td>";
+						htmlStr += "<td>" + data.recieverList[i].departmentId + "</td>";
+						htmlStr += "<td>수신</td>";
+						htmlStr += "</tr>";
+					}
+					$('#recieverTable').append(htmlStr);
+				}
+							
 			}
 			,
 			error : function(jqXHR) {
