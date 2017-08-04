@@ -93,7 +93,7 @@ public class QnAServiceImpl implements QnAService{
 		//게시글 삭제
 		public void removeQnA(int id) {
 			qnaFileMapper.deleteQnAArticleFile(id);
-			qnaReplyMapper.deleteQnAReply(id);
+			qnaReplyMapper.deleteQnAArticleReply(id);
 			qnaMapper.deleteQnA(id);
 		}
 

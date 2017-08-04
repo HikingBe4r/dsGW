@@ -14,53 +14,84 @@
             $('input[name=off]').val("1");
          } else {
             $('input[name=off]').val("0");
-            
          }
-         
          console.log($('input[name=off]').val());
       });
-            
+  
+      var form = $("#inputForm"); 
+      
+     $("#insert").on('click', function(){
+    	 if($('#content').text("")){
+        	 alert("내용을 입력해주세요");
+         } else {
+        	 
+        	 
+        	 
+        	 // 글쓸때는 ajax는 필요가없어요! - 성현
+        	 /* $.ajax({
+        		url: '${pageContext.request.contextPath}/writeQnA.do'
+        		,
+        		method: 'GET'
+        		,
+        		cache: false
+        		,
+        		data: {
+        			boardId: '${param.boardId}',
+        			secret: '${param.secret}',
+        			off: $('input[name=off]').val()
+        		}
+        		,
+        		success: function(){
+        			//${pageContext.request.contextPath}/listQnAForm.do
+        		}
+        		,
+        		error: function(jqXHR){
+        			alert("Error : " + jqXHR.reponseText)
+        		}
+        	 }); */
+         }
+     }); 
    });
    
 </script>
 
-<html>
-<head>
-<title>Q&A 게시판</title>
-</head>
-<body>
-   <h3>Q&A</h3>
-   <form action="${pageContext.request.contextPath }/writeQnA.do"   method="post" enctype="multipart/form-data">
+<div class="panel panel-default">
+	<div class="panel-body">Q n A 게 시 판</div>
+</div>
+   <form id="inputForm" action="${pageContext.request.contextPath }/writeQnA.do"   method="post" enctype="multipart/form-data">
       <input type="hidden" name="boardId" value="${param.boardId}">
-      <input type="hidden" name="secret" value="${param.secret}">
-      <table style="border: 0px;">
+      <input type="hidden" name="secret" value="${param.secret }">
+      <input type="hidden" name="off" value="0">
+	  <div class="row">
+	  	<div class="col-md-2"><label>비공개 설정  &nbsp;</label><input id="off" type="checkbox"></div>
+	  </div>
+      <div class="row">
+      	<div class="col-md-9"><textarea class='form-control' id="subject" name="subject" rows='1' cols='2' placeholder="제목"></textarea></div>
+	  </div>
+	  <br>
+	  <div class="row">
+	  	<div class="col-md-9"><textarea class='form-control' id="content" name="content" placeholder="문의내용을 작성해주세요" rows='20' cols='2'></textarea></div>
+	  </div>
+      <div class="row">
+      	<div class="col-md-1">파일#1&nbsp;<input type="file" name="upload"></div>
+      </div>
+      <div class="row">
+      	<div class="col-md-1">파일#2&nbsp;<input type="file" name="upload"></div>
+      </div>
+      <div class="row">
+      	<div class="col-md-1">파일#3&nbsp;<input type="file" name="upload"></div>
+      </div>
+      
+      <div class="row">
+      	<div class="col-md-4"> </div>
+		<div class="col-md-4">
+			<input id="insert" class="btn btn-default" type="button" value="등  록">&nbsp;
+			<input class="btn btn-default" type="reset" value="취  소">
+		</div>
+		<div class="col-md-4"> </div>
+      </div>
+  </form>
 
-         <tr>
-            <td>제목&nbsp;<input type="text" name="subject" size="100"></td>
-         </tr>
-         <tr>
-            <td>문의내용<input id="off" type="checkbox"><td>
-         </tr>
-         <tr>
-            <td><textarea id="content" name="content" cols="107" rows="20"></textarea></td>
-         </tr>
-         <tr>
-            <td>파일#1&nbsp;<input type="file" name="upload"></td>
-         </tr>
-         <tr>
-            <td>파일#2&nbsp;<input type="file" name="upload"></td>
-         </tr>
-         <tr>
-            <td>파일#3&nbsp;<input type="file" name="upload"></td>
-         </tr>
-         <tr align="center">
-            <td colspan="2"><input type="submit" value="등  록">&nbsp;
-               <input type="reset" value="취  소"></td>
-         </tr>
-      </table>
-   </form>
-</body>
-</html>
 
 
 

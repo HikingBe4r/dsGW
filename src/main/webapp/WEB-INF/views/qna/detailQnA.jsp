@@ -20,20 +20,33 @@ $(document).ready(function() {
   	$("#listBtn").click(function() {
   		location.href	= 'listQnAForm.do?boardId=${requestScope.article.boardId}';
   	});
+  	
+  	$("#deleteBtn").click(function(){
+  		location.href='removeQnA.do?id=${requestScope.article.id}&boardId=${param.boardId}';
+  	});
+  	
+  	$("#modifyBtn").click(function(){
+  		location.href='modifyQnAForm.do?id=${requestScope.article.id}&boardId=${param.boardId}';
+  	});
+  	
   });
-	
 	
 	function replyList(data) {
 		$('#replyList').empty();
 		
 		var htmlStr = "";
-		for(var i=0; i< data.replyList.length; i++){
-			htmlStr += "<div>";
-			htmlStr += "<div id='replycontent' class='col-md-10'><textarea rows='2' cols='150' readonly>"+ data.replyList[i].content +"</textarea></div><br>";
-			htmlStr += "<label>"+data.replyList[i].employee.name+"</label><label>"+data.replyList[i].writeday+"</label><br>";
-			htmlStr += "<div class='col-md-1'><button id=" + data.replyList[i].id + ">수정</button></div>";
-			htmlStr += "<div class='col-md-1'><button id=" + data.replyList[i].id + ">삭제</button></div>";
-			htmlStr += "</div>"
+		for(var i=0; i<data.replyList.length; i++){
+			htmlStr += "<div class='row'>";
+			htmlStr += "<div class='col-md-1'><label>"+data.replyList[i].employee.name+"</label>&nbsp;</div>";
+			htmlStr += "<div class='col-md-2'><label>"+data.replyList[i].writeday+"</label></div>";
+			htmlStr += "<div class='col-md-9'> </div>";
+			htmlStr += "</div>";
+			htmlStr += "<div class='row'>";
+			htmlStr += "<div class='col-md-9'><textarea class='form-control' rows='2' readonly>"+ data.replyList[i].content +"</textarea></div>";
+			htmlStr += "<div class='col-md-3'>";
+			htmlStr += "<button class='btn btn-default' id=" + data.replyList[i].id + ">수정</button>";
+			htmlStr += "<button class='btn btn-default' id=" + data.replyList[i].id + ">삭제</button>";
+			htmlStr += "</div><br>"	;
 			
 		}	
 		$('#replyList').append(htmlStr);
@@ -41,7 +54,7 @@ $(document).ready(function() {
 		
 	}
 
-	
+		
 	$(document).ready(function() {
 		//댓글 등록	
 		$('#addBtn').click(function(){
@@ -104,7 +117,7 @@ $(document).ready(function() {
 				
 				}else if($(this).text() == '수정완료'){   //댓글 수정완료		
 					$.ajax({
-						url: '${pageContext.request.contextPath}/modifyReply.do'
+						url: '${pageContext.request.contextPath}/modifyQnAReply.do'
 						,
 						method: 'GET'
 						,
@@ -145,14 +158,13 @@ $(document).ready(function() {
 </div>
 <div class="row">
   <div class="col-md-11"></div>
-  <div class="col-md-1"><button id="listBtn">목록보기</button></div>
+  <div class="col-md-1"><button class="btn btn-default" id="listBtn">목록보기</button></div>
 </div>
 
 <!--  글제목 -->
 <div class="row">
-  <div class="col-md-12">${requestScope.article.subject}</div>
-</div>
-<br><br>
+  <div class="col-md-12"><strong><h2>${requestScope.article.subject}</h2></strong></div>
+</div><br>
 
 <!-- 상세 정보 -->
 <div class="row">
@@ -165,9 +177,8 @@ $(document).ready(function() {
   <div class="col-md-1"></div>
   <div class="col-md-1"></div>
   <div class="col-md-1"></div>
-  <div class="col-md-1"></div>
   <div class="col-md-1"><strong>작성일</strong></div>
-  <div class="col-md-1">${requestScope.article.writeday}</div>
+  <div class="col-md-2">${requestScope.article.writeday}</div>
 </div>
 <br><br>
 
@@ -178,10 +189,10 @@ $(document).ready(function() {
 <br><br>
 
 <!-- 수정//삭제 버튼 -->
-<div class="row">
+<div id="mrBtn" class="row">
 	<div class="col-md-10"></div>
-	<div class="col-md-1"><button id="modifyBtn" onclick="location.href='${pageContext.request.contextPath}/modifyQnA.do?id=${param.id}'">수정</button></div>
-	<div class="col-md-1"><button id="deleteBtn" onclick="location.href='${pageContext.request.contextPath}/removeQnA.do?id=${param.id}&boardId=${requestScope.article.boardId}'">삭제</button></div>
+	<div class="col-md-1"><button class="btn btn-default" id="modifyBtn" >수정</button></div>
+	<div class="col-md-1"><button class="btn btn-default" id="deleteBtn" >삭제</button></div>
 </div>
 
 
@@ -193,27 +204,31 @@ $(document).ready(function() {
  				<c:param name="systemFileName" value="${pageScope.files.systemFileName }"/>
  				<c:param name="kind" value="article"/>
  			</c:url> 
-		
  			<div class="col-md-1"><a href="${pageScope.downloadURL }">${pageScope.files.originalFileName}</a></div>
  		</c:forEach> 
 </div>
 <br><br>
 <!-- 댓글 등록 -->
 <div class="row">
-  <div class="col-md-11"><textarea id="replytext" rows="2" cols="150"></textarea></div><br>
-  <div class="col-md-1"><button id="addBtn">댓글 등록</button></div><br>
+  <div class="col-md-10"><textarea class="form-control" id="replytext" rows="2"></textarea></div><br>
+  <div class="col-md-2"><button class="btn btn-default" id="addBtn">댓글 등록</button></div><br>
 </div>
 <br><br>
 
 <!-- 댓글 목록 -->
 
-<div class="row" id="replyList">
+<div id="replyList">
 	<c:forEach var="replys" items="${requestScope.article.replys}">
- 		<div>
- 			<div class="col-md-10"><textarea rows="2" cols="150" readonly>${pageScope.replys.content }</textarea></div><br>
- 			<label>${pageScope.replys.employee.name}</label><label>${pageScope.replys.writeday}</label>
-			<div class="col-md-1"><button id="${pageScope.replys.id}">수정</button></div>
-  			<div class="col-md-1"><button id="${pageScope.replys.id}">삭제</button></div>
+ 		<div class="row">
+ 			<div class="col-md-1"><label>${pageScope.replys.employee.name}</label>&nbsp;</div>
+ 			<div class="col-md-2"><label>${pageScope.replys.writeday}</label></div>
+ 		</div>
+ 		<div class="row">
+ 			<div class="col-md-9"><textarea class="form-control" rows="2" readonly>${pageScope.replys.content }</textarea></div>
+			<div class="col-md-3">
+				<button class="btn btn-default" id="${pageScope.replys.id}">수정</button>
+				<button class="btn btn-default" id="${pageScope.replys.id}">삭제</button>	
+			</div>
   		</div>
  	</c:forEach>
 </div>

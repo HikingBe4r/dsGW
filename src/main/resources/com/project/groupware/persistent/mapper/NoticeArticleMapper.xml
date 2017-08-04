@@ -183,8 +183,7 @@
 			column="employee_id">
 			<result column="name" property="name" />
 		</association>
-		<collection property="image" ofType="articleImageVO"
-			javaType="list">
+		<collection property="image" ofType="articleImageVO" javaType="list">
 			<id column="image_id" property="id" />
 			<result column="original_image_name" property="originalImageName" />
 			<result column="system_image_name" property="systemImageName" />

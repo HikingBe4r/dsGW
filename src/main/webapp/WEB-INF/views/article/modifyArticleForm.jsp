@@ -35,8 +35,7 @@
 </head>
 <body>
    <h3>일반 게시판</h3>
-   <form action="${pageContext.request.contextPath}/modifyArticle.do"
-      method="post" enctype="multipart/form-data">
+   <form action="${pageContext.request.contextPath}/modifyArticle.do"  method="post" enctype="multipart/form-data">
       <input type="hidden" name="fileNo" value="" id="fileNo">
       <input type="hidden" name="id" value="${requestScope.article.id}">
       <table style="border: 0px;">

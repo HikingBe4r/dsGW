@@ -53,7 +53,6 @@
 						t1.employee_id = t2.id and
 						t1.board_id = #{boardId} and
 						t1.subject like '%' || #{keyword} ||'%'
-
 					</when>
 					<when test="keytype == 'content' and keyword != 'all'">
 						t1.employee_id = t2.id and
@@ -148,52 +147,51 @@
 	</resultMap> -->
 	
 	<resultMap id="selectQnAResultMap" type="articleVO">
-		<id column="articleId" property="id" />
+		<id column="id" property="id" />
 		<result column="employeeId" property="employeeId" />
 		<result column="boardId" property="boardId" />
-		<result column="subject" property="subject" />
 		<result column="content" property="content" />
+		<result column="subject" property="subject" />
 		<result column="writeday" property="writeday" />
 		<result column="hitcount" property="hitcount" />
 		<result column="off" property="off" />
+		<result column="count" property="count"/>
 		<association property="employee" javaType="employeeVO" >
 			<id column="employeeId" property="id" />
 			<result column="empName" property="name"/>
 		</association>
 		<collection property="files" javaType="list" ofType="articleFileVO">
-			<id column="articleFileId" property="id"/>
-			<result column="originalFileName" property="originalFileName" />
-			<result column="articleId" property="articleId" />
-			<result column="systemFileName" property="systemFileName" />
-			<result column="fileSize" property="fileSize" />
+			<id column="file_id" property="id"/>
+			<result column="file_article_id" property="articleId" />
+			<result column="original_file_name" property="originalFileName" />
+			<result column="system_file_name" property="systemFileName" />
 		</collection>
 		<collection property="replys" javaType="list" ofType="articleReplyVO">
-			<id column="replyId" property="id" />
-			<result column="articleId" property="articleId" />
-			<result column="employeeId" property="employeeId" />
-			<result column="replyContent" property="content" />
-			<result column="replyWriteDay" property="writeday" />
+			<id column="reply_id" property="id" />
+			<result column="reply_article_id" property="articleId" />
+			<result column="reply_content" property="content" />
+			<result column="reply_writeday" property="writeday" />
 			<association property="employee" javaType="employeeVO">
-				<id column="replyEmpId" property="id" /> 
-				<result column="replyEmpName" property="name"/>
+				<id column="reply_employee_id" property="id" /> 
+				<result column="reply_name" property="name"/>
 			</association>
 		</collection>	
 	</resultMap>
 
 	<!-- 게시글 상세조회 -->
 	<select id="selectQnA" resultMap="selectQnAResultMap" statementType="PREPARED" parameterType="map">
-	<if test="off == 0">
-		<!-- SELECT
-			t1.id articleId,
-			t1.subject,
+	<!-- <if test="off == 0"> -->
+		 SELECT
+			t1.id,
+			t1.employee_id,
 			t1.board_id,
-			e1.id as employeeId,
-			e1.name,
 			t1.content,
+			t1.subject,
+			t1.writeday,
 			t1.hitcount,
 			t1.off,
-			(select count(*) from ARTICLE_REPLY r2 where t1.id = r2.article_id) as rcount,
-			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
+			e1.id as employeeId,
+			e1.name as empName,
 			t2.id as file_id,
 			t2.article_id as file_article_id,
 			t2.original_file_name,
@@ -201,37 +199,40 @@
 			r1.id as reply_id,
 			r1.article_id as reply_article_id,
 			r1.content as reply_content,
-			to_char(r1.writeday, 'YYYY/MM/DD') as reply_writeday,
+			r1.writeday as reply_writeday,
+			r1.employee_id as reply_employee_id,
+			(select count(*) from ARTICLE_REPLY r2 where t1.id = r2.article_id) as rcount,
 			(select name from EMPLOYEE e2 where e2.id = r1.employee_id ) as reply_name
+			
 
 		FROM ARTICLE t1, ARTICLE_FILE t2 , ARTICLE_REPLY r1 , EMPLOYEE e1
 		WHERE
 		t1.employee_id = e1.id and
 		t1.id = t2.article_id(+) and
 		t1.id = r1.article_id(+) and
-		t1.id = #{id}  -->
-	</if>
+		t1.id = #{id}
+	<!-- </if>  -->
 	
-	<if test="off == 1">
+	<!-- <if test="off == 0">
 		SELECT 
-		  a.id articleId,
-		  a.employee_id employeeId,
-		  a.board_id boardId,
+		  a.id as articleId,
+		  a.employee_id as employeeId,
+		  a.board_id as boardId,
 		  a.subject,
 		  a.content,
 		  a.writeday,
 		  a.hitcount,
 		  a.off,
-		  e.name empName,
-		  af.id articleFileId,
-		  af.original_file_name originalFileName,
-		  af.system_file_name systemFileName,
-		  af.file_size fileSize,
-		  ar.id replyId,
-		  ar.content replyContent,
-	      ar.writeday replyWriteDay,
-	      t1.id replyEmpId,
-	      t1.name replyEmpName		  
+		  e.name as empName,
+		  af.id as articleFileId,
+		  af.original_file_name as originalFileName,
+		  af.system_file_name as systemFileName,
+		  af.file_size as fileSize,
+		  ar.id as replyId,
+		  ar.content as replyContent,
+	      ar.writeday as replyWriteDay,
+	      t1.id as replyEmpId,
+	      t1.name as replyEmpName		  
 			FROM 
 			  article a, 
 			  employee e,
@@ -241,12 +242,12 @@
 			   FROM   employee emp, article_reply ar2
 			   WHERE  emp.id = ar2.employee_id) t1
 			WHERE a.employee_id = e.id
-			and   a.id = af.article_id(+)
-			and   a.id = ar.article_id(+)
-			and  a.id = #{id}
+			and a.id = af.article_id(+)
+			and a.id = ar.article_id(+)
+			and a.id = #{id}
 	   		and ar.id = t1.replyid2
 
-		<!-- SELECT
+		SELECT
 			t1.id,
 			t1.subject,
 			t1.board_id,
@@ -273,8 +274,10 @@
 		t1.employee_id = e1.id and
 		t1.id = t2.article_id(+) and
 		t1.id = r1.article_id(+) and
-		t1.id = #{id} -->
+		t1.id = #{id}
 	</if>
+	 -->
+	
 	</select>
 
 	<!--  내글 보기 -->
@@ -352,8 +355,7 @@
 	</update>
 
 	<!-- 게시글 수정 -->
-	<update id="updateQnA" parameterType="articleVO"
-		statementType="PREPARED">
+	<update id="updateQnA" parameterType="articleVO" statementType="PREPARED">
 		UPDATE ARTICLE
 		<trim prefix="SET" suffixOverrides=",">
 			<if test="subject != null and subject != ''">

@@ -26,22 +26,24 @@ public class DetailQnAController {
 	private BoardService boardService;
 
 	@RequestMapping(value="/detailQnA.do", method=RequestMethod.GET)
-	public ModelAndView datailArticle(/*@SessionAttribute(value="employee") EmployeeVO employee,*/
+	public ModelAndView datailArticle(@SessionAttribute(value="employee") EmployeeVO employee,
 									@RequestParam(value="id", required=true)String id,
-									  @RequestParam(value="off", required=true, defaultValue="1")int off){
+									  @RequestParam(value="off", required=true, defaultValue="0")int off
+									  /*@RequestParam(value="boardId")int boardId*/){
 		
 		qnaService.upHitcountQnA(Integer.parseInt(id));
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("off", off);
-		/*map.put("employeeId", employee.getId());*/
+		map.put("employeeId", employee.getId());
 		
 		ArticleVO article = qnaService.retrieveQnA(map);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("article", article);
 		mv.addObject("boards",boardService.retrieveBoardList());
+		/*mv.addObject("boardId", boardId);*/
 		mv.setViewName("boardNavTest/qna/detailQnA");
 		
 		return mv;

@@ -18,8 +18,6 @@ $(document).ready(function() {
 	});
 });
 
-
-
 	$(document).ready(function() {
 		var currentPage = 1;
 		var keytype = "";
@@ -36,7 +34,7 @@ $(document).ready(function() {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailQnA.do';	
 					linkUrl += '?id=' + data.loadArticleList[i].id;
-					/* linkUrl += '&secret' + data.loadArticleList[i].board.secret; */
+					linkUrl += '&boardId=' + data.loadArticleList[i].boardId;
 				
 				htmlStr += "<tr>";
 				htmlStr += "<td><label><input type='checkbox' name='checkRow' value="+data.loadArticleList[i].id + "></label></td>";
@@ -363,19 +361,7 @@ $(document).ready(function() {
          </thead>
          
  		<tbody id="articleBody">
-		<%-- 	<c:forEach var="articles" items="${requestScope.QnAList}" varStatus="loop">
-					<tr>
-						<td><label><input name="check" type="checkbox" value="${pageScope.articles.id}"></label></td>
-						<td>${fn:length(requestScope.articles) - loop.index}</td>
-						<td><a href="${pageContext.request.contextPath}/detailArticle.do?id=${pageScope.articles.id}">${pageScope.articles.subject}</a></td>
-						<td>${pageScope.articles.employee.name}</td>
-						<td>${pageScope.articles.writeday}</td>
-						<td>${pageScope.articles.hitcount}</td>
-						<td><c:if test="${pageScope.articles.count != 0}">
-								<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
-							</c:if></td>
-					</tr>
-				</c:forEach> --%>
+
 		</tbody>
 	</table>
 	</form>

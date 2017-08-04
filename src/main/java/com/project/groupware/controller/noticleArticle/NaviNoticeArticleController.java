@@ -54,16 +54,17 @@ public class NaviNoticeArticleController {
 			
 			ArticleVO article = null;
 			if(navi.equals("prev")) {
-				article= noticleArticleService.prevNoticeArticle(map);				
-			} else if(navi.equals("next")){				
+				article = noticleArticleService.prevNoticeArticle(map);		
+			} else if(navi.equals("next")){
 				article = noticleArticleService.nextNoticeArticle(map);
 			}
+			
 			
 			if(article == null) {
 				article = noticleArticleService.retrieveNoticeArticle(id);
 			}
 			
-			mv.addObject("article", article);			
+			mv.addObject("article", article);	
 			mv.addObject("boards", boardService.retrieveBoardList());
 		    
 			mv.setViewName("boardNavTest/noticleArticle/detailArticle");		

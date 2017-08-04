@@ -36,20 +36,19 @@ public class ModifyQnAController {
 	private BoardService boardService;
 
 	// 게시글 수정 폼 요청처리 컨트롤러
-	@RequestMapping(value = "/modifyQnA.do", method = RequestMethod.GET)
-	public ModelAndView form(@SessionAttribute(value="employee") EmployeeVO employee,
+	@RequestMapping(value = "/modifyQnAForm.do", method = RequestMethod.GET)
+	public ModelAndView form(/*@SessionAttribute(value="employee") EmployeeVO employee,*/
 							@RequestParam(value="id", required=true)int id,
-							@RequestParam(value="off", required=true, defaultValue="1")int off, HttpServletRequest request)	throws Exception {
+							@RequestParam(value="off", required=true, defaultValue="0")int off, HttpServletRequest request)	throws Exception {
 
 		List<BoardVO> boards = boardService.retrieveBoardList();
 		ModelAndView mv = new ModelAndView();
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("off", off);
-		map.put("employeeId", employee.getId());
+		/*map.put("employeeId", employee.getId());*/
 		
-		mv.addObject("board", boards);
+		mv.addObject("boards", boards);
 		mv.addObject("article", qnaService.retrieveQnA(map));
 		mv.setViewName("boardNavTest/qna/modifyQnA");
 		return mv;
@@ -57,10 +56,10 @@ public class ModifyQnAController {
 
 	// 게시글 수정 요청처리 컨트롤러
 	@RequestMapping(value = "modifyQnA.do", method = RequestMethod.POST)
-	public String submit(@ModelAttribute(value = "article") ArticleVO article, HttpServletRequest request, Model model)
-			throws Exception {
-		//return null;
-
+	public String submit(@ModelAttribute(value = "article") ArticleVO article,
+						HttpServletRequest request, Model model)	throws Exception {
+		//
+	
 		// 파일 등록
 		List<MultipartFile> inputFiles = article.getUpload();
 		for (MultipartFile file : inputFiles) {
@@ -81,8 +80,8 @@ public class ModifyQnAController {
 		}
 		
 		model.addAttribute("boards", boardService.retrieveBoardList());
-
 		qnaService.modifyQnA(article);
+		
 		return "redirect:/detailQnA.do?id=" + article.getId();
 	}
 }

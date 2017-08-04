@@ -53,7 +53,7 @@
             <td>파일#3&nbsp;<input type="file" name="upload"></td>
          </tr>
          <tr align="center">
-            <td colspan="2"><input type="submit" value="등  록">&nbsp;
+            <td colspan="2"><input type="submit" value="등  록" id="addBtn">&nbsp;
                <input type="reset" value="취  소"></td>
          </tr>
       </table>

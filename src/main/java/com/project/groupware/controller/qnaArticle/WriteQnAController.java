@@ -49,7 +49,7 @@ public class WriteQnAController {
 	@RequestMapping(value = "/writeQnA.do", method = RequestMethod.POST)
 	public String submit(@SessionAttribute(value = "employee") EmployeeVO employee,
 						@ModelAttribute(value = "article") ArticleVO article,
-						@RequestParam(value="secret", required=false, defaultValue="1") String secret,
+						@RequestParam(value="off", required=false, defaultValue="0") int off,
 						HttpServletRequest request, Model model)
 			throws Exception {
 	
@@ -72,6 +72,6 @@ public class WriteQnAController {
 			
 		qnaService.registerQnA(article);
 
-		return "redirect:/listQnAForm.do?boardId="+ article.getBoardId()+"&secret="  + secret ;
+		return "redirect:/listQnAForm.do?boardId="+ article.getBoardId();
 	}
 }

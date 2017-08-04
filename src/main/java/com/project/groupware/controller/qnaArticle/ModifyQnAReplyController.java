@@ -9,14 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.project.groupware.domain.ArticleReplyVO;
 import com.project.groupware.service.QnAReplyService;
-import com.project.groupware.service.QnAService;
 
 @Controller
 public class ModifyQnAReplyController {
 
-	@Autowired
-	private QnAService qnaService;
-	
 	@Autowired
 	private QnAReplyService qnaReplyService;
 	
