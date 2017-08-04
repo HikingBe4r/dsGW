@@ -379,7 +379,7 @@
 <html lang="en">
 <a></a>
 <div class="panel panel-default">
-   <div class="panel-body">일반 게시판</div>
+   <div class="panel-body">공지사항</div>
 </div>
 <div>
 

@@ -32,10 +32,12 @@ $(document).ready(function() {
 			if(data.articleList.length == 0) {
 				alert("검색결과가 없습니다.");
 			}
-			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
+			for(var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailArticle.do';	
-					linkUrl += '?id=' + data.articleList[i].id;
+				linkUrl += '?id=' + data.loadArticleList[i].id;
+				linkUrl += '&boardId=' + data.loadArticleList[i].boardId;
+					
 					
 				
 				htmlStr += "<tr>";
@@ -455,7 +457,7 @@ $(document).ready(function() {
 	</c:if>
    <form action="${pageContext.request.contextPath}/listArticle.do"   method="get" class="form-inline pull-right">
       <input type="hidden" name="boardId" value="${param.boardId}">
-      <input type="hidden" name="open" value="${param.open}">
+  
 
  
      <c:if test="${sessionScope.employee.id eq null}">
@@ -512,6 +514,7 @@ $(document).ready(function() {
       <form action="${pageContext.request.contextPath}/removeArticleList.do" id="inputForm" method="get">
          <input type="hidden"  name="articleIdList"  value="">
          <input type="hidden" name="boardId" value="${param.boardId}">
+         <input type="hidden" name="secret" value="${param.secret}">
          <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
          <button type="button" id="removeBtn" class="btn btn-default">삭제</button>
       </form>

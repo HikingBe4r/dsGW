@@ -242,67 +242,66 @@
 	
 	<!-- 상세조회 맵  -->
 	<resultMap id="selectArticleResultMap" type="articleVO">
-
 		<id column="id" property="id" />
-		<result column="board_id" property="boardId" />
-		<result column="subject" property="subject" />
+		<result column="employeeId" property="employeeId" />
+		<result column="boardId" property="boardId" />
 		<result column="content" property="content" />
+		<result column="subject" property="subject" />
 		<result column="writeday" property="writeday" />
 		<result column="hitcount" property="hitcount" />
-		<result column="rcount" property="rcount" />
-		<result column="employee_id" 	  property="employeeId" />
-		<association property="employee" javaType="employeeVO">
+		<result column="count" property="count"/>
+		<association property="employee" javaType="employeeVO" >
 			<id column="employeeId" property="id" />
-			<result column="name" property="name" />
+			<result column="empName" property="name"/>
 		</association>
-		<collection property="files" ofType="articleFileVO" javaType="list">
-			<id column="file_id" 				property="id" />
+		<collection property="files" javaType="list" ofType="articleFileVO">
+			<id column="file_id" property="id"/>
 			<result column="file_article_id" property="articleId" />
 			<result column="original_file_name" property="originalFileName" />
 			<result column="system_file_name" property="systemFileName" />
 		</collection>
-		<collection property="replys" ofType="articleReplyVO" javaType="list">
-			<id column="reply_id" 				property="id" />
+		<collection property="replys" javaType="list" ofType="articleReplyVO">
+			<id column="reply_id" property="id" />
 			<result column="reply_article_id" property="articleId" />
-			<result column="reply_content" 		property="content" />
-			<result column="reply_writeday" 	property="writeday" />
-				<association property="employee" javaType="employeeVO">
-					<id column="id" property="id" />
-					<result column="reply_name" property="name" />
-				</association>
-		</collection>
+			<result column="reply_content" property="content" />
+			<result column="reply_writeday" property="writeday" />
+			<association property="employee" javaType="employeeVO">
+				<id column="reply_employee_id" property="id" /> 
+				<result column="reply_name" property="name"/>
+			</association>
+		</collection>	
 	</resultMap>
 	
 	<!-- 게시글 상세조회  -->
 	<select id="selectArticle" resultMap="selectArticleResultMap" 
 			statementType="PREPARED" parameterType="map">
-		SELECT
+		 SELECT
 			t1.id,
-			t1.subject,
+			t1.employee_id,
 			t1.board_id,
+			t1.content,
+			t1.subject,
+			t1.writeday,
+			t1.hitcount,
 			e1.id as employeeId,
-			e1.name,
-		    t1.content,
-		    t1.employee_id,
-		    t1.hitcount,
-		    (select count(*) 
-		    from ARTICLE_REPLY r2 where t1.id = r2.article_id) as rcount,
-			to_char(t1.writeday, 'YYYY/MM/DD') as writeday,
-   			t2.id as file_id,
-   			t2.article_id as file_article_id,
+			e1.name as empName,
+			t2.id as file_id,
+			t2.article_id as file_article_id,
 			t2.original_file_name,
 			t2.system_file_name,
-    		r1.id as reply_id,
-    		r1.article_id as reply_article_id,
+			r1.id as reply_id,
+			r1.article_id as reply_article_id,
 			r1.content as reply_content,
-			to_char(r1.writeday, 'YYYY/MM/DD') as reply_writeday,
-    		(select name
-    		 from EMPLOYEE e2 where e2.id = r1.employee_id ) as reply_name
-	
-	FROM ARTICLE t1, ARTICLE_FILE t2 , ARTICLE_REPLY r1 , EMPLOYEE e1
-	WHERE
-    t1.employee_id = e1.id   and
-    t1.id = t2.article_id(+) and
+			r1.writeday as reply_writeday,
+			r1.employee_id as reply_employee_id,
+			(select count(*) from ARTICLE_REPLY r2 where t1.id = r2.article_id) as rcount,
+			(select name from EMPLOYEE e2 where e2.id = r1.employee_id ) as reply_name
+			
+
+		FROM ARTICLE t1, ARTICLE_FILE t2 , ARTICLE_REPLY r1 , EMPLOYEE e1
+		WHERE
+		t1.employee_id = e1.id and
+		t1.id = t2.article_id(+) and
 		t1.id = r1.article_id(+) and
 		t1.id = #{id}
 	

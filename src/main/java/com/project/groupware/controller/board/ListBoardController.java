@@ -20,7 +20,7 @@ public class ListBoardController {
 	public ModelAndView listBoard() {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("boards",boardService.retrieveBoardList());
-		mv.setViewName("boardNavTest/board/boardAdmin");
+		mv.setViewName("redirect:/listNoticeArticleForm.do?boardId=311&secret=1");
 		return mv;
 	}
 	

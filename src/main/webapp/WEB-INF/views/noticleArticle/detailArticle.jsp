@@ -110,6 +110,7 @@
 				<div class="col-md-1">
 					<c:param name="originalFileName" value="${pageScope.files.originalFileName }" />
 					<c:param name="systemFileName" value="${pageScope.files.systemFileName }" />
+					<c:param name="kind" value="article" />
 				</div>
 			</c:url>
 			<tr>

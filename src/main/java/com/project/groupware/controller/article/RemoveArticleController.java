@@ -25,14 +25,15 @@ public class RemoveArticleController {
 
 	// 게시글 삭제 요청 처리 컨트롤러 메소드
 	@RequestMapping(value = "/removeArticle.do", method = RequestMethod.GET)
-	public String submit(@RequestParam(value = "id", required = false) int id, Model model) {
-		
+	public String submit(@RequestParam(value = "id", required = false) int id, 
+						 @RequestParam(value = "boardId") String boardId,
+						 Model model) {		
 		articleService.removeArticle(id);
 
 		model.addAttribute("boards", boardService.retrieveBoardList());
 		model.addAttribute("departments", departmentService.retrieveDepartmentListID());
 
-		return "boardNavTest/article/listArticle";
+		return "redirect:/listNoticeArticleForm.do?boardId=" + boardId+"&secret=0";
 	}
 
 	@RequestMapping(value = "/removeArticleList.do", method = RequestMethod.GET)
@@ -51,7 +52,7 @@ public class RemoveArticleController {
 		// 메뉴 리스트
 		boardService.retrieveBoardList();
 		departmentService.retrieveDepartmentListID();
-		return "redirect:/listArticleForm.do?boardId=" + boardId;
+		return "redirect:/listArticleForm.do?boardId=" + boardId+"&secret=0";
 	}
 
 }
