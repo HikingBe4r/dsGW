@@ -29,7 +29,7 @@ public class RemoveQnAController {
       
       boardService.retrieveBoardList();
       
-      return "redirect:/listNoticeArticleForm.do?boardId=314&secret=1";
+      return "redirect:/listQnAForm.do?boardId=" + boardId+"&secret=1";
    }
    
    
@@ -47,9 +47,8 @@ public class RemoveQnAController {
 		   }
 	   }
       
-      //�޴� ����Ʈ
       boardService.retrieveBoardList();
       
-      return "redirect:/listArticleForm.do?boardId=" + boardId+"&secret=1";
+      return "redirect:/listQnAForm.do?boardId=" + boardId+"&secret=1";
    }
 }

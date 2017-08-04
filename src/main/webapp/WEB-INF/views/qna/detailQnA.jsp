@@ -22,7 +22,9 @@ $(document).ready(function() {
   	});
   	
   	$("#deleteBtn").click(function(){
-  		location.href='removeQnA.do?id=${requestScope.article.id}&boardId=${param.boardId}';
+  		if(confirm("게시글을 삭제 하시겠습니까??")){
+  			location.href='removeQnA.do?id=${requestScope.article.id}&boardId=${param.boardId}';
+  		}
   	});
   	
   	$("#modifyBtn").click(function(){
@@ -39,14 +41,14 @@ $(document).ready(function() {
 			htmlStr += "<div class='row'>";
 			htmlStr += "<div class='col-md-1'><label>"+data.replyList[i].employee.name+"</label>&nbsp;</div>";
 			htmlStr += "<div class='col-md-2'><label>"+data.replyList[i].writeday+"</label></div>";
-			htmlStr += "<div class='col-md-9'> </div>";
 			htmlStr += "</div>";
 			htmlStr += "<div class='row'>";
 			htmlStr += "<div class='col-md-9'><textarea class='form-control' rows='2' readonly>"+ data.replyList[i].content +"</textarea></div>";
 			htmlStr += "<div class='col-md-3'>";
 			htmlStr += "<button class='btn btn-default' id=" + data.replyList[i].id + ">수정</button>";
 			htmlStr += "<button class='btn btn-default' id=" + data.replyList[i].id + ">삭제</button>";
-			htmlStr += "</div><br>"	;
+			htmlStr += "</div>";
+			htmlStr += "</div>";			
 			
 		}	
 		$('#replyList').append(htmlStr);

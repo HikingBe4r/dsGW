@@ -267,17 +267,24 @@ $(document).ready(function() {
 			}
 	 	});
 		
+		
+			
+			
+		
 				
-		   //선택
+		   //선택 삭제
 	      $('#removeBtn').click(function() {
-	         var array = [];
+	         if(confirm("게시글을 삭제 하시겠습니까??")){
+	    	  
+	    	 	var array = [];
 	         
-	         $("input[name='checkRow']:checked").each(function() {
-	            array.push($(this).val());   
-	         });   
-	         $("input[name='checkList']").val(array.join());      
-	         $('#inputForm').submit();
-	         console.log($("input[name='checkList']:checked").val());
+	         	$("input[name='checkRow']:checked").each(function() {
+	            	array.push($(this).val());   
+	         	});	   
+	         	$("input[name='checkList']").val(array.join());      
+	         	$('#inputForm').submit();
+	         	console.log($("input[name='checkList']:checked").val());
+	         }
 	         
 	         
 	      });
