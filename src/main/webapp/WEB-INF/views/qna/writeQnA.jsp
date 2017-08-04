@@ -18,7 +18,6 @@
          console.log($('input[name=off]').val());
       });
    });
-   
 </script>
 
 <div class="panel panel-default">

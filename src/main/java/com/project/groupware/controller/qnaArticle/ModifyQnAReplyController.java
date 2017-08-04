@@ -22,7 +22,6 @@ public class ModifyQnAReplyController {
 									@RequestParam(value="content")String content){
 		
 		ArticleReplyVO articleReply = new ArticleReplyVO();
-		
 	
 		//댓글수정
 		articleReply.setId(Integer.parseInt(replyId));

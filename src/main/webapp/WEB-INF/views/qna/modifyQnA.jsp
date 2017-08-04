@@ -18,8 +18,7 @@
          $(this).parentsUntil('tr').html('<td><input type="file" name="upload" size="20">${pageScope.files.originalFileName}</td>');
          $('#fileNo').val(array.join(','));
       });
-      
-      
+            
       
       //공개여부 체크박스
       $('#off').on('click', function(){

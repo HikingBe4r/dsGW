@@ -56,7 +56,6 @@ $(document).ready(function() {
 		
 	}
 
-		
 	$(document).ready(function() {
 		//댓글 등록	
 		$('#addBtn').click(function(){

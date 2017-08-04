@@ -32,7 +32,6 @@ public class RemoveQnAController {
       return "redirect:/listQnAForm.do?boardId=" + boardId+"&secret=1";
    }
    
-   
    @RequestMapping(value="/removeQnAList.do", method=RequestMethod.GET)
    public String submit(
 		   			 @RequestParam(value="checkList") String checkList,
