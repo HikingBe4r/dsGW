@@ -17,40 +17,6 @@
          }
          console.log($('input[name=off]').val());
       });
-  
-      var form = $("#inputForm"); 
-      
-     $("#insert").on('click', function(){
-    	 if($('#content').text("")){
-        	 alert("내용을 입력해주세요");
-         } else {
-        	 
-        	 
-        	 
-        	 // 글쓸때는 ajax는 필요가없어요! - 성현
-        	 /* $.ajax({
-        		url: '${pageContext.request.contextPath}/writeQnA.do'
-        		,
-        		method: 'GET'
-        		,
-        		cache: false
-        		,
-        		data: {
-        			boardId: '${param.boardId}',
-        			secret: '${param.secret}',
-        			off: $('input[name=off]').val()
-        		}
-        		,
-        		success: function(){
-        			//${pageContext.request.contextPath}/listQnAForm.do
-        		}
-        		,
-        		error: function(jqXHR){
-        			alert("Error : " + jqXHR.reponseText)
-        		}
-        	 }); */
-         }
-     }); 
    });
    
 </script>
@@ -70,7 +36,7 @@
 	  </div>
 	  <br>
 	  <div class="row">
-	  	<div class="col-md-9"><textarea class='form-control' id="content" name="content" placeholder="문의내용을 작성해주세요" rows='20' cols='2'></textarea></div>
+	  	<div class="col-md-9"><textarea class='form-control' id="content" name="content" required="required" placeholder="문의내용을 작성해주세요" rows='20' cols='2'></textarea></div>
 	  </div>
       <div class="row">
       	<div class="col-md-1">파일#1&nbsp;<input type="file" name="upload"></div>
@@ -85,7 +51,7 @@
       <div class="row">
       	<div class="col-md-4"> </div>
 		<div class="col-md-4">
-			<input id="insert" class="btn btn-default" type="button" value="등  록">&nbsp;
+			<input id="insert" class="btn btn-default" type="submit" value="등  록">&nbsp;
 			<input class="btn btn-default" type="reset" value="취  소">
 		</div>
 		<div class="col-md-4"> </div>
