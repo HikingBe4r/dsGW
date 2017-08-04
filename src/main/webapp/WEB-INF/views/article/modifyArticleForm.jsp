@@ -22,7 +22,7 @@
          }); 
          	
          $("#cancel").click(function() {
-     		location.href	= 'detailArticle.do?id=${param.id}';
+     		location.href	= 'detailArticle.do?id=${param.id}&boardId=${param.boardId}';
      	});
    });
  
@@ -38,6 +38,7 @@
    <form action="${pageContext.request.contextPath}/modifyArticle.do"  method="post" enctype="multipart/form-data">
       <input type="hidden" name="fileNo" value="" id="fileNo">
       <input type="hidden" name="id" value="${requestScope.article.id}">
+      <input type="hidden" name="boardId" value="${param.boardId}">
       <table style="border: 0px;">
 
          <tr>

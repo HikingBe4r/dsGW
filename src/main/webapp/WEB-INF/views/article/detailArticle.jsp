@@ -18,7 +18,7 @@
 	
 $(document).ready(function() {   
   	$("#listBtn").click(function() {
-  		location.href	= 'listArticleForm.do?boardId=${requestScope.article.boardId}&secret=${param.secret}';
+  		location.href	= 'listArticleForm.do?boardId=${param.boardId}&secret=0';
   	});
   	
   	$("#deleteBtn").click(function(){

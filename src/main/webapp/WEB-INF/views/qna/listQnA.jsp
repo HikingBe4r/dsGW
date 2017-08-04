@@ -317,7 +317,7 @@ $(document).ready(function() {
 </script>
 		
 <div class="panel panel-default">
-   <div class="panel-body">일반 게시판</div>
+   <div class="panel-body">질문 게시판</div>
 </div>
 
  
