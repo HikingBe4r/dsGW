@@ -34,7 +34,7 @@ public class ModifyArticleController {
 	// 게시글 수정 폼 요청처리 컨트롤러
 	@RequestMapping(value = "/modifyArticle.do", method = RequestMethod.GET)
 	public ModelAndView form(@RequestParam(value = "id", required = true) int id) {
-		
+							
 
 		List<BoardVO> boards = boardService.retrieveBoardList();
 		ModelAndView mv = new ModelAndView();
@@ -47,7 +47,8 @@ public class ModifyArticleController {
 
 	// 게시글 수정 요청처리 컨트롤러
 	@RequestMapping(value = "modifyArticle.do", method = RequestMethod.POST)
-	public String submit(@ModelAttribute(value = "article") ArticleVO article, HttpServletRequest request, Model model)
+	public String submit(@ModelAttribute(value = "article") ArticleVO article,
+			 			 @RequestParam(value="boardId", required=true) int boardId,  HttpServletRequest request, Model model)
 			throws Exception {
 	
 		// 파일 등록
@@ -72,6 +73,6 @@ public class ModifyArticleController {
 		model.addAttribute("boards", boardService.retrieveBoardList());
 
 		articleService.modifyArticle(article);
-		return "redirect:/detailArticle.do?id=" + article.getId();
+		return "redirect:/detailArticle.do?id=" + article.getId() +"&boardId=" + boardId;
 	}
 }
