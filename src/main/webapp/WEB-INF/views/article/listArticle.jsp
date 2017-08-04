@@ -1,4 +1,4 @@
-<%-- listArticle.jsp --%>
+<!-- listQnA.jsp --> 
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ page import="com.project.groupware.domain.ArticleVO"%>
 <%@ page import="com.project.groupware.domain.EmployeeVO"%>
@@ -13,44 +13,40 @@
 
 //쓰기 버튼
 $(document).ready(function() {   
-	$("#writeBtn").click(function() {
-		location.href	= 'writeArticle.do?boardId=${param.boardId}&open=${param.open}';
+	$('#writeBtn').click(function() {
+		location.href	= 'writeArticle.do?boardId=${param.boardId}';
 	});
 });
 
-
-
 	$(document).ready(function() {
 		var currentPage = 1;
-		var keytype = '전체';
-		var keyword = '';
+		var keytype = "";
+		var keyword = "";
 		  
 		
 		function loadArticleList(data) {
 			$("#articleBody").empty(data);
 			var htmlStr = "";
-			if(data.articleList.length == 0) {
+			if(data.loadArticleList.length == 0) {
 				alert("검색결과가 없습니다.");
 			}
-			for(var i = data.paging.startArticleNum; i <= data.paging.endArticleNum; i++) {
+			for(var i = data.paging.startArticleNum; i < data.paging.endArticleNum; i++) {
 				
 				var linkUrl = '${pageContext.request.contextPath}/detailArticle.do';	
-				linkUrl += '?id=' + data.loadArticleList[i].id;
-				linkUrl += '&boardId=' + data.loadArticleList[i].boardId;
-					
-					
+					linkUrl += '?id=' + data.loadArticleList[i].id;
+					linkUrl += '&boardId=' + data.loadArticleList[i].boardId;
 				
 				htmlStr += "<tr>";
-				htmlStr += "<td><label><input type='checkbox' name='checkRow' value="+data.articleList[i].id+"></label></td>";
-				htmlStr += "<input type='hidden' id='id' value="+data.articleList[i].id +  "/>";
-				htmlStr += "<td>"+data.articleList[i].id+"</td>";
-				htmlStr += "<td><a href="+linkUrl+">"+data.articleList[i].subject+"</a></td>";
-				htmlStr += "<td>"+data.articleList[i].employee.name+"</td>";
-				htmlStr += "<td>"+data.articleList[i].writeday+"</td>";
-				htmlStr += "<td>"+data.articleList[i].hitcount+"</td>";
-				
+				htmlStr += "<td><label><input type='checkbox' name='checkRow' value="+data.loadArticleList[i].id + "></label></td>";
+				htmlStr += "<input type='hidden' id='id' value="+data.loadArticleList[i].id +"/>";
+				htmlStr += "<td>"+data.loadArticleList[i].id+"</td>";
+				htmlStr += "<td><a href="+linkUrl+">"+data.loadArticleList[i].subject+"</a></td>";
+				htmlStr += "<td>"+data.loadArticleList[i].employee.name+"</td>";
+				htmlStr += "<td>"+data.loadArticleList[i].writeday+"</td>";
+				htmlStr += "<td>"+data.loadArticleList[i].hitcount+"</td>";
+
 				htmlStr += "<td>";
-				if(data.articleList[i].count != 0) {
+				if(data.loadArticleList[i].count != 0) {
 					htmlStr += "<span class='glyphicon glyphicon-save' aria-hidden='true'></span>";
 				}
 				htmlStr += "</td>";
@@ -94,7 +90,7 @@ $(document).ready(function() {
 		
 		//페이지 로드시
 		$.ajax ({
-			url: '${pageContext.request.contextPath}/listArticle.do'
+			url: '${pageContext.request.contextPath}/listQnA.do'
 			,
 			method : 'GET'
 			,
@@ -105,7 +101,7 @@ $(document).ready(function() {
 			data : {
 				keytype: $("#keytype").val(),
 				keyword: $("#searchKeyword").val(),
-				boardId : '${param.boardId}',
+				boardId: '${param.boardId}',
 				secret: '${param.secret}',
 				currentPage : '1'
 			}
@@ -127,7 +123,7 @@ $(document).ready(function() {
 			keyword = $("#searchKeyword").val();
 			
 			$.ajax({
-				url : '${pageContext.request.contextPath}/listArticle.do'
+				url : '${pageContext.request.contextPath}/listQnA.do'
 				,
 				method : 'GET'
 				,
@@ -140,7 +136,7 @@ $(document).ready(function() {
 					keytype: $("#keytype").val(),
 					keyword: $("#searchKeyword").val(),
 					boardId: "${param.boardId}",
-					secret: '${param.open}',
+					secret: '${param.secret}',
 					currentPage: '1'
 				}
 				,
@@ -164,7 +160,7 @@ $(document).ready(function() {
 		// 페이지 클릭시
 		$("#pagination").on("click", "li", function() {
 			$.ajax({
-				url : '${pageContext.request.contextPath}/listArticle.do'
+				url : '${pageContext.request.contextPath}/listQnA.do'
 				,
 				method : 'GET'
 				,
@@ -201,8 +197,9 @@ $(document).ready(function() {
 	 	$('#myBtn').click(function() {
 			
 			if($(this).text() =='내글보기' ) {
+				
 				$.ajax({
-					url : '${pageContext.request.contextPath}/myArticle.do'
+					url : '${pageContext.request.contextPath}/myQnA.do'
 					,
 					method : 'GET'
 					,
@@ -237,7 +234,7 @@ $(document).ready(function() {
 			else if($(this).text() =='전체조회' ) {
 				
 				$.ajax({
-					url : '${pageContext.request.contextPath}/listArticle.do'
+					url : '${pageContext.request.contextPath}/listQnA.do'
 					,
 					method : 'GET'
 					,
@@ -270,53 +267,17 @@ $(document).ready(function() {
 			}
 	 	});
 		
-		//부서이동
-
-		$('#departments').on("change", function() {
-				alert('부서번호 : ' + $(this).find('option:selected').val());
-			
-				$.ajax({
-					url : '${pageContext.request.contextPath}/departmentArticle.do'
-					,
-					method : 'GET'
-					,
-					cache : false
-					,
-					dataType : 'json'
-					,
-					data : {
-						
-						boardId: "${param.boardId}",
-						secret: '${param.secret}',
-						currentPage: '1',
-						departmentId: $(this).find('option:selected').val()
-						
-					}
-					,
-					success : function(data) {
-						loadArticleList(data);
-						pagination(data);
-						currentPage = data.paging.currentPage;
-					}	
-					,
-					error : function(jqXHR) {
-						alert("ERROR: "+jqXHR.responseText);
-						console.log(jqXHR.responseText);
-					}		
-				});
-
-	 	});	 	
-		
-		
-		/*   //선택
+				
+		   //선택
 	      $('#removeBtn').click(function() {
 	         var array = [];
 	         
 	         $("input[name='checkRow']:checked").each(function() {
 	            array.push($(this).val());   
 	         });   
-	         $("input[name='articleIdList']").val(array.join());      
+	         $("input[name='checkList']").val(array.join());      
 	         $('#inputForm').submit();
+	         console.log($("input[name='checkList']:checked").val());
 	         
 	         
 	      });
@@ -332,114 +293,16 @@ $(document).ready(function() {
 	            $("input[name='checkRow']:checked").each(function() {
 	               array.push($(this).val());   
 	            });   
-	            
-	            $("input[name='articleIdList']").val(array.join());      
+	            $("input[name='checkList']").val(array.join());      
 	            
 	         } else {
 	            $('input[type=checkbox]').prop('checked', false);
 	         }
+	         
+	         console.log($("input[name='checkList']").val());
 	      });     
 	   
 
-	 //전체 선택
-    $('#allCheck').click(function() {
-    	 $(":checkbox[name='allCheck']").each(function() {
-			 var subChecked = $(this).attr('checked');
-			 
-			 if (subChecked != 'checked')
-			 	$(this).click();
-			 
-		 });
-	});
-   
-       
-	      //선택 삭제
-	      $('#removeBtn').click(function() {
-	    	  
-	    	  var checkRow = '';
-				
-				$(":checkbox[name='checkRow']:checked").each(function(){
-					checkRow = checkRow + $(this).val() + ', ';
-				});
-				
-				checkRow = checkRow.substring(0, checkRow.lastIndexOf(', ')); //맨끝 콤마 지우기
-				
-				if(checkRow == '') {
-					alert("삭제할 문서를 선택하세요.");
-				    return;
-				}
-	    	  
-							
-					$.ajax({
-						url: '${pageContext.request.contextPath}/removeArticleList.do'
-						,
-						method: 'GET'
-						,
-						dataType: 'json'
-						,
-						data: {
-							
-							keytype: $("#keytype").val(),
-							keyword: $("#searchKeyword").val(),
-							boardId : '${param.boardId}',
-							secret: '${param.secret}',
-							currentPage : '1'
-						}
-						,
-						cache: false
-						,
-						success: function(data) {
-							loadArticleList(data);
-							pagination(data);
-						}
-						,
-						error : function(jqXHR) {
-							alert("Error : " + jqXHR.responseText);
-							console.log(jqXHR.responseText);
-						}
-						
-					});
-			
-				
-			}); 
-	       */
-	      
-	      
-	       //선택
-	      $('#removeBtn').click(function() {
-	         var array = [];
-	         
-	         $("input[name='checkRow']:checked").each(function() {
-	            array.push($(this).val());   
-	         });   
-	         $("input[name='articleIdList']").val(array.join());      
-	         $('#inputForm').submit();
-	         console.log($("input[name='articleIdList']:checked").val());
-	         
-	         
-	      });
-	      
-	      
-	      //전체 선택
-	      $('#allCheck').on('click', function() {
-	         if ($(this).prop("checked") == true) {
-	            $('input[type=checkbox]').prop('checked', true);
-	            
-	            var array = [];
-	                  
-	            $("input[name='checkRow']:checked").each(function() {
-	               array.push($(this).val());   
-	            });   
-	            $("input[name='articleIdList']").val(array.join());      
-	            
-	         } else {
-	            $('input[type=checkbox]').prop('checked', false);
-	         }
-	         
-	         console.log($("input[name='articleIdList']").val());
-	      });     
-	        
-	     
 	     
 });	 	
 
@@ -455,13 +318,10 @@ $(document).ready(function() {
 	<c:if test="${sessionScope.employee.id ne null}">
 		<button type="button" class="btn btn-default" id="myBtn" >내글보기</button>
 	</c:if>
-   <form action="${pageContext.request.contextPath}/listArticle.do"   method="get" class="form-inline pull-right">
+   <form action="${pageContext.request.contextPath}/listQnA.do"   method="get" class="form-inline pull-right">
       <input type="hidden" name="boardId" value="${param.boardId}">
-  
-
- 
-     <c:if test="${sessionScope.employee.id eq null}">
-      <c:if test="${param.open eq 0}">
+       
+      <c:if test="${sessionScope.employee.id eq null}">
      	<select name="departments" id="departments" class="form-control">
      			<option value="all">전체</option>
 			<c:forEach var="department" items="${requestScope.departments }" varStatus="loop">
@@ -469,17 +329,14 @@ $(document).ready(function() {
 			</c:forEach>
 		</select>
 	 </c:if>
-	</c:if>
 			<select name="keytype" id="keytype" class="form-control">
 				<option value="subject">제목</option>
 				<option value="name">작성자</option>
 				<option value="content">내용</option>
-
 			</select>
 
      <div class="form-group">
-			<input type="text" class="form-control" id="searchKeyword"
-				placeholder="keyword">
+			<input type="text" class="form-control" id="searchKeyword" placeholder="keyword">
 		</div>
    	  <button type="button" class="btn btn-default" id="searchBtn">검색</button>
    </form>
@@ -504,18 +361,20 @@ $(document).ready(function() {
          </thead>
          
  		<tbody id="articleBody">
-			
+
 		</tbody>
 	</table>
 	</form>
 </div>
 
 <div class="pull-right">
-      <form action="${pageContext.request.contextPath}/removeArticleList.do" id="inputForm" method="get">
-         <input type="hidden"  name="articleIdList"  value="">
+      <form action="${pageContext.request.contextPath}/removeQnAList.do" id="inputForm" method="get">
+         <input type="hidden"  name="checkList"  value="">
          <input type="hidden" name="boardId" value="${param.boardId}">
          <input type="hidden" name="secret" value="${param.secret}">
-         <button type="button" id="writeBtn"  class="btn btn-default">글쓰기</button>
+          <c:if test="${sessionScope.employee.id ne null}">
+         	<button type="button" class="btn btn-primary" id="writeBtn">등록</button>
+         </c:if>
          <button type="button" id="removeBtn" class="btn btn-default">삭제</button>
       </form>
       
@@ -528,5 +387,3 @@ $(document).ready(function() {
 
 
      
-      
-   

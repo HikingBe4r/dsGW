@@ -94,14 +94,7 @@
 					${sessionScope.employeeDetail.gradeId }</h4>
 			</div>
 
-			<button id="modifyInfo" class="btn btn-default" type="button"
-				onclick="window.open('${pageContext.request.contextPath }/modifyEmployee.do?id=${sessionScope.employee.id }', '개인정보수정','width=1250, height=900, toolbar=no, menubar=no, scrollbars=no, resizable=yes');return false;">정보수정</button>
-
-			<form action="${pageContext.request.contextPath }/logout.do"
-				method="post">
-				<input id="logout" class="btn btn-default" type="submit"
-					value="로그아웃">
-			</form>
+			
 		</div>
 		<br>
 

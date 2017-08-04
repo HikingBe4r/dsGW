@@ -22,7 +22,7 @@ $(document).ready(function() {
 	  
 	/* $('#boardList').find('tr:not(:eq(0))').remove(); */ 
 	
-	  function loadBoardList(data) {
+	  function boardList(data) {
 	
 		 $("#boardBody").empty(data);
 		 
@@ -35,7 +35,6 @@ $(document).ready(function() {
 			console.log( data.boardList[i].name );
 			
 			htmlStr += "<tr>";
-			htmlStr += "<td><label><input type='checkbox' id="+ data.boardList[i].id + " name='board'></label></td>";
 			htmlStr += "<td>"+data.boardList[i].id+"</td>";
 			htmlStr += "<td><input type='text'  rows='2' cols='20' readonly value="+ data.boardList[i].name + "></td>";
 			htmlStr += "<td><input type='text'  rows='2' cols='20' readonly value="+ data.boardList[i].note + "></td>";
@@ -98,7 +97,7 @@ $(document).ready(function() {
 		}
 		,
 		success: function(data) {
-			loadBoardList(data);
+			boardList(data);
 			pagination(data);
 		}
 		,
@@ -126,7 +125,7 @@ $(document).ready(function() {
 			}
 			,
 			success : function(data) {
-				loadBoardList(data);
+				boardList(data);
 				pagination(data);
 				currentPage = data.paging.currentPage;
 			}	
@@ -159,7 +158,7 @@ $(document).ready(function() {
 						  
 					  },
 					  success: function(data) {
-						  loadBoardList(data);
+						  boardList(data);
 					  }
 					  ,
 					  error:function(jqXHR) {
@@ -233,7 +232,7 @@ $(document).ready(function() {
 	        	   if (data.isRemoved == 1) {
 						alert('등록된  게시글이 존재합니다.');
 					}
-					loadBoardList(data);
+					boardList(data);
 					pagination(data);
 	           }
 	           ,
@@ -263,7 +262,7 @@ $(document).ready(function() {
 							if(data.isRemoved == 1) {
 						  		alert('등록된  게시글이 존재합니다.');
 						  	}
-							loadBoardList(data);
+							boardList(data);
 							pagination(data);
 							
 						}
@@ -329,7 +328,7 @@ $(document).ready(function() {
 
 			<tr>
 
-			   <th width="50"><label><input id="allCheck"   name="allCheck" type="checkbox"></label></th>
+			   
                <th width="100">번호</th>
                <th width="200">이름</th>
                <th width="200">비고</th>

@@ -24,7 +24,7 @@ public class WriteBoardController {
 		boardService.registerBoard(board);
 		
 		//게시판 목록조회
-		model.addAttribute("loadBoardList",boardService.retrieveBoardList());
+		model.addAttribute("boardList",boardService.retrieveBoardList());
 		return "jsonView";
 		
 	}
